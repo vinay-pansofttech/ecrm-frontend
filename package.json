@@ -27,14 +27,14 @@
     "@progress/kendo-angular-icons": "14.2.0",
     "@progress/kendo-angular-l10n": "14.2.0",
     "@progress/kendo-angular-menu": "^14.2.0",
+    "@progress/kendo-angular-popup": "14.2.0",
     "@progress/kendo-angular-progressbar": "14.2.0",
     "@progress/kendo-licensing": "^1.0.2",
     "@progress/kendo-svg-icons": "^2.0.0",
     "@progress/kendo-theme-default": "^7.0.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.13.0",
-    "@progress/kendo-angular-popup": "14.2.0"
+    "zone.js": "~0.13.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.2.4",
@@ -45,6 +45,7 @@
     "@angular-eslint/template-parser": "16.3.1",
     "@angular/cli": "^16.2.4",
     "@angular/compiler-cli": "^16.2.0",
+    "@angular/localize": "^16.2.12",
     "@types/jasmine": "~4.3.0",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",

@@ -10,8 +10,6 @@ import { DashboardModule } from './features/dashboard/dashboard.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { KendoModule } from './kendo.module';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +17,14 @@ import { KendoModule } from './kendo.module';
     DashboardCardsComponent,
     DashboardListComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, LoginModule, DashboardModule,KendoModule, BrowserAnimationsModule, ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    LoginModule,
+    DashboardModule,
+    KendoModule,
+    BrowserAnimationsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
