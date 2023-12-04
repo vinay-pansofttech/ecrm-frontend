@@ -1,1 +1,34 @@
-<p>dashboard-cards works!</p>
+
+
+<div class="dashboard-quickaction-card--container">
+  <div class="dashboard-card--title" >Quick Actions</div>
+    <div class="dashboard-quickaction--container">
+      <kendo-card class="dashboard-quickaction--cards" *ngFor="let a of cards" >
+        <div class="dashboard-quickaction--inner-card">
+          <div  class="dashboard-quickaction--inner-color" [ngStyle]="{'background-color': setColor(a.text)}"></div>
+          <div><img src="assets/{{a.image}}.svg" alt="" class="dashboard-quickaction-card--image"></div>
+          <div class="dashboard-quickaction-card--subtitle">{{a.text}}</div>
+        </div>
+        </kendo-card>
+      </div>
+ </div>
+
+ <div class="dashboard-sales-card--container">
+  <div class="dashboard-card--title">Services</div>
+    <div class="dashboard-service--container">
+      <kendo-card class="dashboard-service--cards" *ngFor="let b of servicecards" [ngStyle]="{ 'background-color': getColor(b.text) }">
+         <div><img src="assets/{{b.image}}.svg" alt=""/></div>
+        </kendo-card>
+      </div>
+ </div>
+
+
+
+
+ 
+
+
+
+   
+
+

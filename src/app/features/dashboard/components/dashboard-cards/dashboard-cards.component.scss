@@ -1,0 +1,77 @@
+.dashboard-sales-card--container{
+  margin: 1rem;
+}
+
+.dashboard-quickaction-card--container{
+  margin: 1rem;
+}
+
+.dashboard-card--title{
+    color: #23303B;
+    font-family: Arial;
+    font-size: var( --size-4);
+    font-style: normal;
+    font-weight: var(--font-weight-bold);
+    line-height: normal;
+    letter-spacing: -0.0375rem;
+    padding-bottom: 1rem;
+}
+
+.dashboard-quickaction--container{
+    display: flex;
+    gap: 0.87rem;
+}
+
+.dashboard-quickaction--cards{
+    padding: 1.2rem 0rem 1.2rem 0rem; 
+    align-items: center;
+    border-radius: 0.625rem;
+    background: var(--colors-brand-white, #FFF);
+    box-shadow: 1px 5px 40px 8px rgba(110, 117, 136, 0.07);
+}
+
+.dashboard-quickaction--inner-card {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dashboard-quickaction--inner-color{
+    width: 3.125rem;    
+    height: 3.125rem;
+    flex-shrink: 0;
+    background-color: #daf0ef;
+    border-radius: 0.5rem;
+  }
+
+  .dashboard-quickaction-card--image {
+    position: absolute;
+    top: 30%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+  }
+
+.dashboard-quickaction-card--subtitle{
+    color: #202A34;
+    font-family: Arial;
+    font-size: var( --size-3);
+    font-style: normal;
+    font-weight: var(--font-weight-bolder);
+    line-height: normal;
+    padding-top: 1.2rem;
+}
+
+
+
+.dashboard-service--container{
+  display: flex;
+  gap: 0.87rem;
+}
+
+.dashboard-service--cards{
+  padding: 1.2rem 0rem 1.2rem 0rem; 
+  display: flex;
+  align-items: center;
+  border-radius: 0.625rem;
+  background: #605CA3;
+}
+
