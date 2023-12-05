@@ -29,27 +29,18 @@
     height: 100vh;
     background-color: transparent !important;
 }
-.login-page--textbox-user{
+.login-page--formfield-user{
     margin-bottom: 32px;
+}
+.login-page--textbox{
+  
     min-height: 50px;
     background: var(--colors-brand-white, #FFF);
     box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.10);
     border-radius: 0%;
 }
-.login-page--textbox-password{
-    min-height: 50px;
-    background: var(--colors-brand-white, #FFF);
-    box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.10);
-    border-radius: 0%;
-}
-.login-page--textbox-user ::ng-deep input::placeholder {
-    color: #C8C8C8;
-    font-family: var( --font-family-lato);
-    font-size: var(--text-size-01);
-    font-style: normal;
-    line-height: normal;
-}
-.login-page--textbox-password ::ng-deep input::placeholder {
+
+.login-page--textbox ::ng-deep input::placeholder {
     color: #C8C8C8;
     font-family: var( --font-family-lato);
     font-size: var(--text-size-01);
@@ -57,11 +48,15 @@
     line-height: normal;
 }
 
+
 .login-page--form-container{
     margin: 0 39px;
 }
 .login-page--formfield{
     margin-bottom: 1.4rem;
+}
+.login-page--user-img{
+    margin-left: 4px;
 }
 .login-page--profile-img{
     margin: 0 6px 0 8px;
@@ -71,6 +66,7 @@
     font-size: arial;
     font-style: normal;
     font-family: var( --font-family-lato);
+    
 }
 .login-page--forgot-link{
     color: #BEBEBE;

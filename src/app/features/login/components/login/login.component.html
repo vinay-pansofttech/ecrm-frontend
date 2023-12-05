@@ -7,30 +7,28 @@
     
       <div class="login-page--form-container">
         <form [formGroup]="loginForm" class="login-page--login-form">
-            <div  class="login-page--formfield">
+          <div  class="login-page--formfield">
 
-
-                <kendo-formfield >
-                   
-                    <kendo-textbox class="login-page--textbox-user"
+            <div class="login-page--formfield-user">
+                <kendo-formfield > 
+                    <kendo-textbox class="login-page--textbox"
                                    formControlName="username"
                                     #username
                                     required
                                     placeholder="Username">
                        <ng-template kendoTextBoxPrefixTemplate>
-                          <img src="assets/login-images/profile.svg/" alt="new" style="margin-left:4px ">
+                          <img src="assets/login-images/profile.svg/" alt="new" class="login-page--user-img">
                        </ng-template></kendo-textbox>
       
                     <kendo-formerror class="login-page-kendo-form-error" >Username is required</kendo-formerror>
-
                   </kendo-formfield>
-           
+           </div>
       
         
 
                 <kendo-formfield >
                    
-                  <kendo-textbox   class="login-page--textbox-password"
+                  <kendo-textbox   class="login-page--textbox"
                                   #textbox 
                                   placeholder="Password" 
                                   formControlName="password"
