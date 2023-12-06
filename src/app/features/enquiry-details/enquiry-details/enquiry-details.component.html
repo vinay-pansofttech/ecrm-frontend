@@ -1,0 +1,25 @@
+<div class="enquiry-details-main-container">
+    <img src="assets/back.svg" kendobutton  alt="back" style="cursor: pointer;">
+    <div class="enquiry-details-header">Enquiry Details</div>
+    <img src="assets/reset.svg" kendobuttons alt="reset" class="reset-image">
+    </div>
+<div>
+ 
+    <div class="enquiry-details-content">  
+        <kendo-stepper
+        [steps]="steps"
+        [(currentStep)]="current"
+        [linear]="false" >
+      
+      </kendo-stepper>
+      <app-contact-details></app-contact-details>
+
+          <div class="enquiry-details-footer">
+              <button kendobutton class="enquiry-details-cancel-button" >Cancel</button>
+              <button kendobutton class="enquiry-details-save-button" >Save</button>
+            </div>
+        
+    </div>
+
+    
+
