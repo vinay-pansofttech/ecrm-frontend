@@ -5,9 +5,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { KendoModule } from 'src/app/kendo.module';
 import { LoginRoutingModule } from './login-routing.module';
 import { EmailLoginComponent } from './components/email-login/email-login.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+
 
 @NgModule({
-  declarations: [LoginComponent,EmailLoginComponent],
+  declarations: [LoginComponent,EmailLoginComponent,ForgotPasswordComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -15,7 +17,7 @@ import { EmailLoginComponent } from './components/email-login/email-login.compon
     KendoModule,
     LoginRoutingModule,
   ],
-  exports: [LoginComponent,EmailLoginComponent],
+  exports: [LoginComponent,EmailLoginComponent,ForgotPasswordComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
 })
