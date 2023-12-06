@@ -4,9 +4,10 @@ import { LoginComponent } from './components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { KendoModule } from 'src/app/kendo.module';
 import { LoginRoutingModule } from './login-routing.module';
+import { EmailLoginComponent } from './components/email-login/email-login.component';
 
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: [LoginComponent,EmailLoginComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -14,7 +15,8 @@ import { LoginRoutingModule } from './login-routing.module';
     KendoModule,
     LoginRoutingModule,
   ],
-  exports: [LoginComponent],
+  exports: [LoginComponent,EmailLoginComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+
 })
 export class LoginModule {}
