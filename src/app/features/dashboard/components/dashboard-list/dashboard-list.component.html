@@ -1,1 +1,18 @@
-<p>dashboard-list works!</p>
+
+<div class="dashboard-sales--container">
+  <div class="dashboard-sales--flex-container">
+    <div class="dashboard-sales--title">Sales</div>
+    <kendo-button class="dashboard-sales--viewall" (click)="onClick()">View All</kendo-button>
+  </div>
+   <div *ngFor="let a of SalesCard">
+    <kendo-card  class="dashboard-sales-card--container">
+      <div class="dashboard-sales--flex-container">
+        <div class="dashboard-sales-text--container">
+          <div class="dashboard-sales-text--year">{{a.text1}}</div>
+          <div class="dashboard-sales-text--price">{{a.text2}}</div>
+        </div>
+        <div class="dashboard-sales-image--container"><img src="assets/{{a.image}}.svg" alt=""/></div>
+      </div>
+    </kendo-card>
+   </div>
+ </div>

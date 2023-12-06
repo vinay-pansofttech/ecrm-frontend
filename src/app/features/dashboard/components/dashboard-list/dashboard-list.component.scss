@@ -1,0 +1,65 @@
+.dashboard-sales--container{
+    margin: 1rem;
+}
+
+.dashboard-sales--flex-container{
+    display: flex;
+}
+.dashboard-sales--title{
+    color: #23303B;
+    font-family: Arial;
+    font-size: var( --size-4);
+    font-style: normal;
+    font-weight: var(--font-weight-bolder);
+    line-height: 146.5%;
+    letter-spacing: -0.0375rem;
+    flex:1 0 0;
+}
+
+.dashboard-sales--viewall{
+    color: #A4A9AE;
+    font-family: Arial;
+    font-size:0.87rem;
+    font-style: normal;
+    font-weight: var(--font-weight-semibold);
+    line-height: 146.5%; /* 1.28188rem */
+    cursor: pointer;
+}
+
+
+.dashboard-sales-card--container{
+    border-radius: 0.625rem;
+    background: #EBF6F8;
+    width: 100% !important;
+    margin-top: 1rem;
+}
+
+
+.dashboard-sales-text--container{
+    padding: 1.5rem 0rem 1rem 1.5rem; flex: 1 0 0;
+}
+
+.dashboard-sales-text--year{
+    color: #5CB5C1;
+    font-family: Arial;
+    font-size: var( --size-3);
+    font-style: normal;
+    font-weight: var(--font-weight-normal);
+    line-height: normal;
+    letter-spacing: 0.0175rem;
+    padding-bottom: 0.25rem;
+}
+
+
+.dashboard-sales-text--price{
+    color: #5CB5C1;
+    font-family: Arial;
+    font-size: var(  --size-4);
+    font-style: normal;
+    font-weight: var(--font-weight-normal);
+    line-height: 146.5%; /* 1.83125rem */
+}
+
+.dashboard-sales-image--container{
+    padding-right: 1.69rem;
+}
