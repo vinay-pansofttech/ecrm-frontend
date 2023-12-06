@@ -11,6 +11,9 @@ export enum AppRoutePaths {
   Error = 'error',
   UserManagement = 'user-management',
   UserList = 'user-list',
+  Dashboard = 'dashboard',
+  EnquiryCapture = 'enquiry-capture',
+  ResetPassword = 'reset-password',
 }
 
 export enum EcrmUserAdminRoutePath {
