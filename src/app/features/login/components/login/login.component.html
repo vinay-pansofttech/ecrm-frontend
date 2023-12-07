@@ -75,9 +75,8 @@
       </form>
     </div>
   </kendo-card>
-  <div class="login-page--loader">
+  <div class="login-page--loader" *ngIf="showLoader">
     <kendo-loader
-      *ngIf="showLoader"
       type="converging-spinner"
       themeColor="info"
       size="medium"></kendo-loader>
