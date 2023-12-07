@@ -6,6 +6,7 @@ import { KendoModule } from 'src/app/kendo.module';
 import { LoginRoutingModule } from './login-routing.module';
 import { EmailLoginComponent } from './components/email-login/email-login.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { LoginService } from './components/login/login.service';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
   ],
   exports: [LoginComponent,EmailLoginComponent,ForgotPasswordComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [LoginService]
 
 })
 export class LoginModule {}

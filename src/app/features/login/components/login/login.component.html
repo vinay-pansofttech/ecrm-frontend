@@ -26,22 +26,22 @@
       
         
 
-                <kendo-formfield >
-                   
-                  <kendo-textbox   class="login-page--textbox"
-                                  #textbox 
-                                  placeholder="Password" 
-                                  formControlName="password"
-                                  #password
-                                   required >
-
-                       <ng-template kendoTextBoxPrefixTemplate >
-                         <img src="assets/login-images/password.svg/" alt="new" class="login-page--profile-img">
-                          <div ></div>
-                       </ng-template>
-
-                   </kendo-textbox>
-        
+                <kendo-formfield >        
+                   <kendo-textbox #textbox placeholder="Password" [clearButton]="true" class="login-page--textbox" formControlName="password">
+                  
+                    <ng-template kendoTextBoxSuffixTemplate>
+                      <button
+                        kendoButton
+                        look="clear"
+                        [svgIcon]="eyeIcon"
+                        (click)="toggleVisibility()"
+                      ></button>
+                    </ng-template>
+                    <ng-template kendoTextBoxPrefixTemplate >
+                      <img src="assets/login-images/password.svg/" alt="new" class="login-page--profile-img">
+                       <div ></div>
+                    </ng-template>
+                  </kendo-textbox>
                      <kendo-formerror class="login-page-kendo-form-error" >Password is required</kendo-formerror>
 
                 </kendo-formfield>
