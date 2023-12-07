@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-
+import { Component, Input} from '@angular/core';
+import { FormGroup } from "@angular/forms";
 @Component({
   selector: 'app-contact-details',
   templateUrl: './contact-details.component.html',
@@ -22,5 +22,6 @@ export class ContactDetailsComponent {
     "Seattle",
   ];
 
- 
+  @Input()
+  public contactDetails!: FormGroup;
 }

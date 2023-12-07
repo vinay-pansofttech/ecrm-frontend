@@ -1,0 +1,13 @@
+<div>
+    <div class="enquiry-description-header">Enquiry Description<div class="enquiry-description-header-tag"></div></div>
+<div class="enquiry-description-container" [formGroup]="enquiryDescription">
+        <div class="enquiry-description-content">
+            <kendo-label class="enquiry-description-label" [for]="enterdescription"  text="Enter Description"></kendo-label>
+              <kendo-textarea class="enquiry-description-textarea" placeholder="Type  your message here.." formControlName="enterDescription" #enterdescription [rows]="6" resizable="vertical"></kendo-textarea>
+        </div>
+        <div class="enquiry-description-content">
+            <kendo-fileselect style="width: 100%;"></kendo-fileselect> 
+        </div>
+       
+</div>
+</div>

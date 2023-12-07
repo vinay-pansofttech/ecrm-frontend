@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppRoutePaths } from './core/Constants';
+import { EnquiryDetailsComponent } from './features/enquiry-details/enquiry-details/enquiry-details.component';
 import { LoginComponent } from './features/login/components/login/login.component';
 import { DashboardComponent } from './features/dashboard/components/dashboard/dashboard.component';
 const routes: Routes = [
@@ -23,6 +24,14 @@ const routes: Routes = [
         m => m.DashboardModule
       ),
   },
+  {
+    path:AppRoutePaths.EnquiryDetails,
+    component:EnquiryDetailsComponent,
+    loadChildren: () =>
+    import('./features/enquiry-details/enquiry-details.module').then(
+      m => m.EnquiryDetailsModule
+    )
+  }
 ];
 
 @NgModule({

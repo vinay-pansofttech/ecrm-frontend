@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
-
 // Import all Kendo UI components here
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { InputsModule, TextBoxModule } from '@progress/kendo-angular-inputs';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
@@ -12,6 +11,7 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { IndicatorsModule } from '@progress/kendo-angular-indicators';
 import { NotificationModule } from '@progress/kendo-angular-notification';
 
+import { UploadsModule } from '@progress/kendo-angular-upload';
 @NgModule({
   imports: [
     ButtonsModule,
@@ -26,6 +26,9 @@ import { NotificationModule } from '@progress/kendo-angular-notification';
     LabelModule,
     IndicatorsModule,
     NotificationModule,
+    FormsModule,
+    UploadsModule,
+
     // Add more Kendo UI modules here
   ],
   exports: [
@@ -40,6 +43,9 @@ import { NotificationModule } from '@progress/kendo-angular-notification';
     LabelModule,
     IndicatorsModule,
     NotificationModule,
+    FormsModule,
+    ReactiveFormsModule,
+    UploadsModule,
     // Export all Kendo UI modules here
   ],
 })

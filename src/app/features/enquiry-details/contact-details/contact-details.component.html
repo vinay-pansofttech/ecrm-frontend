@@ -1,21 +1,23 @@
 <div class="contact-details-header">Contact Details<div class="contact-details-header-tag"></div></div>
-<div class="contact-details-container">
+<div class="contact-details-container" [formGroup]="contactDetails">
 <div class="contact-details-content">
-    <kendo-label class="contact-details-label">Sold To Contact</kendo-label>
-    <kendo-dropdownlist class="contact-details-kendo-dropdownlist"  [data]="areaList"></kendo-dropdownlist>
+    <kendo-label class="contact-details-label" >Sold To Contact</kendo-label>
+    <kendo-dropdownlist class="contact-details-kendo-dropdownlist" formControlName="soldToContact" #soldtocontact [data]="areaList"></kendo-dropdownlist>
+    <!-- <kendo-formerror *ngIf="contactDetails['soldToContact']" class="contact-details-error-msg">Sold To LE</kendo-formerror> -->
 </div>
 <div class="contact-details-content">
-    <kendo-label class="contact-details-label" >Sold To Site</kendo-label>
-    <kendo-dropdownlist class="contact-details-kendo-dropdownlist"  [data]="area"></kendo-dropdownlist>
-</div>
+    <kendo-label class="contact-details-label" [for]="soldtosite" >Sold To Site</kendo-label>
+    <kendo-dropdownlist class="contact-details-kendo-dropdownlist" formControlName="soldToSite" #soldtosite [data]="area"></kendo-dropdownlist>
+  </div>
 <kendo-formfield>
   <div>
-  <kendo-label class="contact-details-label">Deal Value</kendo-label>
-  <kendo-textbox class="contact-details-kendo-textbox"></kendo-textbox>
+  <kendo-label class="contact-details-label" [for]="soldtole" >Sold To LE</kendo-label>
+  <kendo-textbox class="contact-details-kendo-textbox" formControlName="soldToLE" #soldtole></kendo-textbox>
 </div>
+<kendo-formerror class="contact-details-error-msg">Sold To LE</kendo-formerror>
 </kendo-formfield>
   <div class="contact-details-content">
-    <kendo-label class="contact-details-label">Region</kendo-label>
-    <kendo-dropdownlist class="contact-details-kendo-dropdownlist" [data]="list"></kendo-dropdownlist>
+    <kendo-label class="contact-details-label" [for]="region">Region</kendo-label>
+    <kendo-dropdownlist class="contact-details-kendo-dropdownlist" formControlName="region" #region  [clearButton]="true" [data]="list"></kendo-dropdownlist>
 </div>
 </div>
