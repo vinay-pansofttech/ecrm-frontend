@@ -8,9 +8,8 @@ import { EmailLoginComponent } from './components/email-login/email-login.compon
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { LoginService } from './components/login/login.service';
 
-
 @NgModule({
-  declarations: [LoginComponent,EmailLoginComponent,ForgotPasswordComponent],
+  declarations: [LoginComponent, EmailLoginComponent, ForgotPasswordComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -18,9 +17,8 @@ import { LoginService } from './components/login/login.service';
     KendoModule,
     LoginRoutingModule,
   ],
-  exports: [LoginComponent,EmailLoginComponent,ForgotPasswordComponent],
+  exports: [LoginComponent, EmailLoginComponent, ForgotPasswordComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [LoginService]
-
+  providers: [LoginService],
 })
 export class LoginModule {}

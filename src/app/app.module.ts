@@ -9,11 +9,14 @@ import { KendoModule } from './kendo.module';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { EnquiryDetailsModule } from './features/enquiry-details/enquiry-details.module';
 import { HttpClientModule } from '@angular/common/http';
+import { IndicatorsModule } from '@progress/kendo-angular-indicators';
+import { NotificationModule } from '@progress/kendo-angular-notification';
+import { LoginService } from './features/login/components/login/login.service';
+import { NotificationService } from './core/services/notification.service';
+import { LoaderService } from './core/services/loader.service';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -23,9 +26,11 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     EnquiryDetailsModule,
     KendoModule,
-    HttpClientModule
+    HttpClientModule,
+    IndicatorsModule,
+    NotificationModule,
   ],
-  providers: [],
+  providers: [LoginService, NotificationService, LoaderService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

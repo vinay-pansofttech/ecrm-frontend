@@ -1,63 +1,86 @@
- <div class="login-page--main-container">
+<div class="login-page--main-container">
+  <kendo-card class="login-page--kendo-card" *ngIf="!showLoader">
+    <div class="login-page--logo-img">
+      <img src="assets/login-images/Group-img.svg" alt="new" />
+    </div>
+    <div class="login-page--title">Login</div>
 
-    <kendo-card class="login-page--kendo-card">
+    <div class="login-page--form-container">
+      <form [formGroup]="loginForm" class="login-page--login-form">
+        <div class="login-page--formfield">
+          <div class="login-page--formfield-user">
+            <kendo-formfield>
+              <kendo-textbox
+                class="login-page--textbox"
+                formControlName="username"
+                #username
+                required
+                placeholder="Username">
+                <ng-template kendoTextBoxPrefixTemplate>
+                  <img
+                    src="assets/login-images/profile.svg/"
+                    alt="new"
+                    class="login-page--user-img" /> </ng-template
+              ></kendo-textbox>
 
-        <div class="login-page--logo-img">  <img src="assets/login-images/Group-img.svg"  alt="new"/></div>
-         <div class="login-page--title">Login</div>
-    
-      <div class="login-page--form-container">
-        <form [formGroup]="loginForm" class="login-page--login-form">
-          <div  class="login-page--formfield">
+              <kendo-formerror class="login-page-kendo-form-error"
+                >Username is required</kendo-formerror
+              >
+            </kendo-formfield>
+          </div>
 
-            <div class="login-page--formfield-user">
-                <kendo-formfield > 
-                    <kendo-textbox class="login-page--textbox"
-                                   formControlName="username"
-                                    #username
-                                    required
-                                    placeholder="Username">
-                       <ng-template kendoTextBoxPrefixTemplate>
-                          <img src="assets/login-images/profile.svg/" alt="new" class="login-page--user-img">
-                       </ng-template></kendo-textbox>
-      
-                    <kendo-formerror class="login-page-kendo-form-error" >Username is required</kendo-formerror>
-                  </kendo-formfield>
-           </div>
-      
-        
+          <kendo-formfield>
+            <kendo-textbox
+              #textbox
+              placeholder="Password"
+              [clearButton]="true"
+              class="login-page--textbox"
+              formControlName="password">
+              <ng-template kendoTextBoxSuffixTemplate>
+                <button
+                  kendoButton
+                  look="clear"
+                  [svgIcon]="eyeIcon"
+                  (click)="toggleVisibility()"></button>
+              </ng-template>
+              <ng-template kendoTextBoxPrefixTemplate>
+                <img
+                  src="assets/login-images/password.svg/"
+                  alt="new"
+                  class="login-page--profile-img" />
+                <div></div>
+              </ng-template>
+            </kendo-textbox>
+            <kendo-formerror class="login-page-kendo-form-error"
+              >Password is required</kendo-formerror
+            >
+          </kendo-formfield>
 
-                <kendo-formfield >        
-                   <kendo-textbox #textbox placeholder="Password" [clearButton]="true" class="login-page--textbox" formControlName="password">
-                  
-                    <ng-template kendoTextBoxSuffixTemplate>
-                      <button
-                        kendoButton
-                        look="clear"
-                        [svgIcon]="eyeIcon"
-                        (click)="toggleVisibility()"
-                      ></button>
-                    </ng-template>
-                    <ng-template kendoTextBoxPrefixTemplate >
-                      <img src="assets/login-images/password.svg/" alt="new" class="login-page--profile-img">
-                       <div ></div>
-                    </ng-template>
-                  </kendo-textbox>
-                     <kendo-formerror class="login-page-kendo-form-error" >Password is required</kendo-formerror>
+          <div>
+            <a routerLink="/forgot-password" class="login-page--forgot-link"
+              >Forgot your password?</a
+            >
+          </div>
+        </div>
 
-                </kendo-formfield>
-
-                  <div ><a routerLink="/forgot-password" class="login-page--forgot-link">Forgot  your password?</a></div>
-            </div>
-      
-            <div> 
-              <button kendoButton class="login-page--signin-button"   [disabled]="loginForm.invalid" (click)="onSubmit()" >Sign In</button>
-            </div>
-
-        </form>
-
-      </div>
-
-     </kendo-card>
-    
+        <div>
+          <button
+            kendoButton
+            class="login-page--signin-button"
+            [disabled]="loginForm.invalid"
+            (click)="onSubmit()">
+            Sign In
+          </button>
+        </div>
+      </form>
+    </div>
+  </kendo-card>
+  <div class="login-page--loader">
+    <kendo-loader
+      *ngIf="showLoader"
+      type="converging-spinner"
+      themeColor="info"
+      size="medium"></kendo-loader>
+    <div>Signing in....</div>
+  </div>
 </div>
-

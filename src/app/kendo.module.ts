@@ -9,6 +9,9 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
 import { InputsModule, TextBoxModule } from '@progress/kendo-angular-inputs';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LabelModule } from '@progress/kendo-angular-label';
+import { IndicatorsModule } from '@progress/kendo-angular-indicators';
+import { NotificationModule } from '@progress/kendo-angular-notification';
+
 @NgModule({
   imports: [
     ButtonsModule,
@@ -21,6 +24,8 @@ import { LabelModule } from '@progress/kendo-angular-label';
     DropDownsModule,
     InputsModule,
     LabelModule,
+    IndicatorsModule,
+    NotificationModule,
     // Add more Kendo UI modules here
   ],
   exports: [
@@ -33,6 +38,8 @@ import { LabelModule } from '@progress/kendo-angular-label';
     DropDownsModule,
     InputsModule,
     LabelModule,
+    IndicatorsModule,
+    NotificationModule,
     // Export all Kendo UI modules here
   ],
 })
