@@ -1,3 +1,5 @@
+import { ForgotPasswordComponent } from '../features/login/components/forgot-password/forgot-password.component';
+
 export enum AppSettingsConfigKey {
   FileName = 'appSettings.json',
   Path = 'assets/configs',
@@ -20,6 +22,7 @@ export enum AppRoutePaths {
   DashboardWrapper = ' dashboard-wrapper',
   EnquiryDetails = 'enquiry-details',
   WorkList = 'work-list',
+  EnquiryDetailsListView = 'enquiry-listview',
 }
 
 export enum EcrmUserAdminRoutePath {

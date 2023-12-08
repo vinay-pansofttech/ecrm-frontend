@@ -14,6 +14,8 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { IconsModule } from '@progress/kendo-angular-icons';
 
 import { UploadsModule } from '@progress/kendo-angular-upload';
+import { PagerModule } from '@progress/kendo-angular-pager';
+
 @NgModule({
   imports: [
     ButtonsModule,
@@ -24,6 +26,7 @@ import { UploadsModule } from '@progress/kendo-angular-upload';
     InputsModule,
     TextBoxModule,
     DropDownsModule,
+    PagerModule,
     InputsModule,
     LabelModule,
     IndicatorsModule,
@@ -48,6 +51,7 @@ import { UploadsModule } from '@progress/kendo-angular-upload';
     DatePickerModule,
     LayoutModule,
     InputsModule,
+    PagerModule,
     TextBoxModule,
     DropDownsModule,
     InputsModule,

@@ -1,0 +1,171 @@
+.Enquiry-Detail-ListView-titlebar{
+    display: flex;
+    margin: 1rem 0;
+}
+.Enquiry-Detail-ListView--back-img{
+    padding-top: 2px;
+    margin-left: 8px;
+    cursor: pointer;
+}
+.Enquiry-Detail-ListView--title{
+    color: #031222;
+    font-family: Arial;
+    font-size: var(--text-size-2);
+    font-style: normal;
+    font-weight: var(--font-weight-bolder);
+    line-height: 28px; /* 155.556% */
+    padding-top: 8px;
+    flex: 1 1 0;
+    margin-left: 4px;
+    }
+.Enquiry-Detail-ListView--refresh-icon{
+    padding-top: 10px;
+     padding-right: 1rem; 
+     cursor: pointer;
+}
+.Enquiry-Detail-ListView--searchbox{
+    margin: 0 1rem;
+}
+.Enquiry-Detail-ListView--kendo-textbox{
+    border-radius: 19.5px;
+    background: var(--neutral-4, #F2F2F2);
+    color: var(--neutral-1, #343434);
+    font-family: Arial;
+    font-size: var(--text-size-1);
+    font-style: normal;
+    font-weight: var(--font-weight-normal);
+    line-height: 24px; /* 150% */
+}
+.Enquiry-Detail-ListView--search-icon{
+    margin: 0 6px 0 8px;
+}
+.Enquiry-Detail-ListView--sub-title{
+color: var(--primary-black, #1F1F1F);
+font-family: Arial;
+font-size: var(--text-size-2);
+font-style: normal;
+font-weight: var(--font-weight-bolder);
+line-height: normal;
+margin:1rem 1rem 0 1rem;
+}
+.Enquiry-Detail-ListView--cards{
+    margin: 1rem;
+}
+.Enquiry-Detail-ListView--kendo-card{
+border-radius: 20px;
+background: var(--colors-brand-white, #FFF);
+box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.05);
+width: 100% !important;
+}
+.Enquiry-Detail-ListView--kendo-card-header{
+    display: flex;
+    margin: 1rem;
+}
+.Enquiry-Detail-ListView--kendo-card-content{
+    display: flex;
+    margin:  1rem;
+}
+.Enquiry-Detail-ListView--kendo-card-number{
+color: var(--primary-black, #1F1F1F);
+font-family: Arial;
+font-size: var(--text-size-3);
+font-style: normal;
+font-weight:var(--font-weight-bolder);
+line-height: normal;
+flex:1 0 0;
+}
+.Enquiry-Detail-ListView--kendo-splitter{
+    margin: 0 1rem;
+}
+.Enquiry-Detail-ListView--kendo-card-sold-details{
+    width: 50%;
+}
+.Enquiry-Detail-ListView--kendo-card-sub-title{
+color: var(--body-grey, #69727B);
+font-family: Arial;
+font-size: 10px;
+font-style: normal;
+font-weight: var( --font-weight-normal);
+line-height: normal;
+}
+.Enquiry-Detail-ListView--kendo-card-sold{
+color: #383838;
+font-family: Arial;
+font-size: var(--text-size-01);
+font-style: normal;
+font-weight: var( --font-weight-bolder);
+line-height: normal;
+}
+.Enquiry-Detail-ListView--information-outline-card{
+border-radius: 4px;
+background: rgba(92, 181, 193, 0.12);
+margin: 0 1rem 1rem 1rem;
+display: flex;
+padding: 4px 0px 0px 4px;
+}
+.Enquiry-Detail-ListView--information{
+border-radius: 6px;
+color: #69727B;
+font-family:Arial;
+font-size: 10px;
+font-style: normal;
+font-weight: var( --font-weight-semibold);
+margin-left: 4px;
+}
+.Enquiry-Detail-ListView--vertical-splitter{
+    margin-right: 1rem;
+}
+.Enquiry-Detail-ListView--splitter{
+    height: 40px;
+    width: 0%;
+}
+.Enquiry-Detail-ListView--kendo-pager{
+    margin:  0 1rem;
+}
+.Enquiry-Detail-ListView--kendo-datapager{
+    margin-left: 3rem;
+    color: #6EAFD3;
+    border: 0px;
+    background-color: white;
+}
+:host ::ng-deep .k-button-flat-primary {
+    color: #6EAFD3 !important;
+}
+.Enquiry-Detail-ListView--button-container{
+    background: var(--colors-brand-white, #FFF);
+    box-shadow: 0px 4px 20px 0px rgba(80, 86, 92, 0.15);
+    padding: 1rem;
+}
+// .Enquiry-Detail-ListView--button-cancel{
+// border-radius: 8px;
+// border: 1px solid rgba(110, 175, 211, 0.30);
+// width: 100%;
+// background-color: white;
+// color: #6EAFD3;
+// text-align: center;
+// height: 40px;
+// /* Button - 14px */
+// font-family:  Arial;
+// font-size: var(--text-size-01);
+// font-style: normal;
+// font-weight: 550;
+// line-height: 20px; /* 142.857% */
+// letter-spacing: 0.28px;
+// margin-bottom: 1rem;
+// }
+// .Enquiry-Detail-ListView--button-save{
+//   border-radius: 8px;
+// background: #6EAFD3;
+// color: var(--colors-brand-white, #FFF);
+// text-align: center;
+// width: 100%;
+// height: 40px;
+// /* Button - 14px */
+// font-family: Arial;
+// font-size: var(--text-size-01);
+// font-style: normal;
+// font-weight: 550;
+// line-height: 20px; /* 142.857% */
+// letter-spacing: 0.28px;
+// }
+

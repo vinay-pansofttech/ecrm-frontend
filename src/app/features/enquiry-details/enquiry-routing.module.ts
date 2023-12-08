@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppRoutePaths } from 'src/app/core/Constants';
 import { EnquiryDetailsComponent } from './enquiry-details/enquiry-details.component';
 import { EnquiryUpdateComponent } from './enquiry-update/enquiry-update.component';
+import { EnquiryDetailsListViewComponent } from './enquiry-details-list-view/enquiry-details-list-view.component';
 const routes: Routes = [
   {
     path: '',
@@ -16,6 +17,14 @@ const routes: Routes = [
     path:AppRoutePaths.EnquiryUpdate,
     component:EnquiryUpdateComponent
   }
+{
+    path:AppRoutePaths.EnquiryDetails,
+    component:EnquiryDetailsComponent
+},
+  {
+      path:AppRoutePaths.EnquiryDetailsListView,
+      component: EnquiryDetailsListViewComponent
+   },
 ];
 
 @NgModule({
