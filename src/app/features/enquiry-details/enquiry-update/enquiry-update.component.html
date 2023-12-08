@@ -1,55 +1,122 @@
-<div class="enquiry-update-main--container">
-    <img src="assets/back.svg" kendobutton  alt="back">
+<div *ngIf="!showAPILoader">
+  <div class="enquiry-update-main--container">
+    <img src="assets/back.svg" kendobutton alt="back" />
     <div class="enquiry-update--header">Enquiry Details</div>
-    <img src="assets/reset.svg" kendobuttons alt="reset" class="enquiry-update--reset-image">
-    </div>
-<div>
-<div class="enquiry-details-content">  
-        <kendo-stepper
+    <img
+      src="assets/reset.svg"
+      kendobuttons
+      alt="reset"
+      class="enquiry-update--reset-image" />
+  </div>
+  <div>
+    <div class="enquiry-details-content">
+      <kendo-stepper
         [steps]="step"
         stepType="full"
         [(currentStep)]="currentStep">
       </kendo-stepper>
-<div class="enquiry-update--header">Contact Details<div class="enquiry-update-header-tag"></div></div>
-<div class="enquiry-update--container"  [formGroup]="enquiryUpdateForm">
-    <div class="enquiry-update--content">
-        <kendo-label class="enquiry-update--label" [for]="poexpecteddate" >PO Expected Date</kendo-label>
-        <kendo-datepicker class="enquiry-update--dropdownlist" formControlName="POExpectedDate" #poexpecteddate placeholder="-select-"></kendo-datepicker>
+      <div class="enquiry-update--header">
+        Contact Details
+        <div class="enquiry-update-header-tag"></div>
+      </div>
+      <div class="enquiry-update--container" [formGroup]="enquiryUpdateForm">
+        <div class="enquiry-update--content">
+          <kendo-label class="enquiry-update--label" [for]="poexpecteddate"
+            >PO Expected Date</kendo-label
+          >
+          <kendo-datepicker
+            class="enquiry-update--dropdownlist"
+            formControlName="POExpectedDate"
+            #poexpecteddate
+            placeholder="-select-"></kendo-datepicker>
+        </div>
+
+        <div class="enquiry-update--content">
+          <kendo-label class="enquiry-update--label" [for]="dealposition"
+            >Deal Position</kendo-label
+          >
+          <kendo-dropdownlist
+            class="enquiry-update--dropdownlist"
+            formControlName="dealPosition"
+            #dealposition
+            [data]="areaList"></kendo-dropdownlist>
+        </div>
+
+        <div class="enquiry-update--content">
+          <kendo-label class="enquiry-update--label" [for]="probability"
+            >Probability</kendo-label
+          >
+          <kendo-dropdownlist
+            class="enquiry-update--dropdownlist"
+            formControlName="probability"
+            #probability
+            [data]="areaList"></kendo-dropdownlist>
+        </div>
+
+        <kendo-formfield>
+          <div class="enquiry-update--content">
+            <kendo-label class="enquiry-update--label" [for]="dealvalue"
+              >Deal Value</kendo-label
+            >
+            <kendo-textbox
+              class="enquiry-update--textbox"
+              formControlName="dealValue"
+              #dealvalue></kendo-textbox>
+          </div>
+        </kendo-formfield>
+
+        <div class="enquiry-update--content">
+          <kendo-label class="enquiry-update--label" [for]="modeofcommunication"
+            >Mode of Communication</kendo-label
+          >
+          <kendo-dropdownlist
+            class="enquiry-update--dropdownlist"
+            formControlName="modeOfCommunication"
+            #modeofcommunication
+            [data]="areaList"></kendo-dropdownlist>
+        </div>
+
+        <div class="enquiry-update--content">
+          <kendo-label class="enquiry-update--label" [for]="enterdescription"
+            >Enter Description</kendo-label
+          >
+          <kendo-textarea
+            placeholder="Type  your message here.."
+            formControlName="enterDescription"
+            #enterdescription
+            class="enquiry-update--textarea"
+            [rows]="6"
+            resizable="vertical"></kendo-textarea>
+        </div>
+
+        <div class="enquiry-update--content">
+          <kendo-label class="enquiry-update--label" [for]="attachment"
+            >Attachment</kendo-label
+          >
+          <kendo-fileselect
+            class="enquiry-update--fileupload"
+            formControlName="attachment"
+            #attachment></kendo-fileselect>
+        </div>
+      </div>
+      <div class="enquiry-update--footer">
+        <button kendobutton class="enquiry-update-cancel--button">
+          Cancel
+        </button>
+        <button
+          kendobutton
+          class="enquiry-update-save--button"
+          (click)="saveForm()">
+          Save
+        </button>
+      </div>
     </div>
-      
-    <div class="enquiry-update--content">
-        <kendo-label class="enquiry-update--label" [for]="dealposition">Deal Position</kendo-label>
-        <kendo-dropdownlist class="enquiry-update--dropdownlist" formControlName="dealPosition" #dealposition [data]="areaList"></kendo-dropdownlist>
-    </div>
-
-    <div class="enquiry-update--content">
-      <kendo-label class="enquiry-update--label" [for]="probability">Probability</kendo-label>
-      <kendo-dropdownlist class="enquiry-update--dropdownlist" formControlName="probability" #probability [data]="areaList"></kendo-dropdownlist>
-    </div>
-
-    <kendo-formfield>
-      <div class="enquiry-update--content">
-      <kendo-label  class="enquiry-update--label" [for]="dealvalue">Deal Value</kendo-label>
-      <kendo-textbox class="enquiry-update--textbox" formControlName="dealValue" #dealvalue ></kendo-textbox>
-    </div>
-    </kendo-formfield>
-
-    <div class="enquiry-update--content">
-      <kendo-label class="enquiry-update--label" [for]="modeofcommunication">Mode of Communication</kendo-label>
-      <kendo-dropdownlist class="enquiry-update--dropdownlist" formControlName="modeOfCommunication" #modeofcommunication [data]="areaList"></kendo-dropdownlist>
-  </div>
-
-  <div class="enquiry-update--content">
-      <kendo-label class="enquiry-update--label" [for]="enterdescription">Enter Description</kendo-label>
-      <kendo-textarea placeholder="Type  your message here.." formControlName="enterDescription" #enterdescription class="enquiry-update--textarea" [rows]="6" resizable="vertical"></kendo-textarea>
-  </div>
-
-  <div class="enquiry-update--content">
-    <kendo-label class="enquiry-update--label" [for]="attachment" >Attachment</kendo-label>
-    <kendo-fileselect class="enquiry-update--fileupload" formControlName="attachment" #attachment></kendo-fileselect> 
   </div>
 </div>
-<div class="enquiry-update--footer">
-    <button kendobutton class="enquiry-update-cancel--button">Cancel</button>
-    <button kendobutton class="enquiry-update-save--button" (click)="saveForm()" >Save</button>
-  </div>
+<div class="enquiry-update--loader" *ngIf="showAPILoader">
+  <kendo-loader
+    type="converging-spinner"
+    themeColor="info"
+    size="medium"></kendo-loader>
+  <div>Updating enquiry....</div>
+</div>

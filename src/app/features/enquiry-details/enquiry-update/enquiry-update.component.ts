@@ -1,14 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { LoaderService } from 'src/app/core/services/loader.service';
 
 @Component({
   selector: 'app-enquiry-update',
   templateUrl: './enquiry-update.component.html',
   styleUrls: ['./enquiry-update.component.scss'],
 })
-export class EnquiryUpdateComponent {
+export class EnquiryUpdateComponent implements OnInit {
   public currentStep = 3;
+  showAPILoader = false;
+  constructor(
+    private loaderService: LoaderService,
+    private router: Router
+  ) {}
 
+  ngOnInit(): void {
+    this.loaderService.loaderState.subscribe(res => {
+      this.showAPILoader = res;
+    });
+  }
   public step = [
     {
       label: 'Contact Details',
@@ -37,7 +49,13 @@ export class EnquiryUpdateComponent {
     attachment: new FormControl('', Validators.required),
   });
   public saveForm(): void {
+    this.loaderService.showLoader();
+    console.log('loader', this.loaderService.loaderState, this.showAPILoader);
     this.enquiryUpdateForm.markAllAsTouched();
     console.log(this.enquiryUpdateForm.value);
+    setTimeout(() => {
+      this.loaderService.hideLoader();
+      this.router.navigate(['/work-list']);
+    }, 3000);
   }
 }
