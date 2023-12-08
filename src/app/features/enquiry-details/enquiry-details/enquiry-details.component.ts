@@ -5,7 +5,9 @@ import {
   Validators,
   FormBuilder,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { StepperComponent } from '@progress/kendo-angular-layout';
+import { LoaderService } from 'src/app/core/services/loader.service';
 @Component({
   selector: 'app-enquiry-details',
   templateUrl: './enquiry-details.component.html',
@@ -52,9 +54,16 @@ export class EnquiryDetailsComponent implements OnInit {
   current: any;
 
   enquiryCaptureForm!: FormGroup;
-
-  constructor(private formBuilder: FormBuilder) {}
+  showAPILoader: boolean = false;
+  constructor(
+    private formBuilder: FormBuilder,
+    private loaderService: LoaderService,
+    private router: Router
+  ) {}
   ngOnInit(): void {
+    this.loaderService.loaderState.subscribe(res => {
+      this.showAPILoader = res;
+    });
     this.enquiryCaptureForm = this.formBuilder.group({
       contactDteails: new FormGroup({
         soldToContact: new FormControl('', Validators.required),
@@ -101,7 +110,12 @@ export class EnquiryDetailsComponent implements OnInit {
       this.stepper.validateSteps();
     }
     if (this.enquiryCaptureForm.valid) {
+      this.loaderService.showLoader();
       console.log('Submitted data', this.enquiryCaptureForm.value);
+      setTimeout(() => {
+        this.loaderService.hideLoader();
+        this.router.navigate(['/work-list']);
+      }, 3000);
     }
   }
 
