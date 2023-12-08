@@ -1,15 +1,20 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from "@angular/forms";
-import { StepperComponent } from "@progress/kendo-angular-layout";
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormBuilder,
+} from '@angular/forms';
+import { StepperComponent } from '@progress/kendo-angular-layout';
 @Component({
   selector: 'app-enquiry-details',
   templateUrl: './enquiry-details.component.html',
-  styleUrls: ['./enquiry-details.component.scss']
+  styleUrls: ['./enquiry-details.component.scss'],
 })
 export class EnquiryDetailsComponent implements OnInit {
   public currentStep = 0;
 
-  @ViewChild("stepper", { static: true })
+  @ViewChild('stepper', { static: true })
   public stepper!: StepperComponent;
 
   private isStepValid = (index: number): boolean => {
@@ -21,91 +26,90 @@ export class EnquiryDetailsComponent implements OnInit {
   };
   public steps = [
     {
-      label: "Contact Details",
-      link:"contact-details",
+      label: 'Contact Details',
       isValid: this.isStepValid,
       validate: this.shouldValidate,
+      icon: '',
     },
     {
-      label: "Enquiry Details",
-      link:"enquiry-details",
+      label: 'Enquiry Details',
       isValid: this.isStepValid,
       validate: this.shouldValidate,
+      icon: '',
     },
     {
-      label: "Enquiry Description",
-      link:"enquiry-description",
+      label: 'Enquiry Description',
       isValid: this.isStepValid,
       validate: this.shouldValidate,
+      icon: '',
     },
     {
-      label: "Enquiry Update",
-      link:"enquiry-update",
-      isValid: this.isStepValid,
-      validate: this.shouldValidate,
-    }
+      label: 'Enquiry Update',
+      disabled: true,
+      icon: '',
+    },
   ];
-current:any;
+  current: any;
 
-enquiryCaptureForm!: FormGroup 
+  enquiryCaptureForm!: FormGroup;
 
-constructor(private formBuilder: FormBuilder){}
-ngOnInit(): void {
-this.enquiryCaptureForm =  this.formBuilder.group({
-  contactDteails: new FormGroup({
-    soldToContact: new FormControl("", Validators.required),
-    soldToSite: new FormControl("", Validators.required),
-    soldToLE: new FormControl("", Validators.required),
-    region: new FormControl("", Validators.required),
-  }),
-  enquiryDetailsForms: new FormGroup({
-    generatedBy: new FormControl("", [Validators.required]),
-    generatedFrom: new FormControl("", [Validators.required]),
-    quoteEntityCurrency: new FormControl("", [Validators.required]),
-    salesWorkFlow: new FormControl("", [Validators.required]),
-    salesChannel: new FormControl("", [Validators.required]),
-    salesExecutive: new FormControl("", [Validators.required]),
-  }),
-  enquiryDescription: new FormGroup({
-    enterDescription: new FormControl("", [Validators.required])
-  })
-
-});
-}
-
-public get currentGroup(): FormGroup {
-  return this.getGroupAt(this.currentStep);
-}
-
-public next(): void {
-  if (this.currentGroup.valid && this.currentStep !== this.steps.length) {
-    this.currentStep += 1;
-    return;
+  constructor(private formBuilder: FormBuilder) {}
+  ngOnInit(): void {
+    this.enquiryCaptureForm = this.formBuilder.group({
+      contactDteails: new FormGroup({
+        soldToContact: new FormControl('', Validators.required),
+        soldToSite: new FormControl('', Validators.required),
+        soldToLE: new FormControl('', Validators.required),
+        region: new FormControl('', Validators.required),
+      }),
+      enquiryDetailsForms: new FormGroup({
+        generatedBy: new FormControl('', [Validators.required]),
+        generatedFrom: new FormControl('', [Validators.required]),
+        quoteEntityCurrency: new FormControl('', [Validators.required]),
+        salesWorkFlow: new FormControl('', [Validators.required]),
+        salesChannel: new FormControl('', [Validators.required]),
+        salesExecutive: new FormControl('', [Validators.required]),
+      }),
+      enquiryDescription: new FormGroup({
+        enterDescription: new FormControl('', [Validators.required]),
+        attachment: new FormControl('', [Validators.required]),
+      }),
+    });
   }
 
-  this.currentGroup.markAllAsTouched();
-  this.stepper.validateSteps();
-}
+  public get currentGroup(): FormGroup {
+    return this.getGroupAt(this.currentStep);
+  }
 
-public prev(): void {
-  this.currentStep -= 1;
-}
+  public next(): void {
+    if (this.currentGroup.valid && this.currentStep !== this.steps.length) {
+      this.currentStep += 1;
+      return;
+    }
 
-public submit(): void {
-  if (!this.currentGroup.valid) {
     this.currentGroup.markAllAsTouched();
     this.stepper.validateSteps();
   }
-  if (this.enquiryCaptureForm.valid) {
-    console.log("Submitted data", this.enquiryCaptureForm.value);
+
+  public prev(): void {
+    this.currentStep -= 1;
   }
-}
 
-private getGroupAt(index: number): FormGroup {
-  const groups = Object.keys(this.enquiryCaptureForm.controls).map((groupName) =>
-    this.enquiryCaptureForm.get(groupName)
-  ) as FormGroup[];
+  public submit(): void {
+    if (!this.currentGroup.valid) {
+      this.currentGroup.markAllAsTouched();
+      this.stepper.validateSteps();
+    }
+    if (this.enquiryCaptureForm.valid) {
+      console.log('Submitted data', this.enquiryCaptureForm.value);
+    }
+  }
 
-  return groups[index];
-}
+  private getGroupAt(index: number): FormGroup {
+    const groups = Object.keys(this.enquiryCaptureForm.controls).map(
+      groupName => this.enquiryCaptureForm.get(groupName)
+    ) as FormGroup[];
+
+    return groups[index];
+  }
 }

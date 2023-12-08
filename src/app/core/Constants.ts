@@ -13,7 +13,7 @@ export enum AppRoutePaths {
   UserManagement = 'user-management',
   UserList = 'user-list',
   Dashboard = 'dashboard',
-  EnquiryCapture = 'enquiry-capture',
+  EnquiryUpdate = 'enquiry-update',
   ResetPassword = 'reset-password',
   Email = 'email',
   ForgotPassword = 'forgot-password',

@@ -13,3 +13,25 @@ body {
   padding: 0;
   font-family: 'lato';
 }
+.k-stepper .k-step-label .k-step-text {
+  text-align: center;
+  font-family: Arial;
+  font-size: 0.625rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 0.75rem; /* 120% */
+  letter-spacing: 0.0375rem;
+  text-transform: capitalize;
+  overflow: auto;
+  text-wrap: wrap;
+}
+
+.k-stepper .k-step-current .k-step-indicator,
+.k-stepper .k-step-done .k-step-indicator,
+.k-progressbar .k-selected,
+.k-stepper .k-step-done:hover .k-step-indicator,
+.k-stepper .k-step-current:hover .k-step-indicator {
+  border-color: var(--terinary-color);
+  color: white;
+  background-color: var(--terinary-color);
+}

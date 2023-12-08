@@ -1,7 +1,7 @@
 <div class="contact-details-header">Contact Details<div class="contact-details-header-tag"></div></div>
 <div class="contact-details-container" [formGroup]="contactDetails">
 <div class="contact-details-content">
-    <kendo-label class="contact-details-label" >Sold To Contact</kendo-label>
+    <kendo-label class="contact-details-label" [for]="soldtocontact" >Sold To Contact</kendo-label>
     <kendo-dropdownlist class="contact-details-kendo-dropdownlist" formControlName="soldToContact" #soldtocontact [data]="areaList"></kendo-dropdownlist>
     <!-- <kendo-formerror *ngIf="contactDetails['soldToContact']" class="contact-details-error-msg">Sold To LE</kendo-formerror> -->
 </div>
@@ -18,6 +18,6 @@
 </kendo-formfield>
   <div class="contact-details-content">
     <kendo-label class="contact-details-label" [for]="region">Region</kendo-label>
-    <kendo-dropdownlist class="contact-details-kendo-dropdownlist" formControlName="region" #region  [clearButton]="true" [data]="list"></kendo-dropdownlist>
+    <kendo-dropdownlist class="contact-details-kendo-dropdownlist" formControlName="region" #region [data]="list"></kendo-dropdownlist>
 </div>
 </div>
