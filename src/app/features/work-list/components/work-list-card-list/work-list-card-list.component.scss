@@ -1,0 +1,173 @@
+.worklist-card--header{
+display: flex;
+}
+.worklist-card--back-button{
+margin-top: 1rem;    
+}
+
+.worklist-card--title{
+flex: 1 0 0;
+color: #031222;
+font-family: Arial;
+font-size: var(--text-size-2);
+font-style: normal;
+font-weight: var(--font-weight-bolder);
+line-height: 1.75rem; /* 155.556% */
+margin-top: 1.5rem;
+}
+
+.worklist-card--refresh{
+margin-top: 1.5rem;
+ margin-right: 1.1rem
+}
+
+.worklist-card--textbox-container{
+margin: 1rem;
+}
+
+.worklist-card--textbox{
+border-radius: 19.5px;
+background: var(--neutral-4, #F2F2F2);
+color: var(--neutral-1, #343434);
+font-family: Arial;
+font-size: var(--text-size-1);
+font-style: normal;
+font-weight: var(--font-weight-normal);
+line-height: 24px; /* 150% */
+}
+
+.worklist-card--search{
+margin: 0px 6px 0px 8px;
+}
+
+.worklist-card--kendo-card-container{
+    margin: 1rem;
+}
+
+
+.worklist-card--kendo-card{
+background: var(--colors-brand-white, #FFF);
+border-radius: 1.25rem;
+width: 100% !important;
+}
+
+.worklist-card--kendo-customer-details{
+display: flex;
+}
+
+.worklist-card--kendo-avatar{
+margin-right: 0;
+margin-left: 1rem;
+margin-top: 0.75rem;
+background-color: #fff;  
+}
+.worklist-card--customer-id{
+color: var(--neutral-1, #343434);
+font-feature-settings: 'clig' off, 'liga' off;
+font-family: Arial;
+font-size: var(--text-size-02);
+font-style: normal;
+font-weight: var(--font-weight-bolder);
+line-height: 1.375rem; /* 183.333% */
+margin-top: 1.5rem;
+flex: 1 0 0;
+}
+.worklist-card--card-button{
+max-width: 6.74875rem;
+min-height: 2.81306rem;
+border-top-right-radius: 20px;
+border-bottom-left-radius: 20px;
+background-color: #5CB5C1;
+flex: 1 0 0;
+
+}
+.worklist-card--card-button-text{
+color: var(--colors-brand-white, #FFF);
+font-feature-settings: 'clig' off, 'liga' off;
+font-family: Arial;
+font-size: var(--text-size-01);
+font-style: normal;
+font-weight: var(--font-weight-bolder);
+line-height: 1.375rem; /* 157.143% */
+text-align: center;
+padding-top: 0.81rem;
+
+}
+
+.worklist-card--company-name{
+color: var(--neutral-1, #343434);
+font-feature-settings: 'clig' off, 'liga' off;
+font-family: Arial;
+font-size: var(--text-size-01);
+font-style: normal;
+font-weight: var(--font-weight-bolder);
+line-height: 1.375rem;
+margin-top: 1.87rem;
+margin-left: 1rem;
+margin-bottom: 0.5rem;
+}
+
+.worklist-card-seperator{
+border: none;
+border-top: 2px dashed #CACACA;
+color: #fff;
+background-color: #fff;
+height: 1px;
+width: 100%;
+}
+
+.worklist-card--customer-name{
+    color: var(--neutral-1, #343434);
+font-feature-settings: 'clig' off, 'liga' off;
+font-family: Arial;
+font-size: var(--text-size-01);
+font-style: normal;
+font-weight: var(--font-weight-bolder);
+line-height: 1.375rem;
+margin-left: 1rem;
+margin-top: 0.5rem;
+margin-bottom: 1.44rem;
+}
+
+.worklist-card--buttons{
+background: var(--colors-brand-white, #FFF);
+box-shadow: 0px 4px 20px 0px rgba(80, 86, 92, 0.15);
+padding: 1rem;   
+margin-top: 9.25rem;
+}
+
+.worklist-card--button-cancel{
+border-radius: 8px;
+background: #6EAFD3;
+color: var(--colors-brand-white, #FFF);
+text-align: center;
+width: 100%;
+height: 40px;
+/* Button - 14px */
+font-family: Arial;
+font-size: var(--text-size-01);
+font-style: normal;
+font-weight: var(--font-weight-semibold);
+line-height: 20px; /* 142.857% */
+letter-spacing: 0.28px; 
+margin-bottom: 1rem;
+}
+
+.worklist-card--button-save{
+border-radius: 8px;
+border: 1px solid rgba(110, 175, 211, 0.30);
+width: 100%;
+background-color: white;
+color: #6EAFD3;
+text-align: center;
+height: 40px;
+/* Button - 14px */
+font-family:  Arial;
+font-size: var(--text-size-01);
+font-style: normal;
+font-weight: var(--font-weight-semibold);
+line-height: 20px; /* 142.857% */
+letter-spacing: 0.28px;
+margin-bottom: 0.75rem;  
+}
+  

@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginModule } from './features/login/login.module';
 import { DashboardModule } from './features/dashboard/dashboard.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { WorkListModule } from './features/work-list/work-list.module';
 import { KendoModule } from './kendo.module';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { EnquiryDetailsModule } from './features/enquiry-details/enquiry-details.module';
@@ -14,6 +14,7 @@ import { NotificationModule } from '@progress/kendo-angular-notification';
 import { LoginService } from './features/login/components/login/login.service';
 import { NotificationService } from './core/services/notification.service';
 import { LoaderService } from './core/services/loader.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,6 +27,7 @@ import { LoaderService } from './core/services/loader.service';
     HttpClientModule,
     IndicatorsModule,
     NotificationModule,
+    WorkListModule,
     LayoutModule,
     EnquiryDetailsModule,
     BrowserAnimationsModule,

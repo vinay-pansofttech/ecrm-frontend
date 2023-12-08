@@ -25,13 +25,21 @@ const routes: Routes = [
       ),
   },
   {
-    path:AppRoutePaths.EnquiryDetails,
-    component:EnquiryDetailsComponent,
+    path: AppRoutePaths.EnquiryDetails,
+    component: EnquiryDetailsComponent,
     loadChildren: () =>
-    import('./features/enquiry-details/enquiry-details.module').then(
-      m => m.EnquiryDetailsModule
-    )
-  }
+      import('./features/enquiry-details/enquiry-details.module').then(
+        m => m.EnquiryDetailsModule
+      ),
+  },
+
+  {
+    path: AppRoutePaths.WorkList,
+    loadChildren: () =>
+      import('./features/work-list/work-list.module').then(
+        m => m.WorkListModule
+      ),
+  },
 ];
 
 @NgModule({

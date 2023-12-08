@@ -10,6 +10,8 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { IndicatorsModule } from '@progress/kendo-angular-indicators';
 import { NotificationModule } from '@progress/kendo-angular-notification';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { IconsModule } from '@progress/kendo-angular-icons';
 
 import { UploadsModule } from '@progress/kendo-angular-upload';
 @NgModule({
@@ -28,6 +30,15 @@ import { UploadsModule } from '@progress/kendo-angular-upload';
     NotificationModule,
     FormsModule,
     UploadsModule,
+
+    DropDownsModule,
+    LabelModule,
+    FormsModule,
+    LayoutModule,
+    InputsModule,
+    TextBoxModule,
+    IconsModule,
+    DateInputsModule,
 
     // Add more Kendo UI modules here
   ],

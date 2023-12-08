@@ -1,0 +1,32 @@
+  {"customerCards" :  [
+    {
+      "avatar": "worklist-card--avatar.svg",
+      "customerid": "IK.146809.SR.0523",
+      "applicationcode": "Od",
+      "companyname": "UEU: Elementar Fra..",
+      "customername": "AM: Shabeer"
+    },
+    {
+      "avatar": "worklist-card--avatar.svg",
+      "customerid": "GU.146101.S_>0523",
+      "applicationcode": "Od",
+      "companyname": "UEU: Aja Farma",
+      "customername": "AM: Syed"
+    },  
+    {
+      "avatar": "worklist-card--avatar.svg",
+      "customerid": "IK.115169.AM.0121",
+      "applicationcode": "Od",
+      "companyname": "UEU: Elementar Fra..",
+      "customername": "AM: Shabeer"
+    },
+    
+    {
+      "avatar": "worklist-card--avatar.svg",
+      "customerid": "LA.125181.AF.0822",
+      "applicationcode": "Od",
+      "companyname": "UEU: Elementar Fra..",
+      "customername": "AM: Atif"
+    }
+  ]
+  }
