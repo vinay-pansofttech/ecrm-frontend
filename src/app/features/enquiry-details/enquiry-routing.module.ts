@@ -22,6 +22,10 @@ const routes: Routes = [
     component: EnquiryDetailsComponent,
   },
   {
+    path: AppRoutePaths.EnquiryDetails,
+    component: EnquiryDetailsComponent,
+  },
+  {
     path: AppRoutePaths.EnquiryDetailsListView,
     component: EnquiryDetailsListViewComponent,
   },

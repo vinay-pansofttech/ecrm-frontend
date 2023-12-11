@@ -7,9 +7,10 @@ import { LoginRoutingModule } from './login-routing.module';
 import { EmailLoginComponent } from './components/email-login/email-login.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { LoginService } from './components/login/login.service';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
-  declarations: [LoginComponent, EmailLoginComponent, ForgotPasswordComponent],
+  declarations: [LoginComponent, EmailLoginComponent, ForgotPasswordComponent, ResetPasswordComponent],
   imports: [
     CommonModule,
     FormsModule,
