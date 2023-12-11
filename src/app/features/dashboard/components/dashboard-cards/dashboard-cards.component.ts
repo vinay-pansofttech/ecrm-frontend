@@ -1,29 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import quickCards from '../../data/mock.json';
+import serviceCards from '../../data/mock.json';
+type quickCards = {
+  image: string;
+  text: string;
+  path: string;
+};
 
+type serviceCards = {
+  image: string;
+  text: string;
+};
 @Component({
   selector: 'app-dashboard-cards',
   templateUrl: './dashboard-cards.component.html',
   styleUrls: ['./dashboard-cards.component.scss'],
 })
 export class DashboardCardsComponent implements OnInit {
-  cards = [
-    {
-      image: 'dashboard-quickaction-sales-icon',
-      text: 'Sales',
-      path: 'sales',
-    },
-    {
-      image: 'dashboard-enquiry-icon',
-      text: 'Enquiry',
-      path: 'enquiry-details',
-    },
-    {
-      image: 'dashboard-update-icon',
-      text: 'Update',
-      path: 'update',
-    },
-  ];
+
+  constructor(private router: Router) {}
+  
+  cards!: quickCards[];
+  servicecards!:serviceCards[];
+
+  ngOnInit(): void {
+    this.cards = [quickCards.quickCards][0];
+    this.servicecards = [serviceCards.serviceCards][0];
+  }
+ 
 
   setColor(text: string) {
     switch (true) {
@@ -41,28 +46,7 @@ export class DashboardCardsComponent implements OnInit {
     return '#F2F2F2';
   }
 
-  servicecards = [
-    {
-      image: 'dashboard-calendar-icon',
-      text: 'My Calendar',
-    },
-    {
-      image: 'dashboard-trackers-icon',
-      text: 'Trackers',
-    },
-    {
-      image: 'dashboard-MyTask-icon',
-      text: 'My Tasks',
-    },
-    {
-      image: 'dashboard-telephone-icon',
-      text: 'Telephone',
-    },
-  ];
-
-  constructor(private router: Router) {}
-
-  ngOnInit(): void {}
+ 
 
   getColor(text: string) {
     switch (true) {

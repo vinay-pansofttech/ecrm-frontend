@@ -1,17 +1,22 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DashboardWrapperComponent } from './components/dashboard-wrapper/dashboard-wrapper.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AppRoutePaths } from 'src/app/core/Constants';
+import { EnquiryDetailsComponent } from '../enquiry-details/enquiry-details/enquiry-details.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: DashboardWrapperComponent,
+    component: DashboardComponent,
   },
-  //   {
-  //     path: AppRoutePaths.ResetPassword,
-  //     component: LoginComponent,
-  //   },
+   {
+     path: AppRoutePaths.Dashboard,
+      component: DashboardComponent,
+   },
+   {
+    path:'enquiry-details',
+    component:EnquiryDetailsComponent
+   }
 ];
 
 @NgModule({

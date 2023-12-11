@@ -1,37 +1,29 @@
-import { Component } from '@angular/core';
+import { Component , OnInit} from '@angular/core';
+import salesList from '../../data/mock.json';
 
+type salesList = {
+  text1: string;
+  text2: string;
+  image: string;
+};
 @Component({
   selector: 'app-dashboard-list',
   templateUrl: './dashboard-list.component.html',
   styleUrls: ['./dashboard-list.component.scss']
 })
-export class DashboardListComponent {
-  onClick(){
-    this.SalesCard.push(...this.SalesCard2);
- }
+export class DashboardListComponent implements OnInit  {
 
-  SalesCard=[
-    {
-      text1:"Sales for Sep 2023",
-      text2:"Rs 2,71,000",
-      image:"dashboard-sales-icon"
-    },
-    {
-      text1:"Sales for Sep 2023",
-      text2:"Rs 2,71,000",
-      image:"dashboard-sales-icon"
-    },
-    {
-      text1:"Sales for Sep 2023",
-      text2:"Rs 2,71,000",
-      image:"dashboard-sales-icon"
-    },
-    {
-      text1:"Sales for Sep 2023",
-      text2:"Rs 2,71,000",
-      image:"dashboard-sales-icon"
-    },
-  ]
+  SalesCard!:salesList[];
+  ngOnInit(): void {
+    this.SalesCard = [salesList.salesList][0];
+  }
+
+  buttonClicked = false;
+
+  onButtonClick() {
+    this.buttonClicked = !this.buttonClicked;
+    this.SalesCard.push(...this.SalesCard2);
+  }
 
   SalesCard2=[
     

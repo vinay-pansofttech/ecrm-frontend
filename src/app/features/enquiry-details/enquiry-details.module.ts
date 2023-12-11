@@ -10,6 +10,7 @@ import { enquirydetailsRoutingModule } from './enquiry-routing.module';
 import { EnquiryUpdateComponent } from './enquiry-update/enquiry-update.component';
 import { EnquiryDetailsListViewComponent } from './enquiry-details-list-view/enquiry-details-list-view.component';
 
+
 @NgModule({
   declarations: [
     EnquiryDetailsComponent,
@@ -24,6 +25,7 @@ import { EnquiryDetailsListViewComponent } from './enquiry-details-list-view/enq
     KendoModule,
     LayoutModule,
     enquirydetailsRoutingModule,
+    enquirydetailsRoutingModule
   ],
   exports: [
     EnquiryDetailsComponent,

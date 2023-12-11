@@ -1,0 +1,72 @@
+{"quickCards" :  [
+    {
+      "image": "dashboard-quickaction-sales-icon",
+      "text": "Sales",
+      "path": "sales"
+    },
+    {
+      "image": "dashboard-enquiry-icon",
+      "text": "Enquiry",
+      "path": "enquiry-details"
+    },
+    {
+        "image": "dashboard-update-icon",
+        "text": "Update",
+        "path": "update"
+      }
+   
+  ],
+
+  "serviceCards" :  [
+    {
+      "image": "dashboard-calendar-icon",
+      "text": "My Calendar"
+    },
+    {
+      "image": "dashboard-trackers-icon",
+      "text": "Trackers"
+    },
+    {
+        "image": "dashboard-MyTask-icon",
+        "text": "My Tasks"
+      },
+      {
+        "image": "dashboard-telephone-icon",
+        "text": "Telephone"
+      }
+   
+  ],
+
+  "salesList" :  [
+    {
+      "text1": "Sales for Sep 2023",
+      "text2":"Rs 2,71,000",
+      "image": "dashboard-sales-icon"
+    },
+    {
+        "text1": "Sales for Sep 2023",
+        "text2":"Rs 2,71,000",
+        "image": "dashboard-sales-icon"
+    },
+    {
+        "text1": "Sales for Sep 2023",
+        "text2":"Rs 2,71,000",
+        "image": "dashboard-sales-icon"
+      },
+      {
+        "text1": "Sales for Sep 2023",
+        "text2":"Rs 2,71,000",
+        "image": "dashboard-sales-icon"
+      }
+  ]
+  
+
+  }
+  
+
+
+  
+
+
+  
+  

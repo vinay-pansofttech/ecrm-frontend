@@ -2,7 +2,7 @@
 <div class="dashboard-sales--container">
   <div class="dashboard-sales--flex-container">
     <div class="dashboard-sales--title">Sales</div>
-    <kendo-button class="dashboard-sales--viewall" (click)="onClick()">View All</kendo-button>
+    <kendo-button class="dashboard-sales--viewall" [style.Color]="buttonClicked ? 'green' : 'gray'" (click)="onButtonClick()"> View All</kendo-button>
   </div>
    <div *ngFor="let a of SalesCard">
     <kendo-card  class="dashboard-sales-card--container">
