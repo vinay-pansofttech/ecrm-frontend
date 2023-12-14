@@ -6,6 +6,7 @@ export enum AppSettingsConfigKey {
   APIURL = 'https://demo.engagecrmpro.com',
 }
 
+
 export enum AppRoutePaths {
   Default = '',
   Login = 'login',
@@ -23,6 +24,7 @@ export enum AppRoutePaths {
   EnquiryDetails = 'enquiry-details',
   WorkList = 'work-list',
   EnquiryDetailsListView = 'enquiry-listview',
+  LoginDialog = "login-dialog"
 }
 
 export enum EcrmUserAdminRoutePath {

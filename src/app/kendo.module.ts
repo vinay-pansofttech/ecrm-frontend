@@ -12,7 +12,7 @@ import { IndicatorsModule } from '@progress/kendo-angular-indicators';
 import { NotificationModule } from '@progress/kendo-angular-notification';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { IconsModule } from '@progress/kendo-angular-icons';
-
+import { DialogsModule } from '@progress/kendo-angular-dialog';
 import { UploadsModule } from '@progress/kendo-angular-upload';
 import { PagerModule } from '@progress/kendo-angular-pager';
 
@@ -25,6 +25,7 @@ import { PagerModule } from '@progress/kendo-angular-pager';
     LayoutModule,
     InputsModule,
     TextBoxModule,
+    DialogsModule,
     DropDownsModule,
     PagerModule,
     InputsModule,
@@ -58,6 +59,7 @@ import { PagerModule } from '@progress/kendo-angular-pager';
     LabelModule,
     IndicatorsModule,
     NotificationModule,
+    DialogsModule,
     FormsModule,
     ReactiveFormsModule,
     UploadsModule,

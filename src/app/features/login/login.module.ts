@@ -7,10 +7,12 @@ import { LoginRoutingModule } from './login-routing.module';
 import { EmailLoginComponent } from './components/email-login/email-login.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { LoginService } from './components/login/login.service';
+import { LoginDialogComponent } from './components/login-dialog/login-dialog.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
+
 @NgModule({
-  declarations: [LoginComponent, EmailLoginComponent, ForgotPasswordComponent, ResetPasswordComponent],
+  declarations: [LoginComponent, EmailLoginComponent, ForgotPasswordComponent, LoginDialogComponent,ResetPasswordComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -18,7 +20,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     KendoModule,
     LoginRoutingModule,
   ],
-  exports: [LoginComponent, EmailLoginComponent, ForgotPasswordComponent],
+  exports: [LoginComponent, EmailLoginComponent, ForgotPasswordComponent ,LoginDialogComponent,ResetPasswordComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [LoginService],
 })

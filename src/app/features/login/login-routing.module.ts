@@ -5,6 +5,8 @@ import { LoginComponent } from './components/login/login.component';
 import { EmailLoginComponent } from './components/email-login/email-login.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { LoginDialogComponent } from './components/login-dialog/login-dialog.component';
+
 
 
 const routes: Routes = [
@@ -24,6 +26,12 @@ const routes: Routes = [
       path: AppRoutePaths.ResetPassword,
       component:ResetPasswordComponent,
     },
+    {
+      path: AppRoutePaths.LoginDialog,
+      component:LoginDialogComponent ,
+    },
+
+
 ];
 
 @NgModule({

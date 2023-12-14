@@ -1,52 +1,52 @@
-<div class="Enquiry-Detail-ListView-container"  >
+<div class="enquiry-details-listview-container"  >
 
-    <div class="Enquiry-Detail-ListView-titlebar">
-      <div  class="Enquiry-Detail-ListView--back-img"><img src="assets/enquiry-details-listview-img/back.svg" alt="new"/></div>
-      <div  class="Enquiry-Detail-ListView--title">Enquiry Detail List View</div>
-      <div  class="Enquiry-Detail-ListView--refresh-icon"><img src="assets/enquiry-details-listview-img/refresh-cw.svg" alt="new"/></div>
+    <div class="enquiry-details-listview-titlebar">
+      <div  class="enquiry-details-listview--back-img"><img src="assets/enquiry-details-listview-img/back.svg" alt="new"/></div>
+      <div  class="enquiry-details-listview--title">Enquiry Detail List View</div>
+      <div  class="enquiry-details-listview--refresh-icon"><img src="assets/enquiry-details-listview-img/refresh-cw.svg" alt="new"/></div>
     </div>
 
-    <div  class="Enquiry-Detail-ListView--searchbox">
-        <kendo-textbox [(ngModel)]="searchTerm" placeholder="Search" class="Enquiry-Detail-ListView--kendo-textbox">
+    <div  class="enquiry-details-listview--searchbox">
+        <kendo-textbox [(ngModel)]="searchTerm" placeholder="Search" class="enquiry-details-listview--kendo-textbox">
             <ng-template kendoTextBoxPrefixTemplate>
-              <img src="assets/enquiry-details-listview-img/search.svg/" alt="new" class="Enquiry-Detail-ListView--search-icon" >
+              <img src="assets/enquiry-details-listview-img/search.svg/" alt="new" class="enquiry-details-listview--search-icon" >
             </ng-template>
         </kendo-textbox>
     </div>
    
 
 
-    <div class="Enquiry-Detail-ListView--sub-title">Contact Details</div>
+    <div class="enquiry-details-listview--sub-title">Contact Details</div>
 
   
 
-    <div  *ngFor="let a of filteredCards()" class="Enquiry-Detail-ListView--cards"  >
+    <div  *ngFor="let a of filteredCards()" class="enquiry-details-listview--cards"  >
 
-        <kendo-card class="Enquiry-Detail-ListView--kendo-card">
-            <div class="Enquiry-Detail-ListView--kendo-card-header">
-                <div class="Enquiry-Detail-ListView--kendo-card-number">{{a.number}}</div>
-                <div ><img src="assets/enquiry-details-listview-img/edit.svg" alt="new"/></div>
+        <kendo-card class="enquiry-details-listview--kendo-card">
+            <div class="enquiry-details-listview--kendo-card-header">
+                <div class="enquiry-details-listview--kendo-card-number">{{a.number}}</div>
+                <div ><img src="assets/enquiry-details-listview-img/edit.svg" alt="new"  routerLink="/enquiry-update"/></div>
             </div>
 
-         <div class="Enquiry-Detail-ListView--kendo-splitter"><kendo-splitter orientation="horizontal"  ></kendo-splitter></div>   
+         <div class="enquiry-details-listview--kendo-splitter"><kendo-splitter orientation="horizontal"  ></kendo-splitter></div>   
 
-           <div class="Enquiry-Detail-ListView--kendo-card-content">
-               <div class="Enquiry-Detail-ListView--kendo-card-sold-details">
-                  <div class="Enquiry-Detail-ListView--kendo-card-sub-title">Sold to Contract</div>
-                  <div class="Enquiry-Detail-ListView--kendo-card-sold">{{a.solddetails}}</div>
+           <div class="enquiry-details-listview--kendo-card-content">
+               <div class="enquiry-details-listview--kendo-card-sold-details">
+                  <div class="enquiry-details-listview--kendo-card-sub-title">Sold to Contract</div>
+                  <div class="enquiry-details-listview--kendo-card-sold">{{a.solddetails}}</div>
                 </div>
-            <div class="Enquiry-Detail-ListView--vertical-splitter">
-                <kendo-splitter orientation="vertical"class="Enquiry-Detail-ListView--splitter"></kendo-splitter></div>
-            <div class="Enquiry-Detail-ListView--kendo-card-sold-details">
-                    <div class="Enquiry-Detail-ListView--kendo-card-sub-title">Sold to site</div>
-                    <div class="Enquiry-Detail-ListView--kendo-card-sold">{{a.soldsite}}</div>
+            <div class="enquiry-details-listview--vertical-splitter">
+                <kendo-splitter orientation="vertical"class="enquiry-details-listview--splitter"></kendo-splitter></div>
+            <div class="enquiry-details-listview--kendo-card-sold-details">
+                    <div class="enquiry-details-listview--kendo-card-sub-title">Sold to site</div>
+                    <div class="enquiry-details-listview--kendo-card-sold">{{a.soldsite}}</div>
                 </div>
            </div>
 
            
-           <div class="Enquiry-Detail-ListView--information-outline-card">
+           <div class="enquiry-details-listview--information-outline-card">
             <div><img src="assets/enquiry-details-listview-img/error.svg" alt="new"/></div>
-            <div class="Enquiry-Detail-ListView--information">Know more about Region and Sold to LE</div>
+            <div class="enquiry-details-listview--information">Know more about Region and Sold to LE</div>
            </div>
 
         </kendo-card>
@@ -55,8 +55,8 @@
     
     </div>
 
-      <div class="Enquiry-Detail-ListView--kendo-pager">
-               <kendo-datapager class="Enquiry-Detail-ListView--kendo-datapager"
+      <div class="enquiry-details-listview--kendo-pager">
+               <kendo-datapager class="enquiry-details-listview--kendo-datapager"
                #pager
                [total]="20"
                [pageSize]="pageSize"
@@ -64,11 +64,6 @@
               (pageChange)="onPageChange($event)">
              </kendo-datapager>
       </div>
-<!-- 
-         <div class="Enquiry-Detail-ListView--button-container">
-         <button kendoButton   class="Enquiry-Detail-ListView--button-cancel" >Cancel</button>
-         <button kendoButton   class="Enquiry-Detail-ListView--button-save"> Continue</button>
-          </div> -->
-          
+         
 </div>
 
