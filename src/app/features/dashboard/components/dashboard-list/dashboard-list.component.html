@@ -4,7 +4,8 @@
     <div class="dashboard-sales--title">Sales</div>
     <kendo-button class="dashboard-sales--viewall" [style.Color]="buttonClicked ? 'green' : 'gray'" (click)="onButtonClick()"> View All</kendo-button>
   </div>
-   <div *ngFor="let a of SalesCard">
+  <div class="dashboard-sales--blur-effect">Coming Soon...</div>
+   <div *ngFor="let a of salesCard" style="filter: blur(2px);">
     <kendo-card  class="dashboard-sales-card--container">
       <div class="dashboard-sales--flex-container">
         <div class="dashboard-sales-text--container">

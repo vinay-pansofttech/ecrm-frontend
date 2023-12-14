@@ -18,17 +18,15 @@ type serviceCards = {
   styleUrls: ['./dashboard-cards.component.scss'],
 })
 export class DashboardCardsComponent implements OnInit {
-
   constructor(private router: Router) {}
-  
+
   cards!: quickCards[];
-  servicecards!:serviceCards[];
+  serviceCards!: serviceCards[];
 
   ngOnInit(): void {
     this.cards = [quickCards.quickCards][0];
-    this.servicecards = [serviceCards.serviceCards][0];
+    this.serviceCards = [serviceCards.serviceCards][0];
   }
- 
 
   setColor(text: string) {
     switch (true) {
@@ -45,8 +43,6 @@ export class DashboardCardsComponent implements OnInit {
     console.log(text);
     return '#F2F2F2';
   }
-
- 
 
   getColor(text: string) {
     switch (true) {

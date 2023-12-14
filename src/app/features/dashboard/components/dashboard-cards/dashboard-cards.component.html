@@ -22,11 +22,11 @@
 </div>
 
 <div class="dashboard-sales-card--container">
-  <div class="dashboard-card--title">Services</div>
+  <div class="dashboard-card--title">Modules</div>
   <div class="dashboard-service--container">
     <kendo-card
       class="dashboard-service--cards"
-      *ngFor="let b of servicecards"
+      *ngFor="let b of serviceCards"
       [ngStyle]="{ 'background-color': getColor(b.text) }">
       <div><img src="assets/{{ b.image }}.svg" alt="" /></div>
     </kendo-card>
