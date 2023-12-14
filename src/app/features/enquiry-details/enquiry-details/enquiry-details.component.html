@@ -1,15 +1,16 @@
 <div *ngIf="!showAPILoader">
-  <div class="enquiry-details-main-container">
-    <img src="assets/back.svg" kendobutton alt="back" />
-    <div class="enquiry-details-header">Enquiry Details</div>
-    <img
-      src="assets/reset.svg"
-      kendobuttons
-      alt="reset"
-      class="enquiry-details-reset-image" />
+  <div class="enquiry-details-main--container">
+    <div (click)="onBackClickHandle()">
+      <img src="assets/back.svg" kendobutton alt="back" />
+    </div>
+    <div class="enquiry-details--header">Enquiry Details</div>
+    <div (click)="onReset()">
+      <img src="assets/reset.svg" kendobuttons alt="reset" class="enquiry-details-reset--image" />
+    </div>
+    
   </div>
   <div>
-    <div class="enquiry-details-content">
+    <div class="enquiry-details--content">
       <kendo-stepper
         [steps]="steps"
         stepType="full"
@@ -17,7 +18,6 @@
         [(currentStep)]="currentStep"
         cssClass="enquiry-details-content--stepper">
       </kendo-stepper>
-
       <form class="k-form k-form-md" [formGroup]="enquiryCaptureForm">
         <app-contact-details
           *ngIf="currentStep === 0"
@@ -29,27 +29,27 @@
           *ngIf="currentStep === 2"
           [enquiryDescription]="currentGroup"></app-enquiry-description>
       </form>
-      <div class="enquiry-details-footer">
+      <div class="enquiry-details--footer">
         <button
           kendobutton
-          class="enquiry-details-cancel-button"
+          class="enquiry-details-cancel--button"
           *ngIf="currentStep !== 0"
           (click)="prev()">
           Cancel
         </button>
         <button
           kendobutton
-          class="enquiry-details-save-button"
+          class="enquiry-details-save--button"
           (click)="next()"
           *ngIf="currentStep !== 2">
           Save
         </button>
         <button
           kendoButton
-          class="enquiry-details-save-button"
+          class="enquiry-details-save--button"
           (click)="submit()"
-          *ngIf="currentStep === 2">
-          Done
+          *ngIf="currentStep === 2" >
+          Done 
         </button>
       </div>
     </div>

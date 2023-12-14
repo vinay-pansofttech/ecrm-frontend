@@ -1,23 +1,31 @@
-<div class="contact-details-header">Contact Details<div class="contact-details-header-tag"></div></div>
-<div class="contact-details-container" [formGroup]="contactDetails">
-<div class="contact-details-content">
-    <kendo-label class="contact-details-label" [for]="soldtocontact" >Sold To Contact</kendo-label>
-    <kendo-dropdownlist class="contact-details-kendo-dropdownlist" formControlName="soldToContact" #soldtocontact [data]="areaList"></kendo-dropdownlist>
-    <!-- <kendo-formerror *ngIf="contactDetails['soldToContact']" class="contact-details-error-msg">Sold To LE</kendo-formerror> -->
+<div class="contact-details--header">Contact Details<div class="contact-details--header-tag"></div></div>
+<div class="contact-details--container" [formGroup]="contactDetails">
+<kendo-formfield>
+<div class="contact-details--content">
+    <kendo-label class="contact-details--label" [for]="soldtocontact" >Sold To Contact</kendo-label>
+    <kendo-dropdownlist class="contact-details--kendo-dropdownlist" formControlName="soldToContact" #soldtocontact [data]="areaList" required></kendo-dropdownlist>
 </div>
-<div class="contact-details-content">
-    <kendo-label class="contact-details-label" [for]="soldtosite" >Sold To Site</kendo-label>
-    <kendo-dropdownlist class="contact-details-kendo-dropdownlist" formControlName="soldToSite" #soldtosite [data]="area"></kendo-dropdownlist>
+<kendo-formerror class="contact-details--error-msg">Sold to contact is required</kendo-formerror>
+</kendo-formfield>
+<kendo-formfield>
+<div class="contact-details--content">
+    <kendo-label class="contact-details--label" [for]="soldtosite" >Sold To Site</kendo-label>
+    <kendo-dropdownlist class="contact-details--kendo-dropdownlist" formControlName="soldToSite" #soldtosite [data]="area" required></kendo-dropdownlist>
   </div>
+  <kendo-formerror class="contact-details--error-msg">Sold to site is required</kendo-formerror>
+</kendo-formfield>
 <kendo-formfield>
   <div>
-  <kendo-label class="contact-details-label" [for]="soldtole" >Sold To LE</kendo-label>
-  <kendo-textbox class="contact-details-kendo-textbox" formControlName="soldToLE" #soldtole></kendo-textbox>
+  <kendo-label class="contact-details--label" [for]="soldtole" >Sold To LE</kendo-label>
+  <kendo-textbox class="contact-details--kendo-textbox" formControlName="soldToLE" #soldtole required></kendo-textbox>
 </div>
-<kendo-formerror class="contact-details-error-msg">Sold To LE</kendo-formerror>
+<kendo-formerror class="contact-details--error-msg">Sold to LE is required</kendo-formerror>
 </kendo-formfield>
-  <div class="contact-details-content">
-    <kendo-label class="contact-details-label" [for]="region">Region</kendo-label>
-    <kendo-dropdownlist class="contact-details-kendo-dropdownlist" formControlName="region" #region [data]="list"></kendo-dropdownlist>
+<kendo-formfield>
+  <div class="contact-details--content">
+    <kendo-label class="contact-details--label" [for]="region">Region</kendo-label>
+    <kendo-dropdownlist class="contact-details--kendo-dropdownlist" formControlName="region" #region [data]="list" required></kendo-dropdownlist>
 </div>
+<kendo-formerror class="contact-details--error-msg">Region is required</kendo-formerror>
+</kendo-formfield>
 </div>

@@ -11,6 +11,8 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 export class EnquiryUpdateComponent implements OnInit {
   public currentStep = 3;
   showAPILoader = false;
+  invalid=false;
+
   constructor(
     private loaderService: LoaderService,
     private router: Router
@@ -38,6 +40,8 @@ export class EnquiryUpdateComponent implements OnInit {
       label: 'Enquiry Update',
     },
   ];
+
+
   public areaList: Array<string> = ['Miami', 'New York', 'Philadelphia'];
   public enquiryUpdateForm: FormGroup = new FormGroup({
     POExpectedDate: new FormControl('', Validators.required),
@@ -49,6 +53,11 @@ export class EnquiryUpdateComponent implements OnInit {
     attachment: new FormControl('', Validators.required),
   });
   public saveForm(): void {
+    if(this.enquiryUpdateForm.valid){
+      this.enquiryUpdateForm.markAllAsTouched();
+
+    }
+    
     this.loaderService.showLoader();
     console.log('loader', this.loaderService.loaderState, this.showAPILoader);
     this.enquiryUpdateForm.markAllAsTouched();
@@ -58,4 +67,9 @@ export class EnquiryUpdateComponent implements OnInit {
       this.router.navigate(['/work-list']);
     }, 3000);
   }
+
+  onReset() {
+    this.enquiryUpdateForm.reset();
+  }
+
 }

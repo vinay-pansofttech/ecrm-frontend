@@ -15,6 +15,8 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 })
 export class EnquiryDetailsComponent implements OnInit {
   public currentStep = 0;
+  showAPILoader = false;
+  invalid=false
 
   @ViewChild('stepper', { static: true })
   public stepper!: StepperComponent;
@@ -54,12 +56,10 @@ export class EnquiryDetailsComponent implements OnInit {
   current: any;
 
   enquiryCaptureForm!: FormGroup;
-  showAPILoader: boolean = false;
-  constructor(
-    private formBuilder: FormBuilder,
-    private loaderService: LoaderService,
-    private router: Router
-  ) {}
+
+
+  constructor(private formBuilder: FormBuilder, private loaderService: LoaderService,
+    private router: Router) {}
   ngOnInit(): void {
     this.loaderService.loaderState.subscribe(res => {
       this.showAPILoader = res;
@@ -83,6 +83,9 @@ export class EnquiryDetailsComponent implements OnInit {
         enterDescription: new FormControl('', [Validators.required]),
         attachment: new FormControl('', [Validators.required]),
       }),
+    });
+    this.loaderService.loaderState.subscribe(res => {
+      this.showAPILoader = res;
     });
   }
 
@@ -117,7 +120,16 @@ export class EnquiryDetailsComponent implements OnInit {
         this.router.navigate(['/work-list']);
       }, 3000);
     }
+    this.loaderService.showLoader();
+    console.log('loader', this.loaderService.loaderState, this.showAPILoader);
+    this.enquiryCaptureForm.markAllAsTouched();
+    console.log(this.enquiryCaptureForm.value);
+    setTimeout(() => {
+      this.loaderService.hideLoader();
+      this.router.navigate(['/enquiry-update']);
+    }, 3000);
   }
+ 
 
   private getGroupAt(index: number): FormGroup {
     const groups = Object.keys(this.enquiryCaptureForm.controls).map(
@@ -126,4 +138,13 @@ export class EnquiryDetailsComponent implements OnInit {
 
     return groups[index];
   }
+
+  onBackClickHandle() {
+    this.router.navigate(['/dashboard']);
+  }
+
+  onReset() {
+    this.enquiryCaptureForm.reset();
+  }
+  
 }

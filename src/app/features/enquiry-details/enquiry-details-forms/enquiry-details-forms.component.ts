@@ -7,7 +7,7 @@ import { FormGroup } from "@angular/forms";
   styleUrls: ['./enquiry-details-forms.component.scss']
 })
 export class EnquiryDetailsFormsComponent {
-
+  
   @Input()
   public enquiryDetailsForms!: FormGroup;
   public areaList: Array<string> = [
