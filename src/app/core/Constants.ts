@@ -1,11 +1,8 @@
-import { ForgotPasswordComponent } from '../features/login/components/forgot-password/forgot-password.component';
-
 export enum AppSettingsConfigKey {
   FileName = 'appSettings.json',
   Path = 'assets/configs',
   APIURL = 'https://demo.engagecrmpro.com',
 }
-
 
 export enum AppRoutePaths {
   Default = '',
@@ -24,7 +21,7 @@ export enum AppRoutePaths {
   EnquiryDetails = 'enquiry-details',
   WorkList = 'work-list',
   EnquiryDetailsListView = 'enquiry-listview',
-  LoginDialog = "login-dialog"
+  LoginDialog = 'login-dialog',
 }
 
 export enum EcrmUserAdminRoutePath {

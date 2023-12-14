@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppRoutePaths } from 'src/app/core/Constants';
-import { EnquiryDetailsComponent } from './enquiry-details/enquiry-details.component';
-import { EnquiryUpdateComponent } from './enquiry-update/enquiry-update.component';
-import { EnquiryDetailsListViewComponent } from './enquiry-details-list-view/enquiry-details-list-view.component';
+import { EnquiryDetailsComponent } from './components/enquiry-details/enquiry-details.component';
+import { EnquiryUpdateComponent } from './components/enquiry-update/enquiry-update.component';
+import { EnquiryDetailsListViewComponent } from './components/enquiry-details-list-view/enquiry-details-list-view.component';
 const routes: Routes = [
   {
     path: '',

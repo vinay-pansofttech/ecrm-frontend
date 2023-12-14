@@ -1,15 +1,14 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ContactDetailsComponent } from './contact-details/contact-details.component';
-import { EnquiryDetailsComponent } from './enquiry-details/enquiry-details.component';
+import { ContactDetailsComponent } from './components/contact-details/contact-details.component';
+import { EnquiryDetailsComponent } from './components/enquiry-details/enquiry-details.component';
 import { KendoModule } from 'src/app/kendo.module';
 import { LayoutModule } from '@progress/kendo-angular-layout';
-import { EnquiryDetailsFormsComponent } from './enquiry-details-forms/enquiry-details-forms.component';
-import { EnquiryDescriptionComponent } from './enquiry-description/enquiry-description.component';
+import { EnquiryDetailsFormsComponent } from './components/enquiry-details-forms/enquiry-details-forms.component';
+import { EnquiryDescriptionComponent } from './components/enquiry-description/enquiry-description.component';
 import { enquirydetailsRoutingModule } from './enquiry-routing.module';
-import { EnquiryUpdateComponent } from './enquiry-update/enquiry-update.component';
-import { EnquiryDetailsListViewComponent } from './enquiry-details-list-view/enquiry-details-list-view.component';
-
+import { EnquiryUpdateComponent } from './components/enquiry-update/enquiry-update.component';
+import { EnquiryDetailsListViewComponent } from './components/enquiry-details-list-view/enquiry-details-list-view.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +24,7 @@ import { EnquiryDetailsListViewComponent } from './enquiry-details-list-view/enq
     KendoModule,
     LayoutModule,
     enquirydetailsRoutingModule,
-    enquirydetailsRoutingModule
+    enquirydetailsRoutingModule,
   ],
   exports: [
     EnquiryDetailsComponent,
