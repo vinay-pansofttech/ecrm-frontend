@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import quickCards from '../../data/mock.json';
-import serviceCards from '../../data/mock.json';
+import moduleCards from '../../data/mock.json';
 type quickCards = {
   image: string;
   text: string;
   path: string;
 };
 
-type serviceCards = {
+type moduleCards = {
   image: string;
   text: string;
 };
@@ -21,11 +21,11 @@ export class DashboardCardsComponent implements OnInit {
   constructor(private router: Router) {}
 
   cards!: quickCards[];
-  serviceCards!: serviceCards[];
+  moduleCards!:moduleCards[];
 
   ngOnInit(): void {
     this.cards = [quickCards.quickCards][0];
-    this.serviceCards = [serviceCards.serviceCards][0];
+    this.moduleCards = [moduleCards.moduleCards][0];
   }
 
   setColor(text: string) {

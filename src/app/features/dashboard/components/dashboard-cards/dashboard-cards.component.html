@@ -21,13 +21,13 @@
   </div>
 </div>
 
-<div class="dashboard-sales-card--container">
+<div class="dashboard-module-card--container">
   <div class="dashboard-card--title">Modules</div>
-  <div class="dashboard-service--container">
+  <div class="dashboard-module--container">
     <kendo-card
-      class="dashboard-service--cards"
-      *ngFor="let b of serviceCards"
-      [ngStyle]="{ 'background-color': getColor(b.text) }">
+      class="dashboard-module--cards"
+      *ngFor="let b of moduleCards"
+      [ngStyle]="{ 'background-color': getColor(b.text)}">
       <div><img src="assets/{{ b.image }}.svg" alt="" /></div>
     </kendo-card>
   </div>

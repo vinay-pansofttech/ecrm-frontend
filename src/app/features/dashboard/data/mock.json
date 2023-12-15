@@ -17,7 +17,7 @@
    
   ],
 
-  "serviceCards" :  [
+  "moduleCards" :  [
     {
       "image": "dashboard-calendar-icon",
       "text": "My Calendar"

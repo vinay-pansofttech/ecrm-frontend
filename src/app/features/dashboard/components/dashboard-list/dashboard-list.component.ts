@@ -11,8 +11,9 @@ type salesList = {
   templateUrl: './dashboard-list.component.html',
   styleUrls: ['./dashboard-list.component.scss'],
 })
-export class DashboardListComponent implements OnInit {
-  salesCard!: salesList[];
+export class DashboardListComponent implements OnInit  {
+
+  salesCard!:salesList[];
   ngOnInit(): void {
     this.salesCard = [salesList.salesList][0];
   }
@@ -21,34 +22,37 @@ export class DashboardListComponent implements OnInit {
 
   onButtonClick() {
     this.buttonClicked = !this.buttonClicked;
-    this.salesCard.push(...this.SalesCard2);
+    this.salesCard.push(...this.salesCard2);
   }
 
-  SalesCard2 = [
-    {
-      text1: 'Sales for Sep 2023',
-      text2: 'Rs 2,71,000',
-      image: 'dashboard-sales-icon',
-    },
-    {
-      text1: 'Sales for Sep 2023',
-      text2: 'Rs 2,71,000',
-      image: 'dashboard-sales-icon',
-    },
-    {
-      text1: 'Sales for Sep 2023',
-      text2: 'Rs 2,71,000',
-      image: 'dashboard-sales-icon',
-    },
-    {
-      text1: 'Sales for Sep 2023',
-      text2: 'Rs 2,71,000',
-      image: 'dashboard-sales-icon',
-    },
-    {
-      text1: 'Sales for Sep 2023',
-      text2: 'Rs 2,71,000',
-      image: 'dashboard-sales-icon',
-    },
-  ];
+  salesCard2=[
+    
+      {
+        text1:"Sales for Sep 2023",
+        text2:"Rs 2,71,000",
+        image:"dashboard-sales-icon"
+      },
+      {
+        text1:"Sales for Sep 2023",
+        text2:"Rs 2,71,000",
+        image:"dashboard-sales-icon"
+      },
+      {
+        text1:"Sales for Sep 2023",
+        text2:"Rs 2,71,000",
+        image:"dashboard-sales-icon"
+      },
+      {
+        text1:"Sales for Sep 2023",
+        text2:"Rs 2,71,000",
+        image:"dashboard-sales-icon"
+      },
+      {
+        text1:"Sales for Sep 2023",
+        text2:"Rs 2,71,000",
+        image:"dashboard-sales-icon"
+      },
+    
+  ]
+
 }
