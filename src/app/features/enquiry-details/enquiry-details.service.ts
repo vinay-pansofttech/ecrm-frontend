@@ -26,7 +26,7 @@ export class EnquiryDetailsService {
   }
 
   getRegionFromSiteList(siteId: number) {
-    const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetRegionBySite`;
+    const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetLegalEntityRegionBySite`;
     const body = {
       leSiteID: siteId,
     };
