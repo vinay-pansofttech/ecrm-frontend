@@ -1,2 +1,18 @@
+<kendo-appbar class="dashboard-header--container">
+    <kendo-appbar-section>
+      <button kendoButton fillMode="flat">
+        <kendo-svg-icon [icon]="menuIcon"></kendo-svg-icon>
+      </button>
+    </kendo-appbar-section>
+      <div class="dashboard--title">Dashboard</div>
+    <kendo-appbar-section>
+      <kendo-badge-container>
+        <button kendoButton fillMode="flat">
+          <kendo-svg-icon [icon]="bellIcon"></kendo-svg-icon>
+        </button>
+      </kendo-badge-container>
+    </kendo-appbar-section>
+  </kendo-appbar>
+  
 <app-dashboard-cards></app-dashboard-cards>
 <app-dashboard-list></app-dashboard-list>

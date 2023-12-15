@@ -4,7 +4,9 @@ import { DashboardCardsComponent } from './components/dashboard-cards/dashboard-
 import { DashboardListComponent } from './components/dashboard-list/dashboard-list.component';
 import { KendoModule } from 'src/app/kendo.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-
+import { IconsModule } from "@progress/kendo-angular-icons";
+import { NavigationModule } from "@progress/kendo-angular-navigation";
+import { ButtonsModule } from "@progress/kendo-angular-buttons";
 @NgModule({
   declarations: [
     DashboardCardsComponent,
@@ -13,7 +15,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
   ],
   imports: [
     CommonModule,
-    KendoModule
+    KendoModule,
+    IconsModule,NavigationModule,ButtonsModule
   ],
   exports: [
     DashboardCardsComponent,
