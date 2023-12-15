@@ -12,10 +12,11 @@
         class="contact-details--kendo-dropdownlist"
         formControlName="soldToContact"
         #soldtocontact
-        [data]="areaList"
+        [data]="soldToContact"
         textField="contactName"
         valueField="contactID"
         [valuePrimitive]="true"
+        (selectionChange)="handleSoldToContactChanged($event)"
         required></kendo-dropdownlist>
     </div>
     <kendo-formerror class="contact-details--error-msg"
@@ -31,7 +32,11 @@
         class="contact-details--kendo-dropdownlist"
         formControlName="soldToSite"
         #soldtosite
-        [data]="area"
+        textField="leSiteName"
+        valueField="leSiteID"
+        [data]="soldToSite"
+        [valuePrimitive]="true"
+        (selectionChange)="handleSoldToSiteChanged($event)"
         required></kendo-dropdownlist>
     </div>
     <kendo-formerror class="contact-details--error-msg"
@@ -62,7 +67,10 @@
         class="contact-details--kendo-dropdownlist"
         formControlName="region"
         #region
-        [data]="list"
+        [data]="regionsList"
+        textField="leSiteName"
+        valueField="leSiteID"
+        [valuePrimitive]="true"
         required></kendo-dropdownlist>
     </div>
     <kendo-formerror class="contact-details--error-msg"

@@ -11,4 +11,19 @@ export class EnquiryDetailsService {
     const url = `${this.loginUrl}`;
     return this.http.get(url);
   }
+  getSoldToSiteList(contactId: number) {
+    const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetLESiteByContact`;
+    const body = {
+      leContactID: contactId,
+    };
+    return this.http.post(url, body);
+  }
+
+  getRegionFromSiteList(siteId: number) {
+    const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetRegionBySite`;
+    const body = {
+      leSiteID: siteId,
+    };
+    return this.http.post(url, body);
+  }
 }
