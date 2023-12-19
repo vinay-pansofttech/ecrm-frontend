@@ -52,7 +52,10 @@
         class="contact-details--kendo-textbox"
         formControlName="soldToLE"
         #soldtole
-        required></kendo-textbox>
+        required
+    
+    
+      ></kendo-textbox>
     </div>
     <kendo-formerror class="contact-details--error-msg"
       >Sold to LE is required</kendo-formerror
@@ -63,15 +66,14 @@
       <kendo-label class="contact-details--label" [for]="region"
         >Region</kendo-label
       >
-      <kendo-dropdownlist
-        class="contact-details--kendo-dropdownlist"
+        <kendo-textbox class="contact-details--kendo-textbox"
         formControlName="region"
         #region
         [data]="regionsList"
         textField="leSiteName"
         valueField="leSiteID"
-        [valuePrimitive]="true"
-        required></kendo-dropdownlist>
+        [valuePrimitive]="true" 
+        ></kendo-textbox>
     </div>
     <kendo-formerror class="contact-details--error-msg"
       >Region is required</kendo-formerror

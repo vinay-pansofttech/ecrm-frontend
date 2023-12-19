@@ -68,8 +68,8 @@ export class EnquiryDetailsComponent implements OnInit {
       contactDteails: new FormGroup({
         soldToContact: new FormControl('', Validators.required),
         soldToSite: new FormControl('', Validators.required),
-        soldToLE: new FormControl('', Validators.required),
-        region: new FormControl('', Validators.required),
+        soldToLE: new FormControl({value: '', disabled: true}, Validators.required, ),
+        region: new FormControl({value: '', disabled: true}, Validators.required),
       }),
       enquiryDetailsForms: new FormGroup({
         generatedBy: new FormControl('', [Validators.required]),
