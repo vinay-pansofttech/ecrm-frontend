@@ -34,7 +34,6 @@ export class ContactDetailsComponent implements OnInit {
   constructor(public enquiryDetailsService: EnquiryDetailsService) {}
   ngOnInit(): void {
     this.enquiryDetailsService.getSoldToContactsList().subscribe(data => {
-      console.log('sold to contacts list', data);
       this.soldToContact = data;
     });
   }
