@@ -26,6 +26,27 @@ type quoteEntityCompany ={
   comboType: string,
   isCompActive: true
 }
+
+type quoteEntityCurrency ={
+  quoteCurrencyID: number,
+  quoteCurrencyName: string,
+  comboType: string
+}
+
+type generatedBy = {
+  generatedByID: number,
+  generatedBy: string,
+  comboType: string,
+  isGeneratedByActive: true
+}
+
+type salesExecutive ={
+  salesExecID: number,
+  salesExecName: string,
+  comboType: string,
+  refId: true
+}
+
 @Component({
   selector: 'app-enquiry-details-forms',
   templateUrl: './enquiry-details-forms.component.html',
@@ -37,62 +58,81 @@ export class EnquiryDetailsFormsComponent implements OnInit {
   public enquiryDetailsForms!: FormGroup;
   constructor(public enquiryDetailsService: EnquiryDetailsService) {}
   ngOnInit(): void {
-  this.generatedfrom();
-  this.salesworkflow(); 
-  this.fetchsaleschannel();
+  this.generatedFrom();
+  this.salesWorkFlow(); 
+  this.fetchsalesChannel();
   this.quoteEntityCompany();
 
   }
-  private generatedfrom(){
+  private generatedFrom(){
     this.enquiryDetailsService.getgeneratedFrom().subscribe(data => {
      console.log('generated from', data);
      this.areaList = data;
    });
  }
-  private salesworkflow(){
+
+ @Input()
+ handlegeneratedFrom(generated :generatedFrom ){
+  if (generated && generated?.generatedFrom) {
+    this.enquiryDetailsService
+      .getgeneratedBy(generated.generatedFrom)
+      .subscribe(res => {
+        this.generatedBy = res;
+      });
+  }
+ }
+
+  private salesWorkFlow(){
   this.enquiryDetailsService.getsalesWorkFlow().subscribe(data => {
     console.log('get sales work flow', data);
     this.sales = data;
   });
  }
-  private fetchsaleschannel(){
-  this.enquiryDetailsService.getsalesChannel().subscribe(data => {
-    console.log('get sales channel', data);
-    this.channel = data;
-  });
-}
 
-private quoteEntityCompany(){
+ private quoteEntityCompany(){
   this.enquiryDetailsService.getquoteEntityCompany().subscribe(data => {
     console.log('get sales channel', data);
     this.company = data;
   });
 }
 
+handlequoteEntityCurrency(company : quoteEntityCompany){
+  if (company && company?.companyID) {
+    this.enquiryDetailsService
+      .getquoteEntityCurrency(company.companyID)
+      .subscribe(res => {
+        this.quoteEntityCurrency = res;
+      });
+  }
+}
+
+  private fetchsalesChannel(){
+  this.enquiryDetailsService.getsalesChannel().subscribe(data => {
+    console.log('get sales channel', data);
+    this.channel = data;
+  });
+}
+
+
+
+handleSalesChannel(sales:salesChannel){ 
+  if (sales && sales?.salesChannelID) {
+    this.enquiryDetailsService
+      .getsalesExecutive(0, 0, sales.salesChannelID ,21665 )
+      .subscribe(res => {
+        this.salesExecutive = res;
+      });
+ }
+}
+
+
+
   public areaList: unknown = [];
   public sales: unknown = [];
   public channel: unknown = [];
   public company: unknown = [];
-  public area:Array<string> = [
-    "Boston",
-    "Chicago",
-    "Houston",
-    "Los Angeles",
-    "Miami",
-    "New York",
-    "Philadelphia",
-    "San Francisco",
-    "Seattle",
-  ];
-  public list:Array<string> = [
-    "Boston",
-    "Chicago",
-    "Houston",
-    "Los Angeles",
-    "Miami",
-    "New York",
-    "Philadelphia",
-    "San Francisco",
-    "Seattle",
-  ];
+  public quoteEntityCurrency :unknown = [];
+  public generatedBy : unknown =[];
+  public salesExecutive : unknown =[];
+  
 }

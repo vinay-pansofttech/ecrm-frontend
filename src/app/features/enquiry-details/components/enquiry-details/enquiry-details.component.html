@@ -21,10 +21,10 @@
       <form class="k-form k-form-md" [formGroup]="enquiryCaptureForm">
         <app-contact-details
           *ngIf="currentStep === 0"
-          [contactDetails]="currentGroup"></app-contact-details>
+          [contactDetails]="currentGroup" ></app-contact-details>
         <app-enquiry-details-forms
           *ngIf="currentStep === 1"
-          [enquiryDetailsForms]="currentGroup"></app-enquiry-details-forms>
+          [enquiryDetailsForms]="currentGroup" ></app-enquiry-details-forms>
         <app-enquiry-description
           *ngIf="currentStep === 2"
           [enquiryDescription]="currentGroup"></app-enquiry-description>
