@@ -1,69 +1,93 @@
-<div class="enquiry-details-listview-container"  >
-
-    <div class="enquiry-details-listview-titlebar">
-      <div  class="enquiry-details-listview--back-img"><img src="assets/enquiry-details-listview-img/back.svg" alt="new"/></div>
-      <div  class="enquiry-details-listview--title">Enquiry Detail List View</div>
-      <div  class="enquiry-details-listview--refresh-icon"><img src="assets/enquiry-details-listview-img/refresh-cw.svg" alt="new"/></div>
+<div class="enquiry-details-listview-container">
+  <div class="enquiry-details-listview-titlebar">
+    <div class="enquiry-details-listview--back-img">
+      <img src="assets/enquiry-details-listview-img/back.svg" alt="new" />
     </div>
-
-    <div  class="enquiry-details-listview--searchbox">
-        <kendo-textbox [(ngModel)]="searchTerm" placeholder="Search" class="enquiry-details-listview--kendo-textbox">
-            <ng-template kendoTextBoxPrefixTemplate>
-              <img src="assets/enquiry-details-listview-img/search.svg/" alt="new" class="enquiry-details-listview--search-icon" >
-            </ng-template>
-        </kendo-textbox>
+    <div class="enquiry-details-listview--title">Enquiry Detail List View</div>
+    <div class="enquiry-details-listview--refresh-icon">
+      <img src="assets/enquiry-details-listview-img/refresh-cw.svg" alt="new" />
     </div>
-   
+  </div>
 
+  <div class="enquiry-details-listview--searchbox">
+    <kendo-textbox
+      [(ngModel)]="searchTerm"
+      placeholder="Search"
+      class="enquiry-details-listview--kendo-textbox">
+      <ng-template kendoTextBoxPrefixTemplate>
+        <img
+          src="assets/enquiry-details-listview-img/search.svg/"
+          alt="new"
+          class="enquiry-details-listview--search-icon" />
+      </ng-template>
+    </kendo-textbox>
+  </div>
 
-    <div class="enquiry-details-listview--sub-title">Contact Details</div>
+  <div class="enquiry-details-listview--sub-title">Contact Details</div>
 
-  
-
-    <div  *ngFor="let a of filteredCards()" class="enquiry-details-listview--cards"  >
-
-        <kendo-card class="enquiry-details-listview--kendo-card">
-            <div class="enquiry-details-listview--kendo-card-header">
-                <div class="enquiry-details-listview--kendo-card-number">{{a.number}}</div>
-                <div ><img src="assets/enquiry-details-listview-img/edit.svg" alt="new"  routerLink="/enquiry-update"/></div>
-            </div>
-
-         <div class="enquiry-details-listview--kendo-splitter"><kendo-splitter orientation="horizontal"  ></kendo-splitter></div>   
-
-           <div class="enquiry-details-listview--kendo-card-content">
-               <div class="enquiry-details-listview--kendo-card-sold-details">
-                  <div class="enquiry-details-listview--kendo-card-sub-title">Sold to Contract</div>
-                  <div class="enquiry-details-listview--kendo-card-sold">{{a.solddetails}}</div>
-                </div>
-            <div class="enquiry-details-listview--vertical-splitter">
-                <kendo-splitter orientation="vertical"class="enquiry-details-listview--splitter"></kendo-splitter></div>
-            <div class="enquiry-details-listview--kendo-card-sold-details">
-                    <div class="enquiry-details-listview--kendo-card-sub-title">Sold to site</div>
-                    <div class="enquiry-details-listview--kendo-card-sold">{{a.soldsite}}</div>
-                </div>
-           </div>
-
-           
-           <div class="enquiry-details-listview--information-outline-card">
-            <div><img src="assets/enquiry-details-listview-img/error.svg" alt="new"/></div>
-            <div class="enquiry-details-listview--information">Know more about Region and Sold to LE</div>
-           </div>
-
-        </kendo-card>
-        
-      
-    
-    </div>
-
-      <div class="enquiry-details-listview--kendo-pager">
-               <kendo-datapager class="enquiry-details-listview--kendo-datapager"
-               #pager
-               [total]="20"
-               [pageSize]="pageSize"
-               [skip]="skip"
-              (pageChange)="onPageChange($event)">
-             </kendo-datapager>
+  <div
+    *ngFor="let a of filteredCards()"
+    class="enquiry-details-listview--cards">
+    <kendo-card class="enquiry-details-listview--kendo-card">
+      <div class="enquiry-details-listview--kendo-card-header">
+        <div class="enquiry-details-listview--kendo-card-number">
+          {{ a.dealNo }}
+        </div>
+        <div>
+          <img
+            src="assets/enquiry-details-listview-img/edit.svg"
+            alt="new"
+            routerLink="/enquiry-update" />
+        </div>
       </div>
-         
-</div>
 
+      <div class="enquiry-details-listview--kendo-splitter">
+        <kendo-splitter orientation="horizontal"></kendo-splitter>
+      </div>
+
+      <div class="enquiry-details-listview--kendo-card-content">
+        <div class="enquiry-details-listview--kendo-card-sold-details">
+          <div class="enquiry-details-listview--kendo-card-sub-title">
+            Sold to Contract
+          </div>
+          <div class="enquiry-details-listview--kendo-card-sold">
+            {{ a.soldToContact }}
+          </div>
+        </div>
+        <div class="enquiry-details-listview--vertical-splitter">
+          <kendo-splitter
+            orientation="vertical"
+            class="enquiry-details-listview--splitter"></kendo-splitter>
+        </div>
+        <div class="enquiry-details-listview--kendo-card-sold-details">
+          <div class="enquiry-details-listview--kendo-card-sub-title">
+            Sold to site
+          </div>
+          <div class="enquiry-details-listview--kendo-card-sold">
+            {{ a.soldToLE }}
+          </div>
+        </div>
+      </div>
+
+      <div class="enquiry-details-listview--information-outline-card">
+        <div>
+          <img src="assets/enquiry-details-listview-img/error.svg" alt="new" />
+        </div>
+        <div class="enquiry-details-listview--information">
+          Know more about Region and Sold to LE
+        </div>
+      </div>
+    </kendo-card>
+  </div>
+
+  <div class="enquiry-details-listview--kendo-pager">
+    <kendo-datapager
+      class="enquiry-details-listview--kendo-datapager"
+      #pager
+      [total]="20"
+      [pageSize]="pageSize"
+      [skip]="skip"
+      (pageChange)="onPageChange($event)">
+    </kendo-datapager>
+  </div>
+</div>

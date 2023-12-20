@@ -12,6 +12,8 @@ export class EnquiryDetailsService {
   private salesChannel   = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetSalesChannel`;
   private generatedby = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetGeneratedBy`;
   private quoteEntityCompany=`${AppSettingsConfigKey.APIURL}/api/Enquiry/GetQuoteCompany`;
+  private fetchFunnelWorklistUrl =`${AppSettingsConfigKey.APIURL}/api/Enquiry/FetchFunnelWorklist`;
+
   constructor(private http: HttpClient) {}
   getSoldToContactsList() {
     const url = `${this.loginUrl}`;
@@ -51,5 +53,13 @@ export class EnquiryDetailsService {
  getquoteEntityCompany(){
   return this.http.get(this.quoteEntityCompany)
  }
-
+ 
+ getEnquirylist() {
+    const body = {
+     loginID: 342,
+    };
+    return this.http.post(this.fetchFunnelWorklistUrl,body);
+  }
 }
+
+ 
