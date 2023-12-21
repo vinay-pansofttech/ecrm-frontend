@@ -8,10 +8,10 @@ export class EnquiryDetailsService {
   private loginUrl = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetLEContacts`;
 
   private generatedFrom = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetGeneratedFrom`;
-  private salesWorkflow =  `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetSalesWorkflow`;
-  private salesChannel   = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetSalesChannel`;
-  private quoteEntityCompany=`${AppSettingsConfigKey.APIURL}/api/Enquiry/GetQuoteCompany`;
-  private fetchFunnelWorklistUrl =`${AppSettingsConfigKey.APIURL}/api/Enquiry/FetchFunnelWorklist`;
+  private salesWorkflow = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetSalesWorkflow`;
+  private salesChannel = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetSalesChannel`;
+  private quoteEntityCompany = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetQuoteCompany`;
+  private fetchFunnelWorklistUrl = `${AppSettingsConfigKey.APIURL}/api/Enquiry/FetchFunnelWorklist`;
 
   constructor(private http: HttpClient) {}
   getSoldToContactsList() {
@@ -34,12 +34,10 @@ export class EnquiryDetailsService {
     return this.http.post(url, body);
   }
 
- 
-
-  getgeneratedFrom(){
+  getgeneratedFrom() {
     return this.http.get(this.generatedFrom);
   }
-  getgeneratedBy(generatedFrom : string){
+  getgeneratedBy(generatedFrom: string) {
     const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetGeneratedBy`;
 
     const body = {
@@ -48,11 +46,11 @@ export class EnquiryDetailsService {
     return this.http.post(url, body);
   }
 
-  getquoteEntityCompany(){
-    return this.http.get(this.quoteEntityCompany)
-   }
-  
-  getquoteEntityCurrency(companyID : number){
+  getquoteEntityCompany() {
+    return this.http.get(this.quoteEntityCompany);
+  }
+
+  getquoteEntityCurrency(companyID: number) {
     const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetQuoteCurrencyByCompany`;
 
     const body = {
@@ -60,30 +58,43 @@ export class EnquiryDetailsService {
     };
     return this.http.post(url, body);
   }
-  getsalesWorkFlow(){
+  getsalesWorkFlow() {
     return this.http.get(this.salesWorkflow);
   }
-  getsalesChannel(){
-  return this.http.get(this.salesChannel)
+  getsalesChannel() {
+    return this.http.get(this.salesChannel);
   }
-  getsalesExecutive(enId :string | number, leId:string | number,  salesChannelID:string | number, leSiteID :string | number ){
-    const url =`${AppSettingsConfigKey.APIURL}/api/Enquiry/GetSalesExecutives`;
-    
+  getsalesExecutive(
+    enId: string | number,
+    leId: string | number,
+    salesChannelID: string | number,
+    leSiteID: string | number
+  ) {
+    const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetSalesExecutives`;
+
     const body = {
       enqId: enId,
       leid: leId,
       salesChannelID,
-      leSiteID ,
+      leSiteID,
     };
     return this.http.post(url, body);
   }
- 
- getEnquirylist() {
+
+  getEnquirylist() {
     const body = {
-     loginID: 342,
+      loginID: 342,
     };
-    return this.http.post(this.fetchFunnelWorklistUrl,body);
+    return this.http.post(this.fetchFunnelWorklistUrl, body);
+  }
+
+  getupdateEnqDropdown() {
+    const updateEnqDropdownUrl = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetUpdateEnqDropdowns`;
+    return this.http.get(updateEnqDropdownUrl);
+  }
+
+  updateEnquiryDetails(updateBody: any) {
+    const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/UpdateEnquiry`;
+    return this.http.put(url, updateBody);
   }
 }
-
- 

@@ -1,3 +1,5 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <div class="enquiry-details-listview-container">
   <div class="enquiry-details-listview-titlebar">
     <div class="enquiry-details-listview--back-img">
@@ -37,7 +39,7 @@
           <img
             src="assets/enquiry-details-listview-img/edit.svg"
             alt="new"
-            routerLink="/enquiry-update" />
+            (click)="navigateById(a.enqID)" />
         </div>
       </div>
 

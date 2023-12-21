@@ -13,10 +13,7 @@ const routes: Routes = [
     path: AppRoutePaths.EnquiryDetails,
     component: EnquiryDetailsComponent,
   },
-  {
-    path: AppRoutePaths.EnquiryUpdate,
-    component: EnquiryUpdateComponent,
-  },
+  { path: 'enquiry-update/:id', component: EnquiryUpdateComponent },
   {
     path: AppRoutePaths.EnquiryDetails,
     component: EnquiryDetailsComponent,

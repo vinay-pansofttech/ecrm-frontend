@@ -4,8 +4,9 @@ import {
   PagerNumericButtonsComponent,
 } from '@progress/kendo-angular-pager';
 import { EnquiryDetailsService } from '../../enquiry-details.service';
-
+import { ActivatedRoute, Router } from '@angular/router';
 interface EnquiryList {
+id: string|number;
   dealNo: string;
   enqID: number;
   soldToLEID: number;
@@ -25,7 +26,7 @@ interface EnquiryList {
 })
 export class EnquiryDetailsListViewComponent implements OnInit {
   contactCards: EnquiryList[] = [];
-  constructor(private enquiryDetailService: EnquiryDetailsService) {}
+  constructor( private route: ActivatedRoute,private router: Router,private enquiryDetailService: EnquiryDetailsService) {}
 
   ngOnInit() {
     this.enquiryDetailService.getEnquirylist().subscribe((data: any) => {
@@ -46,6 +47,10 @@ export class EnquiryDetailsListViewComponent implements OnInit {
     );
   }
 
+  navigateById(id: string | number) {
+    this.router.navigate(['/enquiry-update', `${id}`]);
+  }
+
   @ViewChild('pager', { static: false })
   pager!: PagerNumericButtonsComponent;
   public skip = 0;
@@ -56,4 +61,5 @@ export class EnquiryDetailsListViewComponent implements OnInit {
     this.pageSize = e.take;
     // this.pager.pageChooserLabel;
   }
+ 
 }
