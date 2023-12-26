@@ -3,7 +3,7 @@
 
 <kendo-formfield>
 <div class="enquiry-details-forms--content">
-    <kendo-label class="enquiry-details-forms--label" [for]="generatedform" >Generated From</kendo-label>
+    <kendo-label class="enquiry-details-forms--label" [for]="generatedForm" >Generated From</kendo-label>
     <kendo-dropdownlist class="enquiry-details-forms-kendo--dropdownlist" 
     [data]="areaList" 
     formControlName="generatedFrom"
@@ -11,7 +11,7 @@
     (selectionChange)="handlegeneratedFrom($event)"
     valueField="generatedFromID"
     [valuePrimitive]="true"
-     #generatedform >
+     #generatedForm >
   </kendo-dropdownlist>
 </div>
 <kendo-formerror class="enquiry-details-forms--error-msg">Generated from is reequired</kendo-formerror>
@@ -33,11 +33,11 @@
   </kendo-formfield>
 
 <div class="enquiry-details-forms--content">
-  <kendo-label class="enquiry-details-forms--label" [for]="quoteentitycurrency" >Quote Entity / Currency</kendo-label>
+  <kendo-label class="enquiry-details-forms--label" [for]="quoteentitycurrency " [for]="quoteEntityCompany " >Quote Entity / Currency</kendo-label>
   <div class="enquiry-details-forms--subcontent">
     <kendo-dropdownlist class="enquiry-details-forms-kendo--dropdownlist"
-     formControlName="quoteEntityCurrency" 
-     #quoteentitycurrency 
+     formControlName="quoteEntityCompany" 
+     #quoteEntityCompany 
       [data]="company"
       textField="companyName"
       valueField="companyID"
@@ -57,14 +57,14 @@
 </div>
 <kendo-formfield>
 <div class="enquiry-details-forms--content">
-  <kendo-label class="enquiry-details-forms--label" [for]="salesworkflow">Sales Workflow</kendo-label>
+  <kendo-label class="enquiry-details-forms--label" [for]="salesWorkFlow">Sales Workflow</kendo-label>
   <kendo-dropdownlist class="enquiry-details-forms-kendo--dropdownlist" 
   formControlName="salesWorkFlow"
   [data]="sales"
   textField="salesWorkflow"
   valueField="salesWorkflowID"
   [valuePrimitive]="true"
-   #salesworkflow
+   #salesWorkFlow
    >
 </kendo-dropdownlist>
 </div>
@@ -72,7 +72,7 @@
 </kendo-formfield>
 <kendo-formfield>
 <div class="enquiry-details-forms--content">
-    <kendo-label class="enquiry-details-forms--label" [for]="saleschannel">Sales Channel</kendo-label>
+    <kendo-label class="enquiry-details-forms--label" [for]="salesChannel">Sales Channel</kendo-label>
     <kendo-dropdownlist class="enquiry-details-forms-kendo--dropdownlist" 
      [data]="channel" 
      textField="salesChannel"
@@ -80,7 +80,7 @@
      [valuePrimitive]="true"
      (selectionChange)="handleSalesChannel($event)"
      formControlName="salesChannel"
-      #saleschannel>
+      #salesChannel>
     </kendo-dropdownlist>
 </div>
 <kendo-formerror class="enquiry-details-forms--error-msg">Sales channel is required</kendo-formerror>

@@ -53,14 +53,14 @@ export class ContactDetailsComponent implements OnInit {
   handleSoldToSiteChanged(site: SoldToSite) {
     this.enquiryDetailsService
       .getRegionFromSiteList(site.leSiteID)
-      .subscribe((res:any) => {
+      .subscribe((res: any) => {
         this.regionsList = res || '';
         this.contactDetails.patchValue({
-          region: res[0]?.comboName ,// Patch only the 'region' FormControl value
-     
-          soldToLE: res[1]?.comboName
-      
+          region: res[0]?.comboName,
+          soldToLE: res[1]?.comboName,
         });
+        this.enquiryDetailsService.regionId = res[0]?.comboID;
+        this.enquiryDetailsService.leID = res[1]?.comboID;
       });
   }
 }

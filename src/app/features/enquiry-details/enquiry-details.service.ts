@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppSettingsConfigKey } from 'src/app/core/Constants';
+
 @Injectable({
   providedIn: 'root',
 })
 export class EnquiryDetailsService {
   private loginUrl = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetLEContacts`;
-
   private generatedFrom = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetGeneratedFrom`;
   private salesWorkflow = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetSalesWorkflow`;
   private salesChannel = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetSalesChannel`;
   private quoteEntityCompany = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetQuoteCompany`;
   private fetchFunnelWorklistUrl = `${AppSettingsConfigKey.APIURL}/api/Enquiry/FetchFunnelWorklist`;
+
+  public regionId: string | number = '';
+  public leID: string | number = '';
 
   constructor(private http: HttpClient) {}
   getSoldToContactsList() {
@@ -30,6 +33,25 @@ export class EnquiryDetailsService {
     const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetLegalEntityRegionBySite`;
     const body = {
       leSiteID: siteId,
+    };
+    return this.http.post(url, body);
+  }
+  getAddEnquiry(formData: any) {
+    const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/AddEnquiry`;
+    const body = {
+      soldToLEID: this.leID,
+      soldToContactID: formData.contactDteails.soldToContact,
+      soldToLESiteID: formData.contactDteails.soldToSite,
+      regionID: this.regionId,
+      salesChannelID: formData.enquiryDetailsForms.salesChannel,
+      salesExecutiveID: formData.enquiryDetailsForms.salesExecutive,
+      workflowID: formData.enquiryDetailsForms.salesWorkFlow,
+      generatedByID: formData.enquiryDetailsForms.generatedBy,
+      generatedFromID: formData.enquiryDetailsForms.generatedFrom,
+      quoteCompanyID: formData.enquiryDetailsForms.quoteEntityCompany,
+      quoteCurrencyID: formData.enquiryDetailsForms.quoteEntityCurrency,
+      enquiryDescription: formData.enquiryDescription.enterDescription,
+      loginID: 342,
     };
     return this.http.post(url, body);
   }

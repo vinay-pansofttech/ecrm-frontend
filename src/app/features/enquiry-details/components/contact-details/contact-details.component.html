@@ -53,6 +53,7 @@
         formControlName="soldToLE"
         #soldtole
         textField="comboName"
+        [valuePrimitive]="true"
         required></kendo-textbox>
     </div>
     <kendo-formerror class="contact-details--error-msg"
@@ -64,13 +65,11 @@
       <kendo-label class="contact-details--label" [for]="region"
         >Region</kendo-label
       >
-        <kendo-textbox class="contact-details--kendo-textbox"
-        textField="leSiteName"
+      <kendo-textbox
+        class="contact-details--kendo-textbox"
         formControlName="region"
         #region
-        textField="comboName"
-        
-        ></kendo-textbox>
+        [valuePrimitive]="true"></kendo-textbox>
     </div>
     <kendo-formerror class="contact-details--error-msg"
       >Region is required</kendo-formerror
