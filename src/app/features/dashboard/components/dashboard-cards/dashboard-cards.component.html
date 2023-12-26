@@ -1,22 +1,23 @@
-<div class="dashboard-quickaction-card--container">
-  <div class="dashboard-card--title">Quick Actions</div>
-  <div class="dashboard-quickaction--container">
+<div class="dashboard-quickLink-card--container">
+  <div class="dashboard-card--title">Quick Links</div>
+  <div class="dashboard-quickLink--container">
     <kendo-card
-      class="dashboard-quickaction--cards"
+      class="dashboard-quickLink--cards"
       *ngFor="let a of cards"
       (click)="handleCardNavigate(a)">
-      <div class="dashboard-quickaction--inner-card">
+      <div class="dashboard-quickLink--inner-card">
         <div
-          class="dashboard-quickaction--inner-color"
+          class="dashboard-quickLink--inner-color"
           [ngStyle]="{ 'background-color': setColor(a.text) }"></div>
         <div>
           <img
             src="assets/{{ a.image }}.svg"
             alt=""
-            class="dashboard-quickaction-card--image" />
-        </div>
-        <div class="dashboard-quickaction-card--subtitle">{{ a.text }}</div>
+            class="dashboard-quickLink-card--image" />
+          </div> 
+       
       </div>
+      <div class="dashboard-quickLink-card--subtitle">{{ a.text }}</div>
     </kendo-card>
   </div>
 </div>

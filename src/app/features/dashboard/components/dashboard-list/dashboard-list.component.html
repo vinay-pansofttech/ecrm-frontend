@@ -1,18 +1,18 @@
 
-<div class="dashboard-sales--container">
-  <div class="dashboard-sales--flex-container">
-    <div class="dashboard-sales--title">Sales</div>
-    <kendo-button class="dashboard-sales--viewall" [style.Color]="buttonClicked ? 'green' : 'gray'" (click)="onButtonClick()"> View All</kendo-button>
+<div class="dashboard-landingPage--container">
+  <div class="dashboard-landingPage--flex-container">
+    <div class="dashboard-landingPage--title">Landing Page</div>
+    <kendo-button class="dashboard-landingPage--viewall" [style.Color]="buttonClicked ? 'green' : 'gray'" (click)="onButtonClick()"> View All</kendo-button>
   </div>
-  <div class="dashboard-sales--blur-effect">Coming Soon...</div>
-   <div *ngFor="let a of salesCard" style="filter: blur(2px);">
-    <kendo-card  class="dashboard-sales-card--container">
-      <div class="dashboard-sales--flex-container">
-        <div class="dashboard-sales-text--container">
-          <div class="dashboard-sales-text--year">{{a.text1}}</div>
-          <div class="dashboard-sales-text--price">{{a.text2}}</div>
+  <div class="dashboard-landingPage--blur-effect">Coming Soon...</div>
+   <div *ngFor="let a of landingPageCard" style="filter: blur(2px);">
+    <kendo-card  class="dashboard-landingPage-card--container">
+      <div class="dashboard-landingPage--flex-container">
+        <div class="dashboard-landingPage-text--container">
+          <div class="dashboard-landingPage-text--year">{{a.text1}}</div>
+          <div class="dashboard-landingPage-text--price">{{a.text2}}</div>
         </div>
-        <div class="dashboard-sales-image--container"><img src="assets/{{a.image}}.svg" alt=""/></div>
+        <div class="dashboard-landingPage-image--container"><img src="assets/{{a.image}}.svg" alt=""/></div>
       </div>
     </kendo-card>
    </div>

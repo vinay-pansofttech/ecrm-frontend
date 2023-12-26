@@ -1,11 +1,11 @@
-.dashboard-sales--container{
+.dashboard-landingPage--container{
     margin: 1rem;
 }
 
-.dashboard-sales--flex-container{
+.dashboard-landingPage--flex-container{
     display: flex;
 }
-.dashboard-sales--title{
+.dashboard-landingPage--title{
     color: #23303B;
     font-family: Arial;
     font-size: var( --size-4);
@@ -16,7 +16,7 @@
     flex:1 0 0;
 }
 
-.dashboard-sales--viewall{
+.dashboard-landingPage--viewall{
     color: #A4A9AE;
     font-family: Arial;
     font-size:0.87rem;
@@ -27,7 +27,7 @@
 }
 
 
-.dashboard-sales-card--container{
+.dashboard-landingPage-card--container{
     border-radius: 0.625rem;
     background: #EBF6F8;
     width: 100% !important;
@@ -35,11 +35,11 @@
 }
 
 
-.dashboard-sales-text--container{
+.dashboard-landingPage-text--container{
     padding: 1.5rem 0rem 1rem 1.5rem; flex: 1 0 0;
 }
 
-.dashboard-sales-text--year{
+.dashboard-landingPage-text--year{
     color: #5CB5C1;
     font-family: Arial;
     font-size: var( --size-3);
@@ -51,7 +51,7 @@
 }
 
 
-.dashboard-sales-text--price{
+.dashboard-landingPage-text--price{
     color: #5CB5C1;
     font-family: Arial;
     font-size: var(  --size-4);
@@ -60,12 +60,12 @@
     line-height: 146.5%; /* 1.83125rem */
 }
 
-.dashboard-sales-image--container{
+.dashboard-landingPage-image--container{
     padding-right: 1.69rem;
 }
 
 
-.dashboard-sales--blur-effect{
+.dashboard-landingPage--blur-effect{
   background-color: rgb(175, 198, 228,0.5);
   color: black;
   font-weight: bold;

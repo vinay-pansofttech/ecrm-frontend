@@ -2,7 +2,7 @@
   margin: 1rem;
 }
 
-.dashboard-quickaction-card--container{
+.dashboard-quickLink-card--container{
   margin: 1rem;
 }
 
@@ -17,12 +17,12 @@
     padding-bottom: 1rem;
 }
 
-.dashboard-quickaction--container{
+.dashboard-quickLink--container{
     display: flex;
     gap: 0.87rem;
 }
 
-.dashboard-quickaction--cards{
+.dashboard-quickLink--cards{
     padding: 1.2rem 0rem 1.2rem 0rem; 
     align-items: center;
     border-radius: 0.625rem;
@@ -30,27 +30,27 @@
     box-shadow: 1px 5px 40px 8px rgba(110, 117, 136, 0.07);
 }
 
-.dashboard-quickaction--inner-card {
+.dashboard-quickLink--inner-card {
     position: relative;
     display: inline-block;
   }
 
-  .dashboard-quickaction--inner-color{
+  .dashboard-quickLink--inner-color{
     width: 3.125rem;    
     height: 3.125rem;
     flex-shrink: 0;
     background-color: #daf0ef;
-    border-radius: 0.5rem;
+    border-radius: 0.5rem;   
   }
 
-  .dashboard-quickaction-card--image {
+  .dashboard-quickLink-card--image {
     position: absolute;
-    top: 30%;
-    left: 45%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
   }
 
-.dashboard-quickaction-card--subtitle{
+.dashboard-quickLink-card--subtitle{
     color: #202A34;
     font-family: Arial;
     font-size: var( --size-3);

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import salesList from '../../data/mock.json';
+import landingPageList from '../../data/mock.json';
 
-type salesList = {
+type landingPageList = {
   text1: string;
   text2: string;
   image: string;
@@ -13,19 +13,19 @@ type salesList = {
 })
 export class DashboardListComponent implements OnInit  {
 
-  salesCard!:salesList[];
+  landingPageCard!:landingPageList[];
   ngOnInit(): void {
-    this.salesCard = [salesList.salesList][0];
+    this.landingPageCard = [landingPageList.landingPageList][0];
   }
 
   buttonClicked = false;
 
   onButtonClick() {
     this.buttonClicked = !this.buttonClicked;
-    this.salesCard.push(...this.salesCard2);
+    this.landingPageCard.push(...this.landingPageCard2);
   }
 
-  salesCard2=[
+  landingPageCard2=[
     
       {
         text1:"Sales for Sep 2023",

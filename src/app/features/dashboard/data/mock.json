@@ -1,17 +1,12 @@
 {"quickCards" :  [
     {
-      "image": "dashboard-quickaction-sales-icon",
-      "text": "Sales",
-      "path": "sales"
-    },
-    {
-      "image": "dashboard-enquiry-icon",
+      "image": "dashboard-quicklink-enquiry-icon",
       "text": "Enquiry",
       "path": "enquiry-details"
     },
     {
         "image": "dashboard-update-icon",
-        "text": "Update",
+        "text": "Funnel Update",
         "path": "update"
       }
    
@@ -37,7 +32,7 @@
    
   ],
 
-  "salesList" :  [
+  "landingPageList" :  [
     {
       "text1": "Sales for Sep 2023",
       "text2":"Rs 2,71,000",
