@@ -1,8 +1,5 @@
 import { Component, OnInit, Type, ViewChild } from '@angular/core';
-import {
-  PageChangeEvent,
-  PagerNumericButtonsComponent,
-} from '@progress/kendo-angular-pager';
+import { process, State } from '@progress/kendo-data-query';
 import { EnquiryDetailsService } from '../../enquiry-details.service';
 import { ActivatedRoute, Router } from '@angular/router';
 interface EnquiryList {
@@ -26,6 +23,8 @@ id: string|number;
 })
 export class EnquiryDetailsListViewComponent implements OnInit {
   contactCards: EnquiryList[] = [];
+  pageSize = 3; 
+  skip =0;
   constructor( private route: ActivatedRoute,private router: Router,private enquiryDetailService: EnquiryDetailsService) {}
 
   ngOnInit() {
@@ -51,15 +50,13 @@ export class EnquiryDetailsListViewComponent implements OnInit {
     this.router.navigate(['/enquiry-update', `${id}`]);
   }
 
-  @ViewChild('pager', { static: false })
-  pager!: PagerNumericButtonsComponent;
-  public skip = 0;
-  public pageSize = 1;
-
-  public onPageChange(e: PageChangeEvent): void {
-    this.skip = e.skip;
-    this.pageSize = e.take;
-    // this.pager.pageChooserLabel;
+  onPageChange(state: State): void {
+    if (state && state.skip !== undefined) {
+      this.skip = state.skip;
+    }
   }
- 
+
+  getPaginatedCards(): any[] {
+    return process(this.contactCards, { skip: this.skip, take: this.pageSize }).data;
+  }
 }
