@@ -67,5 +67,9 @@ export class DashboardCardsComponent implements OnInit {
     if (cardData.path === 'enquiry-details') {
       this.router.navigate([cardData.path]);
     }
+    if (cardData.path === 'enquiry-listview') {
+      this.router.navigate([cardData.path]);
+    }
   }
+
 }
