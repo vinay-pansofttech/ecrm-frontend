@@ -14,6 +14,7 @@
   <div class="enquiry-details-listview--searchbox">
     <kendo-textbox
       [(ngModel)]="searchTerm"
+      (ngModelChange)="filterData()"
       placeholder="Search"
       class="enquiry-details-listview--kendo-textbox">
       <ng-template kendoTextBoxPrefixTemplate>
@@ -28,7 +29,7 @@
   <div class="enquiry-details-listview--sub-title">Contact Details</div>
 
   <div
-    *ngFor="let a of getPaginatedCards()"
+    *ngFor="let a of filteredCards"
     class="enquiry-details-listview--cards">
     <kendo-card class="enquiry-details-listview--kendo-card">
       <div class="enquiry-details-listview--kendo-card-header">
@@ -83,12 +84,12 @@
   </div>
 
   <div class="enquiry-details-listview--kendo-pager">
-    <kendo-datapager
-      class="enquiry-details-listview--kendo-datapager"
-      [pageSize]="pageSize"
-      [skip]="skip"
-      [total]="contactCards.length"
-      (pageChange)="onPageChange($event)">
-    </kendo-datapager>
+  <kendo-datapager
+  class="enquiry-details-listview--kendo-datapager"
+    [pageSize]="pageSize"
+    [skip]="skip"
+    [total]="contactCards.length"
+    (pageChange)="onPageChange($event)">
+  </kendo-datapager>
   </div>
 </div>

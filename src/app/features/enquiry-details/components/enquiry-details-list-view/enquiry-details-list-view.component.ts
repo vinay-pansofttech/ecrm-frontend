@@ -24,39 +24,54 @@ id: string|number;
 export class EnquiryDetailsListViewComponent implements OnInit {
   contactCards: EnquiryList[] = [];
   pageSize = 3; 
-  skip =0;
+  filteredCards: any[] = [];
+  skip = 0;
+  total = 0;
+  searchTerm = '';
   constructor( private route: ActivatedRoute,private router: Router,private enquiryDetailService: EnquiryDetailsService) {}
 
   ngOnInit() {
+    this.enquiryList();
+  }
+
+  enquiryList(){
     this.enquiryDetailService.getEnquirylist().subscribe((data: any) => {
       console.log(data);
       this.contactCards = data;
+      this.filterData();
     });
   }
-  searchTerm = '';
-
-  filteredCards() {
-    return this.contactCards.filter(
-      a =>
-        a?.dealNo?.toLowerCase().includes(this.searchTerm?.toLowerCase()) ||
-        a?.soldToContact
-          ?.toLowerCase()
-          .includes(this.searchTerm?.toLowerCase()) ||
-        a?.soldToLE?.toLowerCase().includes(this.searchTerm?.toLowerCase())
-    );
+  
+  filterData(): void {
+    this.filteredCards = [...this.contactCards];
+    if (this.searchTerm.trim() !== '') {
+      this.filteredCards = this.contactCards.filter(a =>
+        (a.dealNo && a.dealNo.toLowerCase().includes(this.searchTerm.toLowerCase())) ||
+      ( a.soldToContact&& a.soldToContact.toLowerCase().includes(this.searchTerm.toLowerCase())) ||
+      (a.soldToLE && a.soldToLE.toLowerCase().includes(this.searchTerm.toLowerCase()))
+      );
+    } 
+    this.total = this.filteredCards.length;
+    this.applyPagination();
   }
 
+  applyPagination(): void {
+    const state: State = {
+      skip: this.skip,
+      take: this.pageSize
+    };
+    const processed = process(this.filteredCards, state);
+    this.filteredCards = processed.data;
+    this.total = processed.total;
+  }
+  
+  onPageChange(state: State): void {
+    this.skip = state.skip as number
+    this.filterData();
+}
   navigateById(id: string | number) {
     this.router.navigate(['/enquiry-update', `${id}`]);
   }
 
-  onPageChange(state: State): void {
-    if (state && state.skip !== undefined) {
-      this.skip = state.skip;
-    }
-  }
 
-  getPaginatedCards(): any[] {
-    return process(this.contactCards, { skip: this.skip, take: this.pageSize }).data;
-  }
 }
