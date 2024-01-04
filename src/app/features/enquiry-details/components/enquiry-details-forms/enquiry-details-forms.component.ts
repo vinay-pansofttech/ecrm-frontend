@@ -140,8 +140,13 @@ handleSalesChannel(sales:salesChannel){
   if (sales && sales?.salesChannelID) {
     this.enquiryDetailsService
       .getsalesExecutive(0, 0, sales.salesChannelID ,21665 )
-      .subscribe(res => {
-        this.salesExecutive = res;
+      .subscribe((res: any) => {
+        this.salesExecutive = res || '';
+        this.enquiryDetailsForms.patchValue({
+          salesExecutive: res[0]?.salesExecName,
+        })
+        this.enquiryDetailsService.salesExecID = res[0]?.salesExecID;
+        
       });
  }
 }

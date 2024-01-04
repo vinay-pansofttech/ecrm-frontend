@@ -92,14 +92,13 @@
 <kendo-formfield>
 <div class="enquiry-details-forms--content">
   <kendo-label class="enquiry-details-forms--label"[for]="salesexecutive">Sales Executive</kendo-label>
-  <kendo-dropdownlist class="enquiry-details-forms-kendo--dropdownlist"
+  <kendo-textbox class="enquiry-details-forms-kendo--dropdownlist"
    [data]="salesExecutive" 
    textField="salesExecName"
    valueField="salesExecID"
    [valuePrimitive]="true"
-  
    formControlName="salesExecutive" 
-   #salesexecutive></kendo-dropdownlist>
+   #salesexecutive></kendo-textbox>
 </div>
 <kendo-formerror class="enquiry-details-forms--error-msg">Sales executive is required</kendo-formerror>
 </kendo-formfield>

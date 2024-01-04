@@ -15,6 +15,7 @@ export class EnquiryDetailsService {
 
   public regionId: string | number = '';
   public leID: string | number = '';
+  public salesExecID: string | number = '';
 
   constructor(private http: HttpClient) {}
   getSoldToContactsList() {
