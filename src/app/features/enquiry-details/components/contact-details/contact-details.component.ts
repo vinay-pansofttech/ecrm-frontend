@@ -28,15 +28,31 @@ type SoldToSite = {
   styleUrls: ['./contact-details.component.scss'],
 })
 export class ContactDetailsComponent implements OnInit {
-  public soldToContact: unknown = [];
+  public soldToContact: any = [];
   public soldToSite: unknown = [];
   public regionsList: unknown = [];
-  constructor(public enquiryDetailsService: EnquiryDetailsService) {}
+  public soldToContactList:unknown = [];
+  constructor(public enquiryDetailsService: EnquiryDetailsService) {
+    this.soldToContact = this.soldToContact.slice();
+  }
   ngOnInit(): void {
     this.enquiryDetailsService.getSoldToContactsList().subscribe(data => {
       this.soldToContact = data;
+      this.soldToContactList = data;
     });
   }
+
+  handleSoldToContactFilter(contactID: string) {
+    if(contactID && contactID.length >= 1){
+    this.soldToContact = this.soldToContact.filter(
+      (s:SoleToContact) => s.contactName.toLowerCase().indexOf(contactID.toLowerCase())!== -1
+    );
+  }
+  else{
+    this.soldToContact = this.soldToContactList
+  }
+ 
+}
 
   @Input()
   public contactDetails!: FormGroup;

@@ -15,8 +15,10 @@
         [data]="soldToContact"
         textField="contactName"
         valueField="contactID"
+        [filterable]="true"
         [valuePrimitive]="true"
         (selectionChange)="handleSoldToContactChanged($event)"
+        (filterChange)="handleSoldToContactFilter($event)"
         required></kendo-dropdownlist>
     </div>
     <kendo-formerror class="contact-details--error-msg"

@@ -7,8 +7,10 @@
     <kendo-dropdownlist class="enquiry-details-forms-kendo--dropdownlist" 
     [data]="areaList" 
     formControlName="generatedFrom"
+    [filterable]="true"
     textField="generatedFrom"
     (selectionChange)="handlegeneratedFrom($event)"
+    (filterChange)="handlegeneratedFromFilter($event)"
     valueField="generatedFromID"
     [valuePrimitive]="true"
      #generatedForm >
@@ -41,7 +43,9 @@
       [data]="company"
       textField="companyName"
       valueField="companyID"
+      [filterable]="true"
       (selectionChange)="handlequoteEntityCurrency($event)"
+      (filterChange)="handlequoteEntityCurrencyFilter($event)"
       [valuePrimitive]="true"
       >
     </kendo-dropdownlist>

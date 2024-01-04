@@ -54,9 +54,22 @@ type salesExecutive ={
 })
 export class EnquiryDetailsFormsComponent implements OnInit {
 
+  public areaList: any = [];
+  public sales: unknown = [];
+  public channel: unknown = [];
+  public company: any = [];
+  public quoteEntityCurrency :unknown = [];
+  public generatedBy : unknown =[];
+  public salesExecutive : unknown =[];
+  public generatedFromList : unknown =[];
+  public companyList : unknown =[];
+
   @Input()
   public enquiryDetailsForms!: FormGroup;
-  constructor(public enquiryDetailsService: EnquiryDetailsService) {}
+  constructor(public enquiryDetailsService: EnquiryDetailsService) {
+    this.areaList = this.areaList.slice();
+    this.company = this.company.slice();
+  }
   ngOnInit(): void {
   this.generatedFrom();
   this.salesWorkFlow(); 
@@ -68,6 +81,7 @@ export class EnquiryDetailsFormsComponent implements OnInit {
     this.enquiryDetailsService.getgeneratedFrom().subscribe(data => {
      console.log('generated from', data);
      this.areaList = data;
+     this.generatedFromList = data;
    });
  }
 
@@ -93,6 +107,7 @@ export class EnquiryDetailsFormsComponent implements OnInit {
   this.enquiryDetailsService.getquoteEntityCompany().subscribe(data => {
     console.log('get sales channel', data);
     this.company = data;
+    this.companyList = data;
   });
 }
 
@@ -113,8 +128,6 @@ handlequoteEntityCurrency(company : quoteEntityCompany){
   });
 }
 
-
-
 handleSalesChannel(sales:salesChannel){ 
   if (sales && sales?.salesChannelID) {
     this.enquiryDetailsService
@@ -125,14 +138,26 @@ handleSalesChannel(sales:salesChannel){
  }
 }
 
+//dropdown filter//
 
-
-  public areaList: unknown = [];
-  public sales: unknown = [];
-  public channel: unknown = [];
-  public company: unknown = [];
-  public quoteEntityCurrency :unknown = [];
-  public generatedBy : unknown =[];
-  public salesExecutive : unknown =[];
+  handlegeneratedFromFilter(generatedFromID : any){
+    if(generatedFromID && generatedFromID.length >=1){
+    this.areaList = this.areaList.filter(
+      (s: {generatedFrom: string; }) => s.generatedFrom.toLowerCase().indexOf(generatedFromID.toLowerCase()) !== -1
+    )}
+    else{
+      this.areaList= this.generatedFromList
+    }
+  }
+  handlequoteEntityCurrencyFilter(companyID: any){
+    if(companyID && companyID.length >= 1){
+    this.company= this.company.filter(
+      (s: {companyName: string; }) => s.companyName?.toLowerCase().indexOf(companyID.toLowerCase()) !== -1
+    );
+  }
+  else{
+    this.company=this.companyList;
+  }
+}
   
 }
