@@ -85,7 +85,7 @@ export class EnquiryDetailsComponent implements OnInit {
         ),
       }),
       enquiryDetailsForms: new FormGroup({
-        generatedBy: new FormControl('', [Validators.required]),
+        generatedBy: new FormControl(''),
         generatedFrom: new FormControl('', [Validators.required]),
         quoteEntityCompany: new FormControl('', [Validators.required]),
         quoteEntityCurrency: new FormControl('', [Validators.required]),
@@ -112,7 +112,6 @@ export class EnquiryDetailsComponent implements OnInit {
       this.currentStep += 1;
       return;
     }
-
     this.currentGroup.markAllAsTouched();
     this.stepper.validateSteps();
   }

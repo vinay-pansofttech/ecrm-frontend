@@ -1,5 +1,5 @@
 import { Component,Input, OnInit } from '@angular/core';
-import { FormGroup } from "@angular/forms";
+import { FormGroup, Validators } from "@angular/forms";
 import { EnquiryDetailsService } from '../../enquiry-details.service';
 
 type generatedFrom ={
@@ -66,6 +66,7 @@ export class EnquiryDetailsFormsComponent implements OnInit {
 
   @Input()
   public enquiryDetailsForms!: FormGroup;
+  public generatedByVisible = false;
   constructor(public enquiryDetailsService: EnquiryDetailsService) {
     this.areaList = this.areaList.slice();
     this.company = this.company.slice();
@@ -79,33 +80,41 @@ export class EnquiryDetailsFormsComponent implements OnInit {
   }
   private generatedFrom(){
     this.enquiryDetailsService.getgeneratedFrom().subscribe(data => {
-     console.log('generated from', data);
      this.areaList = data;
      this.generatedFromList = data;
    });
  }
 
- @Input()
- handlegeneratedFrom(generated :generatedFrom ){
-  if (generated && generated?.generatedFrom) {
-    this.enquiryDetailsService
-      .getgeneratedBy(generated.generatedFrom)
-      .subscribe(res => {
-        this.generatedBy = res;
-      });
+
+  @Input()
+  handlegeneratedFrom(generated: generatedFrom) {
+    if (generated && generated.generatedFrom) {
+       if (
+        generated.generatedFrom === 'Marketing' ||
+        generated.generatedFrom === 'Transactional Sales' ||
+        generated.generatedFrom === 'E-commerce Portals'
+      ) {
+        this.enquiryDetailsService.getgeneratedBy(generated.generatedFrom).subscribe(res => {
+          this.generatedBy = res;
+        });
+        this.generatedByVisible =true
+         this.enquiryDetailsForms.controls['generatedBy'].setValidators([Validators.required])
+       
+      
+    }else{
+      this.generatedByVisible =false
+    }
   }
- }
+  }
 
   private salesWorkFlow(){
   this.enquiryDetailsService.getsalesWorkFlow().subscribe(data => {
-    console.log('get sales work flow', data);
     this.sales = data;
   });
  }
 
  private quoteEntityCompany(){
   this.enquiryDetailsService.getquoteEntityCompany().subscribe(data => {
-    console.log('get sales channel', data);
     this.company = data;
     this.companyList = data;
   });
@@ -123,7 +132,6 @@ handlequoteEntityCurrency(company : quoteEntityCompany){
 
   private fetchsalesChannel(){
   this.enquiryDetailsService.getsalesChannel().subscribe(data => {
-    console.log('get sales channel', data);
     this.channel = data;
   });
 }
