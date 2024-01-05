@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppSettingsConfigKey } from 'src/app/core/Constants';
 
-
 interface EnquiryTypeBody {
   soldToLEID: string | number;
   soldToContactID: any;
@@ -17,7 +16,7 @@ interface EnquiryTypeBody {
   enquiryDescription: any;
   loginID: number;
   generatedByID?: any; // Make generatedByID property optional
-} 
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -54,7 +53,7 @@ export class EnquiryDetailsService {
   }
   getAddEnquiry(formData: any) {
     const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/AddEnquiry`;
-    const body:EnquiryTypeBody = {
+    const body: EnquiryTypeBody = {
       soldToLEID: this.leID,
       soldToContactID: formData.contactDteails.soldToContact,
       soldToLESiteID: formData.contactDteails.soldToSite,
@@ -68,7 +67,7 @@ export class EnquiryDetailsService {
       enquiryDescription: formData.enquiryDescription.enterDescription,
       loginID: 342,
     };
-    if (formData.enquiryDetailsForms.generatedBy?.length >= 1) {
+    if (formData.enquiryDetailsForms.generatedBy) {
       body.generatedByID = formData.enquiryDetailsForms.generatedBy;
     }
     return this.http.post(url, body);
