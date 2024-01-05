@@ -2,6 +2,22 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppSettingsConfigKey } from 'src/app/core/Constants';
 
+
+interface EnquiryTypeBody {
+  soldToLEID: string | number;
+  soldToContactID: any;
+  soldToLESiteID: any;
+  regionID: string | number;
+  salesChannelID: any;
+  salesExecutiveID: any;
+  workflowID: any;
+  generatedFromID: any;
+  quoteCompanyID: any;
+  quoteCurrencyID: any;
+  enquiryDescription: any;
+  loginID: number;
+  generatedByID?: any; // Make generatedByID property optional
+} 
 @Injectable({
   providedIn: 'root',
 })
@@ -16,7 +32,6 @@ export class EnquiryDetailsService {
   public regionId: string | number = '';
   public leID: string | number = '';
   public salesExecID: string | number = '';
-
   constructor(private http: HttpClient) {}
   getSoldToContactsList() {
     const url = `${this.loginUrl}`;
@@ -39,7 +54,7 @@ export class EnquiryDetailsService {
   }
   getAddEnquiry(formData: any) {
     const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/AddEnquiry`;
-    const body = {
+    const body:EnquiryTypeBody = {
       soldToLEID: this.leID,
       soldToContactID: formData.contactDteails.soldToContact,
       soldToLESiteID: formData.contactDteails.soldToSite,
@@ -47,13 +62,15 @@ export class EnquiryDetailsService {
       salesChannelID: formData.enquiryDetailsForms.salesChannel,
       salesExecutiveID: this.salesExecID,
       workflowID: formData.enquiryDetailsForms.salesWorkFlow,
-      generatedByID: formData.enquiryDetailsForms.generatedBy,
       generatedFromID: formData.enquiryDetailsForms.generatedFrom,
       quoteCompanyID: formData.enquiryDetailsForms.quoteEntityCompany,
       quoteCurrencyID: formData.enquiryDetailsForms.quoteEntityCurrency,
       enquiryDescription: formData.enquiryDescription.enterDescription,
       loginID: 342,
     };
+    if (formData.enquiryDetailsForms.generatedBy?.length >= 1) {
+      body.generatedByID = formData.enquiryDetailsForms.generatedBy;
+    }
     return this.http.post(url, body);
   }
 

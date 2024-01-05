@@ -42,6 +42,7 @@ export class EnquiryDetailsListViewComponent implements OnInit {
     });
   }
   
+  
   filterData(): void {
     this.filteredCards = [...this.contactCards];
     if (this.searchTerm.trim() !== '') {
@@ -69,9 +70,15 @@ export class EnquiryDetailsListViewComponent implements OnInit {
     this.skip = state.skip as number
     this.filterData();
 }
+
+
+
   navigateById(id: string | number) {
-    this.router.navigate(['/enquiry-update', `${id}`]);
+    this.router.navigate(['/enquiry-update', getRandomInt(10000)]);
   }
 
 
+}
+function getRandomInt(max: number) {
+  return Math.floor(Math.random() * max);
 }
