@@ -45,7 +45,7 @@ export class EnquiryDetailsService {
       soldToLESiteID: formData.contactDteails.soldToSite,
       regionID: this.regionId,
       salesChannelID: formData.enquiryDetailsForms.salesChannel,
-      salesExecutiveID: formData.enquiryDetailsForms.salesExecutive,
+      salesExecutiveID: this.salesExecID,
       workflowID: formData.enquiryDetailsForms.salesWorkFlow,
       generatedByID: formData.enquiryDetailsForms.generatedBy,
       generatedFromID: formData.enquiryDetailsForms.generatedFrom,
