@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { EnquiryDetailsService } from '../../enquiry-details.service';
 import { ActivatedRoute } from '@angular/router';
+import { LoginService } from 'src/app/features/login/components/login/login.service';
 @Component({
   selector: 'app-enquiry-update',
   templateUrl: './enquiry-update.component.html',
@@ -19,7 +20,8 @@ export class EnquiryUpdateComponent implements OnInit {
     private loaderService: LoaderService,
     private router: Router,
     public enquiryDetailsService: EnquiryDetailsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private loginService: LoginService
   ) {}
 
   ngOnInit(): void {
@@ -70,7 +72,6 @@ export class EnquiryUpdateComponent implements OnInit {
     attachment: new FormControl('', Validators.required),
   });
   public async updateEnquiryForm(): Promise<void> {
-    console.log('form invalid', this.enquiryUpdateForm);
     if (this.enquiryUpdateForm.valid) {
       this.loaderService.showLoader();
       const updatedBody = await this.handleUpdateEnquiryBody(
@@ -96,7 +97,7 @@ export class EnquiryUpdateComponent implements OnInit {
       probabilityID: formData.probability,
       dealPositionID: formData.dealPosition,
       dealValue: formData.dealValue,
-      loginID: 342,
+      loginID: this.loginService.employeeId,
       POExpectedDate: formData.poExpectedDate,
       modeOfCommunicationID: formData.modeOfCommunication,
     };

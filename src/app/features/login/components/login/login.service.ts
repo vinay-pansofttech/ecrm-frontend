@@ -6,6 +6,7 @@ import { AppSettingsConfigKey } from 'src/app/core/Constants';
 })
 export class LoginService {
   private loginUrl = `${AppSettingsConfigKey.APIURL}/api/Login/CheckLoginDetails`;
+  public employeeId: string | number = '';
   constructor(private http: HttpClient) {}
   loginUser(body: unknown) {
     const url = `${this.loginUrl}`;

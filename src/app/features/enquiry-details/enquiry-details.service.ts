@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppSettingsConfigKey } from 'src/app/core/Constants';
+import { LoginService } from '../login/components/login/login.service';
 
 interface EnquiryTypeBody {
   soldToLEID: string | number;
@@ -31,7 +32,11 @@ export class EnquiryDetailsService {
   public regionId: string | number = '';
   public leID: string | number = '';
   public salesExecID: string | number = '';
-  constructor(private http: HttpClient) {}
+
+  constructor(
+    private http: HttpClient,
+    private loginService: LoginService
+  ) {}
   getSoldToContactsList() {
     const url = `${this.loginUrl}`;
     return this.http.get(url);
@@ -65,7 +70,7 @@ export class EnquiryDetailsService {
       quoteCompanyID: formData.enquiryDetailsForms.quoteEntityCompany,
       quoteCurrencyID: formData.enquiryDetailsForms.quoteEntityCurrency,
       enquiryDescription: formData.enquiryDescription.enterDescription,
-      loginID: 342,
+      loginID: this.loginService.employeeId,
     };
     if (formData.enquiryDetailsForms.generatedBy) {
       body.generatedByID = formData.enquiryDetailsForms.generatedBy;
@@ -122,7 +127,7 @@ export class EnquiryDetailsService {
 
   getEnquirylist() {
     const body = {
-      loginID: 342,
+      loginID: this.loginService.employeeId,
     };
     return this.http.post(this.fetchFunnelWorklistUrl, body);
   }

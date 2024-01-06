@@ -54,7 +54,9 @@ export class LoginComponent implements AfterViewInit {
   }
 
   onHandleAfterSignin(apiResponse: any) {
-    if (apiResponse[0]?.outPutValue === 'Success') {
+    console.log('after login service', apiResponse);
+    if (apiResponse[0]?.empId) {
+      this.loginService.employeeId = apiResponse[0]?.empId;
       this.router.navigate(['dashboard']);
     } else {
       this.notificationService.showNotification(
