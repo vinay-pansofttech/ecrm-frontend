@@ -15,7 +15,7 @@ interface EnquiryTypeBody {
   quoteCompanyID: any;
   quoteCurrencyID: any;
   enquiryDescription: any;
-  loginID: number;
+  loginID: number | string;
   generatedByID?: any; // Make generatedByID property optional
 }
 @Injectable({
