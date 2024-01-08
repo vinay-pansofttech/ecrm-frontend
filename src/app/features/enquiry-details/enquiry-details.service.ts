@@ -74,6 +74,8 @@ export class EnquiryDetailsService {
     };
     if (formData.enquiryDetailsForms.generatedBy) {
       body.generatedByID = formData.enquiryDetailsForms.generatedBy;
+    } else {
+      body.generatedByID = 0;
     }
     return this.http.post(url, body);
   }
