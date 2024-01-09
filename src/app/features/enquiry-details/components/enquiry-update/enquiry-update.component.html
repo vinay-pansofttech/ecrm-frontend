@@ -14,10 +14,14 @@
         stepType="full"
         [(currentStep)]="currentStep">
       </kendo-stepper>
+      <div  class="enquiry-details-history--header">
       <div class="enquiry-update--header">
         Enquiry Update
         <div class="enquiry-update-header--tag"></div>
       </div>
+      <kendo-button routerLink="/enquiry-details-history">History</kendo-button>
+     
+    </div>
       <div class="enquiry-update--container" [formGroup]="enquiryUpdateForm">
           <kendo-formfield>
           <div class="enquiry-update--content">

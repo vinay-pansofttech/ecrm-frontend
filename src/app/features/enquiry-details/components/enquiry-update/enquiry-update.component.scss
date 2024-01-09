@@ -1,3 +1,8 @@
+.enquiry-details-history--header{
+  display: flex; 
+  margin: 1rem 1rem 1rem 1.5rem;
+}
+
 .enquiry-update-main--container {
   display: flex;
   padding: 0.5rem;
@@ -6,7 +11,7 @@
 .enquiry-update--header {
   color: #031222;
   font-family: Arial;
-  font-size: var(--text-size-3);
+  font-size: var(--text-size-1);
   font-style: normal;
   font-weight: var(--font-weight-bolder);
   line-height: 1.75rem;
@@ -14,17 +19,6 @@
 }
 .enquiry-update--reset-image {
   padding-right: 1rem;
-}
-.enquiry-update--header {
-  color: var(--function-font, #031222);
-  font-family: var(--font-family-text);
-  font-size: var(--text-size-1);
-  font-style: normal;
-  font-weight: 00;
-  line-height: 1.125rem; /* 112.5% */
-  letter-spacing: 0.06rem;
-  text-transform: capitalize;
-  margin: 1rem 0 1rem 1.5rem;
 }
 .enquiry-update-header--tag {
   max-width: 2.5rem;

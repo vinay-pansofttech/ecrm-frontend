@@ -28,6 +28,7 @@ export class EnquiryDetailsService {
   private salesChannel = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetSalesChannel`;
   private quoteEntityCompany = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetQuoteCompany`;
   private fetchFunnelWorklistUrl = `${AppSettingsConfigKey.APIURL}/api/Enquiry/FetchFunnelWorklist`;
+  private accountLogDetails = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetAccountLogDetails`;
 
   public regionId: string | number = '';
   public leID: string | number = '';
@@ -132,6 +133,13 @@ export class EnquiryDetailsService {
       loginID: this.loginService.employeeId,
     };
     return this.http.post(this.fetchFunnelWorklistUrl, body);
+  }
+
+  getEnquiryDetailsHistory(){
+    const body={
+      enqID:152789
+    };
+    return this.http.post(this.accountLogDetails, body);
   }
 
   getupdateEnqDropdown() {
