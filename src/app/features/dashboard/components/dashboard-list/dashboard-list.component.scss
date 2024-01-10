@@ -1,72 +1,74 @@
-.dashboard-landingPage--container{
-    margin: 1rem;
+.dashboard-landingPage--container {
+  margin-bottom: 1rem;
+  background: white;
+  margin-top: 0;
+  padding: 1rem;
+  height: -webkit-fill-available;
 }
 
-.dashboard-landingPage--flex-container{
-    display: flex;
+.dashboard-landingPage--flex-container {
+  display: flex;
 }
-.dashboard-landingPage--title{
-    color: #23303B;
-    font-family: Arial;
-    font-size: var( --size-4);
-    font-style: normal;
-    font-weight: var(--font-weight-bolder);
-    line-height: 146.5%;
-    letter-spacing: -0.0375rem;
-    flex:1 0 0;
-}
-
-.dashboard-landingPage--viewall{
-    color: #A4A9AE;
-    font-family: Arial;
-    font-size:0.87rem;
-    font-style: normal;
-    font-weight: var(--font-weight-semibold);
-    line-height: 146.5%; /* 1.28188rem */
-    cursor: pointer;
+.dashboard-landingPage--title {
+  font-family: DM Sans;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 25px;
+  letter-spacing: 0em;
+  text-align: left;
+  padding-top: 1rem;
+  flex: 1 0 0;
+  margin-bottom: 0.5rem;
 }
 
-
-.dashboard-landingPage-card--container{
-    border-radius: 0.625rem;
-    background: #EBF6F8;
-    width: 100% !important;
-    margin-top: 1rem;
+.dashboard-landingPage--viewall {
+  color: #a4a9ae;
+  font-family: Arial;
+  font-size: 0.87rem;
+  font-style: normal;
+  font-weight: var(--font-weight-semibold);
+  line-height: 146.5%; /* 1.28188rem */
+  cursor: pointer;
 }
 
-
-.dashboard-landingPage-text--container{
-    padding: 1.5rem 0rem 1rem 1.5rem; flex: 1 0 0;
+.dashboard-landingPage-card--container {
+  border-radius: 0.625rem;
+  background: #ebf6f8;
+  width: 100% !important;
+  margin-top: 1rem;
 }
 
-.dashboard-landingPage-text--year{
-    color: #5CB5C1;
-    font-family: Arial;
-    font-size: var( --size-3);
-    font-style: normal;
-    font-weight: var(--font-weight-normal);
-    line-height: normal;
-    letter-spacing: 0.0175rem;
-    padding-bottom: 0.25rem;
+.dashboard-landingPage-text--container {
+  padding: 1.5rem 0rem 1rem 1.5rem;
+  flex: 1 0 0;
 }
 
-
-.dashboard-landingPage-text--price{
-    color: #5CB5C1;
-    font-family: Arial;
-    font-size: var(  --size-4);
-    font-style: normal;
-    font-weight: var(--font-weight-normal);
-    line-height: 146.5%; /* 1.83125rem */
+.dashboard-landingPage-text--year {
+  color: #5cb5c1;
+  font-family: Arial;
+  font-size: var(--size-3);
+  font-style: normal;
+  font-weight: var(--font-weight-normal);
+  line-height: normal;
+  letter-spacing: 0.0175rem;
+  padding-bottom: 0.25rem;
 }
 
-.dashboard-landingPage-image--container{
-    padding-right: 1.69rem;
+.dashboard-landingPage-text--price {
+  color: #5cb5c1;
+  font-family: Arial;
+  font-size: var(--size-4);
+  font-style: normal;
+  font-weight: var(--font-weight-normal);
+  line-height: 146.5%; /* 1.83125rem */
 }
 
+.dashboard-landingPage-image--container {
+  padding-right: 1.69rem;
+}
 
-.dashboard-landingPage--blur-effect{
-  background-color: rgb(175, 198, 228,0.5);
+.dashboard-landingPage--blur-effect {
+  background-color: rgb(175, 198, 228, 0.5);
   color: black;
   font-weight: bold;
   border: 3px solid #fff;
@@ -78,4 +80,38 @@
   padding: 1rem;
   text-align: center;
   bottom: 0%;
+}
+.sales-card {
+  background-image: linear-gradient(180.6deg, #91c8e0 0.52%, #24627f 108.81%);
+  border: none;
+  border-color: transparent;
+  border-style: none;
+  display: flex;
+  flex-direction: row;
+  width: 100% !important;
+}
+.sales-card--title {
+  font-family: DM Sans;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: white;
+  padding: 0 1rem;
+}
+.sales-card-text-content {
+  display: flex;
+  flex-direction: column;
+}
+.sales-card--subtitle {
+  width: 83px;
+  height: 26px;
+  border-radius: 100px;
+  color: white;
+  margin: 0 1rem;
+  background-color: #24627f;
+  text-align: center;
+  padding: 3px;
+  font-size: 12px;
 }

@@ -7,9 +7,7 @@
         *ngIf="showCards(a)"
         (click)="handleCardNavigate(a)">
         <div class="dashboard-quickLink--inner-card">
-          <div
-            class="dashboard-quickLink--inner-color"
-            [ngStyle]="{ 'background-color': setColor(a.text) }"></div>
+          <div class="dashboard-quickLink--inner-color"></div>
           <div>
             <img
               src="assets/{{ a.image }}.svg"
@@ -25,12 +23,13 @@
 
 <div class="dashboard-module-card--container">
   <div class="dashboard-card--title">Modules</div>
-  <div class="dashboard-module--container">
+  <div class="modules--grid-container">
     <kendo-card
       class="dashboard-module--cards"
       *ngFor="let b of moduleCards"
-      [ngStyle]="{ 'background-color': getColor(b.text) }">
+      [ngStyle]="{ background: 'rgba(235, 243, 244, 0.4)' }">
       <div><img src="assets/{{ b.image }}.svg" alt="" /></div>
+      <div class="dashboard-module--label">{{ b.text }}</div>
     </kendo-card>
   </div>
 </div>

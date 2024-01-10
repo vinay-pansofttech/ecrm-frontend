@@ -1,19 +1,24 @@
-.dashboard-header--container{
-    box-shadow: none;
-    background-color: #fff;
-    padding-top: 1rem;
+.dashboard-header--container {
+  box-shadow: none;
+  background-color: transparent;
+  padding-top: 1rem;
+  color: white;
+  display: flex;
+  justify-content: space-between;
 }
 
-.dashboard--title{
-    flex: 1;
-    text-align: center;
-    color: #23303B;
-    font-family: Arial;
-    font-size: 1.625rem;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-  }
-
-
-
+.dashboard--title {
+  font-family: DM Sans;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: white;
+}
+.landing-page-main {
+  background: url('../../../../../assets/landing-page-header-bckground.svg')
+    no-repeat;
+  background-color: #397490;
+  height: 100vh;
+}

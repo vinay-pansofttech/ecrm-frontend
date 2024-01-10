@@ -1,18 +1,18 @@
-{"quickCards" :  [
+{
+  "quickCards": [
     {
       "image": "dashboard-quicklink-enquiry-icon",
       "text": "Enquiry",
       "path": "enquiry-details"
     },
     {
-        "image": "dashboard-update-icon",
-        "text": "Funnel Update",
-        "path": "enquiry-listview"
-      }
-   
+      "image": "dashboard-update-icon",
+      "text": "Funnel Update",
+      "path": "enquiry-listview"
+    }
   ],
 
-  "moduleCards" :  [
+  "moduleCards": [
     {
       "image": "dashboard-calendar-icon",
       "text": "My Calendar"
@@ -22,46 +22,31 @@
       "text": "Trackers"
     },
     {
-        "image": "dashboard-MyTask-icon",
-        "text": "My Tasks"
-      },
-      {
-        "image": "dashboard-telephone-icon",
-        "text": "Telephone"
-      }
-   
+      "image": "dashboard-MyTask-icon",
+      "text": "My Tasks"
+    }
   ],
 
-  "landingPageList" :  [
+  "landingPageList": [
     {
       "text1": "Sales for Sep 2023",
-      "text2":"Rs 2,71,000",
+      "text2": "Rs 2,71,000",
       "image": "dashboard-sales-icon"
     },
     {
-        "text1": "Sales for Sep 2023",
-        "text2":"Rs 2,71,000",
-        "image": "dashboard-sales-icon"
+      "text1": "Sales for Sep 2023",
+      "text2": "Rs 2,71,000",
+      "image": "dashboard-sales-icon"
     },
     {
-        "text1": "Sales for Sep 2023",
-        "text2":"Rs 2,71,000",
-        "image": "dashboard-sales-icon"
-      },
-      {
-        "text1": "Sales for Sep 2023",
-        "text2":"Rs 2,71,000",
-        "image": "dashboard-sales-icon"
-      }
+      "text1": "Sales for Sep 2023",
+      "text2": "Rs 2,71,000",
+      "image": "dashboard-sales-icon"
+    },
+    {
+      "text1": "Sales for Sep 2023",
+      "text2": "Rs 2,71,000",
+      "image": "dashboard-sales-icon"
+    }
   ]
-  
-
-  }
-  
-
-
-  
-
-
-  
-  
+}
