@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TextBoxComponent } from '@progress/kendo-angular-inputs';
 import { eyeIcon, SVGIcon } from '@progress/kendo-svg-icons';
@@ -12,7 +12,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements AfterViewInit {
+export class LoginComponent implements AfterViewInit, OnInit {
   loginForm: FormGroup;
   invalid = false;
 
@@ -20,7 +20,7 @@ export class LoginComponent implements AfterViewInit {
   public textbox!: TextBoxComponent;
 
   public eyeIcon: SVGIcon = eyeIcon;
-  public showLoader: boolean = false;
+  public showLoader = false;
   constructor(
     private loginService: LoginService,
     private loaderService: LoaderService,
@@ -34,10 +34,7 @@ export class LoginComponent implements AfterViewInit {
   }
 
   ngOnInit() {
-    // this.loaderService.loaderState.subscribe(loaderState => {
-    //   this.showLoader = loaderState;
-    // });
-    // console.log('spinner', this.showLoader);
+    console.log('login');
   }
   public ngAfterViewInit(): void {
     this.textbox.input.nativeElement.type = 'password';
