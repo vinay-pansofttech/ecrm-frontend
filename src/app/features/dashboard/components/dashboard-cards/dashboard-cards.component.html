@@ -1,24 +1,25 @@
 <div class="dashboard-quickLink-card--container">
   <div class="dashboard-card--title">Quick Links</div>
   <div class="dashboard-quickLink--container">
-    <kendo-card
-      class="dashboard-quickLink--cards"
-      *ngFor="let a of cards"
-      (click)="handleCardNavigate(a)">
-      <div class="dashboard-quickLink--inner-card">
-        <div
-          class="dashboard-quickLink--inner-color"
-          [ngStyle]="{ 'background-color': setColor(a.text) }"></div>
-        <div>
-          <img
-            src="assets/{{ a.image }}.svg"
-            alt=""
-            class="dashboard-quickLink-card--image" />
-          </div> 
-       
-      </div>
-      <div class="dashboard-quickLink-card--subtitle">{{ a.text }}</div>
-    </kendo-card>
+    <ng-container *ngFor="let a of cards">
+      <kendo-card
+        class="dashboard-quickLink--cards"
+        *ngIf="showCards(a)"
+        (click)="handleCardNavigate(a)">
+        <div class="dashboard-quickLink--inner-card">
+          <div
+            class="dashboard-quickLink--inner-color"
+            [ngStyle]="{ 'background-color': setColor(a.text) }"></div>
+          <div>
+            <img
+              src="assets/{{ a.image }}.svg"
+              alt=""
+              class="dashboard-quickLink-card--image" />
+          </div>
+        </div>
+        <div class="dashboard-quickLink-card--subtitle">{{ a.text }}</div>
+      </kendo-card>
+    </ng-container>
   </div>
 </div>
 
@@ -28,7 +29,7 @@
     <kendo-card
       class="dashboard-module--cards"
       *ngFor="let b of moduleCards"
-      [ngStyle]="{ 'background-color': getColor(b.text)}">
+      [ngStyle]="{ 'background-color': getColor(b.text) }">
       <div><img src="assets/{{ b.image }}.svg" alt="" /></div>
     </kendo-card>
   </div>

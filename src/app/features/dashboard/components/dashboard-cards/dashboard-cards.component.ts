@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import quickCards from '../../data/mock.json';
 import moduleCards from '../../data/mock.json';
+import { LoginService } from 'src/app/features/login/components/login/login.service';
 type quickCards = {
   image: string;
   text: string;
@@ -18,13 +19,18 @@ type moduleCards = {
   styleUrls: ['./dashboard-cards.component.scss'],
 })
 export class DashboardCardsComponent implements OnInit {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private loginService: LoginService
+  ) {}
 
   cards!: quickCards[];
-  moduleCards!:moduleCards[];
-
+  moduleCards!: moduleCards[];
+  userPrivileges: string[] = [];
   ngOnInit(): void {
     this.cards = [quickCards.quickCards][0];
+    this.userPrivileges = this.loginService.privileges;
+
     this.moduleCards = [moduleCards.moduleCards][0];
   }
 
@@ -71,5 +77,11 @@ export class DashboardCardsComponent implements OnInit {
       this.router.navigate([cardData.path]);
     }
   }
-
+  showCards(cardType: any): boolean {
+    // If the card type is 'Funnel Update', show it only if the user has the 'prvViewSales' privilege.
+    return !(
+      cardType.text === 'Funnel Update' &&
+      !this.userPrivileges?.includes('prvViewSales')
+    );
+  }
 }
