@@ -106,4 +106,7 @@ export class EnquiryUpdateComponent implements OnInit {
   onReset() {
     this.enquiryUpdateForm.reset();
   }
+  handleHistoryButton() {
+    this.router.navigate([`/enquiry-details-history/${this.id}`]);
+  }
 }

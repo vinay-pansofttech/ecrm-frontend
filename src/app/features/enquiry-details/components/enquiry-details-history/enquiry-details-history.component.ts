@@ -28,6 +28,7 @@ export class EnquiryDetailsHistoryComponent implements OnInit {
   skip = 0;
   total = 0;
   searchTerm = '';
+  id!: string | null;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -36,6 +37,7 @@ export class EnquiryDetailsHistoryComponent implements OnInit {
 
   ngOnInit() {
     this.enquiryDetailsHistory();
+    this.id = this.route.snapshot.paramMap.get('id');
   }
 
   enquiryDetailsHistory() {

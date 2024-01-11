@@ -8,7 +8,9 @@
         alt="new"
         (click)="onBackClick()" />
     </div>
-    <div class="enquiry-details-listview--title">Enquiry Details History</div>
+    <div class="enquiry-details-listview--title">
+      Enquiry Details History -- {{ id }}
+    </div>
   </div>
 
   <div *ngFor="let a of filteredCards" class="enquiry-details-listview--cards">

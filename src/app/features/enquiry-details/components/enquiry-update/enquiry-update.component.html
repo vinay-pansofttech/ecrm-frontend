@@ -26,9 +26,7 @@
           Enquiry Update -- {{ id }}
           <div class="enquiry-update-header--tag"></div>
         </div>
-        <kendo-button routerLink="/enquiry-details-history"
-          >History</kendo-button
-        >
+        <kendo-button (click)="handleHistoryButton()">History</kendo-button>
       </div>
 
       <div class="enquiry-update--container" [formGroup]="enquiryUpdateForm">
