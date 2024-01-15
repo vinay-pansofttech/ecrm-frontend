@@ -15,15 +15,23 @@
   "moduleCards": [
     {
       "image": "dashboard-calendar-icon",
-      "text": "My Calendar"
+      "text": "For Service"
     },
     {
       "image": "dashboard-trackers-icon",
-      "text": "Trackers"
+      "text": "For Sales"
     },
     {
       "image": "dashboard-MyTask-icon",
-      "text": "My Tasks"
+      "text": "For PL"
+    },
+    {
+      "image": "dashboard-telephone-icon",
+      "text": "For F&A"
+    },
+    {
+      "image": "dashboard-overtime-icon",
+      "text": "For Marketing"
     }
   ],
 
