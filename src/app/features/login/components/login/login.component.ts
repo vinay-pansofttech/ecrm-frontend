@@ -92,12 +92,15 @@ export class LoginComponent implements AfterViewInit, OnInit {
         },
         error => {
           this.showLoader = false;
+          this.notificationService.showNotification(
+            'Invalid username or password',
+            'error'
+          );
         }
       );
   }
 
-onEnterPressed() {
-  this. onSubmit();
-}
-
+  onEnterPressed() {
+    this.onSubmit();
+  }
 }
