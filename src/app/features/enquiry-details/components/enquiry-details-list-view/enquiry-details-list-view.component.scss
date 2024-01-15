@@ -105,6 +105,7 @@ padding: 4px 0px 0px 4px;
 }
 .enquiry-details-listview--information{
 border-radius: 6px;
+padding: 0.15rem 0 0 0;
 color: #69727B;
 font-family:Arial;
 font-size: 10px;
@@ -112,6 +113,7 @@ font-style: normal;
 font-weight: var( --font-weight-semibold);
 margin-left: 4px;
 }
+
 .enquiry-details-listview--vertical-splitter{
     margin-right: 1rem;
 }

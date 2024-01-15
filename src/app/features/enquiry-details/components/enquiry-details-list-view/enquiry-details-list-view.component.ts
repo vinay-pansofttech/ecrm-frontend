@@ -14,6 +14,7 @@ interface EnquiryList {
   salesExecutive: string;
   soldToContact: string;
   wsApprovalPendingWith: string;
+  soldToContPhoneNo: number
 }
 
 @Component({
