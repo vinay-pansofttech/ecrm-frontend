@@ -6,7 +6,7 @@
     <!-- <div class="login-page--title">Login</div> -->
 
     <div class="login-page--form-container">
-      <form [formGroup]="loginForm" class="login-page--login-form">
+      <form [formGroup]="loginForm"  (keydown.enter)="onEnterPressed()" class="login-page--login-form">
         <div class="login-page--formfield">
           <div class="login-page--formfield-user">
             <kendo-formfield>

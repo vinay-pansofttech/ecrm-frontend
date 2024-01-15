@@ -95,4 +95,9 @@ export class LoginComponent implements AfterViewInit, OnInit {
         }
       );
   }
+
+onEnterPressed() {
+  this. onSubmit();
+}
+
 }
