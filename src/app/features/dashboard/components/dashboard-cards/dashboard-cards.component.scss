@@ -31,12 +31,23 @@
 .dashboard-quickLink--container {
   display: flex;
   gap: 0.87rem;
-  margin-left: 1rem;
+  padding: 0 1rem 1rem
 }
 
+.dashboard-quickLink--content{
+  display: flex;
+  padding: 0.8rem;
+  width: 100%;
+border-radius: 1rem;
+background: #F8FDFF;
+}
+
+.dashboard-card--splitter{
+  border-right: 1px solid #5CB5C1;
+}
 .dashboard-quickLink--cards {
-  padding: 1rem;
   align-items: center;
+  padding: 0 0.5rem;
   border-radius: 0.625rem;
   background: rgba(248, 253, 255, 1);
   width: fit-content !important;

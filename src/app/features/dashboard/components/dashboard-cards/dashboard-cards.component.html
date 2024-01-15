@@ -1,9 +1,11 @@
 <div class="dashboard-quickLink-card--container">
   <div class="dashboard-card--title">Quick Links</div>
   <div class="dashboard-quickLink--container">
+    <div class="dashboard-quickLink--content">
     <ng-container *ngFor="let a of cards">
+      <div class="dashboard-card--splitter">
       <kendo-card
-        class="dashboard-quickLink--cards"
+      class="dashboard-quickLink--cards"
         *ngIf="showCards(a)"
         (click)="handleCardNavigate(a)">
         <div class="dashboard-quickLink--inner-card">
@@ -17,7 +19,9 @@
         </div>
         <div class="dashboard-quickLink-card--subtitle">{{ a.text }}</div>
       </kendo-card>
+    </div>
     </ng-container>
+  </div>
   </div>
 </div>
 
