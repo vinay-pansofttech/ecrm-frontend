@@ -15,6 +15,9 @@
   letter-spacing: 0em;
   text-align: center;
   color: white;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 .landing-page-main {
   background: url('../../../../../assets/landing-page-header-bckground.svg')
@@ -22,8 +25,7 @@
   background-color: #397490;
   height: 100vh;
 }
-.dashboard-logo{
+.dashboard-logo {
   width: 1.375rem;
-height: 1.375rem;
-padding-top: 0.5rem;
+  height: 1.375rem;
 }
