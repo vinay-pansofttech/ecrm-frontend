@@ -17,6 +17,7 @@ interface EnquiryTypeBody {
   enquiryDescription: any;
   loginID: number | string;
   generatedByID?: any; // Make generatedByID property optional
+  attachment : any;
 }
 @Injectable({
   providedIn: 'root',
@@ -72,6 +73,7 @@ export class EnquiryDetailsService {
       quoteCurrencyID: formData.enquiryDetailsForms.quoteEntityCurrency,
       enquiryDescription: formData.enquiryDescription.enterDescription,
       loginID: this.loginService.employeeId,
+      attachment : formData.enquiryDescription.attachment
     };
     if (formData.enquiryDetailsForms.generatedBy) {
       body.generatedByID = formData.enquiryDetailsForms.generatedBy;
