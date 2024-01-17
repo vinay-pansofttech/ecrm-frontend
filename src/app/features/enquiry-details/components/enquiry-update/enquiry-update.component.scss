@@ -1,5 +1,5 @@
-.enquiry-details-history--header{
-  display: flex; 
+.enquiry-details-history--header {
+  display: flex;
   margin: 1rem 1rem 1rem 1.5rem;
 }
 
@@ -119,9 +119,13 @@
   flex-direction: column;
   gap: 0.5rem;
 }
-.enquiry-update--error-msg{
+.enquiry-update--error-msg {
   font-size: var(--text-size-02);
   font-style: normal;
   font-family: Arial;
 }
 
+.enquiry-details-interations--button {
+  background: var(--terinary-color);
+  color: white;
+}

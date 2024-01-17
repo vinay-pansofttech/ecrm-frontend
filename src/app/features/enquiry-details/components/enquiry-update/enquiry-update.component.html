@@ -23,10 +23,14 @@
       </kendo-stepper>
       <div class="enquiry-details-history--header">
         <div class="enquiry-update--header">
-          Enquiry Update - {{ id }}
+          Enquiry - {{ id }}
           <div class="enquiry-update-header--tag"></div>
         </div>
-        <kendo-button (click)="handleHistoryButton()">History</kendo-button>
+        <kendo-button
+          class="enquiry-details-interations--button"
+          (click)="handleHistoryButton()"
+          >Interactions</kendo-button
+        >
       </div>
 
       <div class="enquiry-update--container" [formGroup]="enquiryUpdateForm">
