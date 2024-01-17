@@ -9,10 +9,17 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { LoginService } from './components/login/login.service';
 import { LoginDialogComponent } from './components/login-dialog/login-dialog.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-
+import { LogoutComponent } from './components/logout-component/logout-component.component';
 
 @NgModule({
-  declarations: [LoginComponent, EmailLoginComponent, ForgotPasswordComponent, LoginDialogComponent,ResetPasswordComponent],
+  declarations: [
+    LoginComponent,
+    EmailLoginComponent,
+    ForgotPasswordComponent,
+    LoginDialogComponent,
+    ResetPasswordComponent,
+    LogoutComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -20,7 +27,14 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     KendoModule,
     LoginRoutingModule,
   ],
-  exports: [LoginComponent, EmailLoginComponent, ForgotPasswordComponent ,LoginDialogComponent,ResetPasswordComponent],
+  exports: [
+    LoginComponent,
+    EmailLoginComponent,
+    ForgotPasswordComponent,
+    LoginDialogComponent,
+    ResetPasswordComponent,
+    LogoutComponent,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [LoginService],
 })
