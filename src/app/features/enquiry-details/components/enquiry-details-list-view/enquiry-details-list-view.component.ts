@@ -14,7 +14,7 @@ interface EnquiryList {
   salesExecutive: string;
   soldToContact: string;
   wsApprovalPendingWith: string;
-  soldToContPhoneNo: number
+  soldToContPhoneNo: number;
 }
 
 @Component({
@@ -81,7 +81,8 @@ export class EnquiryDetailsListViewComponent implements OnInit {
   }
 
   navigateById(id: string | number) {
-    this.router.navigate(['/enquiry-update', getRandomInt(10000)]);
+    // this.router.navigate(['/enquiry-update', getRandomInt(10000)]);
+    this.router.navigate(['/enquiry-update', id]);
   }
 }
 function getRandomInt(max: number) {

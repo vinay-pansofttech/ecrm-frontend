@@ -52,7 +52,7 @@ export class LoginComponent implements AfterViewInit, OnInit {
     this.textbox.input.nativeElement.type = 'password';
   }
 
-  public toggleVisibility(): void {
+  public togglePasswordVisibility(): void {
     const inputEl = this.textbox.input.nativeElement;
 
     if (inputEl.type === 'password') {

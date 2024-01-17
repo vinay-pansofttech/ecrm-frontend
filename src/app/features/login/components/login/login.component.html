@@ -1,3 +1,5 @@
+<!-- eslint-disable @angular-eslint/template/elements-content -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <div class="login-page--main-container">
   <kendo-card class="login-page--kendo-card" *ngIf="!showLoader">
     <div class="login-page--logo-img">
@@ -6,7 +8,10 @@
     <!-- <div class="login-page--title">Login</div> -->
 
     <div class="login-page--form-container">
-      <form [formGroup]="loginForm"  (keydown.enter)="onEnterPressed()" class="login-page--login-form">
+      <form
+        [formGroup]="loginForm"
+        (keydown.enter)="onEnterPressed()"
+        class="login-page--login-form">
         <div class="login-page--formfield">
           <div class="login-page--formfield-user">
             <kendo-formfield>
@@ -41,7 +46,7 @@
                   kendoButton
                   look="clear"
                   [svgIcon]="eyeIcon"
-                  (click)="toggleVisibility()"></button>
+                  (click)="togglePasswordVisibility()"></button>
               </ng-template>
               <ng-template kendoTextBoxPrefixTemplate>
                 <img
