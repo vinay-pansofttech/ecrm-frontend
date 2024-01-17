@@ -77,13 +77,15 @@
   font-style: normal;
   font-weight: var(--font-weight-normal);
   line-height: normal;
-  display: flex;
-  justify-content: flex-end;
   margin: 1rem 0;
   cursor: pointer;
   text-decoration: none;
 }
 
+.login-page--forgot-div {
+  display: flex;
+  justify-content: flex-end;
+}
 .login-page--signin-button {
   color: #0f0f0f;
   border-radius: 6px;
