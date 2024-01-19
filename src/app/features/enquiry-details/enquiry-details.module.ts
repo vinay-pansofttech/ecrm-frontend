@@ -10,7 +10,7 @@ import { enquirydetailsRoutingModule } from './enquiry-routing.module';
 import { EnquiryUpdateComponent } from './components/enquiry-update/enquiry-update.component';
 import { EnquiryDetailsListViewComponent } from './components/enquiry-details-list-view/enquiry-details-list-view.component';
 import { EnquiryDetailsHistoryComponent } from './components/enquiry-details-history/enquiry-details-history.component';
-
+import { LoginModule } from '../login/login.module';
 @NgModule({
   declarations: [
     EnquiryDetailsComponent,
@@ -27,6 +27,7 @@ import { EnquiryDetailsHistoryComponent } from './components/enquiry-details-his
     LayoutModule,
     enquirydetailsRoutingModule,
     enquirydetailsRoutingModule,
+    LoginModule
   ],
   exports: [
     EnquiryDetailsComponent,
