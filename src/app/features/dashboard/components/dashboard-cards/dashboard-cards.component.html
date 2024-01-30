@@ -9,12 +9,14 @@
             *ngIf="showCards(a)"
             (click)="handleCardNavigate(a)">
             <div class="dashboard-quickLink--inner-card">
-              <div class="dashboard-quickLink--inner-color"></div>
               <div>
-                <img
+                <!-- <img
                   src="assets/{{ a.image }}.svg"
                   alt=""
-                  class="dashboard-quickLink-card--image" />
+                  class="dashboard-quickLink-card--image" /> -->
+                <fa-icon
+                  class="dashboard-quickLink-card--image"
+                  [icon]="['fas', 'line-chart']"></fa-icon>
               </div>
             </div>
             <div class="dashboard-quickLink-card--subtitle">{{ a.text }}</div>
@@ -32,9 +34,11 @@
       class="dashboard-module--cards"
       *ngFor="let b of moduleCards"
       [ngStyle]="{ background: 'rgba(235, 243, 244, 0.4)' }">
-      <div>
-        <img src="assets/{{ b.image }}.svg" alt="" style="height: 30px" />
-      </div>
+      <!-- <img src="assets/{{ b.image }}.svg" alt="" style="height: 30px" /> -->
+      <fa-icon
+        class="dashboard-quickLink-card--image"
+        [icon]="['fas', getIconName(b.image)]"></fa-icon>
+
       <div class="dashboard-module--label">{{ b.text }}</div>
     </kendo-card>
   </div>

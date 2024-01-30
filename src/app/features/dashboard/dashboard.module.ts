@@ -8,6 +8,12 @@ import { IconsModule } from '@progress/kendo-angular-icons';
 import { NavigationModule } from '@progress/kendo-angular-navigation';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { LoginModule } from '../login/login.module';
+import {
+  FaIconLibrary,
+  FontAwesomeModule,
+} from '@fortawesome/angular-fontawesome';
+import { faBullhorn, faLineChart,faWrench,faTruck,faMoneyBill } from '@fortawesome/free-solid-svg-icons';
+
 @NgModule({
   declarations: [
     DashboardCardsComponent,
@@ -20,10 +26,15 @@ import { LoginModule } from '../login/login.module';
     IconsModule,
     NavigationModule,
     ButtonsModule,
-    LoginModule
+    LoginModule,
+    FontAwesomeModule,
   ],
   exports: [DashboardCardsComponent, DashboardListComponent],
 
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class DashboardModule {}
+export class DashboardModule {
+  constructor(library: FaIconLibrary) {
+    library.addIcons(faBullhorn, faLineChart,faWrench,faTruck,faMoneyBill);
+  }
+}

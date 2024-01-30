@@ -31,19 +31,19 @@
 .dashboard-quickLink--container {
   display: flex;
   gap: 0.87rem;
-  padding: 0 1rem 1rem
+  padding: 0 1rem 1rem;
 }
 
-.dashboard-quickLink--content{
+.dashboard-quickLink--content {
   display: flex;
   padding: 0.8rem;
   width: 100%;
-border-radius: 1rem;
-background: #F8FDFF;
+  border-radius: 1rem;
+  background: #f8fdff;
 }
 
-.dashboard-card--splitter{
-  border-right: 1px solid #5CB5C1;
+.dashboard-card--splitter {
+  border-right: 1px solid #5cb5c1;
 }
 .dashboard-quickLink--cards {
   align-items: center;
@@ -70,12 +70,12 @@ background: #F8FDFF;
   border-radius: 0.5rem;
 }
 
-.dashboard-quickLink-card--image {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+// .dashboard-quickLink-card--image {
+//   position: absolute;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+// }
 
 .dashboard-quickLink-card--subtitle {
   color: rgba(142, 148, 154, 1);
@@ -135,4 +135,8 @@ background: #F8FDFF;
   position: absolute;
   right: -10px;
   top: 0;
+}
+.dashboard-quickLink-card--image {
+  font-size: 30px;
+  color: var(--terinary-color);
 }

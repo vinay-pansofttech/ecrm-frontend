@@ -14,23 +14,23 @@
 
   "moduleCards": [
     {
-      "image": "dashboard-calendar-icon",
+      "image": "wrench",
       "text": "For Service"
     },
     {
-      "image": "dashboard-trackers-icon",
+      "image": "line-chart",
       "text": "For Sales"
     },
     {
-      "image": "dashboard-MyTask-icon",
+      "image": "truck",
       "text": "For PL"
     },
     {
-      "image": "dashboard-telephone-icon",
+      "image": "money-bill",
       "text": "For F&A"
     },
     {
-      "image": "dashboard-overtime-icon",
+      "image": "bullhorn",
       "text": "For Marketing"
     }
   ],

@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import quickCards from '../../data/mock.json';
 import moduleCards from '../../data/mock.json';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
+import { IconName } from '@fortawesome/fontawesome-svg-core';
+
 type quickCards = {
   image: string;
   text: string;
@@ -83,5 +85,10 @@ export class DashboardCardsComponent implements OnInit {
       cardType.text === 'Funnel Update' &&
       !this.userPrivileges?.includes('prvViewSales')
     );
+  }
+
+  getIconName(image: string): IconName {
+    // Assuming all your icons are valid FontAwesome icon names
+    return image as unknown as IconName;
   }
 }
