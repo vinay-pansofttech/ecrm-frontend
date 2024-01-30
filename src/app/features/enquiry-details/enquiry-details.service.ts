@@ -34,7 +34,7 @@ export class EnquiryDetailsService {
   public regionId: string | number = '';
   public leID: string | number = '';
   public salesExecID: string | number = '';
-
+  public poExpectedDate: string | number = '';
   constructor(
     private http: HttpClient,
     private loginService: LoginService
@@ -149,6 +149,15 @@ export class EnquiryDetailsService {
     return this.http.get(updateEnqDropdownUrl);
   }
 
+  getEnquiryDetails(enqID :string | null ){
+    const enquiryDetailsurl = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetEnqDetails`;
+    const body ={
+      enqID,
+      loginID: this.loginService.employeeId
+    }
+
+    return this.http.post(enquiryDetailsurl,body)
+  }
   updateEnquiryDetails(updateBody: any) {
     const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/UpdateEnquiry`;
     return this.http.put(url, updateBody);

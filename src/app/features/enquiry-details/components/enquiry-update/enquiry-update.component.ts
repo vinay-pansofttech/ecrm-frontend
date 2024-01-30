@@ -5,6 +5,7 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 import { EnquiryDetailsService } from '../../enquiry-details.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
+
 @Component({
   selector: 'app-enquiry-update',
   templateUrl: './enquiry-update.component.html',
@@ -15,6 +16,7 @@ export class EnquiryUpdateComponent implements OnInit {
   showAPILoader = false;
   invalid = true;
   id!: string | null;
+  poExpectedDate: Date = new Date();
 
   constructor(
     private loaderService: LoaderService,
@@ -40,6 +42,7 @@ export class EnquiryUpdateComponent implements OnInit {
       );
     });
     this.id = this.route.snapshot.paramMap.get('id');
+    this.getEnqdetails();
   }
   public step = [
     {
@@ -62,6 +65,12 @@ export class EnquiryUpdateComponent implements OnInit {
   public dealPositionList: Array<string> = [];
   public probabilityList: Array<string> = [];
   public enquiryModeList: Array<string> = [];
+  public dealPositionDefaultValue: {
+    comboID: unknown;
+    comboName: unknown;
+    comboType: string;
+    isActive: boolean;
+  } | null = null;
   public enquiryUpdateForm: FormGroup = new FormGroup({
     poExpectedDate: new FormControl('', Validators.required),
     dealPosition: new FormControl('', Validators.required),
@@ -69,28 +78,76 @@ export class EnquiryUpdateComponent implements OnInit {
     dealValue: new FormControl('', Validators.required),
     modeOfCommunication: new FormControl('', Validators.required),
     remarksValue: new FormControl('', Validators.required),
-    attachment: new FormControl('', Validators.required),
+    attachment: new FormControl([null], Validators.required),
   });
   public async updateEnquiryForm(): Promise<void> {
     if (this.enquiryUpdateForm.valid) {
       this.loaderService.showLoader();
-      const updatedBody = await this.handleUpdateEnquiryBody(
-        this.enquiryUpdateForm.value,
-        1
-      );
-      console.log('updated body', updatedBody);
-      this.enquiryDetailsService
-        .updateEnquiryDetails(updatedBody)
-        ?.subscribe(data => {
+      const formData = new FormData();
+      const formValue = this.enquiryUpdateForm.value;
+
+      // Mapping form fields to the API fields
+      formData.append('enqID', '1'); // Assuming you have enquiryId stored somewhere
+      formData.append('remarks', formValue.remarksValue);
+      formData.append('probabilityID', formValue.probability);
+      formData.append('dealPositionID', formValue.dealPosition);
+      formData.append('dealValue', formValue.dealValue);
+      formData.append('loginID', String(this.loginService?.employeeId));
+      formData.append('POExpectedDate', formValue.poExpectedDate);
+      formData.append('modeOfCommunicationID', formValue.modeOfCommunication);
+
+      // Handle the file attachment
+      const file =
+        formValue.attachment && formValue.attachment.length > 0
+          ? formValue.attachment[0]
+          : null;
+      if (file) {
+        // formData.append('attachment', file);
+        //Let's uncomment once backend is ready
+      }
+
+      this.enquiryDetailsService.updateEnquiryDetails(formData)?.subscribe(
+        data => {
           console.log('after save', data);
           this.loaderService.hideLoader();
           this.router.navigate(['enquiry-listview']);
-        });
+        },
+        error => {
+          // Handle any errors
+          console.log('error', error);
+          this.router.navigate(['/dashboard']);
+        }
+      );
     }
   }
 
+  getEnqdetails() {
+    this.enquiryDetailsService
+      .getEnquiryDetails(this.id)
+      .subscribe((res: any) => {
+        console.log(res);
+        if (this.enquiryUpdateForm.get('dealPosition')) {
+          console.log('dealPosition from API:', res[0]?.dealPositionID);
+          console.log('Probability from API:', res[0]?.probability);
+
+          this.dealPositionDefaultValue = {
+            comboID: res[0]?.dealPositionID,
+            comboName: res[0]?.dealPosition,
+            comboType: 'DEALPOSITION',
+            isActive: true,
+          };
+          this.enquiryUpdateForm.enable();
+          this.enquiryUpdateForm.patchValue({
+            dealPosition: this.dealPositionDefaultValue.comboID,
+            probability: res[0]?.probabilityID,
+            dealValue: res[0]?.dealValue,
+            poExpectedDate: new Date(res[0]?.poExpectedDate),
+          });
+        }
+      });
+  }
+
   async handleUpdateEnquiryBody(formData: any, id: string | number) {
-    console.log('formdata', formData);
     return {
       enqID: id,
       remarks: formData.remarksValue,
