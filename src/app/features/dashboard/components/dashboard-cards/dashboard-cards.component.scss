@@ -45,6 +45,9 @@
 .dashboard-card--splitter {
   border-right: 1px solid #5cb5c1;
 }
+.dashboard-card--splitter kendo-card {
+  min-width: 100px;
+}
 .dashboard-quickLink--cards {
   align-items: center;
   padding: 0 0.5rem;
