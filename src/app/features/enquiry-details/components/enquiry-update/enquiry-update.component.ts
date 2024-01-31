@@ -102,7 +102,7 @@ export class EnquiryUpdateComponent implements OnInit {
           ? formValue.attachment[0]
           : null;
       if (file) {
-        // formData.append('attachment', file);
+        formData.append('attachment', file);
         //Let's uncomment once backend is ready
       }
 
