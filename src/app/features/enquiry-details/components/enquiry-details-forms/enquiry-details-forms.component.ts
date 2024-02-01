@@ -64,6 +64,13 @@ export class EnquiryDetailsFormsComponent implements OnInit {
   public generatedFromList : unknown =[];
   public companyList : unknown =[];
 
+  public salesExecutiveDefaultValue: {
+    salesChannelID: unknown;
+    salesChannel: unknown;
+    comboType: string;
+  
+  } | null = null;
+
   @Input()
   public enquiryDetailsForms!: FormGroup;
   public generatedByVisible = false;
@@ -142,10 +149,15 @@ handleSalesChannel(sales:salesChannel){
       .getsalesExecutive(0, 0, sales.salesChannelID ,21665 )
       .subscribe((res: any) => {
         this.salesExecutive = res || '';
+        this.salesExecutiveDefaultValue = {
+          salesChannelID: res[0]?.salesExecID,
+          salesChannel: res[0]?.salesExecName,
+          comboType: 'SALESPERSON',
+        };
         this.enquiryDetailsForms.patchValue({
-          salesExecutive: res[0]?.salesExecName,
+          salesExecutive: this.salesExecutiveDefaultValue.salesChannelID,
         })
-        this.enquiryDetailsService.salesExecID = res[0]?.salesExecID;
+        
         
       });
  }
