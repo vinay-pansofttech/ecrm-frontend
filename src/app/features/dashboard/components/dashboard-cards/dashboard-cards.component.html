@@ -1,5 +1,8 @@
 <div class="dashboard-quickLink-card--container">
-  <div class="dashboard-card--title">Quick Links</div>
+  <div class="dashboard-quicklink-header--content">
+    <div class="dashboard-card--title">Quick Links</div>
+  <div class="dashboard-card--username">{{ getEmployeeName() }}</div>
+</div>
   <div class="dashboard-quickLink--container">
     <div class="dashboard-quickLink--content">
       <ng-container *ngFor="let a of cards">

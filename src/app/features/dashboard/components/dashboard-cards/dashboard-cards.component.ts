@@ -86,7 +86,9 @@ export class DashboardCardsComponent implements OnInit {
       !this.userPrivileges?.includes('prvViewSales')
     );
   }
-
+  getEmployeeName(): string {
+    return this.loginService.getEmployeeName();
+  }
   getIconName(image: string): IconName {
     // Assuming all your icons are valid FontAwesome icon names
     return image as unknown as IconName;

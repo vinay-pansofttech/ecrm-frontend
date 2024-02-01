@@ -66,6 +66,7 @@ export class LoginComponent implements AfterViewInit, OnInit {
     console.log('after login service', apiResponse);
     if (apiResponse[0]?.empId) {
       this.loginService.employeeId = apiResponse[0]?.empId;
+      this.loginService.setEmployeeName(apiResponse[0]?.employeeName);
       const result = extractPrivilegeAndMenuName(apiResponse);
       this.loginService.privileges = result.privileges;
       this.router.navigate(['dashboard']);
