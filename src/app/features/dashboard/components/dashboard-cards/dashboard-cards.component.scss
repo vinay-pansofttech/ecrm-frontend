@@ -21,17 +21,18 @@
   font-weight: 700;
   margin: 1rem;
   flex: 1 0 0;
+  margin-top: 0;
 }
-.dashboard-quicklink-header--content{
+.dashboard-quicklink-header--content {
   display: flex;
-  gap:6.5rem;
+  gap: 6.5rem;
+  padding-top: 1rem;
 }
-.dashboard-card--username{
+.dashboard-card--username {
   font-family: DM Sans;
   font-size: 16px;
   font-weight: 400;
   margin: 1rem;
-  
 }
 .dashboard-quickLink--container {
   display: flex;
