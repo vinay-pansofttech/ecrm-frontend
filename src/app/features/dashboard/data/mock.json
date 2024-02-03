@@ -15,23 +15,23 @@
   "moduleCards": [
     {
       "image": "wrench",
-      "text": "For Service"
+      "text": "Service"
     },
     {
       "image": "line-chart",
-      "text": "For Sales"
+      "text": "Sales"
     },
     {
       "image": "truck",
-      "text": "For PL"
+      "text": "PL"
     },
     {
       "image": "money-bill",
-      "text": "For F&A"
+      "text": "F&A"
     },
     {
       "image": "bullhorn",
-      "text": "For Marketing"
+      "text": "Marketing"
     }
   ],
 

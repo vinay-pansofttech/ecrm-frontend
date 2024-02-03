@@ -51,7 +51,7 @@ export class EnquiryDetailsComponent implements OnInit {
       icon: '',
     },
     {
-      label: 'Enquiry Update',
+      label: 'Deal Number',
       disabled: true,
       icon: '',
     },

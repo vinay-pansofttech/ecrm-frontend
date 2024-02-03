@@ -58,7 +58,7 @@ export class EnquiryUpdateComponent implements OnInit {
       isValid: true,
     },
     {
-      label: 'Enquiry Update',
+      label: 'Deal Number',
     },
   ];
 
