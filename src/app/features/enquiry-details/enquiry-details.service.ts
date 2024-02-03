@@ -17,7 +17,7 @@ interface EnquiryTypeBody {
   enquiryDescription: any;
   loginID: number | string;
   generatedByID?: any; // Make generatedByID property optional
-  attachment : any;
+  attachment: any;
 }
 @Injectable({
   providedIn: 'root',
@@ -73,7 +73,7 @@ export class EnquiryDetailsService {
       quoteCurrencyID: formData.enquiryDetailsForms.quoteEntityCurrency,
       enquiryDescription: formData.enquiryDescription.enterDescription,
       loginID: this.loginService.employeeId,
-      attachment : formData.enquiryDescription.attachment
+      attachment: formData.enquiryDescription.attachment,
     };
     if (formData.enquiryDetailsForms.generatedBy) {
       body.generatedByID = formData.enquiryDetailsForms.generatedBy;
@@ -137,9 +137,9 @@ export class EnquiryDetailsService {
     return this.http.post(this.fetchFunnelWorklistUrl, body);
   }
 
-  getEnquiryDetailsHistory(){
-    const body={
-      enqID:152789
+  getEnquiryDetailsHistory() {
+    const body = {
+      enqID: 152789,
     };
     return this.http.post(this.accountLogDetails, body);
   }
@@ -149,14 +149,14 @@ export class EnquiryDetailsService {
     return this.http.get(updateEnqDropdownUrl);
   }
 
-  getEnquiryDetails(enqID :string | null ){
+  getEnquiryDetails(enqID: string | null) {
     const enquiryDetailsurl = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetEnqDetails`;
-    const body ={
+    const body = {
       enqID,
-      loginID: this.loginService.employeeId
-    }
+      loginID: this.loginService.employeeId,
+    };
 
-    return this.http.post(enquiryDetailsurl,body)
+    return this.http.post(enquiryDetailsurl, body);
   }
   updateEnquiryDetails(updateBody: any) {
     const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/UpdateEnquiry`;
