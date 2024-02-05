@@ -25,14 +25,15 @@
 }
 .dashboard-quicklink-header--content {
   display: flex;
-  gap: 6.5rem;
+  gap: 3.5rem;
   padding-top: 1rem;
 }
 .dashboard-card--username {
   font-family: DM Sans;
   font-size: 16px;
   font-weight: 400;
-  margin: 1rem;
+  // margin: 1rem;
+  padding-right: 0.5rem;
 }
 .dashboard-quickLink--container {
   display: flex;
