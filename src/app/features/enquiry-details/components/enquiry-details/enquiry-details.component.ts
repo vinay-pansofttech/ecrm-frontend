@@ -71,6 +71,7 @@ export class EnquiryDetailsComponent implements OnInit {
     this.loaderService.loaderState.subscribe(res => {
       this.showAPILoader = res;
     });
+    this.loaderService.hideLoader();
     this.enquiryCaptureForm = this.formBuilder.group({
       contactDteails: new FormGroup({
         soldToContact: new FormControl('', Validators.required),
