@@ -32,6 +32,11 @@ export class ContactDetailsComponent implements OnInit {
   public soldToSite: unknown = [];
   public regionsList: unknown = [];
   public soldToContactList:unknown = [];
+
+  public soldToSiteDefaultValue :{
+    comboType: string;
+    leSiteId: unknown;
+  }| null = null;
   constructor(public enquiryDetailsService: EnquiryDetailsService) {
     this.soldToContact = this.soldToContact.slice();
   }
@@ -60,15 +65,28 @@ export class ContactDetailsComponent implements OnInit {
     if (contact && contact?.contactID) {
       this.enquiryDetailsService
         .getSoldToSiteList(contact.contactID)
-        .subscribe(res => {
-          this.soldToSite = res;
+        .subscribe((res: any) => {
+          this.soldToSite = res || '';
+  
+          if (res && res.length > 0) { 
+            this.soldToSiteDefaultValue = {
+              comboType: 'SOLDTOLESITE',
+              leSiteId: res[0]?.leSiteID,
+            };
+  
+            this.contactDetails.patchValue({
+              soldToSite: this.soldToSiteDefaultValue.leSiteId
+            });
+
+            this.handleSoldToSiteChanged(this.soldToSiteDefaultValue);
+          }
         });
     }
   }
-
-  handleSoldToSiteChanged(site: SoldToSite) {
+  
+  handleSoldToSiteChanged(site: any) { 
     this.enquiryDetailsService
-      .getRegionFromSiteList(site.leSiteID)
+      .getRegionFromSiteList(site.leSiteId) 
       .subscribe((res: any) => {
         this.regionsList = res || '';
         this.contactDetails.patchValue({
@@ -79,4 +97,6 @@ export class ContactDetailsComponent implements OnInit {
         this.enquiryDetailsService.leID = res[1]?.comboID;
       });
   }
+  
+
 }
