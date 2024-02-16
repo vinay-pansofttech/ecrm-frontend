@@ -82,7 +82,8 @@
   bottom: 0%;
 }
 .sales-card {
-  background-image: linear-gradient(180.6deg, #91c8e0 0.52%, #24627f 108.81%);
+  background: url('../../../../../assets/landing-page-header-bckground.svg')
+  no-repeat;
   border: none;
   border-color: transparent;
   border-style: none;
@@ -110,7 +111,7 @@
   border-radius: 100px;
   color: white;
   margin: 0 1rem;
-  background-color: #24627f;
+  background-color:#FFFFFF33;
   text-align: center;
   padding: 3px;
   font-size: 12px;
