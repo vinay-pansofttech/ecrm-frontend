@@ -88,20 +88,21 @@
             >Probability is required</kendo-formerror
           >
         </kendo-formfield>
-        <kendo-formfield>
-          <div class="enquiry-update--content">
-            <kendo-label class="enquiry-update--label" [for]="dealvalue"
-              >Deal Value</kendo-label
-            >
-            <kendo-textbox
-              class="enquiry-update--textbox"
-              formControlName="dealValue"
-              #dealvalue></kendo-textbox>
+
+        <div class="enquiry-update-forms--content">
+          <kendo-label class="enquiry-update-forms--label" [for]="dealvalue" [for]="currency" >Deal Value / Currency</kendo-label>
+          <div class="enquiry-update-forms--subcontent">
+            <kendo-textbox class="enquiry-update-forms-kendo--dropdownlist"
+             formControlName="dealValue"
+             #dealvalue>
+            </kendo-textbox>
+            <kendo-textbox class="enquiry-update-forms-kendo--dropdownlist"
+             formControlName="currency"
+             #currency
+            ></kendo-textbox>  
           </div>
-          <kendo-formerror class="enquiry-update--error-msg"
-            >Deal value is required</kendo-formerror
-          >
-        </kendo-formfield>
+        </div>
+     
         <kendo-formfield>
           <div class="enquiry-update--content">
             <kendo-label

@@ -76,6 +76,7 @@ export class EnquiryUpdateComponent implements OnInit {
     dealPosition: new FormControl('', Validators.required),
     probability: new FormControl('', Validators.required),
     dealValue: new FormControl('', Validators.required),
+    currency: new FormControl('', Validators.required),
     modeOfCommunication: new FormControl('', Validators.required),
     remarksValue: new FormControl('', Validators.required),
     attachment: new FormControl([null], Validators.required),
@@ -92,6 +93,7 @@ export class EnquiryUpdateComponent implements OnInit {
       formData.append('probabilityID', formValue.probability);
       formData.append('dealPositionID', formValue.dealPosition);
       formData.append('dealValue', formValue.dealValue);
+      formData.append('currency', formValue.currency);
       formData.append('loginID', String(this.loginService?.employeeId));
       formData.append('POExpectedDate', formValue.poExpectedDate);
       formData.append('modeOfCommunicationID', formValue.modeOfCommunication);
@@ -142,6 +144,7 @@ export class EnquiryUpdateComponent implements OnInit {
             probability: res[0]?.probabilityID,
             dealValue: res[0]?.dealValue,
             poExpectedDate: new Date(res[0]?.poExpectedDate),
+            currency: res[0]?.quoteCurrency
           });
         }
       });
@@ -154,6 +157,7 @@ export class EnquiryUpdateComponent implements OnInit {
       probabilityID: formData.probability,
       dealPositionID: formData.dealPosition,
       dealValue: formData.dealValue,
+      currency:formData.currency,
       loginID: this.loginService.employeeId,
       POExpectedDate: formData.poExpectedDate,
       modeOfCommunicationID: formData.modeOfCommunication,

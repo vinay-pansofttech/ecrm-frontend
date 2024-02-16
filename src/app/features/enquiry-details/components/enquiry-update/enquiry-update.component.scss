@@ -129,3 +129,35 @@
   background: var(--terinary-color);
   color: white;
 }
+
+.enquiry-update-forms--content{
+  display: flex;
+  min-width: 100%;
+ flex-direction: column;
+ align-items: flex-start;
+ gap: 0.5rem;
+}
+
+.enquiry-update-forms--label{
+  display: flex;
+  margin: -0.1rem;
+  color: var(--colors-brand-black, #1C1B1B);
+  font-family: Arial;
+  font-size: var(--text-size-01);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 1.3125rem */
+  letter-spacing: 0.00438rem;
+}
+.enquiry-update-forms--subcontent{
+  display: flex;
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.enquiry-update-forms-kendo--dropdownlist{
+  border-radius: var(--Corners, 0.50rem);
+  border: 1px solid #5CB5C1;
+  background: var(--colors-brand-white, #FFF);
+  min-height: 39px;
+}
