@@ -86,6 +86,8 @@ export class EnquiryUpdateComponent implements OnInit {
       this.loaderService.showLoader();
       const formData = new FormData();
       const formValue = this.enquiryUpdateForm.value;
+      const poExpectedDate = formValue.poExpectedDate;
+      const formattedDate = `${poExpectedDate.getFullYear()}-${('0' + (poExpectedDate.getMonth() + 1)).slice(-2)}-${('0' + poExpectedDate.getDate()).slice(-2)}`;
 
       // Mapping form fields to the API fields
       formData.append('enqID', '1'); // Assuming you have enquiryId stored somewhere
@@ -95,7 +97,7 @@ export class EnquiryUpdateComponent implements OnInit {
       formData.append('dealValue', formValue.dealValue);
       formData.append('currency', formValue.currency);
       formData.append('loginID', String(this.loginService?.employeeId));
-      formData.append('POExpectedDate', formValue.poExpectedDate);
+      formData.append('poExpectedDate', formattedDate);
       formData.append('modeOfCommunicationID', formValue.modeOfCommunication);
 
       // Handle the file attachment
@@ -104,8 +106,8 @@ export class EnquiryUpdateComponent implements OnInit {
           ? formValue.attachment[0]
           : null;
       if (file) {
-        // formData.append('attachment', file);
-        //Let's uncomment once backend is ready
+        formData.append('attachment', file);
+        // Let's uncomment once backend is ready
       }
 
       this.enquiryDetailsService.updateEnquiryDetails(formData)?.subscribe(
