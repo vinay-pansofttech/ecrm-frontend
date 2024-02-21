@@ -125,7 +125,7 @@ export class EnquiryUpdateComponent implements OnInit {
           this.router.navigate(['enquiry-listview']);
           this.notificationService.showNotification(
             'Data is Updated',
-            'success',
+            'success'
           );
         },
         error => {
@@ -186,6 +186,6 @@ export class EnquiryUpdateComponent implements OnInit {
     this.enquiryUpdateForm.reset();
   }
   handleHistoryButton() {
-    this.router.navigate([`/enquiry-details-history/${this.id}`]);
+    this.router.navigate([`/enquiry-details-history/${this.enqId}`]);
   }
 }
