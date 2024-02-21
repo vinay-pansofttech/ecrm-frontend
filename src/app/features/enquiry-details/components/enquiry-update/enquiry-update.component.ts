@@ -6,6 +6,8 @@ import { EnquiryDetailsService } from '../../enquiry-details.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { DatePipe } from '@angular/common';
+
 @Component({
   selector: 'app-enquiry-update',
   templateUrl: './enquiry-update.component.html',
@@ -17,14 +19,15 @@ export class EnquiryUpdateComponent implements OnInit {
   invalid = true;
   id!: string | null;
   poExpectedDate: Date = new Date();
-
+  enqId!: string | null;
   constructor(
     private loaderService: LoaderService,
     private router: Router,
     public enquiryDetailsService: EnquiryDetailsService,
     private route: ActivatedRoute,
     private loginService: LoginService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit(): void {
@@ -80,27 +83,29 @@ export class EnquiryUpdateComponent implements OnInit {
     currency: new FormControl('', Validators.required),
     modeOfCommunication: new FormControl('', Validators.required),
     remarksValue: new FormControl('', Validators.required),
-    attachment: new FormControl('[null]', Validators.required),
+    attachment: new FormControl([null]),
   });
   public async updateEnquiryForm(): Promise<void> {
     if (this.enquiryUpdateForm.valid) {
       this.loaderService.showLoader();
       const formData = new FormData();
       const formValue = this.enquiryUpdateForm.value;
-      const poExpectedDate = formValue.poExpectedDate;
-      const formattedDate = `${poExpectedDate.getFullYear()}-${('0' + (poExpectedDate.getMonth() + 1)).slice(-2)}-${('0' + poExpectedDate.getDate()).slice(-2)}`;
+      const poExpectedDate = new Date(formValue.poExpectedDate);
+      console.log('form valu', formValue.poExpectedDate);
+      const formattedDate = poExpectedDate
+        ? this.datePipe.transform(poExpectedDate, 'dd/MM/yyyy')
+        : null;
 
       // Mapping form fields to the API fields
-      formData.append('enqID', '1'); // Assuming you have enquiryId stored somewhere
+      formData.append('enqID', this.enqId as string);
       formData.append('remarks', formValue.remarksValue);
       formData.append('probabilityID', formValue.probability);
       formData.append('dealPositionID', formValue.dealPosition);
       formData.append('dealValue', formValue.dealValue);
       formData.append('currency', formValue.currency);
       formData.append('loginID', String(this.loginService?.employeeId));
-      formData.append('poExpectedDate', formattedDate);
+      formData.append('poExpectedDate', formattedDate as string);
       formData.append('modeOfCommunicationID', formValue.modeOfCommunication);
-
       // Handle the file attachment
       const file =
         formValue.attachment && formValue.attachment.length > 0
@@ -109,6 +114,8 @@ export class EnquiryUpdateComponent implements OnInit {
       if (file) {
         formData.append('attachment', file);
         // Let's uncomment once backend is ready
+      } else {
+        formData.append('attachment', '');
       }
 
       this.enquiryDetailsService.updateEnquiryDetails(formData)?.subscribe(
@@ -142,7 +149,7 @@ export class EnquiryUpdateComponent implements OnInit {
         if (this.enquiryUpdateForm.get('dealPosition')) {
           console.log('dealPosition from API:', res[0]?.dealPositionID);
           console.log('Probability from API:', res[0]?.probability);
-
+          this.enqId = res[0].enqID;
           this.dealPositionDefaultValue = {
             comboID: res[0]?.dealPositionID,
             comboName: res[0]?.dealPosition,
@@ -155,7 +162,7 @@ export class EnquiryUpdateComponent implements OnInit {
             probability: res[0]?.probabilityID,
             dealValue: res[0]?.dealValue,
             poExpectedDate: new Date(res[0]?.poExpectedDate),
-            currency: res[0]?.quoteCurrency
+            currency: res[0]?.quoteCurrency,
           });
         }
       });
@@ -168,7 +175,7 @@ export class EnquiryUpdateComponent implements OnInit {
       probabilityID: formData.probability,
       dealPositionID: formData.dealPosition,
       dealValue: formData.dealValue,
-      currency:formData.currency,
+      currency: formData.currency,
       loginID: this.loginService.employeeId,
       POExpectedDate: formData.poExpectedDate,
       modeOfCommunicationID: formData.modeOfCommunication,

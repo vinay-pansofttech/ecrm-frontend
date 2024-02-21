@@ -17,6 +17,7 @@ import { LoaderService } from './core/services/loader.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthGuard } from './auth.guard';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,7 +36,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     BrowserAnimationsModule,
     FontAwesomeModule,
   ],
-  providers: [LoginService, NotificationService, LoaderService, AuthGuard],
+  providers: [
+    LoginService,
+    NotificationService,
+    LoaderService,
+    AuthGuard,
+    DatePipe,
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
