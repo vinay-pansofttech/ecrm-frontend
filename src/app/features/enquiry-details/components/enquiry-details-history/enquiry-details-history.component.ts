@@ -42,7 +42,7 @@ export class EnquiryDetailsHistoryComponent implements OnInit {
 
   enquiryDetailsHistory() {
     this.enquiryDetailService
-      .getEnquiryDetailsHistory()
+      .getEnquiryDetailsHistory(this.id as string)
       .subscribe((data: any) => {
         this.contactCards = data;
         this.filterData();

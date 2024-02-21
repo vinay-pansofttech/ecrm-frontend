@@ -137,9 +137,9 @@ export class EnquiryDetailsService {
     return this.http.post(this.fetchFunnelWorklistUrl, body);
   }
 
-  getEnquiryDetailsHistory() {
+  getEnquiryDetailsHistory(endId: string) {
     const body = {
-      enqID: 152789,
+      enqID: endId,
     };
     return this.http.post(this.accountLogDetails, body);
   }
