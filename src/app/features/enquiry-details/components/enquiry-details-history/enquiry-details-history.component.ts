@@ -36,8 +36,8 @@ export class EnquiryDetailsHistoryComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.enquiryDetailsHistory();
     this.id = this.route.snapshot.paramMap.get('id');
+    this.enquiryDetailsHistory();
   }
 
   enquiryDetailsHistory() {
