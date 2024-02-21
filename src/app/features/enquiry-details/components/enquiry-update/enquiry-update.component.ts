@@ -5,7 +5,7 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 import { EnquiryDetailsService } from '../../enquiry-details.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
-
+import { NotificationService } from 'src/app/core/services/notification.service';
 @Component({
   selector: 'app-enquiry-update',
   templateUrl: './enquiry-update.component.html',
@@ -23,7 +23,8 @@ export class EnquiryUpdateComponent implements OnInit {
     private router: Router,
     public enquiryDetailsService: EnquiryDetailsService,
     private route: ActivatedRoute,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -79,7 +80,7 @@ export class EnquiryUpdateComponent implements OnInit {
     currency: new FormControl('', Validators.required),
     modeOfCommunication: new FormControl('', Validators.required),
     remarksValue: new FormControl('', Validators.required),
-    attachment: new FormControl([null], Validators.required),
+    attachment: new FormControl('[null]', Validators.required),
   });
   public async updateEnquiryForm(): Promise<void> {
     if (this.enquiryUpdateForm.valid) {
@@ -115,11 +116,19 @@ export class EnquiryUpdateComponent implements OnInit {
           console.log('after save', data);
           this.loaderService.hideLoader();
           this.router.navigate(['enquiry-listview']);
+          this.notificationService.showNotification(
+            'Data is Updated',
+            'success',
+          );
         },
         error => {
           // Handle any errors
           console.log('error', error);
           this.router.navigate(['/dashboard']);
+          this.notificationService.showNotification(
+            'Data Updated Failed',
+            'error'
+          );
         }
       );
     }
