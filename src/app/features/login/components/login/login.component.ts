@@ -73,7 +73,7 @@ export class LoginComponent implements AfterViewInit, OnInit {
     } else {
       this.notificationService.showNotification(
         'Invalid username or password',
-        'error'
+        'error', 'center', 'bottom'
       );
     }
   }
@@ -95,7 +95,7 @@ export class LoginComponent implements AfterViewInit, OnInit {
           this.showLoader = false;
           this.notificationService.showNotification(
             'Invalid username or password',
-            'error'
+            'error', 'center', 'bottom'
           );
         }
       );

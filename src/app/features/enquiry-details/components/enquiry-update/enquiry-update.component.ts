@@ -20,6 +20,8 @@ export class EnquiryUpdateComponent implements OnInit {
   id!: string | null;
   poExpectedDate: Date = new Date();
   enqId!: string | null;
+  modeOfCommunicationValue = false;
+  modeOfCommunicationControl!: FormControl;
   constructor(
     private loaderService: LoaderService,
     private router: Router,
@@ -47,7 +49,26 @@ export class EnquiryUpdateComponent implements OnInit {
     });
     this.id = this.route.snapshot.paramMap.get('id');
     this.getEnqdetails();
+
+    this.modeOfCommunicationControl = this.enquiryUpdateForm.get('modeOfCommunication') as FormControl;
+
+    if (this.modeOfCommunicationControl) {
+      this.modeOfCommunicationControl.valueChanges.subscribe((modeValue) => {
+        this.updateValidatorsBasedOnMode(modeValue);
+        this.modeOfCommunicationValue = this.modeOfCommunicationControl.value? true: false;
+        this.updateValidatorsBasedOnMode(this.modeOfCommunicationValue);
+      });
+    }
   }
+
+  private updateValidatorsBasedOnMode(modeValue: any): void {
+    const remarksControl = this.enquiryUpdateForm.get('remarksValue')!;
+    const attachmentControl = this.enquiryUpdateForm.get('attachment')!;
+    modeValue? remarksControl.setValidators([Validators.required]) : remarksControl.setValidators(null);
+    remarksControl.updateValueAndValidity();
+    !this.modeOfCommunicationValue? attachmentControl.disable():attachmentControl.enable();
+  }
+
   public step = [
     {
       label: 'Contact Details',
@@ -82,7 +103,7 @@ export class EnquiryUpdateComponent implements OnInit {
     dealValue: new FormControl('', Validators.required),
     currency: new FormControl('', Validators.required),
     modeOfCommunication: new FormControl('', Validators.required),
-    remarksValue: new FormControl('', Validators.required),
+    remarksValue: new FormControl('', Validators.nullValidator),
     attachment: new FormControl([null]),
   });
   public async updateEnquiryForm(): Promise<void> {
@@ -165,6 +186,8 @@ export class EnquiryUpdateComponent implements OnInit {
             poExpectedDate: new Date(res[0]?.poExpectedDate),
             currency: res[0]?.quoteCurrency,
           });
+          this.modeOfCommunicationValue = this.modeOfCommunicationControl.value? true: false;
+          this.updateValidatorsBasedOnMode(this.modeOfCommunicationValue);
         }
       });
   }
@@ -185,8 +208,13 @@ export class EnquiryUpdateComponent implements OnInit {
 
   onReset() {
     this.enquiryUpdateForm.reset();
+    this.getEnqdetails();
   }
   handleHistoryButton() {
     this.router.navigate([`/enquiry-details-history/${this.enqId}`]);
+  }
+
+  async updateEnquiryCancel() {
+    this.router.navigate(['enquiry-listview']);
   }
 }
