@@ -3,10 +3,15 @@
 <div class="enquiry-details-listview-container">
   <div class="enquiry-details-listview-titlebar">
     <div class="enquiry-details-listview--back-img">
-      <img src="assets/enquiry-details-listview-img/back.svg" alt="new" routerLink="/dashboard" />
+      <img
+        src="assets/enquiry-details-listview-img/back.svg"
+        alt="new"
+        routerLink="/dashboard" />
     </div>
     <div class="enquiry-details-listview--title">Deal List</div>
-    <div class="logout--icon"><app-logout-component></app-logout-component></div>
+    <div class="logout--icon">
+      <app-logout-component></app-logout-component>
+    </div>
   </div>
 
   <div class="enquiry-details-listview--searchbox">
@@ -26,9 +31,7 @@
 
   <div class="enquiry-details-listview--sub-title">Contact Details</div>
 
-  <div
-    *ngFor="let a of filteredCards"
-    class="enquiry-details-listview--cards">
+  <div *ngFor="let a of filteredCards" class="enquiry-details-listview--cards">
     <kendo-card class="enquiry-details-listview--kendo-card">
       <div class="enquiry-details-listview--kendo-card-header">
         <div class="enquiry-details-listview--kendo-card-number">
@@ -55,17 +58,25 @@
             {{ a.soldToContact }}
           </div>
         </div>
-        <div class="enquiry-details-listview--vertical-splitter">
+        <!-- <div class="enquiry-details-listview--vertical-splitter">
           <kendo-splitter
             orientation="vertical"
             class="enquiry-details-listview--splitter"></kendo-splitter>
-        </div>
+        </div> -->
         <div class="enquiry-details-listview--kendo-card-sold-details">
           <div class="enquiry-details-listview--kendo-card-sub-title">
             Sold to site
           </div>
           <div class="enquiry-details-listview--kendo-card-sold">
             {{ a.soldToLE }}
+          </div>
+        </div>
+        <div class="enquiry-details-listview--kendo-card-sold-details">
+          <div class="enquiry-details-listview--kendo-card-sub-title">
+            Status
+          </div>
+          <div class="enquiry-details-listview--kendo-card-sold">
+            {{ a.enqStatus }}
           </div>
         </div>
       </div>
@@ -75,7 +86,7 @@
           <img src="assets/enquiry-details-phone-icon.svg" alt="new" />
         </div>
         <div class="enquiry-details-listview--information">
-         {{a.soldToContPhoneNo}}
+          {{ a.soldToContPhoneNo }}
         </div>
         <!-- <div>
           <img src="assets/enquiry-details-copy-icon.svg" alt="new"/>
@@ -85,12 +96,12 @@
   </div>
 
   <div class="enquiry-details-listview--kendo-pager">
-  <kendo-datapager
-  class="enquiry-details-listview--kendo-datapager"
-    [pageSize]="pageSize"
-    [skip]="skip"
-    [total]="contactCards.length"
-    (pageChange)="onPageChange($event)">
-  </kendo-datapager>
+    <kendo-datapager
+      class="enquiry-details-listview--kendo-datapager"
+      [pageSize]="pageSize"
+      [skip]="skip"
+      [total]="contactCards.length"
+      (pageChange)="onPageChange($event)">
+    </kendo-datapager>
   </div>
 </div>

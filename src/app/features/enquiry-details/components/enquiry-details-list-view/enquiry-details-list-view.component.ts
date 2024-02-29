@@ -85,6 +85,3 @@ export class EnquiryDetailsListViewComponent implements OnInit {
     this.router.navigate(['/enquiry-update', id]);
   }
 }
-function getRandomInt(max: number) {
-  return Math.floor(Math.random() * max);
-}
