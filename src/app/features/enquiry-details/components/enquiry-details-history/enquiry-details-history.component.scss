@@ -55,16 +55,19 @@
 }
 .enquiry-details-listview--kendo-card-header {
   display: flex;
-  margin: 0.5rem 1rem;
+  margin: 0.7rem 1rem;
+  margin-bottom: 0.2rem;
 }
 .enquiry-details-listview--kendo-card-content {
-  display: flex;
-  margin: 0.5rem 1rem 0.5rem 1rem;
+   display: flex;
+  margin: 1rem;
+  flex-direction: column;
+  gap: 3px;
 }
 .enquiry-details-listview--kendo-card-number {
   color: var(--primary-color);
   font-family: Arial;
-  font-size: var(--text-size-2);
+  font-size: var(--text-size-01);
   font-style: normal;
   font-weight: var(--font-weight-bolder);
   line-height: normal;
@@ -74,7 +77,8 @@
   margin: 0 1rem;
 }
 .enquiry-details-listview--kendo-card-sold-details {
-  width: 50%;
+  display: flex;
+  gap: 1rem;
 }
 .enquiry-details-listview--kendo-card-sub-title {
   color: var(--body-grey, #69727b);
