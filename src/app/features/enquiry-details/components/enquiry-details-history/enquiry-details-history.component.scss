@@ -59,13 +59,12 @@
 }
 .enquiry-details-listview--kendo-card-content {
   display: flex;
-  margin: 1rem;
-  margin-bottom: 0;
+  margin: 0.5rem 1rem 0.5rem 1rem;
 }
 .enquiry-details-listview--kendo-card-number {
-  color: var(--primary-black, #1f1f1f);
+  color: var(--primary-color);
   font-family: Arial;
-  font-size: var(--text-size-3);
+  font-size: var(--text-size-2);
   font-style: normal;
   font-weight: var(--font-weight-bolder);
   line-height: normal;
@@ -84,11 +83,12 @@
   font-style: normal;
   font-weight: var(--font-weight-normal);
   line-height: normal;
+  flex-basis: 25%;
 }
 .enquiry-details-listview--kendo-card-sold {
   color: #383838;
   font-family: Arial;
-  font-size: var(--text-size-01);
+  font-size: 12px;
   font-style: normal;
   font-weight: var(--font-weight-bolder);
   line-height: normal;

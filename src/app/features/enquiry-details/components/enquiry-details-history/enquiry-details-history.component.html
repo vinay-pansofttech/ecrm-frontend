@@ -31,33 +31,35 @@
           <div class="enquiry-details-listview--kendo-card-sub-title">
             Updated Date
           </div>
-          <div class="enquiry-details-listview--kendo-card-sold">
-            {{ a.updDate }}
-          </div>
         </div>
-        <div class="enquiry-details-listview--vertical-splitter">
-          <kendo-splitter
-            orientation="vertical"
-            class="enquiry-details-listview--splitter"></kendo-splitter>
+        <div class="enquiry-details-listview--kendo-card-sold">
+          {{ a.updDate }}
         </div>
+      </div>
+      
+      <div class="enquiry-details-listview--kendo-card-content">
         <div class="enquiry-details-listview--kendo-card-sold-details">
           <div class="enquiry-details-listview--kendo-card-sub-title">
             Updated By
           </div>
-          <div class="enquiry-details-listview--kendo-card-sold">
-            {{ a.updatedBy }}
-          </div>
         </div>
-        <div></div>
+        <div class="enquiry-details-listview--kendo-card-sold">
+          {{ a.updatedBy }}
+        </div>
       </div>
-      <div class="enquiry-details-listview--kendo-card-mode-contact">
+
+      <div class="enquiry-details-listview--kendo-card-content">
+        <div class="enquiry-details-listview--kendo-card-sold-details">
         <div class="enquiry-details-listview--kendo-card-sub-title">
           Mode of Contact
         </div>
-        <div class="enquiry-details-listview--kendo-card-sold">
-          {{ a.modeOfContact }}
-        </div>
+        
       </div>
+      <div class="enquiry-details-listview--kendo-card-sold">
+        {{ a.modeOfContact }}
+      </div>
+      </div>
+      
     </kendo-card>
   </div>
 
