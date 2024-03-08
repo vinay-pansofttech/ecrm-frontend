@@ -67,6 +67,7 @@ export class EnquiryUpdateComponent implements OnInit {
     modeValue? remarksControl.setValidators([Validators.required]) : remarksControl.setValidators(null);
     remarksControl.updateValueAndValidity();
     !this.modeOfCommunicationValue? attachmentControl.disable():attachmentControl.enable();
+    this.enquiryUpdateForm.markAllAsTouched();
   }
 
   public step = [
@@ -102,7 +103,7 @@ export class EnquiryUpdateComponent implements OnInit {
     probability: new FormControl('', Validators.required),
     dealValue: new FormControl('', Validators.required),
     currency: new FormControl('', Validators.required),
-    modeOfCommunication: new FormControl('', Validators.required),
+    modeOfCommunication: new FormControl('', Validators.nullValidator),
     remarksValue: new FormControl('', Validators.nullValidator),
     attachment: new FormControl([null]),
   });
@@ -139,7 +140,6 @@ export class EnquiryUpdateComponent implements OnInit {
       } else {
         formData.append('attachment', '');
       }
-
       this.enquiryDetailsService.updateEnquiryDetails(formData)?.subscribe(
         data => {
           console.log('after save', data);
@@ -147,7 +147,7 @@ export class EnquiryUpdateComponent implements OnInit {
           this.router.navigate(['enquiry-listview']);
           this.notificationService.showNotification(
             'Data is Updated',
-            'success'
+            'success', 'center', 'bottom'
           );
         },
         error => {
@@ -156,7 +156,7 @@ export class EnquiryUpdateComponent implements OnInit {
           this.router.navigate(['/dashboard']);
           this.notificationService.showNotification(
             'Data Updated Failed',
-            'error'
+            'error', 'center', 'bottom' 
           );
         }
       );
@@ -209,7 +209,9 @@ export class EnquiryUpdateComponent implements OnInit {
   onReset() {
     this.enquiryUpdateForm.reset();
     this.getEnqdetails();
+    this.enquiryUpdateForm.get('modeOfCommunication')?.setValue('');
   }
+
   handleHistoryButton() {
     this.router.navigate([`/enquiry-details-history/${this.enqId}`]);
   }

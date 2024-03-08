@@ -27,11 +27,6 @@
           Enquiry - {{ id }}
           <div class="enquiry-update-header--tag"></div>
         </div>
-        <kendo-button
-          class="enquiry-details-interations--button"
-          (click)="handleHistoryButton()"
-          >Interactions</kendo-button
-        >
       </div>
 
       <div class="enquiry-update--container" [formGroup]="enquiryUpdateForm">
@@ -102,7 +97,21 @@
             ></kendo-textbox>  
           </div>
         </div>
-     
+      </div>
+
+      <div class="enquiry-details-history--header">
+          <div class="enquiry-update--header">
+            Interactions
+            <div class="enquiry-update-header--tag"></div>
+          </div>
+          <kendo-button
+            class="enquiry-details-interations--button"
+            (click)="handleHistoryButton()"
+            >Previous Interactions</kendo-button
+          >
+      </div>  
+      
+      <div class="enquiry-update--container" [formGroup]="enquiryUpdateForm">
         <kendo-formfield>
           <div class="enquiry-update--content">
             <kendo-label
