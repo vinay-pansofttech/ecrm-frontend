@@ -21,12 +21,46 @@
 }
 .landing-page-main {
   // height: 100vh;
-  background: linear-gradient(-94.12deg, #327790 0%, #49AFCD 37.1%, #89BA82 68.05%, #A0B31D 103.1%);
+  background: linear-gradient(270deg, #327790 0%, #49AFCD 33.33%, #89BA82 67.19%, #A0B31D 100%)
 }
 .dashboard-logo {
   width: 1.375rem;
   height: 1.375rem;
 }
+.dashboard-ecrm-logo {
+  width: 1.375rem;
+  height: 1.375rem;
+  background-color: white;
+}
 .dashboard--badge-container {
   display: flex;
+}
+.dashboard--menu-container {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+}
+.dashboard--menu-drawer-header{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 0.5rem;
+  background: linear-gradient(270deg, #327790 0%, #49AFCD 33.33%, #89BA82 67.19%)
+}
+.dashboard-menu-user-initial-icon {
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 50%;
+  border: 2px solid white;
+  color: white;
+}
+.dashboard--menu-drawer-username{
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+}
+.dashboard--menu-drawer-footer{
+  position: absolute; 
+  bottom:0.2rem; 
+  left: 0.5rem;
 }

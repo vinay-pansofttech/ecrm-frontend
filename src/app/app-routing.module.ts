@@ -4,6 +4,7 @@ import { AppRoutePaths } from './core/Constants';
 import { EnquiryDetailsComponent } from './features/enquiry-details/components/enquiry-details/enquiry-details.component';
 import { LoginComponent } from './features/login/components/login/login.component';
 import { DashboardComponent } from './features/dashboard/components/dashboard/dashboard.component';
+import { EnquiryDetailsUpdateComponent } from './features/enquiry-details/components/enquiry-details-update/enquiry-details-update.component';
 const routes: Routes = [
   {
     path: '',
@@ -32,7 +33,14 @@ const routes: Routes = [
         m => m.EnquiryDetailsModule
       ),
   },
-
+  {
+    path: AppRoutePaths.EnquiryDetailsUpdate,
+    component: EnquiryDetailsUpdateComponent,
+    loadChildren: () =>
+      import('./features/enquiry-details/enquiry-details.module').then(
+        m => m.EnquiryDetailsModule
+      ),
+  },
   {
     path: AppRoutePaths.WorkList,
     loadChildren: () =>

@@ -104,6 +104,10 @@ export class EnquiryDetailsComponent implements OnInit {
     });
   }
 
+  onStepSelect(event: any): void{
+    this.ngOnInit();
+  }
+
   public get currentGroup(): FormGroup {
     return this.getGroupAt(this.currentStep);
   }

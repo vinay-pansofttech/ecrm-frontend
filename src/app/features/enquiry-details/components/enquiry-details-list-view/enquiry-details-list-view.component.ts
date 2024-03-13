@@ -82,6 +82,6 @@ export class EnquiryDetailsListViewComponent implements OnInit {
 
   navigateById(id: string | number) {
     // this.router.navigate(['/enquiry-update', getRandomInt(10000)]);
-    this.router.navigate(['/enquiry-update', id]);
+    this.router.navigate(['/enquiry-details-update', id]);
   }
 }

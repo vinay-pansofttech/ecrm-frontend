@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { EnquiryDetailsService } from '../../enquiry-details.service';
 
@@ -27,6 +27,11 @@ type SoldToSite = {
   templateUrl: './contact-details.component.html',
   styleUrls: ['./contact-details.component.scss'],
 })
+
+@Injectable({
+  providedIn : 'root'
+})
+
 export class ContactDetailsComponent implements OnInit {
   public soldToContact: any = [];
   public soldToSite: unknown = [];

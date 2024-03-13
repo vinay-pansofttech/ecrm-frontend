@@ -89,6 +89,11 @@ export class DashboardCardsComponent implements OnInit {
   getEmployeeName(): string {
     return this.loginService.getEmployeeName();
   }
+  getEmployeeFirstName(): string {
+    const EmpFullName = this.getEmployeeName();
+    const FirstName = EmpFullName.slice(0, EmpFullName.indexOf(' '));
+    return FirstName as string;
+  }
   getIconName(image: string): IconName {
     // Assuming all your icons are valid FontAwesome icon names
     return image as unknown as IconName;
