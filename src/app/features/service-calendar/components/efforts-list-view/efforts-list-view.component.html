@@ -1,0 +1,94 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div class="service-efforts-main--container">
+    <div class="service-efforts-titlebar">
+      <div class="service-efforts--back-img">
+        <img
+          src="assets/enquiry-details-listview-img/back.svg"
+          alt="new"
+          (click)="onBackClickHandle()" />
+      </div>
+      <div class="service-efforts--title">Service Efforts</div>
+      <div>
+        <img
+          src="assets/reset.svg"
+          kendobuttons
+          alt="reset"
+          class="service-efforts-reset--image" 
+          (click)="onRefresh()" />
+      </div>
+    </div>
+
+    <div class="service-efforts-history--header">
+      <div class="service-efforts--header">
+        Effort Details - {{srid}}
+        <div class="service-efforts-header--tag"></div>
+      </div>
+      <div class="service-efforts-date">
+        {{ currentDate }}
+      </div>
+    </div>
+
+    <div *ngFor="let a of engeffortListCards; let i = index" class="service-calendar-listview--cards">
+      <kendo-card class="service-calendar-listview--kendo-card">
+        <div class="service-calendar-listview--kendo-card-header">
+          <div class="service-calendar-listview--kendo-card-number">
+            {{ a.name }}
+          </div>
+          <div *ngIf="iseditable(i)">
+            <img
+              src="assets/enquiry-details-listview-img/edit.svg"
+              alt="new"
+              (click)="addEffort(i)" />
+          </div>
+        </div>
+        <div class="service-calendar-listview--kendo-splitter">
+          <kendo-splitter orientation="horizontal"></kendo-splitter>
+        </div>
+        <div class="service-calendar-listview--kendo-card-content">
+          <div class="service-calendar-listview--kendo-card-sold-details">
+            <div class="service-calendar-listview--kendo-card-sub-title">
+              Task
+            </div>
+            <div class="service-calendar-listview--kendo-card-sold">
+              {{a.taskType}}
+            </div>
+          </div>
+          <div class="service-calendar-listview--kendo-card-sold-details">
+            <div class="service-calendar-listview--kendo-card-sub-title">
+              Schedule Date
+            </div>
+            <div class="service-calendar-listview--kendo-card-sold">
+              {{a.ondate}}
+            </div>
+          </div>
+          <div class="service-calendar-listview--kendo-card-sold-details">
+            <div class="service-calendar-listview--kendo-card-sub-title">
+              Effort Hours
+            </div>
+            <div class="service-calendar-listview--kendo-card-sold">
+              {{a.effortHours}}
+            </div>
+          </div>
+          <div class="service-calendar-listview--kendo-card-sold-details">
+            <div class="service-calendar-listview--kendo-card-sub-title">
+              Travel Hours
+            </div>
+            <div class="service-calendar-listview--kendo-card-sold">
+              {{a.travelHours}}
+            </div>
+          </div>
+          <div class="service-calendar-listview--kendo-card-sold-details">
+            <div class="service-calendar-listview--kendo-card-sub-title">
+              Remarks
+            </div>
+            <div class="service-calendar-listview--kendo-card-sold">
+              {{a.remarks}}
+            </div>
+          </div>
+        </div>
+      </kendo-card>
+    </div>
+</div>
+  
+

@@ -4,7 +4,8 @@ import { AppRoutePaths } from './core/Constants';
 import { EnquiryDetailsComponent } from './features/enquiry-details/components/enquiry-details/enquiry-details.component';
 import { LoginComponent } from './features/login/components/login/login.component';
 import { DashboardComponent } from './features/dashboard/components/dashboard/dashboard.component';
-import { EnquiryDetailsUpdateComponent } from './features/enquiry-details/components/enquiry-details-update/enquiry-details-update.component';
+import { CalendarComponent } from './features/service-calendar/components/calendar/calendar.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -34,18 +35,18 @@ const routes: Routes = [
       ),
   },
   {
-    path: AppRoutePaths.EnquiryDetailsUpdate,
-    component: EnquiryDetailsUpdateComponent,
-    loadChildren: () =>
-      import('./features/enquiry-details/enquiry-details.module').then(
-        m => m.EnquiryDetailsModule
-      ),
-  },
-  {
     path: AppRoutePaths.WorkList,
     loadChildren: () =>
       import('./features/work-list/work-list.module').then(
         m => m.WorkListModule
+      ),
+  },
+  {
+    path: AppRoutePaths.ServiceCalendar,
+    component: CalendarComponent,
+    loadChildren: () =>
+      import('./features/service-calendar/service-calendar.module').then(
+        m => m.ServiceCalendarModule
       ),
   },
 ];

@@ -8,6 +8,7 @@ import { WorkListModule } from './features/work-list/work-list.module';
 import { KendoModule } from './kendo.module';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { EnquiryDetailsModule } from './features/enquiry-details/enquiry-details.module';
+import { ServiceCalendarModule } from './features/service-calendar/service-calendar.module';
 import { HttpClientModule } from '@angular/common/http';
 import { IndicatorsModule } from '@progress/kendo-angular-indicators';
 import { NotificationModule } from '@progress/kendo-angular-notification';
@@ -18,6 +19,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthGuard } from './auth.guard';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DatePipe } from '@angular/common';
+import { IconsModule } from '@progress/kendo-angular-icons';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,8 +36,10 @@ import { DatePipe } from '@angular/common';
     WorkListModule,
     LayoutModule,
     EnquiryDetailsModule,
+    ServiceCalendarModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
+    IconsModule,
   ],
   providers: [
     LoginService,

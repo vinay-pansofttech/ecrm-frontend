@@ -9,6 +9,11 @@
       "image": "dashboard-update-icon",
       "text": "Funnel Update",
       "path": "enquiry-listview"
+    },
+    {
+      "image": "dashboard-quicklink-enquiry-icon",
+      "text": "My Calendar",
+      "path": "service-calendar"
     }
   ],
 

@@ -6,6 +6,8 @@ import { EnquiryUpdateComponent } from './components/enquiry-update/enquiry-upda
 import { EnquiryDetailsListViewComponent } from './components/enquiry-details-list-view/enquiry-details-list-view.component';
 import { AuthGuard } from 'src/app/auth.guard';
 import { EnquiryDetailsHistoryComponent } from './components/enquiry-details-history/enquiry-details-history.component';
+import { EnquiryDetailsUpdateComponent } from './components/enquiry-details-update/enquiry-details-update.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -32,6 +34,11 @@ const routes: Routes = [
     path: AppRoutePaths.EnquiryDetailsListView,
     canActivate: [AuthGuard],
     component: EnquiryDetailsListViewComponent,
+  },
+  {
+    path: AppRoutePaths.EnquiryDetailsUpdate,
+    canActivate: [AuthGuard],
+    component: EnquiryDetailsUpdateComponent,
   },
   {
     path:AppRoutePaths.EnquiryDetailsHistory,
