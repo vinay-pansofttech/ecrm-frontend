@@ -5,6 +5,9 @@ import { Injectable } from '@angular/core';
 })
 export class FormStateService {
   contactDetailsFormState: any = {};
+  enquiryDetailsFormState: any = {};
+  selectedcompany:any={};
   selectedContact: any = null;
+  selectedsales:any = null;
   constructor() {}
 }
