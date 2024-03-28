@@ -16,9 +16,11 @@ export class EnquiryUpdateComponent implements OnInit {
   invalid = true;
   id!: string | null;
   poExpectedDate: Date = new Date();
-  enqId!: string | null;
   modeOfCommunicationValue = false;
   modeOfCommunicationControl!: FormControl;
+  @Input() enqId: string | null = null;
+  @Input() public enquiryUpdateForm!: FormGroup;
+  
   constructor(
     private loaderService: LoaderService,
     private router: Router,
@@ -73,8 +75,5 @@ export class EnquiryUpdateComponent implements OnInit {
   handleHistoryButton() {
     this.router.navigate([`/enquiry-details-history/${this.enqId}`]);
   }
-
-  @Input()
-  public enquiryUpdateForm!: FormGroup;
-
+  
 }

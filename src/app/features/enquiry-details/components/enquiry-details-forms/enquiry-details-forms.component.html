@@ -1,4 +1,11 @@
 <div class="enquiry-details-forms--header">Enquiry Details<div class="enquiry-details-forms-header--tag"></div></div>
+<div class="contact-details--loader" *ngIf="showEnquiryDetailsAPILoader">
+  <kendo-loader
+    type="converging-spinner"
+    themeColor="info"
+    size="medium"></kendo-loader>
+  <div>Loading Enquirydetails....</div>
+</div>
 <div class="enquiry-details-forms--container" [formGroup]="enquiryDetailsForms">
 
 <kendo-formfield>
@@ -104,4 +111,3 @@
 <kendo-formerror class="enquiry-details-forms--error-msg">Sales executive is required</kendo-formerror>
 </kendo-formfield>
 </div>
-

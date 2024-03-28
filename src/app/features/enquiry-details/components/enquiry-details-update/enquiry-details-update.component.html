@@ -19,7 +19,8 @@
           stepType="full"
           [linear]="false"
           [(currentStep)]="currentStep"
-          cssClass="enquiry-details-content--stepper">
+          cssClass="enquiry-details-content--stepper"
+          (stepSelect)="onStepSelect($event)">
         </kendo-stepper>
         <form class="k-form k-form-md" [formGroup]="enquiryCaptureForm">
           <app-contact-details
@@ -33,6 +34,7 @@
             [enquiryDescription]="currentGroup"></app-enquiry-description>
           <app-enquiry-update
             *ngIf="currentStep === 3"
+            [enqId]="enqId"
             [enquiryUpdateForm]="currentGroup"></app-enquiry-update>
         </form>
         <div class="enquiry-details--footer">
@@ -47,7 +49,7 @@
             kendobutton
             class="enquiry-details-cancel--button"
             *ngIf="currentStep !== 0"
-            (click)="prev()">
+            (click)="onBackClickHandle()">
             Cancel
           </button>
           <button

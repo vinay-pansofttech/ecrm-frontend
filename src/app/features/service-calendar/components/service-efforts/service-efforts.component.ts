@@ -5,6 +5,7 @@ import { ServiceCalendarService } from '../../service-calendar.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { DatePipe } from '@angular/common';
 
 interface engEffortsList {
   sRSchId: number;
@@ -28,7 +29,7 @@ interface engEffortsList {
 export class ServiceEffortsComponent {
   serviceEffortsForm!: FormGroup;
   srid: number = 0;
-  currentDate: string | null  = '';
+  currentDate: string  = '';
   engeffortListCards: engEffortsList[] = [];
   effortCardDetails: any;
   cardIndex: number = 0;
@@ -40,7 +41,8 @@ export class ServiceEffortsComponent {
     private serviceCalendarService: ServiceCalendarService,
     private loginService: LoginService,
     private loaderService: LoaderService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit(): void {
@@ -50,7 +52,7 @@ export class ServiceEffortsComponent {
         effortremarks: new FormControl('', Validators.required),
     });
     const idString = this.route.snapshot.paramMap.get('id');
-    this.currentDate = this.route.snapshot.paramMap.get('Date');
+    this.currentDate = this.route.snapshot.paramMap.get('Date')!;
     const cardIndexString = this.route.snapshot.paramMap.get('index');
 
     if (idString !== null) {
@@ -66,11 +68,17 @@ export class ServiceEffortsComponent {
 
   getEngEffortsList() {
     this.serviceCalendarService.getEngEfforts(this.loginService.employeeId as number, this.srid).subscribe((data: any) => {
-      this.engeffortListCards = data;
-      console.log('carddata',data);
-      this.effortCardDetails = data[this.cardIndex];
-      console.log(this.effortCardDetails);
-      this.patchFormValues();
+      this.effortCardDetails = data.filter(
+        (item: any) => item.ondate === this.datePipe.transform(new Date(this.currentDate),"yyyy-MM-dd")
+        && (item.empId) === this.loginService.employeeId
+      );;
+      if(this.effortCardDetails.length >0) {
+        this.effortCardDetails = this.effortCardDetails[0];
+        this.patchFormValues();
+      }
+      else{
+        console.log('Effort is null');
+      }
     });
   }
 
@@ -110,7 +118,6 @@ export class ServiceEffortsComponent {
   submit() {
     if (this.serviceEffortsForm.valid) {
       const formData = this.assignFormData();
-      console.log(formData);
       if (formData) {
         this.loaderService.showLoader();
         this.serviceCalendarService.putServiceEfforts(formData)
@@ -124,7 +131,7 @@ export class ServiceEffortsComponent {
             window.history.back();
           });
       } else {
-        console.error('No firstEffort available');
+        console.error('No Effort available');
       }
     } else {
       this.serviceEffortsForm.markAllAsTouched();

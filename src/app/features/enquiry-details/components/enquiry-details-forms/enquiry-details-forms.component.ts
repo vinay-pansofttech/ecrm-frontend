@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { EnquiryDetailsService } from '../../enquiry-details.service';
+import { FormStateService } from '../../form-state.service';
 
 type generatedFrom = {
   generatedFromID: number;
@@ -52,6 +53,7 @@ type salesExecutive = {
   templateUrl: './enquiry-details-forms.component.html',
   styleUrls: ['./enquiry-details-forms.component.scss'],
 })
+
 export class EnquiryDetailsFormsComponent implements OnInit {
   public areaList: any = [];
   public sales: unknown = [];
@@ -62,6 +64,7 @@ export class EnquiryDetailsFormsComponent implements OnInit {
   public salesExecutive: unknown = [];
   public generatedFromList: unknown = [];
   public companyList: unknown = [];
+  public showEnquiryDetailsAPILoader = false;
 
   public salesExecutiveDefaultValue: {
     salesChannelID: unknown;
@@ -72,11 +75,23 @@ export class EnquiryDetailsFormsComponent implements OnInit {
   @Input()
   public enquiryDetailsForms!: FormGroup;
   public generatedByVisible = false;
-  constructor(public enquiryDetailsService: EnquiryDetailsService) {
+  constructor(public enquiryDetailsService: EnquiryDetailsService
+    ,private formStateService: FormStateService) {
     this.areaList = this.areaList.slice();
     this.company = this.company.slice();
   }
   ngOnInit(): void {
+    if (this.formStateService.enquiryDetailsFormState) {
+      this.enquiryDetailsForms.patchValue(
+        this.formStateService.enquiryDetailsFormState
+      );
+    }   
+    if (this.formStateService.selectedsales) {
+      this.handleSalesChannel(this.formStateService.selectedsales);
+    }
+    if (this.formStateService.selectedcompany) {
+      this.handlequoteEntityCurrency(this.formStateService.selectedcompany);
+    }
     this.generatedFrom();
     this.salesWorkFlow();
     this.fetchsalesChannel();
@@ -101,7 +116,7 @@ export class EnquiryDetailsFormsComponent implements OnInit {
           .getgeneratedBy(generated.generatedFrom)
           .subscribe(res => {
             this.generatedBy = res;
-          });
+          })
         this.generatedByVisible = true;
         this.enquiryDetailsForms.controls['generatedBy'].setValidators([
           Validators.required,
@@ -127,6 +142,7 @@ export class EnquiryDetailsFormsComponent implements OnInit {
 
   handlequoteEntityCurrency(company: quoteEntityCompany) {
     if (company && company?.companyID) {
+      this.formStateService.selectedcompany = company
       this.enquiryDetailsService
         .getquoteEntityCurrency(company.companyID)
         .subscribe(res => {
@@ -143,6 +159,8 @@ export class EnquiryDetailsFormsComponent implements OnInit {
 
   handleSalesChannel(sales: salesChannel) {
     if (sales && sales?.salesChannelID) {
+      this.showEnquiryDetailsAPILoader = true;
+      this.formStateService.selectedsales = sales;
       this.enquiryDetailsService
         .getsalesExecutive(0, 0, sales.salesChannelID, 21665)
         .subscribe((res: any) => {
@@ -157,7 +175,9 @@ export class EnquiryDetailsFormsComponent implements OnInit {
           this.enquiryDetailsForms.patchValue({
             salesExecutive: this.salesExecutiveDefaultValue.salesChannelID,
           });
-        });
+        }).add(() => {
+          this.showEnquiryDetailsAPILoader = false;
+        });      
     }
   }
 

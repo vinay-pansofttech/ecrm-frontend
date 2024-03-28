@@ -10,7 +10,7 @@
 .enquiry-details-listview--title {
   color: #031222;
   font-family: Arial;
-  font-size: var(--text-size-2);
+  font-size: var(--text-size-3);
   font-style: normal;
   font-weight: var(--font-weight-bolder);
   line-height: 28px; /* 155.556% */
@@ -18,6 +18,7 @@
   flex: 1 1 0;
   margin-left: 4px;
 }
+
 .enquiry-details-listview--refresh-icon {
   padding-top: 10px;
   padding-right: 1rem;
@@ -46,7 +47,7 @@
   font-style: normal;
   font-weight: var(--font-weight-bolder);
   line-height: normal;
-  margin: 1rem 1rem 0 1rem;
+  margin: 1rem 1rem 1rem 1rem;
 }
 .enquiry-details-listview--cards {
   margin: 1rem;

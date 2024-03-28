@@ -80,7 +80,7 @@ export class DashboardCardsComponent implements OnInit {
       this.router.navigate([cardData.path]);
     }
     if (cardData.path === 'service-calendar') {
-      this.router.navigate(['service-calendar']);
+      this.router.navigate([cardData.path]);
     }
   }
   showCards(cardType: any): boolean {

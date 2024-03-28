@@ -44,8 +44,6 @@ export class ServiceCalendarService {
 
   getEngEfforts(EmpId: number, SRID: number) {
     const url = `${AppSettingsConfigKey.APIURL}/api/ServiceCalendar/GetEngEfforts`;
-    console.log('empId at Effort',EmpId);
-    console.log('SRID at Effort',SRID);
     const body = {
       empId: EmpId,
       srid: SRID
@@ -55,7 +53,6 @@ export class ServiceCalendarService {
 
   putServiceEfforts(formData: any){
     const url = `${AppSettingsConfigKey.APIURL}/api/ServiceCalendar/AddEngEfforts`;
-    console.log('formData at service',formData);
     const body = {
       srid: formData.srid,
       lstEfforts: [
@@ -76,7 +73,6 @@ export class ServiceCalendarService {
       ],
       loginId: this.loginService.employeeId
     };
-    console.log('body for request',body);
     return this.http.post(url, body);
   }
 }
