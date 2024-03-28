@@ -189,7 +189,7 @@ export class EnquiryDetailsUpdateComponent {
         error => {
           this.loaderService.hideLoader();;
           this.notificationService.showNotification(
-            'Enquiry not updated',
+            'Enquiry not  updated',
             'error', 'center', 'bottom'
           );
         });

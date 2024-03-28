@@ -148,7 +148,7 @@ export class EnquiryDetailsComponent implements OnInit {
         error => {
           this.loaderService.hideLoader();;
           this.notificationService.showNotification(
-            'Enquiry not created',
+            'Enquiry not  created',
             'error', 'center', 'bottom'
           );
         });
