@@ -185,6 +185,13 @@ export class EnquiryDetailsUpdateComponent {
             'success', 'center', 'bottom'
           );
           this.router.navigate(['/enquiry-listview']);
+        },
+        error => {
+          this.loaderService.hideLoader();;
+          this.notificationService.showNotification(
+            'Enquiry not updated',
+            'error', 'center', 'bottom'
+          );
         });
         this.formStateService.resetValues();
     }
