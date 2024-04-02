@@ -10,6 +10,7 @@ import { StepperComponent } from '@progress/kendo-angular-layout';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { EnquiryDetailsService } from '../../enquiry-details.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { FormStateService } from '../../form-state.service';
 
 @Component({
   selector: 'app-enquiry-details',
@@ -65,13 +66,15 @@ export class EnquiryDetailsComponent implements OnInit {
     private loaderService: LoaderService,
     public enquiryDetailsService: EnquiryDetailsService,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private formStateService: FormStateService
   ) {}
   ngOnInit(): void {
     this.loaderService.loaderState.subscribe(res => {
       this.showAPILoader = res;
     });
     this.loaderService.hideLoader();
+    this.formStateService.resetValues();
     this.enquiryCaptureForm = this.formBuilder.group({
       contactDteails: new FormGroup({
         soldToContact: new FormControl('', Validators.required),
@@ -104,6 +107,10 @@ export class EnquiryDetailsComponent implements OnInit {
     });
   }
 
+  onStepSelect(event: any): void{
+    this.ngOnInit();
+  }
+
   public get currentGroup(): FormGroup {
     return this.getGroupAt(this.currentStep);
   }
@@ -131,19 +138,24 @@ export class EnquiryDetailsComponent implements OnInit {
       this.enquiryDetailsService
         .getAddEnquiry(this.enquiryCaptureForm.value)
         .subscribe(data => {
-          console.log('after submit', data);
           this.loaderService.hideLoader();
           this.notificationService.showNotification(
             'Created enquiry successfully',
-            'success'
+            'success','center','bottom'
           );
           this.router.navigate(['/enquiry-listview']);
+        },
+        error => {
+          this.loaderService.hideLoader();;
+          this.notificationService.showNotification(
+            'Enquiry not  created',
+            'error', 'center', 'bottom'
+          );
         });
+        this.formStateService.resetValues();
     }
     this.loaderService.showLoader();
-    console.log('loader', this.loaderService.loaderState, this.showAPILoader);
     this.enquiryCaptureForm.markAllAsTouched();
-    console.log(this.enquiryCaptureForm);
   }
 
   private getGroupAt(index: number): FormGroup {
@@ -156,6 +168,7 @@ export class EnquiryDetailsComponent implements OnInit {
 
   onBackClickHandle() {
     this.router.navigate(['/dashboard']);
+    this.formStateService.resetValues();
   }
 
   onReset() {

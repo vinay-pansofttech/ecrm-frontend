@@ -7,13 +7,11 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { LoginDialogComponent } from './components/login-dialog/login-dialog.component';
 
-
-
 const routes: Routes = [
-  {
-    path: '',
-    component: LoginComponent,
-  },
+    {
+      path: '',
+      component: LoginComponent,
+    },
     {
       path: AppRoutePaths.Email,
       component: EmailLoginComponent,
@@ -30,14 +28,13 @@ const routes: Routes = [
       path: AppRoutePaths.LoginDialog,
       component:LoginDialogComponent ,
     },
-
-
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
+
 export class LoginRoutingModule {
   static components = [];
 }

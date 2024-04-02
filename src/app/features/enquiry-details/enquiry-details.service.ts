@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppSettingsConfigKey } from 'src/app/core/Constants';
 import { LoginService } from '../login/components/login/login.service';
+import { DatePipe } from '@angular/common';
 
 interface EnquiryTypeBody {
   soldToLEID: string | number;
@@ -19,6 +20,8 @@ interface EnquiryTypeBody {
   generatedByID?: any; // Make generatedByID property optional
   attachment: any;
 }
+
+
 @Injectable({
   providedIn: 'root',
 })
@@ -30,6 +33,9 @@ export class EnquiryDetailsService {
   private quoteEntityCompany = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetQuoteCompany`;
   private fetchFunnelWorklistUrl = `${AppSettingsConfigKey.APIURL}/api/Enquiry/FetchFunnelWorklist`;
   private accountLogDetails = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetAccountLogDetails`;
+  private attachmentDetails = `${AppSettingsConfigKey.APIURL}/api/UploadDownload/GetAttachmentDetails`;
+  private downloadAttachment = `${AppSettingsConfigKey.APIURL}/api/UploadDownload/DownloadAttachment`;
+
 
   public regionId: string | number = '';
   public leID: string | number = '';
@@ -37,7 +43,8 @@ export class EnquiryDetailsService {
   public poExpectedDate: string | number = '';
   constructor(
     private http: HttpClient,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private datePipe: DatePipe
   ) {}
   getSoldToContactsList() {
     const url = `${this.loginUrl}`;
@@ -80,7 +87,66 @@ export class EnquiryDetailsService {
     } else {
       body.generatedByID = 0;
     }
+    console.log('body for add',body);
     return this.http.post(url, body);
+  }
+
+  getUpdateEnquiry(formData: any,enqID: string) {
+    const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/UpdateEnquiryAllStepper`;
+    const file =
+    formData.enquiryUpdateForm.interaction_attachment && formData.enquiryUpdateForm.interaction_attachment.length > 0
+          ? formData.enquiryUpdateForm.interaction_attachment[0]
+          : null;
+    if (file) {
+      formData.enquiryUpdateForm.interaction_attachment = file;
+    } else {
+      formData.enquiryUpdateForm.interaction_attachment = '';
+    }
+
+    const attachmentfile =
+    formData.enquiryDescription.attachment && formData.enquiryDescription.attachment.length > 0
+          ? formData.enquiryDescription.attachment[0]
+          : null;
+    if (attachmentfile) {
+      formData.enquiryDescription.attachment = attachmentfile;
+    } else {
+      formData.enquiryDescription.attachment = '';
+    }  
+    
+    const formattedDate = formData.enquiryUpdateForm.poExpectedDate
+      ? this.datePipe.transform(formData.enquiryUpdateForm.poExpectedDate, 'dd/MM/yyyy')
+      : null;
+
+    const body = new FormData();
+    body.append('soldToLEID', this.leID as string);
+    body.append('soldToContactID', formData.contactDteails.soldToContact);
+    body.append('soldToLESiteID', formData.contactDteails.soldToSite);
+    body.append('regionID', this.regionId as string);
+    body.append('salesChannelID', formData.enquiryDetailsForms.salesChannel);
+    body.append('salesExecutiveID', this.salesExecID as string);
+    body.append('workflowID', formData.enquiryDetailsForms.salesWorkFlow);
+    body.append('generatedFromID', formData.enquiryDetailsForms.generatedFrom);
+    body.append('quoteCompanyID', formData.enquiryDetailsForms.quoteEntityCompany);
+    body.append('quoteCurrencyID', formData.enquiryDetailsForms.quoteEntityCurrency);
+    body.append('enquiryDescription', formData.enquiryDescription.enterDescription);
+    body.append('loginID', this.loginService.employeeId as string);
+    body.append('attachment', formData.enquiryDescription.attachment);
+    body.append('enqId', enqID);
+    body.append('remarks', formData.enquiryUpdateForm.remarksValue);
+    body.append('probabilityID', formData.enquiryUpdateForm.probability);
+    body.append('dealPositionID', formData.enquiryUpdateForm.dealPosition);
+    body.append('dealValue', formData.enquiryUpdateForm.dealValue);
+    body.append('poExpectedDate', formattedDate as string);
+    body.append('modeOfCommunicationID', formData.enquiryUpdateForm.modeOfCommunication);
+    body.append('interaction_attachment', formData.enquiryUpdateForm.interaction_attachment);
+
+    if (formData.enquiryDetailsForms.generatedBy) {
+      body.append('generatedByID', formData.enquiryDetailsForms.generatedBy);
+    } else {
+      body.append('generatedByID', String(0) );
+    }
+    console.log('Update Body',body);
+    return this.http.put(url, body);
   }
 
   getgeneratedFrom() {
@@ -162,4 +228,24 @@ export class EnquiryDetailsService {
     const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/UpdateEnquiry`;
     return this.http.put(url, updateBody);
   }
+
+  getAttachmentDetails(enqID: string) {
+    const url = this.attachmentDetails;
+
+    const body = {
+      docSrcVal: enqID.toString(),
+    };
+    return this.http.post(url, body);
+  }
+
+  getAttachment(enqID: string, index: number) {
+    const url = this.downloadAttachment;
+
+    const body = {
+      docSrcVal: enqID.toString(),
+      index: index
+    };
+    return this.http.post(url, body, {responseType: 'blob', observe: 'response'});
+  }
+  
 }

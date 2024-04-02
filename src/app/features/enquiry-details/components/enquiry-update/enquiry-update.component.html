@@ -1,188 +1,142 @@
-<div *ngIf="!showAPILoader">
-  <div class="enquiry-update-main--container">
-    <img
-      src="assets/back.svg"
-      kendobutton
-      alt="back"
-      routerLink="/enquiry-listview" />
-    <div class="enquiry-update--header">Enquiry Details</div>
-    <div (click)="onReset()">
-      <img
-        src="assets/reset.svg"
-        kendobutton
-        alt="reset"
-        class="enquiry-update--reset-image" />
-    </div>
-    <app-logout-component></app-logout-component>
+<div class="enquiry-details-history--header">
+  <div class="enquiry-update--header">
+    Enquiry - {{ enqId }}
+    <div class="enquiry-update-header--tag"></div>
   </div>
-  <div>
-    <div class="enquiry-details--content">
-      <kendo-stepper
-        [steps]="step"
-        stepType="full"
-        [(currentStep)]="currentStep">
-      </kendo-stepper>
-      <div class="enquiry-details-history--header">
-        <div class="enquiry-update--header">
-          Enquiry - {{ id }}
-          <div class="enquiry-update-header--tag"></div>
-        </div>
-      </div>
+</div>
 
-      <div class="enquiry-update--container" [formGroup]="enquiryUpdateForm">
-        <kendo-formfield>
-          <div class="enquiry-update--content">
-            <kendo-label class="enquiry-update--label" [for]="poexpecteddate"
-              >PO Expected Date</kendo-label
-            >
-            <kendo-datepicker
-              class="enquiry-update--dropdownlist"
-              formControlName="poExpectedDate"
-              #poexpecteddate
-              placeholder="-select-"
-              formatPlaceholder="formatPattern"
-              format="dd/MM/yyyy"></kendo-datepicker>
-          </div>
-          <kendo-formerror class="enquiry-update--error-msg"
-            >PO expected date is required</kendo-formerror
-          >
-        </kendo-formfield>
-        <kendo-formfield>
-          <div class="enquiry-update--content">
-            <kendo-label class="enquiry-update--label" [for]="dealposition"
-              >Deal Position</kendo-label
-            >
-            <kendo-dropdownlist
-              class="enquiry-update--dropdownlist"
-              formControlName="dealPosition"
-              #dealposition
-              [data]="dealPositionList"
-              textField="comboName"
-              valueField="comboID"
-              [valuePrimitive]="true"></kendo-dropdownlist>
-          </div>
-          <kendo-formerror class="enquiry-update--error-msg"
-            >Deal position is required</kendo-formerror
-          >
-        </kendo-formfield>
-        <kendo-formfield>
-          <div class="enquiry-update--content">
-            <kendo-label class="enquiry-update--label" [for]="probability"
-              >Probability</kendo-label
-            >
-            <kendo-dropdownlist
-              class="enquiry-update--dropdownlist"
-              formControlName="probability"
-              #probability
-              [data]="probabilityList"
-              textField="comboName"
-              valueField="comboID"
-              [valuePrimitive]="true"></kendo-dropdownlist>
-          </div>
-          <kendo-formerror class="enquiry-update--error-msg"
-            >Probability is required</kendo-formerror
-          >
-        </kendo-formfield>
+<div class="enquiry-update--container" [formGroup]="enquiryUpdateForm">
+  <kendo-formfield>
+    <div class="enquiry-update--content">
+      <kendo-label class="enquiry-update--label" [for]="poexpecteddate"
+        >PO Expected Date</kendo-label
+      >
+      <kendo-datepicker
+        class="enquiry-update--dropdownlist"
+        formControlName="poExpectedDate"
+        #poexpecteddate
+        placeholder="-select-"
+        formatPlaceholder="formatPattern"
+        format="dd/MM/yyyy"></kendo-datepicker>
+    </div>
+    <kendo-formerror class="enquiry-update--error-msg"
+      >PO expected date is required</kendo-formerror
+    >
+  </kendo-formfield>
+  <kendo-formfield>
+    <div class="enquiry-update--content">
+      <kendo-label class="enquiry-update--label" [for]="dealposition"
+        >Deal Position</kendo-label
+      >
+      <kendo-dropdownlist
+        class="enquiry-update--dropdownlist"
+        formControlName="dealPosition"
+        #dealposition
+        [data]="dealPositionList"
+        textField="comboName"
+        valueField="comboID"
+        [valuePrimitive]="true"></kendo-dropdownlist>
+    </div>
+    <kendo-formerror class="enquiry-update--error-msg"
+      >Deal position is required</kendo-formerror
+    >
+  </kendo-formfield>
+  <kendo-formfield>
+    <div class="enquiry-update--content">
+      <kendo-label class="enquiry-update--label" [for]="probability"
+        >Probability</kendo-label
+      >
+      <kendo-dropdownlist
+        class="enquiry-update--dropdownlist"
+        formControlName="probability"
+        #probability
+        [data]="probabilityList"
+        textField="comboName"
+        valueField="comboID"
+        [valuePrimitive]="true"></kendo-dropdownlist>
+    </div>
+    <kendo-formerror class="enquiry-update--error-msg"
+      >Probability is required</kendo-formerror
+    >
+  </kendo-formfield>
 
-        <div class="enquiry-update-forms--content">
-          <kendo-label class="enquiry-update-forms--label" [for]="dealvalue" [for]="currency" >Deal Value / Currency</kendo-label>
-          <div class="enquiry-update-forms--subcontent">
-            <kendo-textbox class="enquiry-update-forms-kendo--dropdownlist"
-             formControlName="dealValue"
-             #dealvalue>
-            </kendo-textbox>
-            <kendo-textbox class="enquiry-update-forms-kendo--dropdownlist"
-             formControlName="currency"
-             #currency
-            ></kendo-textbox>  
-          </div>
-        </div>
-      </div>
-
-      <div class="enquiry-details-history--header">
-          <div class="enquiry-update--header">
-            Interactions
-            <div class="enquiry-update-header--tag"></div>
-          </div>
-          <kendo-button
-            class="enquiry-details-interations--button"
-            (click)="handleHistoryButton()"
-            >Previous Interactions</kendo-button
-          >
-      </div>  
-      
-      <div class="enquiry-update--container" [formGroup]="enquiryUpdateForm">
-        <kendo-formfield>
-          <div class="enquiry-update--content">
-            <kendo-label
-              class="enquiry-update--label"
-              [for]="modeofcommunication"
-              >Mode of Communication</kendo-label
-            >
-            <kendo-dropdownlist
-              class="enquiry-update--dropdownlist"
-              formControlName="modeOfCommunication"
-              #modeofcommunication
-              [data]="enquiryModeList"
-              textField="comboName"
-              valueField="comboID"
-              [valuePrimitive]="true"></kendo-dropdownlist>
-          </div>
-          <kendo-formerror class="enquiry-update--error-msg"
-            >Mode of communication is required</kendo-formerror
-          >
-        </kendo-formfield>
-        <kendo-formfield>
-          <div class="enquiry-update--content">
-            <kendo-label class="enquiry-update--label" [for]="remarksValue"
-              >Remarks</kendo-label
-            >
-            <kendo-textarea
-              placeholder="Type  your message here.."
-              formControlName="remarksValue"
-              #remarksValue
-              class="enquiry-update--textarea"
-              [rows]="6"
-              resizable="vertical"></kendo-textarea>
-          </div>
-          <kendo-formerror class="enquiry-update--error-msg"
-            >Remarks is required</kendo-formerror
-          >
-        </kendo-formfield>
-        <kendo-formfield>
-          <div class="enquiry-update--content">
-            <kendo-label class="enquiry-update--label" [for]="attachment"
-              >Attachment</kendo-label
-            >
-            <kendo-fileselect
-              class="enquiry-update--fileupload"
-              formControlName="attachment"
-              #attachment></kendo-fileselect>
-          </div>
-          <kendo-formerror class="enquiry-update--error-msg"
-            >Attachment is required</kendo-formerror
-          >
-        </kendo-formfield>
-      </div>
-      <div class="enquiry-update--footer"
-      (click)="updateEnquiryCancel()">
-        <button kendobutton class="enquiry-update-cancel--button">
-          Cancel
-        </button>
-        <button
-          kendobutton
-          class="enquiry-update-save--button"
-          (click)="updateEnquiryForm()">
-          Save
-        </button>
-      </div>
+  <div class="enquiry-update-forms--content">
+    <kendo-label class="enquiry-update-forms--label" [for]="dealvalue" [for]="currency" >Deal Value / Currency</kendo-label>
+    <div class="enquiry-update-forms--subcontent">
+      <kendo-textbox class="enquiry-update-forms-kendo--dropdownlist"
+       formControlName="dealValue"
+       #dealvalue>
+      </kendo-textbox>
+      <kendo-textbox class="enquiry-update-forms-kendo--dropdownlist"
+       formControlName="currency"
+       #currency
+      ></kendo-textbox>  
     </div>
   </div>
 </div>
-<div class="enquiry-update--loader" *ngIf="showAPILoader">
-  <kendo-loader
-    type="converging-spinner"
-    themeColor="info"
-    size="medium"></kendo-loader>
-  <div>Updating enquiry....</div>
+
+<div class="enquiry-details-history--header">
+    <div class="enquiry-update--header">
+      Interactions
+      <div class="enquiry-update-header--tag"></div>
+    </div>
+    <kendo-button
+      class="enquiry-details-interations--button"
+      (click)="handleHistoryButton()"
+      >Previous Interactions</kendo-button
+    >
+</div>  
+
+<div class="enquiry-update--container" [formGroup]="enquiryUpdateForm">
+  <kendo-formfield>
+    <div class="enquiry-update--content">
+      <kendo-label
+        class="enquiry-update--label"
+        [for]="modeofcommunication"
+        >Mode of Communication</kendo-label
+      >
+      <kendo-dropdownlist
+        class="enquiry-update--dropdownlist"
+        formControlName="modeOfCommunication"
+        #modeofcommunication
+        [data]="enquiryModeList"
+        textField="comboName"
+        valueField="comboID"
+        [valuePrimitive]="true"></kendo-dropdownlist>
+    </div>
+    <kendo-formerror class="enquiry-update--error-msg"
+      >Mode of communication is required</kendo-formerror
+    >
+  </kendo-formfield>
+  <kendo-formfield>
+    <div class="enquiry-update--content">
+      <kendo-label class="enquiry-update--label" [for]="remarksValue"
+        >Remarks</kendo-label
+      >
+      <kendo-textarea
+        placeholder="Type  your message here.."
+        formControlName="remarksValue"
+        #remarksValue
+        class="enquiry-update--textarea"
+        [rows]="6"
+        resizable="vertical"></kendo-textarea>
+    </div>
+    <kendo-formerror class="enquiry-update--error-msg"
+      >Remarks is required</kendo-formerror
+    >
+  </kendo-formfield>
+  <kendo-formfield>
+    <div class="enquiry-update--content">
+      <kendo-label class="enquiry-update--label" [for]="interaction_attachment"
+        >Attachment</kendo-label
+      >
+      <kendo-fileselect
+        class="enquiry-update--fileupload"
+        formControlName="interaction_attachment"
+        #interaction_attachment></kendo-fileselect>
+    </div>
+    <kendo-formerror class="enquiry-update--error-msg"
+      >Attachment is required</kendo-formerror
+    >
+  </kendo-formfield>
 </div>

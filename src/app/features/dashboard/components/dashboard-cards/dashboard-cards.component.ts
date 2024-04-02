@@ -4,6 +4,7 @@ import quickCards from '../../data/mock.json';
 import moduleCards from '../../data/mock.json';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
+import { IconsModule } from '@progress/kendo-angular-icons';
 
 type quickCards = {
   image: string;
@@ -78,16 +79,33 @@ export class DashboardCardsComponent implements OnInit {
     if (cardData.path === 'enquiry-listview') {
       this.router.navigate([cardData.path]);
     }
+    if (cardData.path === 'service-calendar') {
+      this.router.navigate([cardData.path]);
+    }
   }
   showCards(cardType: any): boolean {
     // If the card type is 'Funnel Update', show it only if the user has the 'prvViewSales' privilege.
-    return !(
-      cardType.text === 'Funnel Update' &&
-      !this.userPrivileges?.includes('prvViewSales')
-    );
+    if(cardType.text === 'Funnel Update'){
+      return !(
+        !this.userPrivileges?.includes('prvViewSales')
+      );
+    }
+    else if(cardType.text === 'My Calendar'){
+      return !(
+        !this.userPrivileges?.includes('prvSalesPrepConfig')
+      );
+    }
+    else{
+      return true;
+    }
   }
   getEmployeeName(): string {
     return this.loginService.getEmployeeName();
+  }
+  getEmployeeFirstName(): string {
+    const EmpFullName = this.getEmployeeName();
+    const FirstName = EmpFullName.slice(0, EmpFullName.indexOf(' '));
+    return FirstName as string;
   }
   getIconName(image: string): IconName {
     // Assuming all your icons are valid FontAwesome icon names

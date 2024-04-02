@@ -11,6 +11,7 @@ import { EnquiryUpdateComponent } from './components/enquiry-update/enquiry-upda
 import { EnquiryDetailsListViewComponent } from './components/enquiry-details-list-view/enquiry-details-list-view.component';
 import { EnquiryDetailsHistoryComponent } from './components/enquiry-details-history/enquiry-details-history.component';
 import { LoginModule } from '../login/login.module';
+import { EnquiryDetailsUpdateComponent } from './components/enquiry-details-update/enquiry-details-update.component';
 @NgModule({
   declarations: [
     EnquiryDetailsComponent,
@@ -20,6 +21,7 @@ import { LoginModule } from '../login/login.module';
     EnquiryUpdateComponent,
     EnquiryDetailsListViewComponent,
     EnquiryDetailsHistoryComponent,
+    EnquiryDetailsUpdateComponent,
   ],
   imports: [
     CommonModule,

@@ -53,6 +53,7 @@ type salesExecutive = {
   templateUrl: './enquiry-details-forms.component.html',
   styleUrls: ['./enquiry-details-forms.component.scss'],
 })
+
 export class EnquiryDetailsFormsComponent implements OnInit {
   public areaList: any = [];
   public sales: unknown = [];
@@ -84,8 +85,7 @@ export class EnquiryDetailsFormsComponent implements OnInit {
       this.enquiryDetailsForms.patchValue(
         this.formStateService.enquiryDetailsFormState
       );
-    }
-    
+    }   
     if (this.formStateService.selectedsales) {
       this.handleSalesChannel(this.formStateService.selectedsales);
     }
@@ -177,8 +177,7 @@ export class EnquiryDetailsFormsComponent implements OnInit {
           });
         }).add(() => {
           this.showEnquiryDetailsAPILoader = false;
-        });
-        
+        });      
     }
   }
 

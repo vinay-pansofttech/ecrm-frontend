@@ -1,0 +1,103 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div class="service-efforts-main--container">
+    <div class="service-efforts-titlebar">
+      <div class="service-efforts--back-img">
+        <img
+          src="assets/enquiry-details-listview-img/back.svg"
+          alt="new"
+          (click)="onBackClickHandle()" />
+      </div>
+      <div class="service-efforts--title">Service Efforts</div>
+      <div>
+        <img
+          src="assets/reset.svg"
+          kendobuttons
+          alt="reset"
+          class="service-efforts-reset--image" 
+          (click)="onRefresh()" />
+      </div>
+    </div>
+
+    <div class="service-efforts-history--header">
+      <div class="service-efforts--header">
+        Effort Details - {{srid}}
+        <div class="service-efforts-header--tag"></div>
+      </div>
+      <div class="service-efforts-date">
+        {{ currentDate }}
+      </div>
+    </div>
+
+    <div class="service-efforts--container" [formGroup]="serviceEffortsForm">
+      <div class="service-efforts--hours">
+        <div class="service-efforts--hours-content effort-hours">
+          <kendo-formfield>
+            <div class="service-efforts--content">
+              <kendo-label class="service-efforts--label" [for]="efforthours"
+                >Effort Hours</kendo-label
+              >
+              <kendo-textbox class="service-efforts-forms-kendo--dropdownlist"
+              formControlName="efforthours"
+              #efforthours>
+              </kendo-textbox>
+            </div>
+            <kendo-formerror class="service-efforts--error-msg"
+              >Effort hours is required</kendo-formerror
+            >
+          </kendo-formfield>
+        </div>
+        <div class="service-efforts--hours-content">
+          <kendo-formfield>
+            <div class="service-efforts--content">
+              <kendo-label class="service-efforts--label" [for]="travelhours"
+                >Travel Hours</kendo-label
+              >
+              <kendo-textbox class="service-efforts-forms-kendo--dropdownlist"
+              formControlName="travelhours"
+              #travelhours>
+              </kendo-textbox>
+            </div>
+            <kendo-formerror class="service-efforts--error-msg"
+              >Travel hours is required</kendo-formerror
+            >
+          </kendo-formfield>
+        </div>
+      </div>
+
+      <kendo-formfield>
+        <div class="service-efforts--content">
+          <kendo-label class="service-efforts--label" [for]="effortremarks"
+            >Remarks</kendo-label
+          >
+          <kendo-textarea
+            placeholder="Type  your message here.."
+            formControlName="effortremarks"
+            #effortremarks
+            class="service-efforts--textarea"
+            [rows]="6"
+            resizable="vertical"></kendo-textarea>
+        </div>
+        <kendo-formerror class="service-efforts--error-msg"
+          >Effort remarks is required</kendo-formerror
+        >
+      </kendo-formfield>
+    </div>
+
+    <div class="service-efforts--footer">
+      <button
+        kendobutton
+        class="service-efforts-cancel--button"
+        (click)="onBackClickHandle()">
+        Cancel
+      </button>
+      <button
+        kendoButton
+        class="service-efforts-save--button"
+        (click)="submit()">
+        Save
+      </button>
+    </div>
+    
+</div>
+  

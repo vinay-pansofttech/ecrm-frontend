@@ -9,9 +9,8 @@
         (click)="onBackClick()" />
     </div>
     <div class="enquiry-details-listview--title">
-      Enquiry Details History - {{ id }}
+      Previous Interactions - {{ id }}
     </div>
-    <div class="logout--icon"><app-logout-component></app-logout-component></div>
   </div>
 
   <div *ngFor="let a of filteredCards" class="enquiry-details-listview--cards">

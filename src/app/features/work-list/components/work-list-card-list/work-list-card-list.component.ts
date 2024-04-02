@@ -18,9 +18,7 @@ export class WorkListCardListComponent implements OnInit {
   constructor(private router: Router) {}
   customerCardsList!: customerCards[];
   ngOnInit(): void {
-    console.log('customer', customerCards);
     this.customerCardsList = [customerCards.customerCards][0];
-    console.log('', this.customerCardsList);
   }
   onBackClickHandle() {
     this.router.navigate(['/dashboard']);

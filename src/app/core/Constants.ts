@@ -23,6 +23,10 @@ export enum AppRoutePaths {
   EnquiryDetailsListView = 'enquiry-listview',
   LoginDialog = 'login-dialog',
   EnquiryDetailsHistory = 'enquiry-details-history/:id',
+  EnquiryDetailsUpdate = 'enquiry-details-update/:id',
+  ServiceCalendar = 'service-calendar',
+  ServiceEffortsList = 'service-efforts-listview/:id/:Date',
+  ServiceEfforts = 'service-efforts/:index/:id/:Date',
 }
 
 export enum EcrmUserAdminRoutePath {

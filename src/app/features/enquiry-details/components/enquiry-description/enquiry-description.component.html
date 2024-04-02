@@ -29,6 +29,10 @@
         #attachment></kendo-fileselect>
     </div>
     <kendo-formerror class="enquiry-description--error-msg">Attachment is required</kendo-formerror>
+    <div *ngFor="let file of myFiles; let i = index"
+      class="enquiry-attachment-files">
+      <div (click)="downloadAttachment(i)">{{ file.name }}</div>
+    </div>
   </kendo-formfield>
   </div>
 </div>

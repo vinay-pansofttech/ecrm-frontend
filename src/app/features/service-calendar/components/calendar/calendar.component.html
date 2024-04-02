@@ -1,0 +1,178 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div class="my-calendar-main--container">
+    <div class="my-calendar-titlebar">
+      <div class="my-calendar--back-img">
+        <img
+          src="assets/enquiry-details-listview-img/back.svg"
+          alt="new"
+          (click)="onBackClickHandle()" />
+      </div>
+      <div class="my-calendar--title">My Calendar</div>
+      <div>
+        <img
+          src="assets/reset.svg"
+          kendobuttons
+          alt="reset"
+          class="my-calendar-reset--image" 
+          (click)="onRefresh()"/>
+      </div>
+    </div>
+
+    <div class="service-calendar-container">
+      <div class="service-kendo-calendar-pop-up-icon">
+        <img
+          src="assets/dashboard-calendar-icon.svg"
+          alt="new"
+          (click)="openCloseCalendar()" />
+      </div>
+      <div class="service-calendar-date-container">
+        <div class="service-calendar--back-img">
+            <img
+              src="assets/back.svg"
+              alt="new"
+              (click)="onPrevDateClickHandle()" />
+        </div>
+        <div class="service-calendar-date">
+            {{ currentDate | date:'dd-MMM-yyyy' }}
+        </div>
+        <div class="service-calendar--front-img">
+          <img
+            src="assets/back.svg"
+            alt="new"
+            (click)="onNextDateClickHandle()" />
+        </div>
+      </div>
+    </div>
+
+    <div class="service-kendo-calendar-pop-up">
+      <kendo-calendar
+        *ngIf="isCalendarOpen"
+        type="classic"
+        [(ngModel)]="selectedDate"
+        (ngModelChange)="updateServiceCalendarDate($event)"
+        [showOtherMonthDays]="false"
+      ></kendo-calendar>
+    </div>
+
+    <div class="service-calendar-history--header">
+      <div class="service-calendar--header">
+        Scheduled Calls
+        <div class="service-calendar-header--tag"></div>
+      </div>
+    </div>
+
+    <div *ngFor="let a of schCallCards" class="service-calendar-listview--cards">
+      <kendo-card class="service-calendar-listview--kendo-card">
+        <div class="service-calendar-listview--kendo-card-header">
+          <div class="service-calendar-listview--kendo-card-number">
+            {{a.srid}}
+          </div>
+          <div>
+            <img
+            src="assets/calendar-details--chevron.svg"
+            alt="edit"
+            (click)="onScheduledCallClick(a.srid)"
+            />
+          </div>
+        </div>
+  
+        <div class="service-calendar-listview--kendo-splitter">
+          <kendo-splitter orientation="horizontal"></kendo-splitter>
+        </div>
+  
+        <div class="service-calendar-listview--kendo-card-content" (click)="onScheduledCallClick(a.srid)">
+          <div class="service-calendar-listview--kendo-card-sold-details">
+            <div class="service-calendar-listview--kendo-card-sub-title">
+              UEU
+            </div>
+            <div class="service-calendar-listview--kendo-card-sold">
+              {{a.ueu}}
+            </div>
+          </div>
+          <div class="service-calendar-listview--kendo-card-sold-details">
+            <div class="service-calendar-listview--kendo-card-sub-title">
+              Site
+            </div>
+            <div class="service-calendar-listview--kendo-card-sold">
+              {{a.siteName}}
+            </div>
+          </div>
+          <div class="service-calendar-listview--kendo-card-sold-details">
+            <div class="service-calendar-listview--kendo-card-sub-title">
+              Call Category
+            </div>
+            <div class="service-calendar-listview--kendo-card-sold">
+              {{a.callCategory}}
+            </div>
+          </div>
+          <div class="service-calendar-listview--kendo-card-sold-details">
+            <div class="service-calendar-listview--kendo-card-sub-title">
+              Call Type
+            </div>
+            <div class="service-calendar-listview--kendo-card-sold">
+              {{a.callType}}
+            </div>
+          </div>
+          <div class="service-calendar-listview--kendo-card-sold-details">
+            <div class="service-calendar-listview--kendo-card-sub-title">
+              Call Description
+            </div>
+            <div class="service-calendar-listview--kendo-card-sold">
+              {{a.callDescription}}
+            </div>
+          </div>
+          <div class="service-calendar-listview--kendo-card-sold-details">
+            <div class="service-calendar-listview--kendo-card-sub-title">
+              Instrument
+            </div>
+            <div class="service-calendar-listview--kendo-card-sold">
+              {{a.productName}}
+            </div>
+          </div>
+          <div class="service-calendar-listview--kendo-card-sold-details">
+            <div class="service-calendar-listview--kendo-card-sub-title">
+              Serial Number
+            </div>
+            <div class="service-calendar-listview--kendo-card-sold">
+              {{a.serialNumber}}
+            </div>
+          </div>
+        </div>
+  
+        <div class="service-calendar-listview--information-outline-card" (click)="callPhoneNumber(a.phoneNumber)">
+          <div>
+            <img src="assets/enquiry-details-phone-icon.svg" alt="new" />
+          </div>
+          <div class="service-calendar-listview--information">
+            {{a.phoneNumber}}
+          </div>
+        </div>
+
+        <div class="service-calendar-listview--information-outline-card" (click)="sendEmail(a.email)">
+          <div>
+            <img src="assets/calendar-details-email-icon.svg" alt="new" />
+          </div>
+          <div class="service-calendar-listview--information">
+            {{a.email}}
+          </div>
+        </div>
+
+        <div class="service-calendar-listview--information-outline-card" (click)="openLocation(a.gpsCoordinate)">
+          <div>
+            <img src="assets/calendar-details-location-icon.svg" alt="new" />
+          </div>
+          <div class="service-calendar-listview--information">
+            {{a.gpsCoordinate}}
+          </div>
+        </div>
+      </kendo-card>     
+    </div>
+
+    <div *ngIf="schCallCards.length === 0" class="service-calendar-disclaimer--card">
+      <div class="service-calendar-disclaimer--content">
+        <h5>No calls scheduled for the day</h5>
+      </div>
+    </div>
+</div>
+  

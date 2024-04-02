@@ -18,7 +18,7 @@
   text-align: left;
   padding-top: 1rem;
   flex: 1 0 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .dashboard-landingPage--viewall {
@@ -82,7 +82,10 @@
   bottom: 0%;
 }
 .sales-card {
-  background: linear-gradient(180.6deg, #327790 0.52%, #3196B4 40.05%, #7AB172 80.11%, #A0B31D 108.81%);
+  background: rgba(235, 243, 244, 0.4);
+  background:
+  url('../../../../../assets/login-images/login-page-flow.svg') bottom 0 left 0 no-repeat,
+  url('../../../../../assets/dashboard-page-flow-right-bottom.svg') bottom 0 left 50% no-repeat;
   border: none;
   border-color: transparent;
   border-style: none;
@@ -97,7 +100,7 @@
   line-height: 22px;
   letter-spacing: 0em;
   text-align: left;
-  color: white;
+  color: rgba(32, 137, 156, 1);
   padding: 0 1rem;
 }
 .sales-card-text-content {
@@ -109,10 +112,12 @@
   width: 83px;
   height: 26px;
   border-radius: 100px;
-  color: white;
+  border: solid rgba(32, 137, 156, 1) 1px;
+  color: rgba(32, 137, 156, 1);
   margin: 0 1rem;
   background-color:#FFFFFF33;
   text-align: center;
   padding: 3px;
   font-size: 12px;
+  cursor: pointer;
 }
