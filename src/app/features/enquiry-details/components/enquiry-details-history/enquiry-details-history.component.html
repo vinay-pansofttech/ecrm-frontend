@@ -24,6 +24,9 @@
         <kendo-splitter orientation="horizontal"></kendo-splitter>
       </div>
       <div class="enquiry-details-listview--kendo-card-content">
+
+        <div class="enquiry-details-listview--kendo-card-box">
+      <div class="enquiry-details-listview--kendo-card-updated-date">
         <div class="enquiry-details-listview--kendo-card-sold-details">
           <div class="enquiry-details-listview--kendo-card-sub-title">
             Updated Date
@@ -32,7 +35,17 @@
           {{ a.updDate }}
         </div>
       </div>
-
+      </div>
+      <div class="enquiry-details-listview--kendo-card-sold-details">
+        <div class="enquiry-details-listview--kendo-card-sub-title">
+          Mode of Contact
+        </div>
+      <div class="enquiry-details-listview--kendo-card-sold">
+        {{ a.modeOfContact }}
+      </div>
+       </div>
+       
+        </div>
         <div class="enquiry-details-listview--kendo-card-sold-details">
           <div class="enquiry-details-listview--kendo-card-sub-title">
             Updated By
@@ -41,15 +54,6 @@
           {{ a.updatedBy }}
         </div>
       </div>
-     
-        <div class="enquiry-details-listview--kendo-card-sold-details">
-        <div class="enquiry-details-listview--kendo-card-sub-title">
-          Mode of Contact
-        </div>
-      <div class="enquiry-details-listview--kendo-card-sold">
-        {{ a.modeOfContact }}
-      </div>
-       </div>
       </div>
       
     </kendo-card>
