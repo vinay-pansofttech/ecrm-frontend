@@ -27,6 +27,8 @@ export enum AppRoutePaths {
   ServiceCalendar = 'service-calendar',
   ServiceEffortsList = 'service-efforts-listview/:id/:Date',
   ServiceEfforts = 'service-efforts/:index/:id/:Date',
+  WorksheetDetails = 'worksheet-details',
+  WorksheetApproval = 'worksheet-approval/:id'
 }
 
 export enum EcrmUserAdminRoutePath {

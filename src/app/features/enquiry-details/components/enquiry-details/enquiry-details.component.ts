@@ -137,18 +137,31 @@ export class EnquiryDetailsComponent implements OnInit {
       this.loaderService.showLoader();
       this.enquiryDetailsService
         .getAddEnquiry(this.enquiryCaptureForm.value)
-        .subscribe(data => {
+        .subscribe((data: any) => {
           this.loaderService.hideLoader();
+          // if (data) {
+          //   const notificationMessage = data.outPut;
+          //   const notificationType = data.outPut.startsWith('Success') ? 'success' : 'error';
+          //   this.notificationService.showNotification(
+          //     notificationMessage,
+          //     notificationType,
+          //     'center',
+          //     'bottom'
+          //   );
+          // }
+          
+          const notificationMessage = data.outPut.startsWith('Success') || data.outPut == "" ? 'Enquiry Created Successfully' : data.outPut;
+
           this.notificationService.showNotification(
-            'Created enquiry successfully',
-            'success','center','bottom'
+              notificationMessage,
+              'success', 'center', 'bottom'
           );
           this.router.navigate(['/enquiry-listview']);
         },
         error => {
           this.loaderService.hideLoader();;
           this.notificationService.showNotification(
-            'Enquiry not  created',
+            'Enquiry not  created'+ error,
             'error', 'center', 'bottom'
           );
         });

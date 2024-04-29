@@ -33,7 +33,6 @@ export class DashboardCardsComponent implements OnInit {
   ngOnInit(): void {
     this.cards = [quickCards.quickCards][0];
     this.userPrivileges = this.loginService.privileges;
-
     this.moduleCards = [moduleCards.moduleCards][0];
   }
 
@@ -72,7 +71,6 @@ export class DashboardCardsComponent implements OnInit {
     return '#F2F2F2';
   }
   handleCardNavigate(cardData: any) {
-    console.log('test for routing');
     if (cardData.path === 'enquiry-details') {
       this.router.navigate([cardData.path]);
     }
@@ -82,10 +80,18 @@ export class DashboardCardsComponent implements OnInit {
     if (cardData.path === 'service-calendar') {
       this.router.navigate([cardData.path]);
     }
+    if (cardData.path === 'worksheet-details') {
+      this.router.navigate([cardData.path]);
+    }
   }
   showCards(cardType: any): boolean {
     // If the card type is 'Funnel Update', show it only if the user has the 'prvViewSales' privilege.
     if(cardType.text === 'Funnel Update'){
+      return !(
+        !this.userPrivileges?.includes('prvViewSales')
+      );
+    }
+    else if(cardType.text === 'Worksheet'){
       return !(
         !this.userPrivileges?.includes('prvViewSales')
       );

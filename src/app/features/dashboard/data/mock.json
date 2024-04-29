@@ -14,6 +14,11 @@
       "image": "dashboard-quicklink-enquiry-icon",
       "text": "My Calendar",
       "path": "service-calendar"
+    },
+    {
+      "image": "dashboard-quicklink-enquiry-icon",
+      "text": "Worksheet",
+      "path": "worksheet-details"
     }
   ],
 

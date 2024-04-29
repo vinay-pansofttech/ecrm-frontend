@@ -1,7 +1,9 @@
-import { Component, OnInit, Type, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { process, State } from '@progress/kendo-data-query';
-import { EnquiryDetailsService } from '../../enquiry-details.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { WorksheetService, WorkSheetSO } from '../../worksheet.service';
+import { Router } from '@angular/router';
+
 interface EnquiryList {
   id: string | number;
   dealNo: string;
@@ -16,32 +18,38 @@ interface EnquiryList {
   soldToContact: string;
   wsApprovalPendingWith: string;
   soldToContPhoneNo: number;
-}
+  approxQuotevalue: number;
+  drqStatus: string;
+};
 
 @Component({
-  selector: 'app-enquiry-details-list-view',
-  templateUrl: './enquiry-details-list-view.component.html',
-  styleUrls: ['./enquiry-details-list-view.component.scss'],
+  selector: 'app-worksheet-details',
+  templateUrl: './worksheet-details.component.html',
+  styleUrls: ['./worksheet-details.component.scss']
 })
-export class EnquiryDetailsListViewComponent implements OnInit {
+export class WorksheetDetailsComponent {
+  @Input()
+  public worksheetDetails!: FormGroup;
   contactCards: EnquiryList[] = [];
   pageSize = 3;
   filteredCards: any[] = [];
   skip = 0;
   total = 0;
   searchTerm = '';
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private enquiryDetailService: EnquiryDetailsService
-  ) {}
+  public showWorksheetAPILoader = false;
+  public worksheetDetailsCard: WorkSheetSO[] =[];
 
+  constructor(
+    private router: Router,
+    private worksheetService: WorksheetService
+  ){}
+  
   ngOnInit() {
     this.enquiryList();
   }
 
   enquiryList() {
-    this.enquiryDetailService.getEnquirylist().subscribe((data: any) => {
+    this.worksheetService.getEnquiryWorksheetlist().subscribe((data: any) => {
       this.contactCards = data;
       this.filterData();
     });
@@ -64,6 +72,7 @@ export class EnquiryDetailsListViewComponent implements OnInit {
     }
     this.total = this.filteredCards.length;
     this.applyPagination();
+    console.log('enquiry List',this.filteredCards);
   }
 
   applyPagination(): void {
@@ -81,8 +90,15 @@ export class EnquiryDetailsListViewComponent implements OnInit {
     this.filterData();
   }
 
-  navigateById(id: string | number) {
-    // this.router.navigate(['/enquiry-update', getRandomInt(10000)]);
-    this.router.navigate(['/enquiry-details-update', id]);
+  navigateById(enqId: number) {
+    this.router.navigate(['/worksheet-approval',enqId]);
+  }
+
+  onBackClickHandle() {
+    this.router.navigate(['dashboard']);
+  }
+
+  onReset(){
+    this.ngOnInit();
   }
 }

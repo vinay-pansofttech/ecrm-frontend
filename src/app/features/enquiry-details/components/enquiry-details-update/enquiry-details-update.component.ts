@@ -26,6 +26,7 @@ export class EnquiryDetailsUpdateComponent {
   enqId!: string;
   modeOfCommunicationValue = false;
   modeOfCommunicationControl!: FormControl;
+  docSrcTypeAttachment: number = 22;
 
   private isStepValid = (index: number): boolean => {
     return this.getGroupAt(index).valid || this.currentGroup.untouched;
@@ -177,19 +178,25 @@ export class EnquiryDetailsUpdateComponent {
       this.loaderService.showLoader();
       this.enquiryDetailsService
         .getUpdateEnquiry(this.enquiryCaptureForm.value, this.enqId)
-        .subscribe(data => {
+        .subscribe((data: any) => {
           console.log('after submit', data);
           this.loaderService.hideLoader();
-          this.notificationService.showNotification(
-            'Updated enquiry successfully',
-            'success', 'center', 'bottom'
-          );
+          if (data) {
+            const notificationMessage = data.outPut;
+            const notificationType = data.outPut.indexOf('success') !== -1 ? 'success' : 'error';
+            this.notificationService.showNotification(
+              notificationMessage,
+              notificationType,
+              'center',
+              'bottom'
+            );
+          }
           this.router.navigate(['/enquiry-listview']);
         },
         error => {
           this.loaderService.hideLoader();;
           this.notificationService.showNotification(
-            'Enquiry not  updated',
+            'Enquiry not  updated' + error,
             'error', 'center', 'bottom'
           );
         });
@@ -243,8 +250,9 @@ export class EnquiryDetailsUpdateComponent {
       }
     });
   }
+  
   getAttachmentDetails(enqID: string){
-    this.enquiryDetailsService.getAttachmentDetails(enqID).subscribe((data: any) => {
+    this.enquiryDetailsService.getAttachmentDetails(enqID, this.docSrcTypeAttachment).subscribe((data: any) => {
       if(data!=null){
         this.formStateService.attachments = data;
       }
@@ -254,6 +262,7 @@ export class EnquiryDetailsUpdateComponent {
       }
     });
   }
+
   getEnqdetails() {
     this.enquiryDetailsService
       .getEnquiryDetails(this.id)

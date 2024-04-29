@@ -162,7 +162,7 @@ export class EnquiryDetailsFormsComponent implements OnInit {
       this.showEnquiryDetailsAPILoader = true;
       this.formStateService.selectedsales = sales;
       this.enquiryDetailsService
-        .getsalesExecutive(0, 0, sales.salesChannelID, 21665)
+        .getsalesExecutive(0, 0, sales.salesChannelID, this.formStateService.contactDetailsFormState.soldToSite)
         .subscribe((res: any) => {
           this.salesExecutive = res || '';
           this.salesExecutiveDefaultValue = {
