@@ -41,6 +41,7 @@ export class EnquiryDetailsService {
   public leID: string | number = '';
   public salesExecID: string | number = '';
   public poExpectedDate: string | number = '';
+  public soldToLESiteID: string | number = '';
   public docSrcTypeAttachment: any = 22;
 
   constructor(
@@ -223,8 +224,8 @@ export class EnquiryDetailsService {
     const body = {
       enqId: enId,
       leid: leId,
-      salesChannelID,
-      leSiteID,
+      salesChannelID: salesChannelID,
+      LESiteID: leSiteID,
     };
     return this.http.post(url, body);
   }

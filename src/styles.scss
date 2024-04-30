@@ -51,11 +51,12 @@ body {
 
 .app-navigation-main--container {
   display: flex;
-  padding: 0.5rem;
+  padding: 0.25rem;
   align-items: center;
+  background: linear-gradient(270deg, #327790 0%, #49AFCD 33.33%, #89BA82 67.19%);
 }
 .app-navigation--header {
-  color: #031222;
+  color: white;
   font-family: Arial;
   font-size: var(--text-size-3);
   font-style: normal;
@@ -64,7 +65,7 @@ body {
   flex: 1 0 0;
 }
 .app-navigation-reset--image {
-  padding-right: 0.25rem;
+  padding-right: 0.5rem;
 }
 .app-screen--content {
   display: flex;
@@ -72,14 +73,17 @@ body {
   justify-content: space-around;
 }
 .app-screen--header {
-  color: #031222;
-  font-family: Arial;
-  font-size: var(--text-size-1);
+  color: #FFFFFF;
+  font-size: 1rem;
   font-style: normal;
   font-weight: var(--font-weight-bolder);
   line-height: 1.75rem;
   flex: 1 0 0;
-  margin: 1rem 1rem 1rem 1.5rem;
+  margin: 0rem 0rem 0rem 0rem;
+  margin-bottom: 1rem;
+  padding:0.5rem;
+  padding-left: 1rem;
+  background-color: rgb(16, 47, 63);
 }
 .app-screen--header-tag {
   max-width: 2.5rem;

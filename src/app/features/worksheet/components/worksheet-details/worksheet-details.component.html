@@ -1,18 +1,23 @@
 <div *ngIf="!showWorksheetAPILoader">
   <div class="app-navigation-main--container">
     <div>
-      <img src="assets/back.svg" kendobutton alt="back" 
+      <img src="assets/worksheet-back.svg" kendobutton alt="back" 
       (click)="onBackClickHandle()"/>
     </div>
     <div class="app-navigation--header">Worksheet</div>
     <div>
       <img
-          src="assets/reset.svg"
+          src="assets/worksheet-reset.svg"
           kendobuttons
           alt="reset"
           class="app-navigation-reset--image" 
           (click)="onReset()"/>
     </div>
+  </div>
+
+      
+  <div class="app-screen--header">
+    Deal List
   </div>
 
   <div class="worksheet-details--container">
@@ -30,11 +35,7 @@
         </ng-template>
       </kendo-textbox>
     </div>
-    
-    <div class="app-screen--header">
-      Deal List
-      <div class="app-screen--header-tag"></div>
-    </div>
+
 
     <div *ngFor="let a of filteredCards" class="enquiry-details-listview--cards">
       <kendo-card class="enquiry-details-listview--kendo-card">

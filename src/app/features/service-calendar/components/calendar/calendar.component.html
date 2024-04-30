@@ -1,20 +1,19 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <div class="my-calendar-main--container">
-    <div class="my-calendar-titlebar">
-      <div class="my-calendar--back-img">
+    <div class="app-navigation-main--container">
+      <div (click)="onBackClickHandle()">
         <img
-          src="assets/enquiry-details-listview-img/back.svg"
-          alt="new"
-          (click)="onBackClickHandle()" />
+          src="assets/back.svg"
+          alt="new"/>
       </div>
-      <div class="my-calendar--title">My Calendar</div>
+      <div class="app-navigation--header">My Calendar</div>
       <div>
         <img
           src="assets/reset.svg"
           kendobuttons
           alt="reset"
-          class="my-calendar-reset--image" 
+          class="app-navigation-reset--image" 
           (click)="onRefresh()"/>
       </div>
     </div>
@@ -56,9 +55,8 @@
     </div>
 
     <div class="service-calendar-history--header">
-      <div class="service-calendar--header">
+      <div class="app-screen--header">
         Scheduled Calls
-        <div class="service-calendar-header--tag"></div>
       </div>
     </div>
 

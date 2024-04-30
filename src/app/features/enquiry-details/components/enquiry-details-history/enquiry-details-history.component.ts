@@ -86,4 +86,8 @@ export class EnquiryDetailsHistoryComponent implements OnInit {
   onBackClick() {
     window.history.back();
   }
+
+  onReset(){
+    this.ngOnInit();
+  }
 }

@@ -28,13 +28,14 @@
   }
   .service-calendar-date{
     padding: 0.5rem;
+    color: #FFFFFF;
   }
   .service-calendar-container{
     display: flex;
     padding: 0.5rem;
     align-items: center;
     justify-content: space-between;
-    background: #EEEEEE;
+    background: rgb(16, 47, 63);;
     height: 2rem;
   }
   .service-calendar-date-container{
@@ -57,7 +58,7 @@
   
   .service-calendar-history--header {
     display: flex;
-    margin: 1rem 1rem 1rem 1.5rem;
+    margin: 0.5rem 0rem 1rem 0rem;
   }
   .service-calendar--header {
     color: #031222;

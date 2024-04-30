@@ -85,4 +85,8 @@ export class EnquiryDetailsListViewComponent implements OnInit {
     // this.router.navigate(['/enquiry-update', getRandomInt(10000)]);
     this.router.navigate(['/enquiry-details-update', id]);
   }
+
+  onReset(){
+    this.ngOnInit();
+  }
 }

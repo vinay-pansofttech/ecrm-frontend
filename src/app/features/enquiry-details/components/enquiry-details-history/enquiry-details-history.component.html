@@ -1,17 +1,25 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <div class="enquiry-details-listview-container">
-  <div class="enquiry-details-listview-titlebar">
-    <div class="enquiry-details-listview--back-img">
+  <div class="app-navigation-main--container">
+    <div (click)="onBackClick()">
       <img
-        src="assets/enquiry-details-listview-img/back.svg"
-        alt="new"
-        (click)="onBackClick()" />
+        src="assets/back.svg"
+        alt="new"/>
     </div>
-    <div class="enquiry-details-listview--title">
-      Previous Interactions - {{ id }}
+    <div class="app-navigation--header">
+      Previous Interactions
+    </div>
+    <div (click)="onReset()">
+      <img
+        src="assets/reset.svg"
+        kendobuttons
+        alt="reset"
+        class="app-navigation-reset--image" />
     </div>
   </div>
+
+  <div class="app-screen--header">Enquiry - {{ id }}</div>
 
   <div *ngFor="let a of filteredCards" class="enquiry-details-listview--cards">
     <kendo-card class="enquiry-details-listview--kendo-card">

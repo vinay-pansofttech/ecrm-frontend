@@ -1,28 +1,26 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <div class="service-efforts-main--container">
-    <div class="service-efforts-titlebar">
-      <div class="service-efforts--back-img">
-        <img
-          src="assets/enquiry-details-listview-img/back.svg"
-          alt="new"
-          (click)="onBackClickHandle()" />
-      </div>
-      <div class="service-efforts--title">Service Efforts</div>
-      <div>
-        <img
-          src="assets/reset.svg"
-          kendobuttons
-          alt="reset"
-          class="service-efforts-reset--image" 
-          (click)="onRefresh()" />
-      </div>
+  <div class="app-navigation-main--container">
+    <div (click)="onBackClickHandle()">
+      <img
+        src="assets/back.svg"
+        alt="new"/>
     </div>
+    <div class="app-navigation--header">Service Efforts</div>
+    <div>
+      <img
+        src="assets/reset.svg"
+        kendobuttons
+        alt="reset"
+        class="app-navigation-reset--image" 
+        (click)="onRefresh()" />
+    </div>
+  </div>
 
     <div class="service-efforts-history--header">
       <div class="service-efforts--header">
         Effort Details - {{srid}}
-        <div class="service-efforts-header--tag"></div>
       </div>
       <div class="service-efforts-date">
         {{ currentDate }}

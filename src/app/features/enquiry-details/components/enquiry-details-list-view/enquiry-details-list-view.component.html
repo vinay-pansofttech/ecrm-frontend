@@ -1,15 +1,24 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <div class="enquiry-details-listview-container">
-  <div class="enquiry-details-listview-titlebar">
-    <div class="enquiry-details-listview--back-img">
+  <div class="app-navigation-main--container">
+    <div>
       <img
-        src="assets/enquiry-details-listview-img/back.svg"
+        src="assets/back.svg"
         alt="new"
         routerLink="/dashboard" />
     </div>
-    <div class="enquiry-details-listview--title">Funnel Update</div>
+    <div class="app-navigation--header">Funnel Update</div>
+    <div (click)="onReset()">
+      <img
+        src="assets/reset.svg"
+        kendobuttons
+        alt="reset"
+        class="app-navigation-reset--image" />
+    </div>
   </div>
+
+  <div class="app-screen--header">Deal List</div>
 
   <div class="enquiry-details-listview--searchbox">
     <kendo-textbox
@@ -25,8 +34,6 @@
       </ng-template>
     </kendo-textbox>
   </div>
-
-  <div class="enquiry-details-listview--sub-title">Deal List</div>
 
   <div *ngFor="let a of filteredCards" class="enquiry-details-listview--cards">
     <kendo-card class="enquiry-details-listview--kendo-card">

@@ -276,6 +276,7 @@ export class EnquiryDetailsUpdateComponent {
           this.enquiryDetailsService.regionId= res[0].regionID;
           this.enquiryDetailsService.leID = res[0].soldToLEID;
           this.enquiryDetailsService.salesExecID = res[0].salesExecutiveID;
+          this.enquiryDetailsService.soldToLESiteID = res[0].soldToSite;
           this.getAttachmentDetails(this.enqId);
           console.log('result',res[0]);
           this.enquiryCaptureForm.patchValue({
