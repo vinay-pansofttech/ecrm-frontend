@@ -1,6 +1,7 @@
 .enquiry-details-history--header {
+  background-color: rgb(16, 47, 63);
   display: flex;
-  margin: 1rem 1rem 1rem 1.5rem;
+  margin: 1rem 0rem 1rem 0rem;
 }
 
 .enquiry-update-main--container {
@@ -9,13 +10,14 @@
   align-items: center;
 }
 .enquiry-update--header {
-  color: #031222;
-  font-family: Arial;
-  font-size: var(--text-size-1);
+  color: #FFFFFF;
+  font-size: 1rem;
   font-style: normal;
   font-weight: var(--font-weight-bolder);
   line-height: 1.75rem;
   flex: 1 0 0;
+  padding:0.5rem;
+  padding-left: 1rem;
 }
 .enquiry-update--reset-image {
   padding-right: 0.25rem;
@@ -128,6 +130,7 @@
 .enquiry-details-interations--button {
   background: var(--terinary-color);
   color: white;
+  margin: 0.5rem;
 }
 
 .enquiry-update-forms--content{
