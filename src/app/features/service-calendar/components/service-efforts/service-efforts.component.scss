@@ -7,9 +7,13 @@
     cursor: pointer;
   }
   .service-efforts-date{
-    padding-right: 0.5rem;
-    padding-bottom: 0.5rem;
-    font-size: var(--text-size-1);
+    color: #FFFFFF;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: var(--font-weight-bolder);
+    line-height: 1.75rem;
+    padding:0.5rem;
+    padding-right: 1rem;
   }
   .service-efforts--title {
     color: #031222;
@@ -51,17 +55,19 @@
     padding-right: 2%;
   }
   .service-efforts-history--header {
+    background-color: rgb(16, 47, 63);
     display: flex;
-    margin: 1rem 1rem 1rem 1.5rem;
+    margin: 0rem 0rem 1rem 0rem;
   }
   .service-efforts--header {
-    color: #031222;
-    font-family: Arial;
-    font-size: var(--text-size-1);
+    color: #FFFFFF;
+    font-size: 1rem;
     font-style: normal;
     font-weight: var(--font-weight-bolder);
     line-height: 1.75rem;
     flex: 1 0 0;
+    padding:0.5rem;
+    padding-left: 1rem;
   }
   .service-efforts-header--tag {
     max-width: 2.5rem;

@@ -41,6 +41,9 @@ export class EnquiryDetailsService {
   public leID: string | number = '';
   public salesExecID: string | number = '';
   public poExpectedDate: string | number = '';
+  public soldToLESiteID: string | number = '';
+  public docSrcTypeAttachment: any = 22;
+
   constructor(
     private http: HttpClient,
     private loginService: LoginService,
@@ -67,28 +70,58 @@ export class EnquiryDetailsService {
   }
   getAddEnquiry(formData: any) {
     const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/AddEnquiry`;
-    const body: EnquiryTypeBody = {
-      soldToLEID: this.leID,
-      soldToContactID: formData.contactDteails.soldToContact,
-      soldToLESiteID: formData.contactDteails.soldToSite,
-      regionID: this.regionId,
-      salesChannelID: formData.enquiryDetailsForms.salesChannel,
-      salesExecutiveID: this.salesExecID,
-      workflowID: formData.enquiryDetailsForms.salesWorkFlow,
-      generatedFromID: formData.enquiryDetailsForms.generatedFrom,
-      quoteCompanyID: formData.enquiryDetailsForms.quoteEntityCompany,
-      quoteCurrencyID: formData.enquiryDetailsForms.quoteEntityCurrency,
-      enquiryDescription: formData.enquiryDescription.enterDescription,
-      loginID: this.loginService.employeeId,
-      attachment: formData.enquiryDescription.attachment,
-    };
-    if (formData.enquiryDetailsForms.generatedBy) {
-      body.generatedByID = formData.enquiryDetailsForms.generatedBy;
+    // const body: EnquiryTypeBody = {
+    //   soldToLEID: this.leID,
+    //   soldToContactID: formData.contactDteails.soldToContact,
+    //   soldToLESiteID: formData.contactDteails.soldToSite,
+    //   regionID: this.regionId,
+    //   salesChannelID: formData.enquiryDetailsForms.salesChannel,
+    //   salesExecutiveID: this.salesExecID,
+    //   workflowID: formData.enquiryDetailsForms.salesWorkFlow,
+    //   generatedFromID: formData.enquiryDetailsForms.generatedFrom,
+    //   quoteCompanyID: formData.enquiryDetailsForms.quoteEntityCompany,
+    //   quoteCurrencyID: formData.enquiryDetailsForms.quoteEntityCurrency,
+    //   enquiryDescription: formData.enquiryDescription.enterDescription,
+    //   loginID: this.loginService.employeeId,
+    //   attachment: formData.enquiryDescription.attachment,
+    // };
+    // if (formData.enquiryDetailsForms.generatedBy) {
+    //   body.generatedByID = formData.enquiryDetailsForms.generatedBy;
+    // } else {
+    //   body.generatedByID = 0;
+    // }
+    const attachmentfile =
+    formData.enquiryDescription.attachment && formData.enquiryDescription.attachment.length > 0
+          ? formData.enquiryDescription.attachment[0]
+          : null;
+    if (attachmentfile) {
+      formData.enquiryDescription.attachment = attachmentfile;
     } else {
-      body.generatedByID = 0;
+      formData.enquiryDescription.attachment = '';
+    }  
+
+    const body = new FormData();
+    body.append('soldToLEID', this.leID as string);
+    body.append('soldToContactID', formData.contactDteails.soldToContact);
+    body.append('soldToLESiteID', formData.contactDteails.soldToSite);
+    body.append('regionID', this.regionId as string);
+    body.append('salesChannelID', formData.enquiryDetailsForms.salesChannel);
+    body.append('salesExecutiveID', this.salesExecID as string);
+    body.append('workflowID', formData.enquiryDetailsForms.salesWorkFlow);
+    body.append('generatedFromID', formData.enquiryDetailsForms.generatedFrom);
+    body.append('quoteCompanyID', formData.enquiryDetailsForms.quoteEntityCompany);
+    body.append('quoteCurrencyID', formData.enquiryDetailsForms.quoteEntityCurrency);
+    body.append('enquiryDescription', formData.enquiryDescription.enterDescription);
+    body.append('loginID', this.loginService.employeeId as string);
+    body.append('docSrcType', this.docSrcTypeAttachment);
+    body.append('attachment', formData.enquiryDescription.attachment);
+    if (formData.enquiryDetailsForms.generatedBy) {
+      body.append('generatedByID', formData.enquiryDetailsForms.generatedBy);
+    } else {
+      body.append('generatedByID', String(0) );
     }
     console.log('body for add',body);
-    return this.http.post(url, body);
+    return this.http.put(url, body);
   }
 
   getUpdateEnquiry(formData: any,enqID: string) {
@@ -138,6 +171,7 @@ export class EnquiryDetailsService {
     body.append('dealValue', formData.enquiryUpdateForm.dealValue);
     body.append('poExpectedDate', formattedDate as string);
     body.append('modeOfCommunicationID', formData.enquiryUpdateForm.modeOfCommunication);
+    body.append('docSrcType', this.docSrcTypeAttachment);
     body.append('interaction_attachment', formData.enquiryUpdateForm.interaction_attachment);
 
     if (formData.enquiryDetailsForms.generatedBy) {
@@ -190,8 +224,8 @@ export class EnquiryDetailsService {
     const body = {
       enqId: enId,
       leid: leId,
-      salesChannelID,
-      leSiteID,
+      salesChannelID: salesChannelID,
+      LESiteID: leSiteID,
     };
     return this.http.post(url, body);
   }
@@ -229,20 +263,22 @@ export class EnquiryDetailsService {
     return this.http.put(url, updateBody);
   }
 
-  getAttachmentDetails(enqID: string) {
+  getAttachmentDetails(enqID: string, docSrcType: number) {
     const url = this.attachmentDetails;
 
     const body = {
       docSrcVal: enqID.toString(),
+      docSrcType: docSrcType
     };
     return this.http.post(url, body);
   }
 
-  getAttachment(enqID: string, index: number) {
+  getAttachment(enqID: string, docSrcType: number, index: number) {
     const url = this.downloadAttachment;
 
     const body = {
       docSrcVal: enqID.toString(),
+      docSrcType: docSrcType,
       index: index
     };
     return this.http.post(url, body, {responseType: 'blob', observe: 'response'});

@@ -40,3 +40,120 @@ body {
   color: white;
   background-color: var(--terinary-color);
 }
+
+.k-progress-status-wrap .k-progress-end,
+.k-progressbar .k-progressbar-horizontal {
+    border: none !important;
+    background: none !important;
+    color: white;
+    background-color: white;
+}
+
+.app-navigation-main--container {
+  display: flex;
+  padding: 0.25rem;
+  align-items: center;
+  background: linear-gradient(270deg, #327790 0%, #49AFCD 33.33%, #89BA82 67.19%);
+}
+.app-navigation--header {
+  color: white;
+  font-family: Arial;
+  font-size: var(--text-size-3);
+  font-style: normal;
+  font-weight: var(--font-weight-bolder);
+  line-height: 1.75rem;
+  flex: 1 0 0;
+}
+.app-navigation-reset--image {
+  padding-right: 0.5rem;
+}
+.app-screen--content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.app-screen--header {
+  color: #FFFFFF;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: var(--font-weight-bolder);
+  line-height: 1.75rem;
+  flex: 1 0 0;
+  margin: 0rem 0rem 0rem 0rem;
+  margin-bottom: 1rem;
+  padding:0.5rem;
+  padding-left: 1rem;
+  background-color: rgb(16, 47, 63);
+}
+.app-screen--header-tag {
+  max-width: 2.5rem;
+  min-height: 0.1875rem;
+  flex-shrink: 0;
+  border-radius: 0.1875rem;
+  background: #5cb5c1;
+}
+.app-screen--loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.app-listview--cards {
+  margin: 1rem;
+}
+.app-listview--kendo-card {
+  border-radius: 20px;
+  background: var(--colors-brand-white, #fff);
+  box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.05);
+  width: 100% !important;
+}
+.app-listview--kendo-splitter {
+  margin: 0 1rem;
+}
+.app--fileupload{
+  width: 100%;
+}
+.app-attachment-files{
+  width: 100%;
+  padding: 1rem;
+  cursor: pointer;
+  border: solid #EBEBEB 0.5px;
+  box-sizing: border-box;
+}
+.app-screen--footer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+.app-cancel--button {
+  width: 100%;
+  min-height: 3rem;
+  border-radius: 0.5rem;
+  border: 1px solid #6eafd3;
+  color: #6eafd3;
+  background-color: #fff;
+  text-align: center;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.25rem; /* 142.857% */
+  letter-spacing: 0.0175rem;
+}
+.app-save--button {
+  width: 100%;
+  min-height: 3rem;
+  border-radius: 0.5rem;
+  background: #6eafd3;
+  border: 1px solid #fff;
+  box-shadow: 0px 4px 20px 0px rgba(191, 191, 191, 0.25);
+  color: var(--colors-brand-white, #fff);
+  text-align: center;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.25rem; /* 142.857% */
+  letter-spacing: 0.0175rem;
+}

@@ -1,0 +1,130 @@
+<div *ngIf="!showWorksheetAPILoader">
+  <div class="app-navigation-main--container">
+    <div>
+      <img src="assets/worksheet-back.svg" kendobutton alt="back" 
+      (click)="onBackClickHandle()"/>
+    </div>
+    <div class="app-navigation--header">Worksheet</div>
+    <div>
+      <img
+          src="assets/worksheet-reset.svg"
+          kendobuttons
+          alt="reset"
+          class="app-navigation-reset--image" 
+          (click)="onReset()"/>
+    </div>
+  </div>
+
+      
+  <div class="app-screen--header">
+    Deal List
+  </div>
+
+  <div class="worksheet-details--container">
+    <div class="enquiry-details-listview--searchbox">
+      <kendo-textbox
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="filterData()"
+        placeholder="Search"
+        class="enquiry-details-listview--kendo-textbox">
+        <ng-template kendoTextBoxPrefixTemplate>
+          <img
+            src="assets/enquiry-details-listview-img/search.svg/"
+            alt="new"
+            class="enquiry-details-listview--search-icon" />
+        </ng-template>
+      </kendo-textbox>
+    </div>
+
+
+    <div *ngFor="let a of filteredCards" class="enquiry-details-listview--cards">
+      <kendo-card class="enquiry-details-listview--kendo-card">
+        <div class="enquiry-details-listview--kendo-card-header">
+          <div class="enquiry-details-listview--kendo-card-number">
+            {{ a.dealNo }}
+          </div>
+          <div>
+            <img
+              src="assets/enquiry-details-listview-img/edit.svg"
+              alt="new"
+              (click)="navigateById(a.enqID)" />
+          </div>
+        </div>
+  
+        <div class="enquiry-details-listview--kendo-splitter">
+          <kendo-splitter orientation="horizontal"></kendo-splitter>
+        </div>
+  
+        <div class="enquiry-details-listview--kendo-card-content">
+          <div class="enquiry-details-listview--kendo-card-sold-details">
+            <div class="enquiry-details-listview--kendo-card-sub-title">
+              Sold to Contact
+            </div>
+            <div class="enquiry-details-listview--kendo-card-sold">
+              {{ a.soldToContact }}
+            </div>
+          </div>
+          <div class="enquiry-details-listview--kendo-card-sold-details">
+            <div class="enquiry-details-listview--kendo-card-sub-title">
+              Sold to site
+            </div>
+            <div class="enquiry-details-listview--kendo-card-sold">
+              {{ a.soldToLE }}
+            </div>
+          </div>
+          <div class="enquiry-details-listview--kendo-card-sold-details">
+            <div class="enquiry-details-listview--kendo-card-sub-title">
+              Status
+            </div>
+            <div class="enquiry-details-listview--kendo-card-sold">
+              {{ a.enqStatus }}
+            </div>
+          </div>
+          <div class="enquiry-details-listview--kendo-card-sold-details">
+            <div class="enquiry-details-listview--kendo-card-sub-title">
+              WS Appr. With
+            </div>
+            <div class="enquiry-details-listview--kendo-card-sold">
+              {{ a.wsApprovalPendingWith }}
+            </div>
+          </div>
+          <div class="enquiry-details-listview--kendo-card-sold-details">
+            <div class="enquiry-details-listview--kendo-card-sub-title">
+              DRQ Status
+            </div>
+            <div class="enquiry-details-listview--kendo-card-sold">
+              {{ a.drqStatus }}
+            </div>
+          </div>
+        </div>
+  
+        <div class="enquiry-details-listview--information-outline-card">
+          <div>
+            <img src="assets/worksheet-approval-price-icon.svg" alt="new" height="20" width="20"/>
+          </div>
+          <div class="enquiry-details-listview--information">
+            {{ (a.approxQuotevalue? a.approxQuotevalue: 0) | number:'1.0':'en-US'}}
+          </div>
+        </div>
+      </kendo-card>
+    </div>
+  
+    <div class="enquiry-details-listview--kendo-pager">
+      <kendo-datapager
+        class="enquiry-details-listview--kendo-datapager"
+        [pageSize]="pageSize"
+        [skip]="skip"
+        [total]="contactCards.length"
+        (pageChange)="onPageChange($event)">
+      </kendo-datapager>
+    </div>
+  </div>
+</div>
+
+<div class="app-screen--loader" *ngIf="showWorksheetAPILoader">
+    <kendo-loader
+      type="converging-spinner"
+      themeColor="info"
+      size="medium"></kendo-loader>
+    <div>Loading worksheet details...</div>
+</div>

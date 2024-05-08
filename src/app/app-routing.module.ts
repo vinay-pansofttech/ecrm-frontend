@@ -5,6 +5,7 @@ import { EnquiryDetailsComponent } from './features/enquiry-details/components/e
 import { LoginComponent } from './features/login/components/login/login.component';
 import { DashboardComponent } from './features/dashboard/components/dashboard/dashboard.component';
 import { CalendarComponent } from './features/service-calendar/components/calendar/calendar.component';
+import { WorksheetDetailsComponent } from './features/worksheet/components/worksheet-details/worksheet-details.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/service-calendar/service-calendar.module').then(
         m => m.ServiceCalendarModule
+      ),
+  },
+  {
+    path: AppRoutePaths.WorksheetDetails,
+    component: WorksheetDetailsComponent,
+    loadChildren: () =>
+      import('./features/worksheet/worksheet.module').then(
+        m => m.WorksheetModule
       ),
   },
 ];

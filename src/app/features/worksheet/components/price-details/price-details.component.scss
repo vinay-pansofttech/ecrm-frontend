@@ -1,0 +1,191 @@
+.price-details--container {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+.price-details--header{
+  background-color: #5cb5c1;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  color: #ffffff;
+  font-size: var(--text-size-01);
+  font-style: normal;
+  font-weight: var(--font-weight-bolder);
+  padding-left: 1.25rem;
+  padding-right: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+}
+.price-details-listview--kendo-card-content {
+  display: flex;
+  margin: 0.25rem;
+  flex-direction: column;
+  gap: 0rem;
+}
+.price-details-listview--kendo-card-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.price-details-listview--kendo-card-sub-title {
+  color: #69727b;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: normal;
+  flex-basis: 50%;
+  padding: 0.75rem;
+  background-color: #ECF0F5;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  margin:0.25rem;
+}
+
+.price-details-listview--kendo-card-sub-title {
+  display: none;
+}
+
+@media only screen and (min-width: 600px) {
+  .price-details-listview--kendo-card-sub-title .short-title {
+    display: none;
+  }
+  .price-details-listview--kendo-card-sub-title {
+    display: block;
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  .price-details-listview--kendo-card-sub-title .long-title {
+    display: none;
+  }
+  .price-details-listview--kendo-card-sub-title {
+    display: block;
+  }
+}
+
+.price-details-listview--kendo-card-percentage{
+  color: #69727b;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  flex-basis: 25%;
+  align-items: center;
+  justify-content: center;
+}
+.price-details-percentage-info{
+  color: #69727b;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: normal;
+  background-color: #d6ebff;
+  border-color: #c2e0ff;
+  border-radius: 10px;
+  padding: 0.75rem;
+  width: 60px;
+  display: flex;
+  flex-basis: 15%;
+  align-items: center;
+  justify-content: center;
+}
+.price-details-listview--left-info{
+  display: flex;
+  flex-basis: 65%;
+  justify-content: left;
+  align-items: center;
+  gap:0.2rem;
+}
+.price-details-attachment-info{
+  display: flex;
+  flex-basis: 15%;
+  justify-content: left;
+  align-items: center;
+}
+.price-details--kendo-card-details--header{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+.price-details-listview--kendo-card-info {
+  color: #69727b;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: normal;
+  flex-basis: 35%;
+  padding: 0.75rem;
+  background-color: #ECF0F5;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  margin:0.25rem;
+}
+.price-details--card{
+  margin: 1rem;
+  margin-top: 0rem;
+}
+.price-details--kendo-card{
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background: var(--colors-brand-white, #fff);
+  box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.05);
+  width: 100% !important;
+}
+.k-textbox{
+  border-color: rgba(0, 0, 0, 0.459);
+}  
+.worksheet-comments--container {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  margin: 1.5rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  gap: 1rem;
+}
+.worksheet-comments--content {
+  display: flex;
+  min-width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.worksheet-comments--label {
+  display: flex;
+  margin: -0.1rem;
+  color: var(--colors-brand-black, #1C1B1B);
+  font-size: var(--text-size-01);
+  font-style: normal;
+  font-weight: var(--font-weight-bolder);
+  line-height: 150%;
+  letter-spacing: 0.00438rem;
+}
+.worksheet-comments--grid {
+  display: flex;
+  margin: -0.1rem;
+  margin-bottom: 0;
+  color: white;
+  background-color: #5cb5c1;
+  font-size: var(--text-size-01);
+  padding: 0.5rem;
+  font-style: normal;
+  font-weight: var(--font-weight-bolder);
+  line-height: 150%;
+  letter-spacing: 0.00438rem;
+}
+.worksheet-comments--textarea {
+  width: 100%;
+  height: 7.20094rem;
+  flex-shrink: 0;
+  border-radius: 0.75rem;
+  border: 1px solid #5cb5c1;
+}
+.worksheet-comments--error-msg {
+  font-size: var(--text-size-02);
+  font-style: normal;
+  font-family: Arial;
+}
+.k-window-title{
+  color: black;
+}

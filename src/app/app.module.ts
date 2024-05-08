@@ -9,6 +9,7 @@ import { KendoModule } from './kendo.module';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { EnquiryDetailsModule } from './features/enquiry-details/enquiry-details.module';
 import { ServiceCalendarModule } from './features/service-calendar/service-calendar.module';
+import { WorksheetModule } from './features/worksheet/worksheet.module';
 import { HttpClientModule } from '@angular/common/http';
 import { IndicatorsModule } from '@progress/kendo-angular-indicators';
 import { NotificationModule } from '@progress/kendo-angular-notification';
@@ -37,6 +38,7 @@ import { IconsModule } from '@progress/kendo-angular-icons';
     LayoutModule,
     EnquiryDetailsModule,
     ServiceCalendarModule,
+    WorksheetModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
     IconsModule,

@@ -8,6 +8,7 @@ interface EnquiryList {
   enqID: number;
   soldToLEID: number;
   soldToLE: string;
+  salesChannel: string;
   enqStatusId: number;
   enqStatus: string;
   salesExecutiveID: number;
@@ -83,5 +84,9 @@ export class EnquiryDetailsListViewComponent implements OnInit {
   navigateById(id: string | number) {
     // this.router.navigate(['/enquiry-update', getRandomInt(10000)]);
     this.router.navigate(['/enquiry-details-update', id]);
+  }
+
+  onReset(){
+    this.ngOnInit();
   }
 }

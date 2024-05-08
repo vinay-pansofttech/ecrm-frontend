@@ -12,6 +12,7 @@ import { EnquiryDetailsService } from '../../enquiry-details.service';
 export class EnquiryDescriptionComponent {
   myFiles: Array<FileInfo> = [];
   @Input() public enquiryDescription!: FormGroup;
+  docSrcTypeAttachment: number = 22;
 
   constructor(
     private formStateService: FormStateService,
@@ -25,7 +26,7 @@ export class EnquiryDescriptionComponent {
   }
 
   downloadAttachment(index: number) {
-    this.enquiryDetailsService.getAttachment(this.formStateService.enqId, index).subscribe((response) => {
+    this.enquiryDetailsService.getAttachment(this.formStateService.enqId, this.docSrcTypeAttachment, index).subscribe((response) => {
       const contentType = response.headers.get('content-type')!;
       const filename = this.myFiles[index].name;
       const blob = new Blob([response.body!], { type: contentType });
