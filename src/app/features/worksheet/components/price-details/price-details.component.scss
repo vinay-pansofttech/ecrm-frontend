@@ -9,6 +9,7 @@
   border-top-right-radius: 20px;
   color: #ffffff;
   font-size: var(--text-size-01);
+  font-family: Arial;
   font-style: normal;
   font-weight: var(--font-weight-bolder);
   padding-left: 1.25rem;
@@ -30,7 +31,8 @@
 .price-details-listview--kendo-card-sub-title {
   color: #69727b;
   font-size: 12px;
-  font-weight: bold;
+  font-family: Arial;
+  font-weight: var(--font-weight-bolder);
   line-height: normal;
   flex-basis: 50%;
   padding: 0.75rem;
@@ -67,7 +69,8 @@
 .price-details-listview--kendo-card-percentage{
   color: #69727b;
   font-size: 12px;
-  font-weight: bold;
+  font-family: Arial;
+  font-weight: var(--font-weight-bolder);
   display: flex;
   flex-basis: 25%;
   align-items: center;
@@ -76,7 +79,8 @@
 .price-details-percentage-info{
   color: #69727b;
   font-size: 12px;
-  font-weight: bold;
+  font-family: Arial;
+  font-weight: var(--font-weight-bolder);
   line-height: normal;
   background-color: #d6ebff;
   border-color: #c2e0ff;
@@ -110,7 +114,8 @@
 .price-details-listview--kendo-card-info {
   color: #69727b;
   font-size: 12px;
-  font-weight: bold;
+  font-family: Arial;
+  font-weight: var(--font-weight-bolder);
   line-height: normal;
   flex-basis: 35%;
   padding: 0.75rem;
@@ -140,7 +145,7 @@
   flex-direction: column;
   flex-shrink: 0;
   margin: 1.5rem;
-  margin-top: 0.25rem;
+  margin-top: 0rem;
   margin-bottom: 0.25rem;
   gap: 1rem;
 }
@@ -156,10 +161,10 @@
   margin: -0.1rem;
   color: var(--colors-brand-black, #1C1B1B);
   font-size: var(--text-size-01);
+  font-family: Arial;
   font-style: normal;
   font-weight: var(--font-weight-bolder);
-  line-height: 150%;
-  letter-spacing: 0.00438rem;
+  line-height: normal;
 }
 .worksheet-comments--grid {
   display: flex;

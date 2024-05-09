@@ -44,6 +44,7 @@
 .worksheet-details-listview--kendo-card-info {
   color: #383838;
   font-size: 13px;
+  font-family: Arial;
   font-style: normal;
   font-weight: var(--font-weight-bolder);
   line-height: normal;
@@ -80,7 +81,7 @@
 .worksheet-approval-stepper-container-content {
   font-size: 1rem;
   font-style: normal;
-  font-weight: var(--font-weight-bolder);
+  font-weight: var(--font-weight-bold);
   line-height: 1.75rem;
 }
 .worksheet-approval-stepper-container.selected {
