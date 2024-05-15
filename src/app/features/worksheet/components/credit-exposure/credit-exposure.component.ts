@@ -37,7 +37,7 @@ export class CreditExposureComponent implements OnInit, OnChanges{
       { field: "SalePaymentId", hidden: true, },
       { field: "PayMileStoneId", hidden: true, },
       {
-          field: "paymentMilestone", title: "Invoicing Milestone", width: 70, attributes: { "disabled": true },
+          field: "paymentMilestone", title: "Invoicing Milestone", width: 60, attributes: { "disabled": true },
           filterable: false, sortable: false,
           template: '#if(Color === "Maroon"){#'
               + '<div class="MAROONCELL" title="Price for this item is updated as per the Price master">' + "#= kendo.toString(PaymentMilestone,'n')#" + '</div>' + '#}'
@@ -53,7 +53,6 @@ export class CreditExposureComponent implements OnInit, OnChanges{
                   type: "decimal", format: "{0:n2}",
                   attributes: { "class": "gridEditColumn", style: "text-align: center;" }, filterable: false, sortable: false,
                   headerAttributes: { style: "text-align: center;", },
-    
               },
               {
                   field: "processDays", title: "Days", width: 25, type: "number",

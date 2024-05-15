@@ -72,7 +72,7 @@
   display: flex;
   margin: 1rem;
   flex-direction: column;
-  gap: 3px;
+  gap: 0.313rem;
 }
 .enquiry-details-listview--kendo-card-number {
   color: var(--primary-color);
@@ -97,7 +97,7 @@
   font-style: normal;
   font-weight: var(--font-weight-normal);
   line-height: normal;
-  flex-basis: 25%;
+  flex-basis: 30%;
 }
 .enquiry-details-listview--kendo-card-sold {
   color: #383838;
@@ -106,7 +106,7 @@
   font-style: normal;
   font-weight: var(--font-weight-bolder);
   line-height: normal;
-  flex-basis: 75%;
+  flex-basis: 70%;
 }
 .enquiry-details-listview--information-outline-card {
   border-radius: 4px;
