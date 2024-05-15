@@ -1,22 +1,22 @@
 {
   "quickCards": [
     {
-      "image": "dashboard-quicklink-enquiry-icon",
+      "image": "line-chart",
       "text": "Enquiry",
       "path": "enquiry-details"
     },
     {
-      "image": "dashboard-update-icon",
+      "image": "line-chart",
       "text": "Funnel Update",
       "path": "enquiry-listview"
     },
     {
-      "image": "dashboard-quicklink-enquiry-icon",
-      "text": "My Calendar",
+      "image": "wrench",
+      "text": "Service Calls",
       "path": "service-calendar"
     },
     {
-      "image": "dashboard-quicklink-enquiry-icon",
+      "image": "line-chart",
       "text": "Worksheet",
       "path": "worksheet-details"
     }
