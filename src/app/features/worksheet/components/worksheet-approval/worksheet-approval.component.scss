@@ -21,7 +21,7 @@
   display: flex;
   margin: 1rem;
   flex-direction: column;
-  gap: 3px;
+  gap: 0.313rem;
 }
 .worksheet-details-listview--kendo-card-line-details{
   display: flex;
@@ -35,11 +35,12 @@
 }
 .worksheet-details-listview--kendo-card-sub-title {
   color: var(--body-grey, #69727b);
+  font-family: Arial;
   font-size: 11px;
   font-style: normal;
   font-weight: var(--font-weight-light);
   line-height: normal;
-  flex-basis: 25%;
+  flex-basis: 30%;
 }
 .worksheet-details-listview--kendo-card-info {
   color: #383838;
@@ -48,7 +49,7 @@
   font-style: normal;
   font-weight: var(--font-weight-bolder);
   line-height: normal;
-  flex-basis: 75%;
+  flex-basis: 70%;
 }
 .worksheet-details-listview--kendo-card-info-radio-button{
   display: flex;
