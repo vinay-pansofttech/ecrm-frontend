@@ -67,7 +67,7 @@ export class CreditExposureComponent implements OnInit, OnChanges{
       { field: "SalePaymentId", hidden: true, },
       { field: "PayMileStoneId", hidden: true, },
       {
-          field: "paymentMilestone", title: "Invoicing Milestone", width: 70, attributes: { "disabled": true },
+          field: "paymentMilestone", title: "Invoicing Milestone", width: 60, attributes: { "disabled": true },
           filterable: false, sortable: false,
           template: '#if(Color === "Maroon"){#'
               + '<div class="MAROONCELL" title="Price for this item is updated as per the Price master">' + "#= kendo.toString(PaymentMilestone,'n')#" + '</div>' + '#}'
