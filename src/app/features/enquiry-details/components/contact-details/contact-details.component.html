@@ -21,7 +21,9 @@
         [valuePrimitive]="true"
         (selectionChange)="handleSoldToContactChanged($event)"
         (filterChange)="handleSoldToContactFilter($event)"
-        required></kendo-dropdownlist>
+        [virtual]="virtual"
+        required>
+      </kendo-dropdownlist>
     </div>
     <kendo-formerror class="contact-details--error-msg"
       >Sold to contact is required</kendo-formerror
