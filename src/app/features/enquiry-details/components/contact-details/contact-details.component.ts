@@ -34,7 +34,10 @@ export class ContactDetailsComponent implements OnInit {
   public regionsList: unknown = [];
   public soldToContactList: unknown = [];
   public showContactAPILoader = false;
-
+  public virtual: any = {
+    itemHeight: 28,
+  };
+  
   public soldToSiteDefaultValue: {
     comboType: string;
     leSiteId: unknown;
