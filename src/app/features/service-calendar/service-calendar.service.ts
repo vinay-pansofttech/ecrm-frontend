@@ -24,6 +24,8 @@ interface engEffortsList {
 })
 
 export class ServiceCalendarService {
+  selectedDate!: Date;
+
   constructor(
     private http: HttpClient,
     private loginService: LoginService,

@@ -84,7 +84,7 @@ export class PriceDetailsComponent implements OnInit,OnChanges{
   }
 
   downloadAttachment(index: number) {
-    this.enquiryDetailsService.getAttachment(this.worksheetDetailsCard[0].workSheetId.toString(), this.docSrcTypeWSAttachment, index).subscribe((response) => {
+    this.enquiryDetailsService.getAttachment(this.worksheetDetailsCard[0].workSheetId.toString(), this.docSrcTypeWSAttachment, "", index).subscribe((response) => {
       const contentType = response.headers.get('content-type')!;
       const filename = this.myFiles[index].name;
       const blob = new Blob([response.body!], { type: contentType });

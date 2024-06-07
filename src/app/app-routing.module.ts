@@ -6,6 +6,7 @@ import { LoginComponent } from './features/login/components/login/login.componen
 import { DashboardComponent } from './features/dashboard/components/dashboard/dashboard.component';
 import { CalendarComponent } from './features/service-calendar/components/calendar/calendar.component';
 import { WorksheetDetailsComponent } from './features/worksheet/components/worksheet-details/worksheet-details.component';
+import { SalespartsmgtWorklistComponent } from './features/sales-parts-management/components/salespartsmgt-worklist/salespartsmgt-worklist.component';
 
 const routes: Routes = [
   {
@@ -56,6 +57,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/worksheet/worksheet.module').then(
         m => m.WorksheetModule
+      ),
+  },
+  {
+    path: AppRoutePaths.SalesPartsManagementList,
+    component: SalespartsmgtWorklistComponent,
+    loadChildren: () =>
+      import('./features/sales-parts-management/sales-parts-management.module').then(
+        m => m.SalesPartsManagementModule
       ),
   },
 ];

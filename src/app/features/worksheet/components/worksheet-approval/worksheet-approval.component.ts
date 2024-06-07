@@ -211,7 +211,7 @@ export class WorksheetApprovalComponent{
   }
 
   getAttachmentDetails(wsID: string){
-    this.enquiryDetailsService.getAttachmentDetails(wsID, this.docSrcTypeWSAttachment).subscribe((data: any) => {
+    this.enquiryDetailsService.getAttachmentDetails(wsID, this.docSrcTypeWSAttachment,"").subscribe((data: any) => {
       if(data!=null){
         this.worksheetService.wsattachments = data;
         console.log('this.worksheetService.attachments',data);

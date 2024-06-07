@@ -263,22 +263,24 @@ export class EnquiryDetailsService {
     return this.http.put(url, updateBody);
   }
 
-  getAttachmentDetails(enqID: string, docSrcType: number) {
+  getAttachmentDetails(enqID: string, docSrcType: number, docSrcGUID: string) {
     const url = this.attachmentDetails;
 
     const body = {
       docSrcVal: enqID.toString(),
-      docSrcType: docSrcType
+      docSrcType: docSrcType,
+      docSrcGUID: docSrcGUID
     };
     return this.http.post(url, body);
   }
 
-  getAttachment(enqID: string, docSrcType: number, index: number) {
+  getAttachment(enqID: string, docSrcType: number, attachmentGUID: string, index: number) {
     const url = this.downloadAttachment;
 
     const body = {
       docSrcVal: enqID.toString(),
       docSrcType: docSrcType,
+      docSrcGUID: attachmentGUID,
       index: index
     };
     return this.http.post(url, body, {responseType: 'blob', observe: 'response'});

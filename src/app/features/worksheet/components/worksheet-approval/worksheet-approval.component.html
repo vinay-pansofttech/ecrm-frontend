@@ -41,8 +41,8 @@
           </div>
       </div>
       <form class="k-form k-form-md worksheet-approval-container">
-          <div *ngFor="let a of worksheetDetailsCard" class="app-listview--cards">
-            <kendo-card class="app-listview--kendo-card">    
+          <div *ngFor="let a of worksheetDetailsCard" class="app-enquiry-details-listview--cards">
+            <kendo-card class="app-enquiry-details-listview--kendo-card">    
               <div class="worksheet-details-listview--kendo-card-content">
                 <div class="worksheet-details-listview--kendo-card-details">
                   <div class="worksheet-details-listview--kendo-card-sub-title">
@@ -98,8 +98,8 @@
               </div>
             </kendo-card>
           </div>
-          <div *ngIf="currentStep == 0" class="app-listview--cards">
-            <kendo-card *ngFor="let a of worksheetDetailsCard" class="app-listview--kendo-card">    
+          <div *ngIf="currentStep == 0" class="app-enquiry-details-listview--cards">
+            <kendo-card *ngFor="let a of worksheetDetailsCard" class="app-enquiry-details-listview--kendo-card">    
               <div class="worksheet-details-listview--kendo-card-content">
                 <div class="worksheet-details-listview--kendo-card-details">
                   <div class="worksheet-details-listview--kendo-card-sub-title">
@@ -176,14 +176,14 @@
     <button
       *ngIf="worksheetDetailsCard[0].isAccessWSApproval"
       kendobutton
-      class="app-save--button worksheet-approval-button"
+      class="app-save--button app-approval-button"
       (click)="approveWorksheet()">
       Approve
     </button>
     <button
       *ngIf="worksheetDetailsCard[0].isAccessWSApproval"
       kendobutton
-      class="app-save--button worksheet-reject-button"
+      class="app-save--button app-reject-button"
       (click)="rejectWorksheet()">
       Reject
     </button>

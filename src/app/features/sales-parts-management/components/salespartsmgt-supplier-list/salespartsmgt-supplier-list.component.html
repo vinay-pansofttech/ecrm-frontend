@@ -1,0 +1,104 @@
+<div *ngIf="!showSPMAPILoader">
+    <div class="app-navigation-main--container">
+      <div>
+      <img src="assets/worksheet-back.svg" kendobutton alt="back" 
+      (click)="onBackClickHandle()"/>
+      </div>
+      <div class="app-navigation--header">Sales Parts Management</div>
+      <div>
+      <img
+          src="assets/worksheet-reset.svg"
+          kendobuttons
+          alt="reset"
+          class="app-navigation-reset--image" 
+          (click)="onReset()"/>
+      </div>
+    </div>
+    <div class="app-screen--header">
+      Supplier List
+    </div>
+  
+  <div class="app-details--container">  
+      <div *ngFor="let a of supplierCards" class="app-enquiry-details-listview--cards">
+          <kendo-card class="app-enquiry-details-listview--kendo-card">
+            <div class="app-enquiry-details-listview--kendo-card-header">
+              <div class="app-enquiry-details-listview--kendo-card-number" style="font-size: var(--text-size-01);">
+                {{ a.supplierName }}
+              </div>
+              <div>
+                <img
+                  src="assets/enquiry-details-listview-img/edit.svg"
+                  alt="new"
+                  (click)="navigateById(a.supplierId)" />
+              </div>
+            </div>
+      
+            <div class="app-enquiry-details-listview--kendo-splitter">
+              <kendo-splitter orientation="horizontal"></kendo-splitter>
+            </div>
+      
+            <div class="app-enquiry-details-listview--kendo-card-content">
+              <div class="app-enquiry-details-listview--kendo-card-sold-details">
+                <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                  Remarks
+                </div>
+                <div class="app-enquiry-details-listview--kendo-card-sold">
+                  <ng-container *ngFor="let remarks of a.remarksMessage">
+                    By {{ remarks.author }} <br/> 
+                    &nbsp; &nbsp; &nbsp; {{ remarks.timestamp }} <br/>
+                    &nbsp; &nbsp; &nbsp; {{ remarks.content }} <br/>
+                    <br/>
+                  </ng-container> 
+                </div>
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold-details" style="align-items: center;">
+                <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                  Attachment
+                </div>
+                <div class="app-enquiry-details-listview--kendo-card-sold">
+                  <img src="assets/app-paper-clip.svg" alt="CE" 
+                  width="20" height="20" 
+                  (click)="onClickSuppAttachment(a.supplierDocId, a.attachmentGuId? a.attachmentGuId: '')"/> 
+                </div>
+              </div>
+            </div>
+          </kendo-card>
+
+          <kendo-window
+            *ngIf="showSuppAttachment"
+            (close)="onClickSuppAttachment(0,'')"
+            [minWidth]="200"
+            [width]="400">
+
+            <kendo-window-titlebar>
+              <span class="k-window-title">Supplier Attachments</span>
+              <button kendoWindowCloseAction></button>
+            </kendo-window-titlebar>           
+            <div class="worksheet-comments--container">
+              <!-- <kendo-formfield> -->
+                <!-- <div>
+                  <kendo-fileselect
+                    formControlName="wsattachment"
+                    #wsattachment></kendo-fileselect>
+                </div> -->
+                <kendo-label class="worksheet-comments--grid">Uploaded Files</kendo-label>
+                <div *ngFor="let file of myFiles; let i = index"
+                  class="app-attachment-files">
+                  <div (click)="downloadAttachment(a.supplierDocId, a.attachmentGuId? a.attachmentGuId: '', i)">{{ file.name }}</div>
+                </div>
+              <!-- </kendo-formfield> -->
+            </div>
+          </kendo-window>
+      </div>
+  </div>
+  </div>
+  
+  <div class="app-screen--loader" *ngIf="showSPMAPILoader">
+  <kendo-loader
+    type="converging-spinner"
+    themeColor="info"
+    size="medium"></kendo-loader>
+  <div>Loading Supplier details...</div>
+  </div>
+  
+  
