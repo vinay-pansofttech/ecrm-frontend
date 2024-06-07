@@ -26,7 +26,7 @@ export class EnquiryDescriptionComponent {
   }
 
   downloadAttachment(index: number) {
-    this.enquiryDetailsService.getAttachment(this.formStateService.enqId, this.docSrcTypeAttachment, index).subscribe((response) => {
+    this.enquiryDetailsService.getAttachment(this.formStateService.enqId, this.docSrcTypeAttachment,"", index).subscribe((response) => {
       const contentType = response.headers.get('content-type')!;
       const filename = this.myFiles[index].name;
       const blob = new Blob([response.body!], { type: contentType });

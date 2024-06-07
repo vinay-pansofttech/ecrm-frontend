@@ -252,7 +252,7 @@ export class EnquiryDetailsUpdateComponent {
   }
   
   getAttachmentDetails(enqID: string){
-    this.enquiryDetailsService.getAttachmentDetails(enqID, this.docSrcTypeAttachment).subscribe((data: any) => {
+    this.enquiryDetailsService.getAttachmentDetails(enqID, this.docSrcTypeAttachment, "").subscribe((data: any) => {
       if(data!=null){
         this.formStateService.attachments = data;
       }

@@ -83,6 +83,9 @@ export class DashboardCardsComponent implements OnInit {
     if (cardData.path === 'worksheet-details') {
       this.router.navigate([cardData.path]);
     }
+    if (cardData.path === 'sales-parts-management') {
+      this.router.navigate([cardData.path]);
+    }
   }
   showCards(cardType: any): boolean {
     // If the card type is 'Funnel Update', show it only if the user has the 'prvViewSales' privilege.
@@ -96,9 +99,14 @@ export class DashboardCardsComponent implements OnInit {
         !this.userPrivileges?.includes('prvViewSales')
       );
     }
-    else if(cardType.text === 'My Calendar'){
+    else if(cardType.text === 'Service Calls'){
       return !(
         !this.userPrivileges?.includes('prvSalesPrepConfig')
+      );
+    }
+    else if(cardType.text === 'Sales Parts Management'){
+      return !(
+        !this.userPrivileges?.includes('prvSalesPartsMgmt')
       );
     }
     else{

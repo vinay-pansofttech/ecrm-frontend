@@ -42,16 +42,21 @@ export class CalendarComponent implements OnInit{
   ) {}
 
   ngOnInit() {
+    if( this.serviceCalendarService.selectedDate != undefined){
+      this.currentDate = this.serviceCalendarService.selectedDate;
+    }
     this.enquiryList();
   }
 
   enquiryList() {
     this.serviceCalendarService.getScheduledCalls(this.loginService.employeeId as number, this.currentDate).subscribe((data: any) => {
       this.schCallCards = data;
+      this.serviceCalendarService.selectedDate = this.currentDate;
     });
   }
 
   onBackClickHandle() {
+    this.serviceCalendarService.selectedDate = new Date();
     this.router.navigate(['/dashboard']);
   }
 
