@@ -45,8 +45,8 @@
                 <div *ngIf="a.remarks" class="app-enquiry-details-listview--kendo-card-sold">
                   <ng-container *ngFor="let remarks of a.remarksMessage">
                     By {{ remarks.author }} <br/> 
-                    &nbsp; &nbsp; &nbsp; {{ remarks.timestamp }} <br/>
-                    &nbsp; &nbsp; &nbsp; {{ remarks.content }} <br/>
+                    {{ remarks.timestamp }} <br/>
+                    {{ remarks.content }} <br/>
                     <br/>
                   </ng-container> 
                 </div>
