@@ -42,7 +42,7 @@
                 <div class="app-enquiry-details-listview--kendo-card-sub-title">
                   Remarks
                 </div>
-                <div class="app-enquiry-details-listview--kendo-card-sold">
+                <div *ngIf="a.remarks" class="app-enquiry-details-listview--kendo-card-sold">
                   <ng-container *ngFor="let remarks of a.remarksMessage">
                     By {{ remarks.author }} <br/> 
                     &nbsp; &nbsp; &nbsp; {{ remarks.timestamp }} <br/>
