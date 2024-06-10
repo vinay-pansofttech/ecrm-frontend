@@ -53,7 +53,7 @@ export class SalespartsmgtApprovalComponent {
 
     this.getSPMPartslist();
     this.salespartsmgtApprovalForm = new FormGroup({
-        priceValidateComments: new FormControl('', Validators.required)
+        priceValidateComments: new FormControl('', Validators.nullValidator)
     });
   }
 
@@ -69,13 +69,19 @@ export class SalespartsmgtApprovalComponent {
 
   updatePriceValidation(buttonType: string){
     const formValue = this.salespartsmgtApprovalForm.value;
-    if (!formValue.priceValidateComments) {
-      console.log('formValue If Statement', !formValue.priceValidateComments);
-      this.salespartsmgtApprovalForm.markAllAsTouched();
+    if (buttonType == 'Rejected' && formValue.priceValidateComments == '') {
+      this.notificationService.showNotification(
+        'Please enter reject comments',
+        'error',
+        'center',
+        'bottom'
+      );
     }
-    else if (formValue.priceValidateComments) {
-      console.log('formValue Else If Statement', formValue.priceValidateComments);
-      this.loaderMessage = "Approving Price Validation...";
+    else{
+      if(buttonType == 'Approved')
+        this.loaderMessage = "Approving Price Validation...";
+      else if(buttonType == 'Rejected')
+        this.loaderMessage = "Rejecting Price Validation...";
       this.loaderService.showLoader();
       this.partsCards
       .filter(part => part.isCardSelected)
@@ -89,36 +95,50 @@ export class SalespartsmgtApprovalComponent {
           isUnManagedSupplier: part.isUnManagedSupplier ?? false
         });
       });
+      console.log('Selected Cards',this.lstProductConfig);
 
-      this.spmService
-      .updatePriceValidation(this.loginService.employeeId as number, formValue.priceValidateComments, buttonType, this.lstProductConfig)
-      .subscribe((data: any) => {
-        this.loaderService.hideLoader();
-        this.loaderMessage = "";
-        if (data) {
-          const notificationMessage = data.outPut.startsWith('Success')? "Approved Successfully": data.outPut;
-          const notificationType = data.outPut.startsWith('Success') || data.outPut.startsWith('Approval') ? 'success' : 'error';
-          this.notificationService.showNotification(
-            notificationMessage,
-            notificationType,
-            'center',
-            'bottom'
-          );
-        }
-        this.navigateById(this.enqId);
-      },
-      error => {
-        this.loaderService.hideLoader();
-        this.loaderMessage = "";
+      if(this.lstProductConfig.length == 0){
         this.notificationService.showNotification(
-          error,
-          'error', 'center', 'bottom'
+          'Please select atleast one item for validation',
+          'error',
+          'center',
+          'bottom'
         );
-      });
-      this.lstProductConfig = [];
-    }
-    else{
-      this.salespartsmgtApprovalForm.markAllAsTouched();
+        this.lstProductConfig = [];
+      }
+      else{
+        this.spmService
+        .updatePriceValidation(this.loginService.employeeId as number, formValue.priceValidateComments, buttonType, this.lstProductConfig)
+        .subscribe((data: any) => {
+          this.loaderService.hideLoader();
+          this.loaderMessage = "";
+          if (data) {
+            let notificationMessage = "";
+            if(buttonType == 'Approved')
+              notificationMessage = data.outPut.startsWith('Success')? "Approved Successfully": data.outPut;
+            else if(buttonType == 'Rejected')
+              notificationMessage = data.outPut.startsWith('Success')? "Rejected Successfully": data.outPut;
+
+            const notificationType = data.outPut.startsWith('Success') || data.outPut.startsWith('Approval') ? 'success' : 'error';
+            this.notificationService.showNotification(
+              notificationMessage,
+              notificationType,
+              'center',
+              'bottom'
+            );
+          }
+          this.navigateById(this.enqId);
+        },
+        error => {
+          this.loaderService.hideLoader();
+          this.loaderMessage = "";
+          this.notificationService.showNotification(
+            error,
+            'error', 'center', 'bottom'
+          );
+        });
+        this.lstProductConfig = [];
+      }
     }
   }
 
