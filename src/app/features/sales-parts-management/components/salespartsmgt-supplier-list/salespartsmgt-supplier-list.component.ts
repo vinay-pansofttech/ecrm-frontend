@@ -82,7 +82,7 @@ export class SalespartsmgtSupplierListComponent {
   }
 
   onBackClickHandle(){
-    window.history.back();
+    this.router.navigate(['/sales-parts-management']);
   }
 
   downloadAttachment(suppDocId: number, attachmentGUID: string, index: number) {

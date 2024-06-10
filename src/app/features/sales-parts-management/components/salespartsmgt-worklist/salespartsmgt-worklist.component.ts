@@ -82,6 +82,6 @@ export class SalespartsmgtWorklistComponent {
   }
 
   onBackClickHandle(){
-    window.history.back();
+    this.router.navigate(['dashboard']);
   }
 }
