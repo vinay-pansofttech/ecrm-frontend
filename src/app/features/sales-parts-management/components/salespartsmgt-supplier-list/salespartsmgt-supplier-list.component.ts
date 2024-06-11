@@ -49,7 +49,7 @@ export class SalespartsmgtSupplierListComponent {
     this.spmService.getSPMSupplierList(this.loginService.employeeId as number,this.enqId).subscribe((data: any) => {
       this.supplierCards = data;
       this.supplierCards.forEach(Supp =>{
-        if(Supp.remarks != "" || Supp.remarks != null){
+        if(Supp.remarks != "" && Supp.remarks != null){
           const messageString = Supp.remarks;
           Supp.remarksMessage = this.parseRemarksMessages(messageString as string);
         }
