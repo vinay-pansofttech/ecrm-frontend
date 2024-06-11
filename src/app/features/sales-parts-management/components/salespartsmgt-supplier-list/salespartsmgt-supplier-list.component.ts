@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FileInfo } from "@progress/kendo-angular-upload";
 import { SalesPartsManagementService, SPMSupplierListItem, RemarksMessage} from '../../sales-parts-management.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
+import { LoaderService } from 'src/app/core/services/loader.service';
 import { EnquiryDetailsService } from 'src/app/features/enquiry-details/enquiry-details.service';
 
 @Component({
@@ -24,12 +25,17 @@ export class SalespartsmgtSupplierListComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private loaderService: LoaderService,
+    private loginService: LoginService,
     private spmService: SalesPartsManagementService,
-    private enquiryDetailsService: EnquiryDetailsService,
-    private loginService: LoginService
+    private enquiryDetailsService: EnquiryDetailsService
   ){}
 
   ngOnInit() {
+    this.loaderService.loaderState.subscribe(res => {
+      this.showSPMAPILoader = res;
+    });
+    this.loaderService.hideLoader();
     const enqIdString = this.route.snapshot.paramMap.get('id');
     if (enqIdString !== null) {
       const idNumber: number = parseInt(enqIdString, 10);
@@ -39,6 +45,7 @@ export class SalespartsmgtSupplierListComponent {
   }
 
   getSPMSupplierlist() {
+    this.loaderService.showLoader();
     this.spmService.getSPMSupplierList(this.loginService.employeeId as number,this.enqId).subscribe((data: any) => {
       this.supplierCards = data;
       this.supplierCards.forEach(Supp =>{
@@ -47,7 +54,7 @@ export class SalespartsmgtSupplierListComponent {
           Supp.remarksMessage = this.parseRemarksMessages(messageString as string);
         }
       });
-      console.log('Supplier List',this.supplierCards);
+      this.loaderService.hideLoader();
     });
   }
 

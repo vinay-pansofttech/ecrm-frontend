@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SalesPartsManagementService, SPMWorklistItem} from '../../sales-parts-management.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
+import { LoaderService } from 'src/app/core/services/loader.service';
 import { process, State } from '@progress/kendo-data-query';
 
 @Component({
@@ -20,21 +21,31 @@ export class SalespartsmgtWorklistComponent {
 
   constructor(
     private router: Router,
-    private spmService: SalesPartsManagementService,
-    private loginService: LoginService
+    private loaderService: LoaderService,
+    private loginService: LoginService,
+    private spmService: SalesPartsManagementService
   ){}
 
   ngOnInit() {
+    this.loaderService.loaderState.subscribe(res => {
+      this.showSPMAPILoader = res;
+    });
+    this.loaderService.hideLoader();
     this.getSPMWorklist();
   }
 
   getSPMWorklist() {
+    this.loaderService.showLoader();
     this.spmService.getSPMWorkList(this.loginService.employeeId as number).subscribe((data: any) => {
       this.contactCards = data;
       this.contactCards = this.contactCards.filter(
         a => (a.validatePriceCnt >= 1)
       );
       this.filterData();
+      this.loaderService.hideLoader();
+    },
+    error => {
+      this.loaderService.hideLoader();
     });
   }
 

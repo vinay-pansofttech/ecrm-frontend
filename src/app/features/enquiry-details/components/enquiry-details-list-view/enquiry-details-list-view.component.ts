@@ -2,6 +2,8 @@ import { Component, OnInit, Type, ViewChild } from '@angular/core';
 import { process, State } from '@progress/kendo-data-query';
 import { EnquiryDetailsService } from '../../enquiry-details.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LoaderService } from 'src/app/core/services/loader.service';
+
 interface EnquiryList {
   id: string | number;
   dealNo: string;
@@ -30,21 +32,33 @@ export class EnquiryDetailsListViewComponent implements OnInit {
   skip = 0;
   total = 0;
   searchTerm = '';
+  showAPILoader = false;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private loaderService: LoaderService,
     private enquiryDetailService: EnquiryDetailsService
   ) {}
 
   ngOnInit() {
+    this.loaderService.loaderState.subscribe(res => {
+      this.showAPILoader = res;
+    });
+    this.loaderService.hideLoader();
     this.enquiryList();
   }
 
   enquiryList() {
-    this.enquiryDetailService.getEnquirylist().subscribe((data: any) => {
+    this.loaderService.showLoader();
+    this.enquiryDetailService.getEnquirylist()
+    .subscribe((data: any) => {
       this.contactCards = data;
       this.filterData();
-    });
+      this.loaderService.hideLoader();
+    },
+    error => {
+      this.loaderService.hideLoader();;
+    });    
   }
 
   filterData(): void {
@@ -82,8 +96,7 @@ export class EnquiryDetailsListViewComponent implements OnInit {
   }
 
   navigateById(id: string | number) {
-    // this.router.navigate(['/enquiry-update', getRandomInt(10000)]);
-    this.router.navigate(['/enquiry-details-update', id]);
+    this.router.navigate(['/enquiry-details-update',id]);
   }
 
   onReset(){

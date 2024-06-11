@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { process, State } from '@progress/kendo-data-query';
 import { WorksheetService, WorkSheetSO } from '../../worksheet.service';
+import { LoaderService } from 'src/app/core/services/loader.service';
 import { Router } from '@angular/router';
 
 interface EnquiryList {
@@ -41,18 +42,28 @@ export class WorksheetDetailsComponent {
 
   constructor(
     private router: Router,
+    private loaderService: LoaderService,
     private worksheetService: WorksheetService
   ){}
   
   ngOnInit() {
+    this.loaderService.loaderState.subscribe(res => {
+      this.showWorksheetAPILoader = res;
+    });
+    this.loaderService.hideLoader();
     this.enquiryList();
   }
 
   enquiryList() {
+    this.loaderService.showLoader();
     this.worksheetService.getEnquiryWorksheetlist().subscribe((data: any) => {
       this.contactCards = data;
       this.filterData();
-    });
+      this.loaderService.hideLoader();
+    },
+    error => {
+      this.loaderService.hideLoader();
+    }); 
   }
 
   filterData(): void {
