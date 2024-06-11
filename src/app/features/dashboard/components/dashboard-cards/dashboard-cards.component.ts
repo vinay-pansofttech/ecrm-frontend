@@ -106,7 +106,7 @@ export class DashboardCardsComponent implements OnInit {
     }
     else if(cardType.text === 'Service Calls'){
       return !(
-        !this.userPrivileges?.includes('PrvSRLCDashboard')
+        !this.userPrivileges?.includes('prvSvcFS')
       );
     }
     else if(cardType.text === 'Sales Parts Management'){
