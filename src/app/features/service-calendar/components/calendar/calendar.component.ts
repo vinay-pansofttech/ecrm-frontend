@@ -2,6 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ServiceCalendarService } from '../../service-calendar.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
+import { LoaderService } from 'src/app/core/services/loader.service';
 import { DatePipe } from '@angular/common';
 
 
@@ -33,11 +34,13 @@ export class CalendarComponent implements OnInit{
   isCalendarOpen: boolean = false;
   schCallCards: CallsList[] = [];
   SRID: number = 0;
+  showAPILoader = false;
 
   constructor(
     private router: Router,
     private serviceCalendarService: ServiceCalendarService,
     private loginService: LoginService,
+    private loaderService: LoaderService,
     private datePipe: DatePipe
   ) {}
 
@@ -45,13 +48,23 @@ export class CalendarComponent implements OnInit{
     if( this.serviceCalendarService.selectedDate != undefined){
       this.currentDate = this.serviceCalendarService.selectedDate;
     }
+    this.loaderService.loaderState.subscribe(res => {
+      this.showAPILoader = res;
+    });
+    this.loaderService.hideLoader();
     this.enquiryList();
   }
 
   enquiryList() {
+    this.loaderService.showLoader();
     this.serviceCalendarService.getScheduledCalls(this.loginService.employeeId as number, this.currentDate).subscribe((data: any) => {
       this.schCallCards = data;
       this.serviceCalendarService.selectedDate = this.currentDate;
+      this.loaderService.hideLoader();
+      console.log('calls',this.schCallCards);
+    },
+    error => {
+      this.loaderService.hideLoader();;
     });
   }
 

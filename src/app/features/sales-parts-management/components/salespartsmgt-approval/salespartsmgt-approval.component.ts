@@ -104,8 +104,6 @@ export class SalespartsmgtApprovalComponent {
           isUnManagedSupplier: part.isUnManagedSupplier ?? false
         });
       });
-      console.log('Selected Cards',this.lstProductConfig);
-
       if(this.lstProductConfig.length == 0){
         this.notificationService.showNotification(
           'Please select atleast one item for validation',
@@ -114,6 +112,7 @@ export class SalespartsmgtApprovalComponent {
           'bottom'
         );
         this.lstProductConfig = [];
+        this.loaderService.hideLoader();
       }
       else{
         this.spmService
@@ -137,6 +136,7 @@ export class SalespartsmgtApprovalComponent {
             );
           }
           this.navigateById(this.enqId);
+          this.loaderService.hideLoader();
         },
         error => {
           this.loaderService.hideLoader();

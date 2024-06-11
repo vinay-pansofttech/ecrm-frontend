@@ -1,6 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
-<div class="my-calendar-main--container">
     <div class="app-navigation-main--container">
       <div (click)="onBackClickHandle()">
         <img
@@ -60,6 +59,7 @@
       </div>
     </div>
 
+  <div *ngIf="schCallCards.length > 0 && !showAPILoader" class="my-calendar-main--container">
     <div *ngFor="let a of schCallCards" class="service-calendar-listview--cards">
       <kendo-card class="service-calendar-listview--kendo-card">
         <div class="service-calendar-listview--kendo-card-header">
@@ -166,11 +166,17 @@
         </div>
       </kendo-card>     
     </div>
-
-    <div *ngIf="schCallCards.length === 0" class="app-disclaimer--card">
-      <div class="app-disclaimer--content">
-        <h5>No calls scheduled for the day</h5>
-      </div>
-    </div>
+</div>
+<div *ngIf="schCallCards.length === 0 && !showAPILoader" class="app-disclaimer--card">
+  <div class="app-disclaimer--content">
+    <h5>No calls scheduled for the day</h5>
+  </div>
+</div>
+<div class="app-screen--loader" *ngIf="showAPILoader">
+  <kendo-loader
+    type="converging-spinner"
+    themeColor="info"
+    size="medium"></kendo-loader>
+  <div>Loading details....</div>
 </div>
   

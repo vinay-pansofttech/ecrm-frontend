@@ -54,10 +54,13 @@ export class EffortsListViewComponent {
 
   iseditable(cardIndex: number): boolean{
     const cardemployeeId = this.engeffortListCards[cardIndex].empId;
-    if(this.loginService.employeeId == cardemployeeId)
-      return true;
-    else
+    const selectedDate = this.datePipe.transform(new Date(this.currentDate),"yyyy-MM-dd")!;
+    const today = this.datePipe.transform(new Date(),"yyyy-MM-dd")!;
+    if (selectedDate <= today && this.loginService.employeeId == cardemployeeId) {
+       return true;
+    } else {
       return false;
+    }
   }
 
   addEffort(cardIndex: number){
