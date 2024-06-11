@@ -89,7 +89,12 @@ export class DashboardCardsComponent implements OnInit {
   }
   showCards(cardType: any): boolean {
     // If the card type is 'Funnel Update', show it only if the user has the 'prvViewSales' privilege.
-    if(cardType.text === 'Funnel Update'){
+    if(cardType.text === 'Enquiry'){
+      return !(
+        !this.userPrivileges?.includes('prvViewSales')
+      );
+    }
+    else if(cardType.text === 'Funnel Update'){
       return !(
         !this.userPrivileges?.includes('prvViewSales')
       );
@@ -101,7 +106,7 @@ export class DashboardCardsComponent implements OnInit {
     }
     else if(cardType.text === 'Service Calls'){
       return !(
-        !this.userPrivileges?.includes('prvSalesPrepConfig')
+        !this.userPrivileges?.includes('PrvSRLCDashboard')
       );
     }
     else if(cardType.text === 'Sales Parts Management'){

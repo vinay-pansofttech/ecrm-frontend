@@ -40,28 +40,28 @@
         <div class="enquiry-details--footer">
           <button
             kendobutton
-            class="enquiry-details-cancel--button"
+            class="app-cancel--button"
             *ngIf="currentStep === 0"
             (click)="onReset()">
             Cancel
           </button>
           <button
             kendobutton
-            class="enquiry-details-cancel--button"
+            class="app-cancel--button"
             *ngIf="currentStep !== 0"
             (click)="onBackClickHandle()">
             Cancel
           </button>
           <button
             kendobutton
-            class="enquiry-details-save--button"
+            class="app-general--button"
             (click)="next()"
             *ngIf="currentStep !== 3">
             Next
           </button>
           <button
             kendoButton
-            class="enquiry-details-save--button"
+            class="app-save--button"
             (click)="submit()"
             *ngIf="currentStep === 3">
             Save

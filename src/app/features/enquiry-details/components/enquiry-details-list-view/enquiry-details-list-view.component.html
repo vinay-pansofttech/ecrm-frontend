@@ -1,5 +1,3 @@
-<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
-<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <div class="enquiry-details-listview-container">
   <div class="app-navigation-main--container">
     <div>
@@ -20,92 +18,107 @@
 
   <div class="app-screen--header">Deal List</div>
 
-  <div class="enquiry-details-listview--searchbox">
-    <kendo-textbox
-      [(ngModel)]="searchTerm"
-      (ngModelChange)="filterData()"
-      placeholder="Search"
-      class="enquiry-details-listview--kendo-textbox">
-      <ng-template kendoTextBoxPrefixTemplate>
-        <img
-          src="assets/enquiry-details-listview-img/search.svg/"
-          alt="new"
-          class="enquiry-details-listview--search-icon" />
-      </ng-template>
-    </kendo-textbox>
-  </div>
-
-  <div *ngFor="let a of filteredCards" class="enquiry-details-listview--cards">
-    <kendo-card class="enquiry-details-listview--kendo-card">
-      <div class="enquiry-details-listview--kendo-card-header">
-        <div class="enquiry-details-listview--kendo-card-number">
-          {{ a.dealNo }}
-        </div>
-        <div>
+  <div *ngIf="filteredCards.length > 0 && !showAPILoader">
+    <div class="enquiry-details-listview--searchbox">
+      <kendo-textbox
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="filterData()"
+        placeholder="Search"
+        class="enquiry-details-listview--kendo-textbox">
+        <ng-template kendoTextBoxPrefixTemplate>
           <img
-            src="assets/enquiry-details-listview-img/edit.svg"
+            src="assets/enquiry-details-listview-img/search.svg/"
             alt="new"
-            (click)="navigateById(a.enqID)" />
-        </div>
-      </div>
+            class="enquiry-details-listview--search-icon" />
+        </ng-template>
+      </kendo-textbox>
+    </div>
 
-      <div class="enquiry-details-listview--kendo-splitter">
-        <kendo-splitter orientation="horizontal"></kendo-splitter>
-      </div>
+    <div *ngFor="let a of filteredCards" class="enquiry-details-listview--cards">
+      <kendo-card class="enquiry-details-listview--kendo-card">
+        <div class="enquiry-details-listview--kendo-card-header">
+          <div class="enquiry-details-listview--kendo-card-number">
+            {{ a.dealNo }}
+          </div>
+          <div>
+            <img
+              src="assets/enquiry-details-listview-img/edit.svg"
+              alt="new"
+              (click)="navigateById(a.enqID)" />
+          </div>
+        </div>
 
-      <div class="enquiry-details-listview--kendo-card-content">
-        <div class="enquiry-details-listview--kendo-card-sold-details">
-          <div class="enquiry-details-listview--kendo-card-sub-title">
-            Sold to Contact
-          </div>
-          <div class="enquiry-details-listview--kendo-card-sold">
-            {{ a.soldToContact }}
-          </div>
+        <div class="enquiry-details-listview--kendo-splitter">
+          <kendo-splitter orientation="horizontal"></kendo-splitter>
         </div>
-        <!-- <div class="enquiry-details-listview--vertical-splitter">
-          <kendo-splitter
-            orientation="vertical"
-            class="enquiry-details-listview--splitter"></kendo-splitter>
-        </div> -->
-        <div class="enquiry-details-listview--kendo-card-sold-details">
-          <div class="enquiry-details-listview--kendo-card-sub-title">
-            Sold to site
-          </div>
-          <div class="enquiry-details-listview--kendo-card-sold">
-            {{ a.soldToLE }}
-          </div>
-        </div>
-        <div class="enquiry-details-listview--kendo-card-sold-details">
-          <div class="enquiry-details-listview--kendo-card-sub-title">
-            Status
-          </div>
-          <div class="enquiry-details-listview--kendo-card-sold">
-            {{ a.enqStatus }}
-          </div>
-        </div>
-      </div>
 
-      <div class="enquiry-details-listview--information-outline-card">
-        <div>
-          <img src="assets/enquiry-details-phone-icon.svg" alt="new" />
+        <div class="enquiry-details-listview--kendo-card-content">
+          <div class="enquiry-details-listview--kendo-card-sold-details">
+            <div class="enquiry-details-listview--kendo-card-sub-title">
+              Sold to Contact
+            </div>
+            <div class="enquiry-details-listview--kendo-card-sold">
+              {{ a.soldToContact }}
+            </div>
+          </div>
+          <!-- <div class="enquiry-details-listview--vertical-splitter">
+            <kendo-splitter
+              orientation="vertical"
+              class="enquiry-details-listview--splitter"></kendo-splitter>
+          </div> -->
+          <div class="enquiry-details-listview--kendo-card-sold-details">
+            <div class="enquiry-details-listview--kendo-card-sub-title">
+              Sold to site
+            </div>
+            <div class="enquiry-details-listview--kendo-card-sold">
+              {{ a.soldToLE }}
+            </div>
+          </div>
+          <div class="enquiry-details-listview--kendo-card-sold-details">
+            <div class="enquiry-details-listview--kendo-card-sub-title">
+              Status
+            </div>
+            <div class="enquiry-details-listview--kendo-card-sold">
+              {{ a.enqStatus }}
+            </div>
+          </div>
         </div>
-        <div class="enquiry-details-listview--information">
-          {{ a.soldToContPhoneNo }}
+
+        <div class="enquiry-details-listview--information-outline-card">
+          <div>
+            <img src="assets/enquiry-details-phone-icon.svg" alt="new" />
+          </div>
+          <div class="enquiry-details-listview--information">
+            {{ a.soldToContPhoneNo }}
+          </div>
+          <!-- <div>
+            <img src="assets/enquiry-details-copy-icon.svg" alt="new"/>
+          </div> -->
         </div>
-        <!-- <div>
-          <img src="assets/enquiry-details-copy-icon.svg" alt="new"/>
-        </div> -->
-      </div>
-    </kendo-card>
+      </kendo-card>
+    </div>
+
+    <div class="enquiry-details-listview--kendo-pager">
+      <kendo-datapager
+        class="enquiry-details-listview--kendo-datapager"
+        [pageSize]="pageSize"
+        [skip]="skip"
+        [total]="contactCards.length"
+        (pageChange)="onPageChange($event)">
+      </kendo-datapager>
+    </div>
   </div>
 
-  <div class="enquiry-details-listview--kendo-pager">
-    <kendo-datapager
-      class="enquiry-details-listview--kendo-datapager"
-      [pageSize]="pageSize"
-      [skip]="skip"
-      [total]="contactCards.length"
-      (pageChange)="onPageChange($event)">
-    </kendo-datapager>
+  <div *ngIf="filteredCards.length === 0 && !showAPILoader" class="app-disclaimer--card">
+    <div class="app-disclaimer--content">
+      <h5> No deals in your que </h5>
+    </div>
   </div>
+</div>
+<div class="app-screen--loader" *ngIf="showAPILoader">
+  <kendo-loader
+    type="converging-spinner"
+    themeColor="info"
+    size="medium"></kendo-loader>
+  <div>Loading details....</div>
 </div>

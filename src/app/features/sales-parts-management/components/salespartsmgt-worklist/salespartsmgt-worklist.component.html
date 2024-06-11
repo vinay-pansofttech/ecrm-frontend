@@ -1,4 +1,4 @@
-<div *ngIf="!showSPMAPILoader">
+<div>
     <div class="app-navigation-main--container">
         <div>
         <img src="assets/worksheet-back.svg" kendobutton alt="back" 
@@ -19,7 +19,7 @@
         Price Validation
     </div>
 
-    <div class="app-details--container">
+    <div *ngIf="filteredCards.length > 0 && !showSPMAPILoader" class="app-details--container">
         <div class="app-enquiry-details-listview--searchbox">
           <kendo-textbox
             [(ngModel)]="searchTerm"
@@ -99,6 +99,12 @@
               (pageChange)="onPageChange($event)">
             </kendo-datapager>
         </div>
+    </div>
+
+    <div *ngIf="filteredCards.length === 0 && !showSPMAPILoader" class="app-disclaimer--card">
+      <div class="app-disclaimer--content">
+        <h5> No parts pending for price validation </h5>
+      </div>
     </div>
 </div>
 

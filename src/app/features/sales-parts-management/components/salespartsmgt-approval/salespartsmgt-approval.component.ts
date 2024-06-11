@@ -14,7 +14,7 @@ import { LoaderService } from 'src/app/core/services/loader.service';
   styleUrls: ['./salespartsmgt-approval.component.scss']
 })
 export class SalespartsmgtApprovalComponent {
-  public showAPILoader = false;
+  public showSPMAPILoader = false;
   isAllCardSelected: boolean = false;
   isDescOpen: boolean = false;
   partsCards: SPMPartsListItem[] = [];
@@ -36,6 +36,11 @@ export class SalespartsmgtApprovalComponent {
   ){}
 
   ngOnInit(){
+    this.loaderService.loaderState.subscribe(res => {
+      this.showSPMAPILoader = res;
+    });
+    this.loaderService.hideLoader();
+
     const enqIdString = this.route.snapshot.paramMap.get('id');
     if (enqIdString !== null) {
       const idNumber: number = parseInt(enqIdString, 10);
@@ -58,12 +63,16 @@ export class SalespartsmgtApprovalComponent {
   }
 
   getSPMPartslist() {
+    this.loaderMessage = "Loading details";
+    this.loaderService.showLoader();
     this.spmService.getSPMPartslist(this.loginService.employeeId as number, this.enqId, this.supplierId).subscribe((data: any) => {
       this.partsCards = data.map((item: SPMPartsListItem) => ({
         ...item,
         isCardSelected: false,
         isDescriptionOpen: false
       }));
+      this.loaderService.hideLoader();
+      this.loaderMessage = "";
     });
   }
 

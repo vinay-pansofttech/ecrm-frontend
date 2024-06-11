@@ -1,4 +1,4 @@
-<div *ngIf="!showWorksheetAPILoader">
+<div>
   <div class="app-navigation-main--container">
     <div>
       <img src="assets/worksheet-back.svg" kendobutton alt="back" 
@@ -14,13 +14,12 @@
           (click)="onReset()"/>
     </div>
   </div>
-
       
   <div class="app-screen--header">
     Deal List
   </div>
 
-  <div class="worksheet-details--container">
+  <div *ngIf="filteredCards.length > 0 && !showWorksheetAPILoader" class="worksheet-details--container">
     <div class="enquiry-details-listview--searchbox">
       <kendo-textbox
         [(ngModel)]="searchTerm"
@@ -119,6 +118,13 @@
       </kendo-datapager>
     </div>
   </div>
+  
+  <div *ngIf="filteredCards.length === 0 && !showWorksheetAPILoader" class="app-disclaimer--card">
+    <div class="app-disclaimer--content">
+      <h5> No deals in your que </h5>
+    </div>
+  </div>
+
 </div>
 
 <div class="app-screen--loader" *ngIf="showWorksheetAPILoader">

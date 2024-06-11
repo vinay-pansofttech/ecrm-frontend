@@ -100,6 +100,18 @@ body {
   flex-direction: column;
   gap: 0.5rem;
 }
+.app-disclaimer--card{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem;
+}
+.app-disclaimer--content{
+  color: #383838;
+  font-family: Arial;
+  font-size: 1rem;
+  font-style: normal;
+}
 
 //Enquiry Kendo Card Styles
 .app-enquiry-details-listview--vertical-splitter {
@@ -301,11 +313,26 @@ body {
   line-height: 1.25rem; /* 142.857% */
   letter-spacing: 0.0175rem;
 }
-.app-save--button {
+.app-general--button {
   width: 100%;
   min-height: 3rem;
   border-radius: 0.5rem;
   background: #6eafd3;
+  border: 1px solid #fff;
+  box-shadow: 0px 4px 20px 0px rgba(191, 191, 191, 0.25);
+  color: var(--colors-brand-white, #fff);
+  text-align: center;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.25rem; /* 142.857% */
+  letter-spacing: 0.0175rem;
+}
+.app-save--button {
+  width: 100%;
+  min-height: 3rem;
+  border-radius: 0.5rem;
+  background: rgb(92, 184, 92);
   border: 1px solid #fff;
   box-shadow: 0px 4px 20px 0px rgba(191, 191, 191, 0.25);
   color: var(--colors-brand-white, #fff);
