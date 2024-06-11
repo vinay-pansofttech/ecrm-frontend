@@ -60,7 +60,7 @@ body {
   font-family: Arial;
   font-size: var(--text-size-3);
   font-style: normal;
-  font-weight: var(--font-weight-bolder);
+  font-weight: var(--font-weight-bold);
   line-height: 1.75rem;
   flex: 1 0 0;
 }
@@ -194,7 +194,7 @@ body {
 .app-enquiry-details-listview--kendo-card-sub-title {
   color: var(--body-grey, #69727b);
   font-family: Arial;
-  font-size: 10px;
+  font-size: 12px;
   font-style: normal;
   font-weight: var(--font-weight-normal);
   line-height: normal;
