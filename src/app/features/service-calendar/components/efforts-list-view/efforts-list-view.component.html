@@ -1,6 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
-<div class="service-efforts-main--container">
+<div *ngIf="!signatureOpen" class="service-efforts-main--container">
     <div class="app-navigation-main--container">
       <div (click)="onBackClickHandle()">
         <img
@@ -87,6 +87,65 @@
         </div>
       </kendo-card>
     </div>
+</div>
+
+<div class="app-screen--footer">
+  <button
+    kendoButton
+    class="app-general--button"
+    (click)="generateCSR()">
+    Generate CSR
+  </button>
+</div>
+
+<div *ngIf="signatureOpen" id="signature-fullscreen" class="example">
+  <div class="content-wrapper">
+    <kendo-label>Draw Customer Signature</kendo-label>
+
+    <div class="signature-wrapper">
+      <kendo-signature
+        #signature
+        *ngIf="!showUpload"
+        [(value)]="value"
+        [color]="color"
+        [backgroundColor]="backgroundColor"
+        [strokeWidth]="strokeWidth"
+        [smooth]="true"
+        [maximizable]="false"
+        [hideLine]="true"
+      ></kendo-signature>
+
+      <ng-container *ngIf="showUpload">
+        <div *ngIf="!imageURL" class="placeholder">
+          <kendo-svgicon [icon]="imageIcon" size="xlarge"></kendo-svgicon>
+          <span>Please, browse an image to preview here.</span>
+        </div>
+        <img
+          *ngIf="imageURL"
+          [src]="imageURL"
+          title="Uploaded signature"
+          draggable="false"
+        />
+      </ng-container>
+    </div>
+    <div>
+      <button
+        kendoButton
+        [svgIcon]="saveSvg"
+        themeColor="primary"
+        [disabled]="!value"
+        (click)="onSave()"
+        style="margin: 0.25rem;">
+        Save
+      </button>
+      <button 
+        kendoButton
+        (click)="onClear()">
+        Clear
+      </button>
+    </div>
+  </div>
+
 </div>
   
 
