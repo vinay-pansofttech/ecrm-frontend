@@ -20,40 +20,40 @@
 
   <div class="app-screen--header">Enquiry - {{ id }}</div>
 
-  <div *ngIf="filteredCards.length > 0" class="enquiry-details-listview-container">
-    <div *ngFor="let a of filteredCards" class="enquiry-details-listview--cards">
-      <kendo-card class="enquiry-details-listview--kendo-card">
-        <div class="enquiry-details-listview--kendo-card-header">
-          <div class="enquiry-details-listview--kendo-card-number">
+  <div *ngIf="filteredCards.length > 0" class="app-enquiry-details-listview-container">
+    <div *ngFor="let a of filteredCards" class="app-enquiry-details-listview--cards">
+      <kendo-card class="app-enquiry-details-listview--kendo-card">
+        <div class="app-enquiry-details-listview--kendo-card-header">
+          <div class="app-enquiry-details-listview--kendo-card-number">
             {{ a?.remarks }}
           </div>
         </div>
-        <div class="enquiry-details-listview--kendo-splitter">
+        <div class="app-enquiry-details-listview--kendo-splitter">
           <kendo-splitter orientation="horizontal"></kendo-splitter>
         </div>
-        <div class="enquiry-details-listview--kendo-card-content">
+        <div class="app-enquiry-details-listview--kendo-card-content">
 
-          <div class="enquiry-details-listview--kendo-card-sold-details">
-            <div class="enquiry-details-listview--kendo-card-sub-title">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
                   Updated Date
             </div>
-            <div class="enquiry-details-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
                   {{ a.updDate }}
             </div>
           </div>
-          <div class="enquiry-details-listview--kendo-card-sold-details">
-            <div class="enquiry-details-listview--kendo-card-sub-title">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
                   Mode of Contact
             </div>
-            <div class="enquiry-details-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
                   {{ a.modeOfContact }}
             </div>
           </div>  
-          <div class="enquiry-details-listview--kendo-card-sold-details">
-            <div class="enquiry-details-listview--kendo-card-sub-title">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
               Updated By
             </div>
-          <div class="enquiry-details-listview--kendo-card-sold">
+          <div class="app-enquiry-details-listview--kendo-card-sold">
             {{ a.updatedBy }}
           </div>
         </div>
@@ -62,9 +62,9 @@
       </kendo-card>
     </div>
 
-    <div class="enquiry-details-listview--kendo-pager">
+    <div class="app-enquiry-details-listview--kendo-pager">
       <kendo-datapager
-        class="enquiry-details-listview--kendo-datapager"
+        class="app-enquiry-details-listview--kendo-datapager"
         [pageSize]="pageSize"
         [skip]="skip"
         [total]="contactCards.length"

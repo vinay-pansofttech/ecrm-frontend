@@ -15,6 +15,10 @@
     padding:0.5rem;
     padding-right: 1rem;
   }
+  .service-header-right-button{
+    padding:0.75rem;
+    padding-right: 1rem;
+  }
   .service-efforts--title {
     color: #031222;
     font-family: Arial;
@@ -52,7 +56,7 @@
     flex: 1;
   }
   .effort-hours{
-    padding-right: 2%;
+    padding-right: 1rem;
   }
   .service-efforts-history--header {
     background-color: rgb(16, 47, 63);
@@ -199,4 +203,3 @@
     background: var(--colors-brand-white, #FFF);
     min-height: 39px;
   }
-  

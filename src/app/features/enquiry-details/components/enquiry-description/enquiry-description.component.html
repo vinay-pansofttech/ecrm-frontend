@@ -2,34 +2,34 @@
   <div class="app-screen--header">
     Enquiry Description
   </div>
-  <div class="enquiry-description--container" [formGroup]="enquiryDescription">
+  <div class="app-kendo-form--container" [formGroup]="enquiryDescription">
     <kendo-formfield>
-    <div class="enquiry-description--content">
+    <div class="app-kendo--content">
       <kendo-label
-        class="enquiry-description--label"
+        class="app-kendo--label"
         [for]="enterdescription"
         >Enter Description</kendo-label>
       <kendo-textarea
-        class="enquiry-description--textarea"
+        class="app-kendo--textarea"
         placeholder="Type  your message here.."
         formControlName="enterDescription"
         #enterdescription
         [rows]="6"
         resizable="vertical" required></kendo-textarea>
     </div>
-    <kendo-formerror class="enquiry-description--error-msg">Enter description is required</kendo-formerror>
+    <kendo-formerror class="app-kendo--error-msg">Enter description is required</kendo-formerror>
     </kendo-formfield>
     <kendo-formfield>
-    <div class="enquiry-description--content">
-      <kendo-label class="enquiry-description--label" [for]="attachment">Attachment</kendo-label>
+    <div class="app-kendo--content">
+      <kendo-label class="app-kendo--label" [for]="attachment">Attachment</kendo-label>
       <kendo-fileselect
-        class="enquiry-description--fileupload"
+        class="app-kendo--fileupload"
         formControlName="attachment"
         #attachment></kendo-fileselect>
     </div>
-    <kendo-formerror class="enquiry-description--error-msg">Attachment is required</kendo-formerror>
+    <kendo-formerror class="app-kendo--error-msg">Attachment is required</kendo-formerror>
     <div *ngFor="let file of myFiles; let i = index"
-      class="enquiry-attachment-files">
+      class="app-kendo-attachment-files">
       <div (click)="downloadAttachment(i)">{{ file.name }}</div>
     </div>
   </kendo-formfield>

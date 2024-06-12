@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AppSettingsConfigKey } from 'src/app/core/Constants';
 import { LoginService } from '../login/components/login/login.service';
 import { DatePipe } from '@angular/common';
-interface engEffortsList {
+export interface engEffortsDetails {
   empId: number;
   sRSchId: number;
   subTaskId: number;
@@ -17,6 +17,17 @@ interface engEffortsList {
   remarks: string;
   subTaskScheduleDtlId: number;
   srid: number;
+}
+
+export interface engEffortsList {
+  empId: number;
+  srid: number;
+  name: string;
+  ondate: string;
+  effortHours: string;
+  travelHours: string;
+  taskType: string;
+  remarks: string;
 }
 
 @Injectable({

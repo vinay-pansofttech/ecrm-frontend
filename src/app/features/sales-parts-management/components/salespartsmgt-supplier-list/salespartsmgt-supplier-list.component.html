@@ -74,16 +74,16 @@
               <span class="k-window-title">Supplier Attachments</span>
               <button kendoWindowCloseAction></button>
             </kendo-window-titlebar>           
-            <div class="worksheet-comments--container">
+            <div class="app-comments--container">
               <!-- <kendo-formfield> -->
                 <!-- <div>
                   <kendo-fileselect
                     formControlName="wsattachment"
                     #wsattachment></kendo-fileselect>
                 </div> -->
-                <kendo-label class="worksheet-comments--grid">Uploaded Files</kendo-label>
+                <kendo-label class="app-comments--grid">Uploaded Files</kendo-label>
                 <div *ngFor="let file of myFiles; let i = index"
-                  class="app-attachment-files">
+                  class="app-kendo-attachment-files">
                   <div (click)="downloadAttachment(a.supplierDocId, a.attachmentGuId? a.attachmentGuId: '', i)">{{ file.name }}</div>
                 </div>
               <!-- </kendo-formfield> -->

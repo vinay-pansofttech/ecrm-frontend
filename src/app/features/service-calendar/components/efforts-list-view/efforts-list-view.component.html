@@ -27,10 +27,10 @@
       </div>
     </div>
 
-    <div *ngFor="let a of engeffortListCards; let i = index" class="service-calendar-listview--cards">
-      <kendo-card class="service-calendar-listview--kendo-card">
-        <div class="service-calendar-listview--kendo-card-header">
-          <div class="service-calendar-listview--kendo-card-number">
+    <div *ngFor="let a of engeffortListCards; let i = index" class="app-enquiry-details-listview--cards">
+      <kendo-card class="app-enquiry-details-listview--kendo-card">
+        <div class="app-enquiry-details-listview--kendo-card-header">
+          <div class="app-enquiry-details-listview--kendo-card-number">
             {{ a.name }}
           </div>
           <div *ngIf="iseditable(i)">
@@ -40,47 +40,47 @@
               (click)="addEffort(i)" />
           </div>
         </div>
-        <div class="service-calendar-listview--kendo-splitter">
+        <div class="app-enquiry-details-listview--kendo-splitter">
           <kendo-splitter orientation="horizontal"></kendo-splitter>
         </div>
-        <div class="service-calendar-listview--kendo-card-content">
-          <div class="service-calendar-listview--kendo-card-sold-details">
-            <div class="service-calendar-listview--kendo-card-sub-title">
+        <div class="app-enquiry-details-listview--kendo-card-content">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
               Task
             </div>
-            <div class="service-calendar-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
               {{a.taskType}}
             </div>
           </div>
-          <div class="service-calendar-listview--kendo-card-sold-details">
-            <div class="service-calendar-listview--kendo-card-sub-title">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
               Schedule Date
             </div>
-            <div class="service-calendar-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
               {{a.ondate}}
             </div>
           </div>
-          <div class="service-calendar-listview--kendo-card-sold-details">
-            <div class="service-calendar-listview--kendo-card-sub-title">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
               Effort Hours
             </div>
-            <div class="service-calendar-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
               {{a.effortHours}}
             </div>
           </div>
-          <div class="service-calendar-listview--kendo-card-sold-details">
-            <div class="service-calendar-listview--kendo-card-sub-title">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
               Travel Hours
             </div>
-            <div class="service-calendar-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
               {{a.travelHours}}
             </div>
           </div>
-          <div class="service-calendar-listview--kendo-card-sold-details">
-            <div class="service-calendar-listview--kendo-card-sub-title">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
               Remarks
             </div>
-            <div class="service-calendar-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
               {{a.remarks}}
             </div>
           </div>

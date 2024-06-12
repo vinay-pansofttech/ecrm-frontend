@@ -27,36 +27,36 @@
       </div>
     </div>
 
-    <div class="service-efforts--container" [formGroup]="serviceEffortsForm">
-      <div class="service-efforts--hours">
+    <div class="app-kendo-form--container" [formGroup]="serviceEffortsForm">
+      <div class="app-kendo-forms--subcontent">
         <div class="service-efforts--hours-content effort-hours">
           <kendo-formfield>
-            <div class="service-efforts--content">
-              <kendo-label class="service-efforts--label" [for]="efforthours"
+            <div class="app-kendo--content">
+              <kendo-label class="app-kendo--label" [for]="efforthours"
                 >Effort Hours</kendo-label
               >
-              <kendo-textbox class="service-efforts-forms-kendo--dropdownlist"
+              <kendo-textbox class="app-kendo--textbox"
               formControlName="efforthours"
               #efforthours>
               </kendo-textbox>
             </div>
-            <kendo-formerror class="service-efforts--error-msg"
+            <kendo-formerror class="app-kendo--error-msg"
               >Effort hours is required</kendo-formerror
             >
           </kendo-formfield>
         </div>
         <div class="service-efforts--hours-content">
           <kendo-formfield>
-            <div class="service-efforts--content">
-              <kendo-label class="service-efforts--label" [for]="travelhours"
+            <div class="app-kendo--content">
+              <kendo-label class="app-kendo--label" [for]="travelhours"
                 >Travel Hours</kendo-label
               >
-              <kendo-textbox class="service-efforts-forms-kendo--dropdownlist"
+              <kendo-textbox class="app-kendo--textbox"
               formControlName="travelhours"
               #travelhours>
               </kendo-textbox>
             </div>
-            <kendo-formerror class="service-efforts--error-msg"
+            <kendo-formerror class="app-kendo--error-msg"
               >Travel hours is required</kendo-formerror
             >
           </kendo-formfield>
@@ -64,36 +64,103 @@
       </div>
 
       <kendo-formfield>
-        <div class="service-efforts--content">
-          <kendo-label class="service-efforts--label" [for]="effortremarks"
+        <div class="app-kendo--content">
+          <kendo-label class="app-kendo--label" [for]="effortremarks"
             >Remarks</kendo-label
           >
           <kendo-textarea
             placeholder="Type  your message here.."
             formControlName="effortremarks"
             #effortremarks
-            class="service-efforts--textarea"
+            class="app-kendo--textarea"
             [rows]="6"
             resizable="vertical"></kendo-textarea>
         </div>
-        <kendo-formerror class="service-efforts--error-msg"
+        <kendo-formerror class="app-kendo--error-msg"
           >Effort remarks is required</kendo-formerror
         >
       </kendo-formfield>
     </div>
 
-    <div class="service-efforts--footer">
-      <button
-        kendobutton
-        class="service-efforts-cancel--button"
-        (click)="onBackClickHandle()">
-        Cancel
-      </button>
+    <div class="service-efforts-history--header">
+      <div class="service-efforts--header">
+        Other Efforts
+      </div>
+      <div class="service-header-right-button">
+        <img *ngIf="!isPrevEffortsOpen" (click)="isPrevEffortsOpened()" src="assets/down-white.svg"/>
+        <img *ngIf="isPrevEffortsOpen" (click)="isPrevEffortsOpened()"src="assets/up-white.svg"/>
+      </div>
+    </div>
+
+    <div *ngIf="isPrevEffortsOpen">
+      <div *ngFor="let a of engeffortListCards; let i = index" class="app-enquiry-details-listview--cards">
+        <kendo-card class="app-enquiry-details-listview--kendo-card">
+          <div class="app-enquiry-details-listview--kendo-card-header">
+            <div class="app-enquiry-details-listview--kendo-card-number">
+              {{ a.name }}
+            </div>
+          </div>
+          <div class="app-enquiry-details-listview--kendo-splitter">
+            <kendo-splitter orientation="horizontal"></kendo-splitter>
+          </div>
+          <div class="app-enquiry-details-listview--kendo-card-content">
+            <div class="app-enquiry-details-listview--kendo-card-sold-details">
+              <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                Task
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold">
+                {{a.taskType}}
+              </div>
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold-details">
+              <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                Schedule Date
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold">
+                {{a.ondate}}
+              </div>
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold-details">
+              <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                Effort Hours
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold">
+                {{a.effortHours}}
+              </div>
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold-details">
+              <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                Travel Hours
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold">
+                {{a.travelHours}}
+              </div>
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold-details">
+              <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                Remarks
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold">
+                {{a.remarks}}
+              </div>
+            </div>
+          </div>
+        </kendo-card>
+      </div>
+    </div>
+
+    <div class="app-screen--footer">
       <button
         kendoButton
-        class="service-efforts-save--button"
+        class="app-save--button"
         (click)="submit()">
         Save
+      </button>
+      <button
+        kendobutton
+        class="app-cancel--button"
+        (click)="onBackClickHandle()">
+        Cancel
       </button>
     </div>
     

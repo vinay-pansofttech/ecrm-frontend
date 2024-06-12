@@ -19,25 +19,25 @@
   <div class="app-screen--header">Deal List</div>
 
   <div *ngIf="filteredCards.length > 0 && !showAPILoader">
-    <div class="enquiry-details-listview--searchbox">
+    <div class="app-enquiry-details-listview--searchbox">
       <kendo-textbox
         [(ngModel)]="searchTerm"
         (ngModelChange)="filterData()"
         placeholder="Search"
-        class="enquiry-details-listview--kendo-textbox">
+        class="app-enquiry-details-listview--kendo-textbox">
         <ng-template kendoTextBoxPrefixTemplate>
           <img
             src="assets/enquiry-details-listview-img/search.svg/"
             alt="new"
-            class="enquiry-details-listview--search-icon" />
+            class="app-enquiry-details-listview--search-icon" />
         </ng-template>
       </kendo-textbox>
     </div>
 
-    <div *ngFor="let a of filteredCards" class="enquiry-details-listview--cards">
-      <kendo-card class="enquiry-details-listview--kendo-card">
-        <div class="enquiry-details-listview--kendo-card-header">
-          <div class="enquiry-details-listview--kendo-card-number">
+    <div *ngFor="let a of filteredCards" class="app-enquiry-details-listview--cards">
+      <kendo-card class="app-enquiry-details-listview--kendo-card">
+        <div class="app-enquiry-details-listview--kendo-card-header">
+          <div class="app-enquiry-details-listview--kendo-card-number">
             {{ a.dealNo }}
           </div>
           <div>
@@ -48,16 +48,16 @@
           </div>
         </div>
 
-        <div class="enquiry-details-listview--kendo-splitter">
+        <div class="app-enquiry-details-listview--kendo-splitter">
           <kendo-splitter orientation="horizontal"></kendo-splitter>
         </div>
 
-        <div class="enquiry-details-listview--kendo-card-content">
-          <div class="enquiry-details-listview--kendo-card-sold-details">
-            <div class="enquiry-details-listview--kendo-card-sub-title">
+        <div class="app-enquiry-details-listview--kendo-card-content">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
               Sold to Contact
             </div>
-            <div class="enquiry-details-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
               {{ a.soldToContact }}
             </div>
           </div>
@@ -66,29 +66,29 @@
               orientation="vertical"
               class="enquiry-details-listview--splitter"></kendo-splitter>
           </div> -->
-          <div class="enquiry-details-listview--kendo-card-sold-details">
-            <div class="enquiry-details-listview--kendo-card-sub-title">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
               Sold to Site
             </div>
-            <div class="enquiry-details-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
               {{ a.soldToLE }}
             </div>
           </div>
-          <div class="enquiry-details-listview--kendo-card-sold-details">
-            <div class="enquiry-details-listview--kendo-card-sub-title">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
               Status
             </div>
-            <div class="enquiry-details-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
               {{ a.enqStatus }}
             </div>
           </div>
         </div>
 
-        <div class="enquiry-details-listview--information-outline-card">
+        <div class="app-enquiry-details-listview--information-outline-card" (click)="callPhoneNumber(a.phoneNumber)">
           <div>
             <img src="assets/enquiry-details-phone-icon.svg" alt="new" />
           </div>
-          <div class="enquiry-details-listview--information">
+          <div class="app-enquiry-details-listview--information">
             {{ a.soldToContPhoneNo }}
           </div>
           <!-- <div>
@@ -98,9 +98,9 @@
       </kendo-card>
     </div>
 
-    <div class="enquiry-details-listview--kendo-pager">
+    <div class="app-enquiry-details-listview--kendo-pager">
       <kendo-datapager
-        class="enquiry-details-listview--kendo-datapager"
+        class="app-enquiry-details-listview--kendo-datapager"
         [pageSize]="pageSize"
         [skip]="skip"
         [total]="contactCards.length"

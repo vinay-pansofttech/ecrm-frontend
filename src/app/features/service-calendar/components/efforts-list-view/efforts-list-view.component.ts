@@ -1,19 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServiceCalendarService } from '../../service-calendar.service';
+import { ServiceCalendarService, engEffortsList } from '../../service-calendar.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { DatePipe } from '@angular/common';
-
-interface engEffortsList {
-  empId: number;
-  srid: number;
-  name: string;
-  ondate: string;
-  effortHours: string;
-  travelHours: string;
-  taskType: string;
-  remarks: string;
-}
 
 @Component({
   selector: 'app-efforts-list-view',
@@ -46,8 +35,7 @@ export class EffortsListViewComponent {
   engEffortsList() {
     this.serviceCalendarService.getEngEfforts(this.loginService.employeeId as number, this.srid).subscribe((data: any) => {
       this.engeffortListCards = data.filter(
-        (item: any) => item.ondate === this.datePipe.transform(new Date(this.currentDate),"yyyy-MM-dd")
-        && (item.empId) === this.loginService.employeeId
+        (item: any) => item.empId === this.loginService.employeeId
       );
     });
   }

@@ -1,25 +1,12 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { ServiceCalendarService } from '../../service-calendar.service';
+import { ServiceCalendarService, engEffortsDetails, engEffortsList } from '../../service-calendar.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { DatePipe } from '@angular/common';
 
-interface engEffortsList {
-  sRSchId: number;
-  subTaskId: number;
-  calendarId: number;
-  ondate: string;
-  startTime: string;
-  endTime: string;
-  effortHours: string;
-  travelHours: string;
-  isNoEffortSpent: boolean;
-  remarks: string;
-  subTaskScheduleDtlId: number;
-}
 
 @Component({
   selector: 'app-service-efforts',
@@ -33,6 +20,7 @@ export class ServiceEffortsComponent {
   engeffortListCards: engEffortsList[] = [];
   effortCardDetails: any;
   cardIndex: number = 0;
+  isPrevEffortsOpen: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -68,12 +56,12 @@ export class ServiceEffortsComponent {
 
   getEngEffortsList() {
     this.serviceCalendarService.getEngEfforts(this.loginService.employeeId as number, this.srid).subscribe((data: any) => {
+      this.engeffortListCards = data;
       this.effortCardDetails = data.filter(
-        (item: any) => item.ondate === this.datePipe.transform(new Date(this.currentDate),"yyyy-MM-dd")
-        && (item.empId) === this.loginService.employeeId
-      );;
-      if(this.effortCardDetails.length >0) {
-        this.effortCardDetails = this.effortCardDetails[0];
+        (item: any) => item.empId === this.loginService.employeeId
+      );
+      if(this.effortCardDetails.length > 0) {
+        this.effortCardDetails = this.effortCardDetails[this.cardIndex];
         this.patchFormValues();
       }
       else{
@@ -92,6 +80,10 @@ export class ServiceEffortsComponent {
 
   onBackClickHandle() {
     window.history.back();
+  }
+
+  isPrevEffortsOpened(){
+    this.isPrevEffortsOpen = !this.isPrevEffortsOpen;
   }
 
   assignFormData(): any {
