@@ -13,7 +13,7 @@
     </div>
   </div>
   <div>
-    <div class="enquiry-details--content">
+    <div class="app-screen--content">
       <kendo-stepper
         [steps]="steps"
         stepType="full"
@@ -33,40 +33,40 @@
           *ngIf="currentStep === 2"
           [enquiryDescription]="currentGroup"></app-enquiry-description>
       </form>
-      <div class="enquiry-details--footer">
+      <div class="app-screen--footer">
         <button
           kendobutton
-          class="enquiry-details-cancel--button"
-          *ngIf="currentStep === 0"
-          (click)="onReset()">
-          Cancel
-        </button>
-        <button
-          kendobutton
-          class="enquiry-details-cancel--button"
-          *ngIf="currentStep !== 0"
-          (click)="prev()">
-          Cancel
-        </button>
-        <button
-          kendobutton
-          class="enquiry-details-save--button"
+          class="app-general--button"
           (click)="next()"
           *ngIf="currentStep !== 2">
           Next
         </button>
         <button
           kendoButton
-          class="enquiry-details-save--button"
+          class="app-save--button"
           (click)="submit()"
           *ngIf="currentStep === 2">
           Save
+        </button>
+        <button
+          kendobutton
+          class="app-cancel--button"
+          *ngIf="currentStep === 0"
+          (click)="onReset()">
+          Cancel
+        </button>
+        <button
+          kendobutton
+          class="app-cancel--button"
+          *ngIf="currentStep !== 0"
+          (click)="prev()">
+          Cancel
         </button>
       </div>
     </div>
   </div>
 </div>
-<div class="enquiry-details--loader" *ngIf="showAPILoader">
+<div class="app-screen--loader" *ngIf="showAPILoader">
   <kendo-loader
     type="converging-spinner"
     themeColor="info"

@@ -60,10 +60,10 @@
     </div>
 
   <div *ngIf="schCallCards.length > 0 && !showAPILoader" class="my-calendar-main--container">
-    <div *ngFor="let a of schCallCards" class="service-calendar-listview--cards">
-      <kendo-card class="service-calendar-listview--kendo-card">
-        <div class="service-calendar-listview--kendo-card-header">
-          <div class="service-calendar-listview--kendo-card-number">
+    <div *ngFor="let a of schCallCards" class="app-enquiry-details-listview--cards">
+      <kendo-card class="app-enquiry-details-listview--kendo-card">
+        <div class="app-enquiry-details-listview--kendo-card-header">
+          <div class="app-enquiry-details-listview--kendo-card-number">
             {{a.srid}}
           </div>
           <div>
@@ -75,92 +75,92 @@
           </div>
         </div>
   
-        <div class="service-calendar-listview--kendo-splitter">
+        <div class="app-enquiry-details-listview--kendo-splitter">
           <kendo-splitter orientation="horizontal"></kendo-splitter>
         </div>
   
-        <div class="service-calendar-listview--kendo-card-content" (click)="onScheduledCallClick(a.srid)">
-          <div class="service-calendar-listview--kendo-card-sold-details">
-            <div class="service-calendar-listview--kendo-card-sub-title">
+        <div class="app-enquiry-details-listview--kendo-card-content" (click)="onScheduledCallClick(a.srid)">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
               UEU
             </div>
-            <div class="service-calendar-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
               {{a.ueu}}
             </div>
           </div>
-          <div class="service-calendar-listview--kendo-card-sold-details">
-            <div class="service-calendar-listview--kendo-card-sub-title">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
               Site
             </div>
-            <div class="service-calendar-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
               {{a.siteName}}
             </div>
           </div>
-          <div class="service-calendar-listview--kendo-card-sold-details">
-            <div class="service-calendar-listview--kendo-card-sub-title">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
               Call Category
             </div>
-            <div class="service-calendar-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
               {{a.callCategory}}
             </div>
           </div>
-          <div class="service-calendar-listview--kendo-card-sold-details">
-            <div class="service-calendar-listview--kendo-card-sub-title">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
               Call Type
             </div>
-            <div class="service-calendar-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
               {{a.callType}}
             </div>
           </div>
-          <div class="service-calendar-listview--kendo-card-sold-details">
-            <div class="service-calendar-listview--kendo-card-sub-title">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
               Call Description
             </div>
-            <div class="service-calendar-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
               {{a.callDescription}}
             </div>
           </div>
-          <div class="service-calendar-listview--kendo-card-sold-details">
-            <div class="service-calendar-listview--kendo-card-sub-title">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
               Instrument
             </div>
-            <div class="service-calendar-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
               {{a.productName}}
             </div>
           </div>
-          <div class="service-calendar-listview--kendo-card-sold-details">
-            <div class="service-calendar-listview--kendo-card-sub-title">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
               Serial Number
             </div>
-            <div class="service-calendar-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
               {{a.serialNumber}}
             </div>
           </div>
         </div>
   
-        <div class="service-calendar-listview--information-outline-card" (click)="callPhoneNumber(a.phoneNumber)">
+        <div class="app-enquiry-details-listview--information-outline-card" (click)="callPhoneNumber(a.phoneNumber)">
           <div>
             <img src="assets/enquiry-details-phone-icon.svg" alt="new" />
           </div>
-          <div class="service-calendar-listview--information">
+          <div class="app-enquiry-details-listview--information">
             {{a.phoneNumber}}
           </div>
         </div>
 
-        <div class="service-calendar-listview--information-outline-card" (click)="sendEmail(a.email)">
+        <div class="app-enquiry-details-listview--information-outline-card" (click)="sendEmail(a.email)">
           <div>
             <img src="assets/calendar-details-email-icon.svg" alt="new" />
           </div>
-          <div class="service-calendar-listview--information">
+          <div class="app-enquiry-details-listview--information">
             {{a.email}}
           </div>
         </div>
 
-        <div class="service-calendar-listview--information-outline-card" (click)="openLocation(a.gpsCoordinate)">
+        <div class="app-enquiry-details-listview--information-outline-card" (click)="openLocation(a.gpsCoordinate)">
           <div>
             <img src="assets/calendar-details-location-icon.svg" alt="new" />
           </div>
-          <div class="service-calendar-listview--information">
+          <div class="app-enquiry-details-listview--information">
             {{a.gpsCoordinate}}
           </div>
         </div>

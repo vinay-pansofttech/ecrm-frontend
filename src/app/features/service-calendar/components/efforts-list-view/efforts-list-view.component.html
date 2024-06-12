@@ -1,6 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
-<div class="service-efforts-main--container">
+<div *ngIf="!signatureOpen" class="service-efforts-main--container">
     <div class="app-navigation-main--container">
       <div (click)="onBackClickHandle()">
         <img
@@ -27,10 +27,10 @@
       </div>
     </div>
 
-    <div *ngFor="let a of engeffortListCards; let i = index" class="service-calendar-listview--cards">
-      <kendo-card class="service-calendar-listview--kendo-card">
-        <div class="service-calendar-listview--kendo-card-header">
-          <div class="service-calendar-listview--kendo-card-number">
+    <div *ngFor="let a of engeffortListCards; let i = index" class="app-enquiry-details-listview--cards">
+      <kendo-card class="app-enquiry-details-listview--kendo-card">
+        <div class="app-enquiry-details-listview--kendo-card-header">
+          <div class="app-enquiry-details-listview--kendo-card-number">
             {{ a.name }}
           </div>
           <div *ngIf="iseditable(i)">
@@ -40,53 +40,112 @@
               (click)="addEffort(i)" />
           </div>
         </div>
-        <div class="service-calendar-listview--kendo-splitter">
+        <div class="app-enquiry-details-listview--kendo-splitter">
           <kendo-splitter orientation="horizontal"></kendo-splitter>
         </div>
-        <div class="service-calendar-listview--kendo-card-content">
-          <div class="service-calendar-listview--kendo-card-sold-details">
-            <div class="service-calendar-listview--kendo-card-sub-title">
+        <div class="app-enquiry-details-listview--kendo-card-content">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
               Task
             </div>
-            <div class="service-calendar-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
               {{a.taskType}}
             </div>
           </div>
-          <div class="service-calendar-listview--kendo-card-sold-details">
-            <div class="service-calendar-listview--kendo-card-sub-title">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
               Schedule Date
             </div>
-            <div class="service-calendar-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
               {{a.ondate}}
             </div>
           </div>
-          <div class="service-calendar-listview--kendo-card-sold-details">
-            <div class="service-calendar-listview--kendo-card-sub-title">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
               Effort Hours
             </div>
-            <div class="service-calendar-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
               {{a.effortHours}}
             </div>
           </div>
-          <div class="service-calendar-listview--kendo-card-sold-details">
-            <div class="service-calendar-listview--kendo-card-sub-title">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
               Travel Hours
             </div>
-            <div class="service-calendar-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
               {{a.travelHours}}
             </div>
           </div>
-          <div class="service-calendar-listview--kendo-card-sold-details">
-            <div class="service-calendar-listview--kendo-card-sub-title">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
               Remarks
             </div>
-            <div class="service-calendar-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold">
               {{a.remarks}}
             </div>
           </div>
         </div>
       </kendo-card>
     </div>
+</div>
+
+<div class="app-screen--footer">
+  <button
+    kendoButton
+    class="app-general--button"
+    (click)="generateCSR()">
+    Generate CSR
+  </button>
+</div>
+
+<div *ngIf="signatureOpen" id="signature-fullscreen" class="example">
+  <div class="content-wrapper">
+    <kendo-label>Draw Customer Signature</kendo-label>
+
+    <div class="signature-wrapper">
+      <kendo-signature
+        #signature
+        *ngIf="!showUpload"
+        [(value)]="value"
+        [color]="color"
+        [backgroundColor]="backgroundColor"
+        [strokeWidth]="strokeWidth"
+        [smooth]="true"
+        [maximizable]="false"
+        [hideLine]="true"
+      ></kendo-signature>
+
+      <ng-container *ngIf="showUpload">
+        <div *ngIf="!imageURL" class="placeholder">
+          <kendo-svgicon [icon]="imageIcon" size="xlarge"></kendo-svgicon>
+          <span>Please, browse an image to preview here.</span>
+        </div>
+        <img
+          *ngIf="imageURL"
+          [src]="imageURL"
+          title="Uploaded signature"
+          draggable="false"
+        />
+      </ng-container>
+    </div>
+    <div>
+      <button
+        kendoButton
+        [svgIcon]="saveSvg"
+        themeColor="primary"
+        [disabled]="!value"
+        (click)="onSave()"
+        style="margin: 0.25rem;">
+        Save
+      </button>
+      <button 
+        kendoButton
+        (click)="onClear()">
+        Clear
+      </button>
+    </div>
+  </div>
+
 </div>
   
 

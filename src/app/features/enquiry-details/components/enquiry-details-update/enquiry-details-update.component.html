@@ -1,28 +1,28 @@
 <div *ngIf="!showAPILoader">
     <div class="app-navigation-main--container">
-      <div (click)="onBackClickHandle()">
+    <div (click)="onBackClickHandle()">
         <img src="assets/back.svg" kendobutton alt="back" />
-      </div>
-      <div class="app-navigation--header">Enquiry Details</div>
-      <div (click)="onReset()">
+    </div>
+    <div class="app-navigation--header">Enquiry Details</div>
+    <div (click)="onReset()">
         <img
           src="assets/reset.svg"
           kendobuttons
           alt="reset"
           class="app-navigation-reset--image" />
-      </div>
     </div>
-    <div>
-      <div class="enquiry-details--content">
-        <kendo-stepper
+  </div>
+  <div>
+    <div class="enquiry-details--content">
+      <kendo-stepper
           [steps]="steps"
           stepType="full"
           [linear]="false"
           [(currentStep)]="currentStep"
           cssClass="enquiry-details-content--stepper"
           (stepSelect)="onStepSelect($event)">
-        </kendo-stepper>
-        <form class="k-form k-form-md" [formGroup]="enquiryCaptureForm">
+      </kendo-stepper>
+      <form class="k-form k-form-md" [formGroup]="enquiryCaptureForm">
           <app-contact-details
             *ngIf="currentStep === 0"
             [contactDetails]="currentGroup"></app-contact-details>
@@ -36,45 +36,45 @@
             *ngIf="currentStep === 3"
             [enqId]="enqId"
             [enquiryUpdateForm]="currentGroup"></app-enquiry-update>
-        </form>
-        <div class="enquiry-details--footer">
-          <button
-            kendobutton
-            class="app-cancel--button"
-            *ngIf="currentStep === 0"
-            (click)="onReset()">
-            Cancel
-          </button>
-          <button
-            kendobutton
-            class="app-cancel--button"
-            *ngIf="currentStep !== 0"
-            (click)="onBackClickHandle()">
-            Cancel
-          </button>
-          <button
+      </form>
+      <div class="enquiry-details--footer">
+        <button
             kendobutton
             class="app-general--button"
             (click)="next()"
             *ngIf="currentStep !== 3">
             Next
-          </button>
-          <button
+        </button>
+        <button
             kendoButton
             class="app-save--button"
             (click)="submit()"
             *ngIf="currentStep === 3">
             Save
-          </button>
-        </div>
+        </button>
+        <button
+            kendobutton
+            class="app-cancel--button"
+            *ngIf="currentStep === 0"
+            (click)="onReset()">
+            Cancel
+        </button>
+        <button
+            kendobutton
+            class="app-cancel--button"
+            *ngIf="currentStep !== 0"
+            (click)="onBackClickHandle()">
+            Cancel
+        </button>
       </div>
     </div>
   </div>
-  <div class="enquiry-details--loader" *ngIf="showAPILoader">
+</div>
+<div class="enquiry-details--loader" *ngIf="showAPILoader">
     <kendo-loader
       type="converging-spinner"
       themeColor="info"
       size="medium"></kendo-loader>
     <div>Updating enquiry....</div>
-  </div>
+</div>
   

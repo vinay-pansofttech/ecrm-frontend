@@ -49,6 +49,7 @@ body {
     background-color: white;
 }
 
+//General Screen Styles
 .app-navigation-main--container {
   display: flex;
   padding: 0.25rem;
@@ -111,6 +112,18 @@ body {
   font-family: Arial;
   font-size: 1rem;
   font-style: normal;
+}
+.app-screen--notification{
+  color: black;
+  background-color: #edf5ff;
+  border-left: 5px solid #0043ce;
+  border-radius: 10px;
+  padding:1rem;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: left;
+  gap: 1rem;
 }
 
 //Enquiry Kendo Card Styles
@@ -230,7 +243,76 @@ body {
   margin-left: 4px;
 }
 
+//Kendo Form Field Styles
+.app-kendo-form--container {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  margin: 1.5rem;
+  gap: 1rem;
+}
+.app-kendo--content {
+  display: flex;
+  min-width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.app-kendo-forms--subcontent{
+  display: flex;
+  width: 100%;
+  gap: 0.5rem;
+}
+.app-kendo--label {
+  display: flex;
+  margin: -0.1rem;
+  color: var(--colors-brand-black, #1c1b1b);
+  font-family: Arial;
+  font-size: var(--text-size-01);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 1.3125rem */
+  letter-spacing: 0.00438rem;
+}
+.app-kendo--textbox {
+  width: 100%;
+  min-height: 39px;
+  margin-top: 0.5rem;
+  border-radius: var(--Corners, 0.5rem);
+  border: 1px solid #5cb5c1;
+  background: var(--colors-brand-white, #fff);
+}
+.app-kendo--textarea{
+  width: 100%;
+  height: 7.20094rem;
+  flex-shrink: 0;
+  border-radius: 0.75rem;
+  border: 1px solid #5CB5C1;
+}
+.app-kendo--dropdownlist {
+  border-radius: var(--Corners, 0.5rem);
+  border: 1px solid #5cb5c1;
+  background: var(--colors-brand-white, #fff);
+  min-height: 39px;
+}
+.app-kendo--fileupload{
+  width: 100%;
+}
+.app-kendo-attachment-files{
+  width: 100%;
+  padding: 1rem;
+  cursor: pointer;
+  border: solid #EBEBEB 0.5px;
+  box-sizing: border-box;
+}
+.app-kendo--error-msg {
+  font-size: var(--text-size-02);
+  font-style: normal;
+  font-family: Arial;
+}
 
+
+//Comments Styling
 .app-comments--container {
   display: flex;
   flex-direction: column;
@@ -283,16 +365,40 @@ body {
   font-family: Arial;
 }
 
-.app--fileupload{
-  width: 100%;
+//Custom Stepper Styling
+.app-screen--stepper {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 0.5rem;
+  margin: 0rem;
+  margin-top: 0;
+  margin-bottom: 0;
+  background-color: rgb(16, 47, 63);
 }
-.app-attachment-files{
-  width: 100%;
-  padding: 1rem;
-  cursor: pointer;
-  border: solid #EBEBEB 0.5px;
-  box-sizing: border-box;
+.app-screen--stepper-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  margin-left: 0.5rem;
+  transition: all 0.2s ease-out;
+  color: white;
+  border-bottom: 3px solid transparent;
 }
+.app-screen--stepper-container-content {
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.75rem;
+}
+.app-screen--stepper-container.selected {
+  border-bottom: 3px solid white;
+}
+
+
+//Footer and Buttons Styling
 .app-screen--footer {
   display: flex;
   flex-direction: column;

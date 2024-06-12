@@ -175,31 +175,31 @@
           <span class="k-window-title">System Discount Attachments</span>
           <button kendoWindowCloseAction></button>
         </kendo-window-titlebar>
-        <div class="worksheet-comments--container">
+        <div class="app-comments--container worksheet-comments--container ">
           <!-- <kendo-formfield> -->
             <!-- <div>
               <kendo-fileselect
                 formControlName="wsattachment"
                 #wsattachment></kendo-fileselect>
             </div> -->
-            <kendo-label class="worksheet-comments--grid">Uploaded Files</kendo-label>
+            <kendo-label class="app-comments--grid">Uploaded Files</kendo-label>
             <div *ngFor="let file of myFiles; let i = index"
-              class="app-attachment-files">
+              class="app-kendo-attachment-files">
               <div (click)="downloadAttachment(i)">{{ file.name }}</div>
             </div>
           <!-- </kendo-formfield> -->
         </div>
       </kendo-window>
       <div *ngIf="['Auto', '1', '2', '3', '4'].includes(worksheetDetailsCard[0].currentApprovalLevel) || [0,1].includes(worksheetDetailsCard[0].nextApprovalLevel)" 
-        class="worksheet-comments--container">
+        class="app-comments--container worksheet-comments--container ">
         <kendo-formfield>
-          <div class="worksheet-comments--content">
-            <kendo-label class="worksheet-comments--label"
+          <div class="app-comments--content">
+            <kendo-label class="app-comments--label"
             [for]="amComments"
             >AM Comments:</kendo-label
             >
             <kendo-textarea
-              class="worksheet-comments--textarea"
+              class="app-kendo--textarea"
               placeholder="Type your message here.."
               formControlName="amComments"
               [readonly]="!(worksheetDetailsCard[0].isAccessWSApproval? true: false && worksheetDetailsCard[0].nextApprovalLevel == 1)"
@@ -208,21 +208,21 @@
               [rows]="5"
               resizable="vertical"></kendo-textarea>
           </div>
-          <kendo-formerror class="worksheet-comments--error-msg"
+          <kendo-formerror class="app-kendo--error-msg"
             >AM comments is required</kendo-formerror
           >
         </kendo-formfield>
       </div>
       <div *ngIf="['2', '3', '4'].includes(worksheetDetailsCard[0].currentApprovalLevel) || worksheetDetailsCard[0].nextApprovalLevel == 2"
-        class="worksheet-comments--container">
+        class="app-comments--container worksheet-comments--container ">
         <kendo-formfield>
-          <div class="worksheet-comments--content">
-            <kendo-label class="worksheet-comments--label"
+          <div class="app-comments--content">
+            <kendo-label class="app-comments--label"
             [for]="smComments"
             >SM Comments:</kendo-label
             >
             <kendo-textarea
-              class="worksheet-comments--textarea"
+              class="app-kendo--textarea"
               placeholder="Type your message here.."
               formControlName="smComments"
               [readonly]="!(worksheetDetailsCard[0].isAccessWSApproval? true: false && worksheetDetailsCard[0].nextApprovalLevel == 2)"
@@ -231,21 +231,21 @@
               [rows]="5"
               resizable="vertical"></kendo-textarea>
           </div>
-          <kendo-formerror class="worksheet-comments--error-msg"
+          <kendo-formerror class="app-kendo--error-msg"
             >SM comments is required</kendo-formerror
           >
         </kendo-formfield>
       </div>
       <div *ngIf="worksheetDetailsCard[0].currentApprovalLevel === '3' || worksheetDetailsCard[0].nextApprovalLevel === 3 || (worksheetDetailsCard[0].currentApprovalLevel === '4' && worksheetDetailsCard[0].level3Comments != '')"
-        class="worksheet-comments--container">
+        class="app-comments--container worksheet-comments--container ">
         <kendo-formfield>
-          <div class="worksheet-comments--content">
-            <kendo-label class="worksheet-comments--label"
+          <div class="app-comments--content">
+            <kendo-label class="app-comments--label"
             [for]="finComments"
             >Finance Comments:</kendo-label
             >
             <kendo-textarea
-              class="worksheet-comments--textarea"
+              class="app-kendo--textarea"
               placeholder="Type your message here.."
               formControlName="finComments"
               [readonly]="!(worksheetDetailsCard[0].isAccessWSApproval? true: false && worksheetDetailsCard[0].nextApprovalLevel == 3)"
@@ -254,21 +254,21 @@
               [rows]="5"
               resizable="vertical"></kendo-textarea>
           </div>
-          <kendo-formerror class="worksheet-comments--error-msg"
+          <kendo-formerror class="app-kendo--error-msg"
             >Finance comments is required</kendo-formerror
           >
         </kendo-formfield>
       </div>
       <div *ngIf="['4'].includes(worksheetDetailsCard[0].currentApprovalLevel) || worksheetDetailsCard[0].nextApprovalLevel == 4"
-        class="worksheet-comments--container">
+        class="app-comments--container worksheet-comments--container ">
         <kendo-formfield>
-          <div class="worksheet-comments--content">
-            <kendo-label class="worksheet-comments--label"
+          <div class="app-comments--content">
+            <kendo-label class="app-comments--label"
             [for]="mgmtComments"
             >Management Comments:</kendo-label
             >
             <kendo-textarea
-              class="worksheet-comments--textarea"
+              class="app-kendo--textarea"
               placeholder="Type your message here.."
               formControlName="mgmtComments"
               [readonly]="!(worksheetDetailsCard[0].isAccessWSApproval? true: false && worksheetDetailsCard[0].nextApprovalLevel == 4)"
@@ -277,7 +277,7 @@
               [rows]="5"
               resizable="vertical"></kendo-textarea>
           </div>
-          <kendo-formerror class="worksheet-comments--error-msg"
+          <kendo-formerror class="app-kendo--error-msg"
             >Management comments is required</kendo-formerror
           >
         </kendo-formfield>

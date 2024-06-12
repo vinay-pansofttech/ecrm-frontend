@@ -99,6 +99,10 @@ export class EnquiryDetailsListViewComponent implements OnInit {
     this.router.navigate(['/enquiry-details-update',id]);
   }
 
+  callPhoneNumber(phoneNumber: string): void {
+    window.location.href = 'tel:' + phoneNumber;
+  }
+
   onReset(){
     this.ngOnInit();
   }

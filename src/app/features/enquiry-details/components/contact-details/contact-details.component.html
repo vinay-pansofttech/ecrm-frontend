@@ -2,16 +2,16 @@
   Contact Details
 </div>
 <div
-  class="contact-details--container"
+  class="app-kendo-form--container"
   [formGroup]="contactDetails"
   *ngIf="!showContactAPILoader">
   <kendo-formfield>
-    <div class="contact-details--content">
-      <kendo-label class="contact-details--label" [for]="soldtocontact"
+    <div class="app-kendo--content">
+      <kendo-label class="app-kendo--label" [for]="soldtocontact"
         >Sold To Contact</kendo-label
       >
       <kendo-dropdownlist
-        class="contact-details--kendo-dropdownlist"
+        class="app-kendo--dropdownlist"
         formControlName="soldToContact"
         #soldtocontact
         [data]="soldToContact"
@@ -25,17 +25,17 @@
         required>
       </kendo-dropdownlist>
     </div>
-    <kendo-formerror class="contact-details--error-msg"
+    <kendo-formerror class="app-kendo--error-msg"
       >Sold to contact is required</kendo-formerror
     >
   </kendo-formfield>
   <kendo-formfield>
-    <div class="contact-details--content">
-      <kendo-label class="contact-details--label" [for]="soldtosite"
+    <div class="app-kendo--content">
+      <kendo-label class="app-kendo--label" [for]="soldtosite"
         >Sold To Site</kendo-label
       >
       <kendo-dropdownlist
-        class="contact-details--kendo-dropdownlist"
+        class="app-kendo--dropdownlist"
         formControlName="soldToSite"
         #soldtosite
         textField="leSiteName"
@@ -45,39 +45,39 @@
         (selectionChange)="handleSoldToSiteChanged($event)"
         required></kendo-dropdownlist>
     </div>
-    <kendo-formerror class="contact-details--error-msg"
+    <kendo-formerror class="app-kendo--error-msg"
       >Sold to site is required</kendo-formerror
     >
   </kendo-formfield>
   <kendo-formfield>
-    <div>
-      <kendo-label class="contact-details--label" [for]="soldtole"
+    <div class="app-kendo--content">
+      <kendo-label class="app-kendo--label" [for]="soldtole"
         >Sold To LE</kendo-label
       >
       <kendo-textbox
-        class="contact-details--kendo-textbox"
+        class="app-kendo--textbox"
         formControlName="soldToLE"
         #soldtole
         textField="comboName"
         [valuePrimitive]="true"
         required></kendo-textbox>
     </div>
-    <kendo-formerror class="contact-details--error-msg"
+    <kendo-formerror class="app-kendo--error-msg"
       >Sold to LE is required</kendo-formerror
     >
   </kendo-formfield>
   <kendo-formfield>
-    <div class="contact-details--content">
-      <kendo-label class="contact-details--label" [for]="region"
+    <div class="app-kendo--content">
+      <kendo-label class="app-kendo--label" [for]="region"
         >Region</kendo-label
       >
       <kendo-textbox
-        class="contact-details--kendo-textbox"
+        class="app-kendo--textbox"
         formControlName="region"
         #region
         [valuePrimitive]="true"></kendo-textbox>
     </div>
-    <kendo-formerror class="contact-details--error-msg"
+    <kendo-formerror class="app-kendo--error-msg"
       >Region is required</kendo-formerror
     >
   </kendo-formfield>
