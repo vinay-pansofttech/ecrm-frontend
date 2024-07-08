@@ -266,6 +266,25 @@ export interface ConfigItems {
   isDLCApplied?: boolean;
 }
 
+export interface EnquiryList {
+  id: string | number;
+  dealNo: string;
+  enqID: number;
+  soldToLEID: number;
+  soldToLE: string;
+  salesChannel: string;
+  enqStatusId: number;
+  enqStatus: string;
+  salesExecutiveID: number;
+  salesExecutive: string;
+  soldToContact: string;
+  wsApprovalPendingWith: string;
+  soldToContPhoneNo: number;
+  approxQuotevalue: number;
+  drqStatus: string;
+  quoteCurrencyName: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
