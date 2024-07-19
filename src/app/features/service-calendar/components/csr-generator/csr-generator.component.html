@@ -1,0 +1,78 @@
+<div class="app-navigation-main--container">
+    <div (click)="onBackClickHandle()">
+      <img
+        src="assets/back.svg"
+        alt="new"/>
+    </div>
+    <div class="app-navigation--header">Generate CSR</div>
+    <div>
+      <img
+        src="assets/reset.svg"
+        kendobuttons
+        alt="reset"
+        class="app-navigation-reset--image" 
+        (click)="onRefresh()" />
+    </div>
+</div>
+
+<div *ngIf="!showAPILoader" class="CSR-pdf-screen">
+    <kendo-pdfviewer 
+     style="height: 32rem;" 
+     [arrayBuffer]="arrayBuffer"
+     [zoom]="1"
+     [tools]="tools"> 
+    </kendo-pdfviewer>
+    <div class="content-wrapper">
+      <kendo-label style="margin-top: 0.15rem;">Customer Signature: </kendo-label>
+      <div class="signature-wrapper">
+        <kendo-signature
+            #signature
+            *ngIf="!showUpload"
+            [(value)]="value"
+            [color]="color"
+            [backgroundColor]="backgroundColor"
+            [strokeWidth]="strokeWidth"
+            [smooth]="true"
+            [maximizable]="false"
+            [hideLine]="true"
+        ></kendo-signature>
+        <ng-container *ngIf="showUpload">
+            <div *ngIf="!imageURL" class="placeholder">
+              <kendo-svgicon [icon]="imageIcon" size="xlarge"></kendo-svgicon>
+              <span>Please, browse an image to preview here.</span>
+            </div>
+            <img
+              *ngIf="imageURL"
+              [src]="imageURL"
+              title="Uploaded signature"
+              draggable="false"
+            />
+        </ng-container>
+      </div>
+      <div>
+        <button
+            kendoButton
+            [svgIcon]="saveSvg"
+            themeColor="primary"
+            [disabled]="!value"
+            (click)="onSave()"
+            style="margin: 0.25rem;">
+            Save and Generate CSR
+        </button>
+        <button 
+            kendoButton
+            (click)="onClear()">
+            Clear
+        </button>
+      </div>
+    </div>
+</div>
+
+<div class="app-screen--loader" *ngIf="showAPILoader">
+    <kendo-loader
+      type="converging-spinner"
+      themeColor="info"
+      size="medium"></kendo-loader>
+    <div>Generating CSR....</div>
+</div>
+

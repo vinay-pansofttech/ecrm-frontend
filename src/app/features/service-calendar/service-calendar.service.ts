@@ -1,8 +1,27 @@
-import { Injectable } from '@angular/core';
+import { Injectable, booleanAttribute } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppSettingsConfigKey } from 'src/app/core/Constants';
 import { LoginService } from '../login/components/login/login.service';
 import { DatePipe } from '@angular/common';
+
+export interface CallsList {
+  srid: number;
+  ueu: string;
+  siteName: string;
+  contactName: string;
+  phoneNumber: string;
+  primaryAddress: string;
+  email: string;
+  gpsCoordinate: string;
+  productName: string;
+  manufacturer: string;
+  serialNumber: string;
+  callCategory: string;
+  callType: string;
+  callDescription: string;
+  isCallCompleted: boolean;
+}
+
 export interface engEffortsDetails {
   empId: number;
   sRSchId: number;
@@ -36,6 +55,10 @@ export interface engEffortsList {
 
 export class ServiceCalendarService {
   selectedDate!: Date;
+  selectedSRID! : number;
+  selectedCallCat!: string;
+  selectedCallCompletion!: boolean;
+  csrComments!: string;
 
   constructor(
     private http: HttpClient,
@@ -88,4 +111,33 @@ export class ServiceCalendarService {
     };
     return this.http.post(url, body);
   }
+
+  getCSRfile(SRID: number, CSRSummary: string, CallCategory: string, IsCallCompleted: boolean, CustomerSign: string){
+    const url = `${AppSettingsConfigKey.APIURL}/api/ServiceCalendar/GenerateCSRPath`;
+    const body = {
+      "SRID": SRID,
+      "LoginID": this.loginService.employeeId,
+      "CSRSummary": CSRSummary,
+      "CallCategory": CallCategory,
+      "IsCallCompleted": IsCallCompleted,
+      "CustomerSign": CustomerSign? CustomerSign: null
+    };
+    return this.http.post(url, body);
+  }
+
+  getCSRPdf(FilePath: string){
+    const url = `${AppSettingsConfigKey.APIURL}/api/UploadDownload/GetCSRDownloadFile`;
+    const body = {
+      "FilePath": FilePath
+    };
+    return this.http.post(url, body, {responseType: 'arraybuffer', observe: 'response'});
+  }
+
+  resetValues(){
+    this.selectedSRID = 0;
+    this.selectedCallCat = "";
+    this.selectedCallCompletion = false;
+    this.csrComments = "";
+  }
+
 }

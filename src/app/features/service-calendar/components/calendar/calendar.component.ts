@@ -1,27 +1,12 @@
 import { Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServiceCalendarService } from '../../service-calendar.service';
+import { ServiceCalendarService, CallsList } from '../../service-calendar.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { DatePipe } from '@angular/common';
 
 
-interface CallsList {
-  srid: number;
-  ueu: string;
-  siteName: string;
-  contactName: string;
-  phoneNumber: string;
-  primaryAddress: string;
-  email: string;
-  gpsCoordinate: string;
-  productName: string;
-  manufacturer: string;
-  serialNumber: string;
-  callCategory: string;
-  callType: string;
-  callDescription: string;
-}
+
 
 @Component({
   selector: 'app-calendar',
@@ -61,7 +46,6 @@ export class CalendarComponent implements OnInit{
       this.schCallCards = data;
       this.serviceCalendarService.selectedDate = this.currentDate;
       this.loaderService.hideLoader();
-      console.log('calls',this.schCallCards);
     },
     error => {
       this.loaderService.hideLoader();;
@@ -70,6 +54,7 @@ export class CalendarComponent implements OnInit{
 
   onBackClickHandle() {
     this.serviceCalendarService.selectedDate = new Date();
+    this.serviceCalendarService.resetValues();
     this.router.navigate(['/dashboard']);
   }
 
@@ -97,7 +82,10 @@ export class CalendarComponent implements OnInit{
     this.isCalendarOpen = !this.isCalendarOpen;
   }
 
-  onScheduledCallClick(SRID: number) {
+  onScheduledCallClick(SRID: number, index: number) {
+      this.serviceCalendarService.selectedSRID = SRID;
+      this.serviceCalendarService.selectedCallCompletion = this.schCallCards[index].isCallCompleted;
+      this.serviceCalendarService.selectedCallCat = this.schCallCards[index].callCategory;
     this.router.navigate(['/service-efforts-listview',SRID,this.convertDateFormat(this.currentDate)]);
   }
 
@@ -122,6 +110,7 @@ export class CalendarComponent implements OnInit{
 
   onRefresh(){
     this.enquiryList();
+    this.serviceCalendarService.resetValues();
   }
 
 }

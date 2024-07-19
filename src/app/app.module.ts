@@ -22,6 +22,8 @@ import { AuthGuard } from './auth.guard';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DatePipe } from '@angular/common';
 import { IconsModule } from '@progress/kendo-angular-icons';
+import { PDFViewerModule } from '@progress/kendo-angular-pdfviewer';
+
 
 
 @NgModule({
@@ -44,6 +46,7 @@ import { IconsModule } from '@progress/kendo-angular-icons';
     BrowserAnimationsModule,
     FontAwesomeModule,
     IconsModule,
+    PDFViewerModule,
   ],
   providers: [
     LoginService,

@@ -8,12 +8,15 @@ import { ServiceCalendarRoutingModule } from './service-calendar-routing.module'
 import { ServiceEffortsComponent } from './components/service-efforts/service-efforts.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { EffortsListViewComponent } from './components/efforts-list-view/efforts-list-view.component';
+import { PDFViewerModule } from '@progress/kendo-angular-pdfviewer';
+import { CsrGeneratorComponent } from './components/csr-generator/csr-generator.component';
 
 @NgModule({
   declarations: [
     CalendarComponent,
     ServiceEffortsComponent,
-    EffortsListViewComponent
+    EffortsListViewComponent,
+    CsrGeneratorComponent
   ],
   imports: [
     CommonModule,
@@ -21,6 +24,7 @@ import { EffortsListViewComponent } from './components/efforts-list-view/efforts
     LayoutModule,
     LoginModule,
     DateInputsModule,
+    PDFViewerModule,
     ServiceCalendarRoutingModule
   ],
   exports: [

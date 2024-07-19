@@ -60,7 +60,7 @@
     </div>
 
   <div *ngIf="schCallCards.length > 0 && !showAPILoader" class="my-calendar-main--container">
-    <div *ngFor="let a of schCallCards" class="app-enquiry-details-listview--cards">
+    <div *ngFor="let a of schCallCards; let i=index;" class="app-enquiry-details-listview--cards">
       <kendo-card class="app-enquiry-details-listview--kendo-card">
         <div class="app-enquiry-details-listview--kendo-card-header">
           <div class="app-enquiry-details-listview--kendo-card-number">
@@ -70,7 +70,7 @@
             <img
             src="assets/calendar-details--chevron.svg"
             alt="edit"
-            (click)="onScheduledCallClick(a.srid)"
+            (click)="onScheduledCallClick(a.srid,i)"
             />
           </div>
         </div>
@@ -79,7 +79,7 @@
           <kendo-splitter orientation="horizontal"></kendo-splitter>
         </div>
   
-        <div class="app-enquiry-details-listview--kendo-card-content" (click)="onScheduledCallClick(a.srid)">
+        <div class="app-enquiry-details-listview--kendo-card-content" (click)="onScheduledCallClick(a.srid,i)">
           <div class="app-enquiry-details-listview--kendo-card-sold-details">
             <div class="app-enquiry-details-listview--kendo-card-sub-title">
               UEU
