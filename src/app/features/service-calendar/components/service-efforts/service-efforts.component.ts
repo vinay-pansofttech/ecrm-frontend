@@ -21,6 +21,7 @@ export class ServiceEffortsComponent {
   effortCardDetails: any;
   cardIndex: number = 0;
   isPrevEffortsOpen: boolean = false;
+  isEffortsDisabled: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,6 +36,8 @@ export class ServiceEffortsComponent {
 
   ngOnInit(): void {
     this.serviceEffortsForm = this.formBuilder.group({
+        startTime: new FormControl(null ,Validators.nullValidator),
+        endTime: new FormControl(null ,Validators.nullValidator),
         efforthours: new FormControl(null ,Validators.required),
         travelhours: new FormControl(null, Validators.nullValidator),
         effortremarks: new FormControl('', Validators.required),
@@ -51,6 +54,15 @@ export class ServiceEffortsComponent {
       const cardIndexnumber: number = parseInt(cardIndexString, 10);
       this.cardIndex = cardIndexnumber;   
     }
+
+    this.serviceEffortsForm.get('startTime')?.valueChanges.subscribe(() => {
+      this.calculateEffortHours();
+    });
+
+    this.serviceEffortsForm.get('endTime')?.valueChanges.subscribe(() => {
+      this.calculateEffortHours();
+    });
+
     this.getEngEffortsList();
   }
 
@@ -70,8 +82,23 @@ export class ServiceEffortsComponent {
     });
   }
 
+  timeStringToDate (timeString: string): Date | null {
+    if (!timeString) return null;
+    
+    const [hours, minutes, seconds] = timeString.split(':');
+    
+    const date = new Date();
+    date.setHours(+hours);
+    date.setMinutes(+minutes);
+    date.setSeconds(+seconds.split('.')[0]);
+    
+    return date;
+  }
+
   patchFormValues(){
     this.serviceEffortsForm.patchValue({
+      startTime:this.effortCardDetails.startTime? this.timeStringToDate(this.effortCardDetails.startTime): "",
+      endTime:this.effortCardDetails.endTime? this.timeStringToDate(this.effortCardDetails.endTime): "",
       efforthours:this.effortCardDetails.effortHours,
       travelhours: this.effortCardDetails.travelHours,
       effortremarks: this.effortCardDetails.remarks
@@ -94,8 +121,8 @@ export class ServiceEffortsComponent {
         subTaskId: this.effortCardDetails.subTaskId,
         calendarId: this.effortCardDetails.calendarId,
         onDate: this.effortCardDetails.ondate,
-        startTime: "",
-        endTime: "",
+        startTime: formValue.startTime? formValue.startTime: '',
+        endTime: formValue.endTime? formValue.endTime: '',
         effortHours: parseFloat(formValue.efforthours),
         travelHours: formValue.travelHours !=0 ? parseFloat(formValue.travelhours) : 0,
         isNoEffortSpent: this.effortCardDetails.isNoEffortSpent,
@@ -114,7 +141,6 @@ export class ServiceEffortsComponent {
         this.loaderService.showLoader();
         this.serviceCalendarService.putServiceEfforts(formData)
           .subscribe(data => {
-            console.log('after submit', data);
             this.loaderService.hideLoader();
             this.notificationService.showNotification(
               'Efforts updated successfully',
@@ -133,5 +159,30 @@ export class ServiceEffortsComponent {
   onRefresh(){
     this.ngOnInit();
   }
+
+  calculateEffortHours() {
+    const startTime: Date = this.serviceEffortsForm.get('startTime')?.value;
+    const endTime: Date = this.serviceEffortsForm.get('endTime')?.value;
+
+    if (startTime && endTime) {
+      const diffMs = endTime.getTime() - startTime.getTime();
+
+      if (diffMs > 0) {
+        const diffHours = diffMs / 1000 / 60 / 60;
+        const roundedHours = Math.round(diffHours * 100) / 100;
+        this.serviceEffortsForm.get('efforthours')?.setValue(roundedHours.toFixed(2));
+        this.serviceEffortsForm.get('endTime')?.setErrors(null);
+      } else {
+        this.serviceEffortsForm.get('efforthours')?.setValue('');
+        this.serviceEffortsForm.get('endTime')?.setErrors({ invalidTime: true });
+      }
+    } else {
+      this.serviceEffortsForm.get('efforthours')?.setValue('');
+      if (!endTime) {
+        this.serviceEffortsForm.get('endTime')?.setErrors(null);
+      }
+    }
+  }
+  
 
 }

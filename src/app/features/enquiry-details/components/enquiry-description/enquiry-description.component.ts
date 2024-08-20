@@ -2,8 +2,7 @@ import { Component,Input } from '@angular/core';
 import { FormGroup } from "@angular/forms";
 import { FileInfo } from "@progress/kendo-angular-upload";
 import { FormStateService } from '../../form-state.service';
-import { EnquiryDetailsService } from '../../enquiry-details.service';
-
+import { CommonService } from 'src/app/features/Common/commonservice.service';
 @Component({
   selector: 'app-enquiry-description',
   templateUrl: './enquiry-description.component.html',
@@ -12,11 +11,10 @@ import { EnquiryDetailsService } from '../../enquiry-details.service';
 export class EnquiryDescriptionComponent {
   myFiles: Array<FileInfo> = [];
   @Input() public enquiryDescription!: FormGroup;
-  docSrcTypeAttachment: number = 22;
 
   constructor(
     private formStateService: FormStateService,
-    private enquiryDetailsService: EnquiryDetailsService,
+    private commonService: CommonService,
   ) {}
   
   ngOnInit(){
@@ -26,7 +24,7 @@ export class EnquiryDescriptionComponent {
   }
 
   downloadAttachment(index: number) {
-    this.enquiryDetailsService.getAttachment(this.formStateService.enqId, this.docSrcTypeAttachment,"", index).subscribe((response) => {
+    this.commonService.getAttachment(this.formStateService.enqId, this.commonService.docSrcTypeAttachment,"", index).subscribe((response) => {
       const contentType = response.headers.get('content-type')!;
       const filename = this.myFiles[index].name;
       const blob = new Blob([response.body!], { type: contentType });

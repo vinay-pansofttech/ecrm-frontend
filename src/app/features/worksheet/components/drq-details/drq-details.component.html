@@ -1,0 +1,297 @@
+<div *ngIf="!showWorksheetAPILoader">
+  <div class="app-screen--header">
+    DRQ Request
+  </div>
+  
+<div *ngIf="!isPartsGridOpen">  
+  <div class="app-screen--header">
+    Supplier List
+  </div>
+  
+  <div *ngFor="let a of WorksheetDRQSupplierDetailsCard; let i=index;" class="app-enquiry-details-listview--cards">
+    <kendo-card class="app-enquiry-details-listview--kendo-card">
+      <div class="app-enquiry-details-listview--kendo-card-header">
+        <div class="app-enquiry-details-listview--kendo-card-number">
+          {{ a.supplierName }}
+        </div>
+        <div>
+          <img
+            src="assets/enquiry-details-listview-img/edit.svg"
+            alt="new"
+            (click)="navigateById(a.supplierId)" />
+        </div>
+      </div>
+
+      <div class="app-enquiry-details-listview--kendo-splitter">
+        <kendo-splitter orientation="horizontal"></kendo-splitter>
+      </div>
+
+      <div class="app-enquiry-details-listview--kendo-card-content">
+        <div class="app-enquiry-details-listview--kendo-card-sold-details">
+          <div class="app-enquiry-details-listview--kendo-card-sub-title">
+            New Parts
+          </div>
+          <div class="app-enquiry-details-listview--kendo-card-sold">
+            {{ a.newParts }}
+          </div>
+        </div>
+        <div class="app-enquiry-details-listview--kendo-card-sold-details">
+          <div class="app-enquiry-details-listview--kendo-card-sub-title">
+            Deleted Parts
+          </div>
+          <div class="app-enquiry-details-listview--kendo-card-sold">
+            {{ a.deletedParts }}
+          </div>
+        </div>
+        <div class="app-enquiry-details-listview--kendo-card-sold-details">
+          <div class="app-enquiry-details-listview--kendo-card-sub-title">
+            Tot. Disc. Amt. QC
+          </div>
+          <div class="app-enquiry-details-listview--kendo-card-sold">
+            {{ a.totalDiscount_QC | number:'1.00':'en-US' }}
+          </div>
+        </div>
+        <div class="app-enquiry-details-listview--kendo-card-sold-details">
+          <div class="app-enquiry-details-listview--kendo-card-sub-title">
+            Tot. Addl. Disc. Amt. QC
+          </div>
+          <div class="app-enquiry-details-listview--kendo-card-sold">
+            {{ a.addDiscount_QC | number:'1.00':'en-US' }}
+          </div>
+        </div>
+
+        <div *ngIf="!a.isSMCommentsOpen" class="app-enquiry-details-listview--kendo-card-sold-details">
+          <div class="app-enquiry-details-listview--kendo-card-sub-title">
+            SM Comments
+          </div>
+          <div class="app-enquiry-details-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold-left">
+                {{ a.smComments | slice:0:30 }} ..... 
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold-right">
+              <img (click)="onSMCommentsClick(i)" src="assets/down.svg"/>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="a.isSMCommentsOpen" class="app-enquiry-details-listview--kendo-card-sold-details">
+          <div class="app-enquiry-details-listview--kendo-card-sub-title">
+            SM Comments
+          </div>
+
+          <div class="app-enquiry-details-listview--kendo-card-sold">
+            <div class="app-enquiry-details-listview--kendo-card-sold-left">
+                {{ a.smComments }}
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold-right">
+              <img (click)="onSMCommentsClick(i)" src="assets/up.svg"/>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </kendo-card>
+  </div>
+</div>
+
+<div *ngIf="isPartsGridOpen">
+  <div style="display: flex; justify-content: space-between; width: 100%;">
+    <div class="app-screen--header">
+      {{WorksheetDRQItemsDetailsCard[0].supplierName}}
+    </div>
+    <div class="app-screen--header-right" (click)="onBackClickHandle()">
+      <<
+    </div>
+  </div> 
+
+  <kendo-grid
+    [data]="WorksheetDRQGridItemsDetailsCard"
+    [pageSize]="6"
+    [resizable]="true"
+    [sortable]="true"
+    [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+    >
+
+    <kendo-grid-column
+      field="drqItemStatus"
+      title=""
+      [filterable]="false"
+      [sortable]="false"
+      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+      [width]="10"
+      [locked]="true"
+      [style]="{'padding': '0', 'margin': '0'}"
+    >
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <span class="status-cell" [ngClass]="{
+          'dvGreen': dataItem.drqItemStatus == 1,
+          'dvBlue': dataItem.drqItemStatus == 2,
+          'dvRed': dataItem.drqItemStatus == 3,
+        }">
+          &nbsp;
+      </span>
+      </ng-template> 
+
+    </kendo-grid-column>
+    
+    <kendo-grid-column
+    field="isDRQ"
+    title="Raise DRQ"
+    [width]="120"
+    [locked]="true"
+    editor="boolean"
+    [headerStyle]="{ 'background-color': '#1C6C73' , 'color': '#FFFFFF', 'text-align': 'center'}"
+    >
+    <ng-template kendoGridCellTemplate let-dataItem>
+      <input type="checkbox" [(ngModel)]="dataItem.isDRQ" class="chkbx k-checkbox" [disabled]="false" />
+    </ng-template>
+    <ng-template kendoGridHeaderTemplate>
+      Raise DRQ<input type="checkbox" [(ngModel)]="allChecked" (change)="toggleAll($event)" class="chkAll k-checkbox enabled" />
+    </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      field="productName"
+      title="Product"
+      [filterable]="false"
+      [sortable]="false"
+      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF', 'text-align': 'center'}"
+      [width]="120"
+    >
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div>{{ isNullOrZero(dataItem.productName) }}</div>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      field="partNo"
+      title="Part No."
+      [filterable]="false"
+      [sortable]="false"
+      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF', 'text-align': 'center'}"
+      [width]="120"
+    >
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div>{{ isNullOrZero(dataItem.partNo) }}</div>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      field="option"
+      title="Option"
+      [filterable]="false"
+      [sortable]="false"
+      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF', 'text-align': 'center'}"
+      [width]="100"
+    >
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div>{{ isNullOrZero(dataItem.option) }}</div>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      field="description"
+      title="Description"
+      [filterable]="false"
+      [sortable]="false"
+      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF', 'text-align': 'center'}"
+      [width]="160"
+    >
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div>{{ isNullOrZero(dataItem.description) }}</div>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      field="productLine"
+      title="PL"
+      [filterable]="true"
+      [sortable]="true"
+      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF', 'text-align': 'center'}"
+      [width]="80"
+    >
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div>{{ isNullOrZero(dataItem.productLine) }}</div>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      field="reqDRQPC"
+      title="Req. Addl. Disc. %"
+      [filterable]="false"
+      [sortable]="false"
+      [width]="100"
+      [type]="'number'"
+      editor="numeric"
+      [headerStyle]="{ 'background-color': '#1C6C73' , 'color': '#FFFFFF', 'text-align': 'center'}"
+    >
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <kendo-numerictextbox
+          [(ngModel)]="dataItem.reqDRQPC"
+          [spinners]="false"
+          [format]="'n2'"
+          [decimals]="2"
+          [min]="0"
+          [max]="100"
+          class="columnRightToLeft"
+        ></kendo-numerictextbox>
+      </ng-template>
+      <ng-template kendoGridHeaderTemplate>
+        <div style="text-align: center">Requested <br> Addl. Disc. %</div>
+      </ng-template>
+    </kendo-grid-column>
+  </kendo-grid>
+
+  <div class="app-screen--footer">
+    <form [formGroup]="drqApprovalForm">
+      <div class="app-comments--container">
+        <kendo-formfield>
+          <div class="app-comments--content">
+            <kendo-label class="app-comments--label"
+            [for]="drqSMComments"
+            >SM Comments:</kendo-label
+            >
+            <kendo-textarea
+              class="app-comments--textarea"
+              placeholder="Type your message here.."
+              formControlName="drqSMComments"
+              #drqSMComments
+              [rows]="5"
+              resizable="vertical">
+            </kendo-textarea>
+          </div>
+          <kendo-formerror class="app-comments--error-msg"
+            >SM Comments is required</kendo-formerror>
+        </kendo-formfield>
+      </div>
+    </form>
+
+    <button
+      *ngIf=true
+      kendobutton
+      class="app-save--button"
+      (click)="saveDRQRequest()">
+      Save
+    </button>
+    <button
+      kendobutton
+      class="app-cancel--button"
+      (click)="onBackClickHandle()">
+      Cancel
+    </button>
+  </div>
+
+</div>  
+
+</div>
+  
+<div class="app-screen--loader" *ngIf="showWorksheetAPILoader">
+  <kendo-loader
+    type="converging-spinner"
+    themeColor="info"
+    size="medium">
+  </kendo-loader>
+  <div>Loading DRQ details...</div>
+</div>
+  
+  

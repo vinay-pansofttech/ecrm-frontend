@@ -6,6 +6,8 @@ import { AppSettingsConfigKey } from 'src/app/core/Constants';
 })
 export class LoginService {
   private loginUrl = `${AppSettingsConfigKey.APIURL}/api/Login/CheckLoginDetails`;
+  private logoutUrl = `${AppSettingsConfigKey.APIURL}/api/Login/UserLogout`;
+
   public employeeId: string | number = '';
   private employeeName = '';
   public privileges: string[] = [];
@@ -19,5 +21,11 @@ export class LoginService {
   }
   setEmployeeName(name: string): void {
     this.employeeName = name;
+  }
+  logoutUser(){
+    const body = {
+      UserID: this.employeeId as number,
+    }
+    return this.http.post(this.logoutUrl, body);
   }
 }

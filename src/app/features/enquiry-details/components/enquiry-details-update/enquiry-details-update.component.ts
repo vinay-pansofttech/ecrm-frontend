@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { StepperComponent } from '@progress/kendo-angular-layout';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { EnquiryDetailsService } from '../../enquiry-details.service';
+import { CommonService } from 'src/app/features/Common/commonservice.service';
 import { FormStateService } from '../../form-state.service';
 import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -26,7 +27,6 @@ export class EnquiryDetailsUpdateComponent {
   enqId!: string;
   modeOfCommunicationValue = false;
   modeOfCommunicationControl!: FormControl;
-  docSrcTypeAttachment: number = 22;
 
   private isStepValid = (index: number): boolean => {
     return this.getGroupAt(index).valid || this.currentGroup.untouched;
@@ -73,7 +73,8 @@ export class EnquiryDetailsUpdateComponent {
     private router: Router,
     private route: ActivatedRoute,
     private notificationService: NotificationService,
-    private formStateService: FormStateService
+    private formStateService: FormStateService,
+    private commonService : CommonService
   ) {}
 
   ngOnInit(): void {
@@ -252,13 +253,12 @@ export class EnquiryDetailsUpdateComponent {
   }
   
   getAttachmentDetails(enqID: string){
-    this.enquiryDetailsService.getAttachmentDetails(enqID, this.docSrcTypeAttachment, "").subscribe((data: any) => {
+    this.commonService.getAttachmentDetails(enqID, this.commonService.docSrcTypeAttachment, "").subscribe((data: any) => {
       if(data!=null){
         this.formStateService.attachments = data;
       }
       else{
         this.formStateService.attachments = null;
-        console.log('this.formStateService.attachments',data);
       }
     });
   }

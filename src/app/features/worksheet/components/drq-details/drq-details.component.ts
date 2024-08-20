@@ -1,0 +1,238 @@
+import { Component,Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { WorksheetService, WorksheetDRQItemsList, WorkSheetSO,
+  LstDRQRequestBO, DRQRequestBO } from '../../worksheet.service';
+import { LoginService } from 'src/app/features/login/components/login/login.service';
+import { LoaderService } from 'src/app/core/services/loader.service';
+import { NotificationService } from 'src/app/core/services/notification.service';
+
+@Component({
+  selector: 'app-drq-details',
+  templateUrl: './drq-details.component.html',
+  styleUrls: ['./drq-details.component.scss']
+})
+export class DrqDetailsComponent {
+  public showWorksheetAPILoader = false;
+  @Input() WorksheetDRQSupplierDetailsCard!: any[];
+  @Input() WorksheetDRQItemsDetailsCard!: WorksheetDRQItemsList[];
+  @Input() worksheetDetailsCard: WorkSheetSO[] = [];
+
+  public WorksheetDRQGridItemsDetailsCard!: WorksheetDRQItemsList[];
+  public isSMCommentsOpen: boolean = false;
+  public isPartsGridOpen: boolean = false;
+  public drqItemsColumns: any [] = [];
+  drqApprovalForm!: FormGroup;
+  public allChecked: boolean = false;
+  selectedSupplierId: number = 0;
+  drqRequestItemsBO: LstDRQRequestBO[] = []
+
+  constructor(
+    private router: Router,
+    private worksheetService: WorksheetService,
+    private loginService: LoginService,
+    private notificationService: NotificationService,
+    private loaderService: LoaderService
+  ){}
+
+  ngOnInit() {
+    this.loaderService.loaderState.subscribe(res => {
+      this.showWorksheetAPILoader = res;
+    });
+    this.loaderService.hideLoader();
+    this.WorksheetDRQSupplierDetailsCard = this.processSupplierData(this.WorksheetDRQItemsDetailsCard);
+    this.WorksheetDRQSupplierDetailsCard.map((item: any) => ({
+      ...item,
+      isSMCommentsOpen: false
+    }));
+    this.drqApprovalForm = new FormGroup({
+      drqSMComments: new FormControl('', Validators.required)
+    });
+    // this.drqItemsColumns =
+    // [
+    //   {   field: "drqItemStatus", title:" ", editor: false, filterable: false, sortable: true, 
+    //       width: 6, 
+    //   },
+    //   {
+    //       field: "productName", title: "Product", filterable: false, sortable: false, 
+    //       editor: false, width: 120, 
+    //       template: "<ng-template kendoGridCellTemplate let-dataItem> <div> isNullOrZero(dataItem[column.field])</div></ng-template>",
+    //   },
+    //   {
+    //       field: "partNo", title: "Part No.", filterable: false, sortable: false, 
+    //       editor: false, width: 120, 
+    //       template: "<ng-template kendoGridCellTemplate let-dataItem> <div> isNullOrZero(dataItem[column.field])</div></ng-template>",
+    //   },
+    //   {
+    //       field: "option", title: "Option", filterable: false, sortable: false, 
+    //       editor: false, width: 100, 
+    //       template: "<ng-template kendoGridCellTemplate let-dataItem> <div> isNullOrZero(dataItem[column.field])</div></ng-template>",
+    //   },
+    //   {
+    //       field: "description", title: "Description", filterable: false, sortable: false, 
+    //       editor: false, width: 160, 
+    //       template: "<ng-template kendoGridCellTemplate let-dataItem> <div> isNullOrZero(dataItem[column.field])</div></ng-template>",
+    //   },
+    //   {
+    //       field: "productLine", title: "PL", filterable: true, sortable: true, 
+    //       editor: false,  width: 80, 
+    //       template: "<ng-template kendoGridCellTemplate let-dataItem> <div> isNullOrZero(dataItem[column.field])</div></ng-template>",
+    //   },
+    //   {
+    //       field: "isDRQ", title: "Raise DRQ", type: "boolean", width: 100, filterable: false, sortable: false, 
+    //       editable: false,
+    //       template: '<input type="checkbox" #= IsDRQ ? "checked=checked" : "" # class="chkbx k-checkbox"  #= (EnquiryLeadBase.saveMode != LeadManagementBase.EDIT) ? "disabled" : "" #></input>',
+    //       headerTemplate: 'Raise DRQ<input type="checkbox" class="chkAll k-checkbox enabled"></input>',
+    //       headerAttributes: { "class": "PLgrideditColumnMandatory" },
+    //   },
+    //   {
+    //       field: "reqDRQPC", title: "Req. Addl. Disc. %", filterable: false, sortable: false, 
+    //       width: 100, type: "number",
+    //       attributes: { "class": "gridEditColumn", style: "text-align: right;" },
+    //       headerTemplate: '<div style="text-align:right">Requested <br> Addl. Disc. %</div>',
+    //       headerAttributes: { "class": "PLgrideditColumnMandatory" },
+    //   },
+    // ];
+  }
+
+  toggleAll(event: any): void {
+    const isChecked = event.target.checked;
+    this.WorksheetDRQGridItemsDetailsCard.forEach(item => item.isDRQ = isChecked);
+  }
+
+  navigateById(supplierId: number) {
+    this.WorksheetDRQGridItemsDetailsCard = this.WorksheetDRQItemsDetailsCard.filter((item: any) => {
+      return item.supplierId === supplierId;
+    });
+    this.drqApprovalForm.markAsUntouched();
+    this.drqApprovalForm.patchValue({
+      drqSMComments: this.WorksheetDRQGridItemsDetailsCard[0].smComments
+    });
+    this.selectedSupplierId = supplierId;
+    this.isPartsGridOpen = true;
+  }
+
+  processSupplierData(drqItemsDetailsCard: WorksheetDRQItemsList[]): any[] {
+    let supplierData: any[] = [];
+    let supplierIdsProcessed = new Set();
+  
+    drqItemsDetailsCard.forEach(val => {
+      if (!supplierIdsProcessed.has(val.supplierId)) {
+        supplierIdsProcessed.add(val.supplierId);
+          let supplierEntry = {
+          ...val,
+          unitDiscount_QC: 0,
+          totalDiscount_QC: 0,
+          unitAddDiscount_QC: 0,
+          addDiscount_QC: 0,
+          newParts: 0,
+          deletedParts: 0
+        };
+  
+        let newParts = drqItemsDetailsCard.filter(item => item.supplierId === val.supplierId && item.drqItemStatus === 2);
+        let delParts = drqItemsDetailsCard.filter(item => item.supplierId === val.supplierId && item.drqItemStatus === 3);
+  
+        let smcommts = drqItemsDetailsCard.filter(item => item.supplierId === val.supplierId && item.smComments);
+        if (smcommts.length > 0) {
+          supplierEntry.smComments = smcommts[0].smComments;
+        }
+  
+        drqItemsDetailsCard.forEach(item => {
+          if (val.supplierId === item.supplierId) {
+            supplierEntry.unitDiscount_QC += item.unitDiscount_QC?item.unitDiscount_QC: 0 ;
+            supplierEntry.totalDiscount_QC += item.totalDiscount_QC?item.totalDiscount_QC: 0;
+            if (item.drqStatusId === 2 && item.isOptional === false && item.alternateOfferNo === 0) {
+              supplierEntry.unitAddDiscount_QC += item.unitAddDiscount_QC?item.unitAddDiscount_QC: 0;
+              supplierEntry.addDiscount_QC += item.addDiscount_QC?item.addDiscount_QC: 0;
+            }
+          }
+        });
+  
+        supplierEntry.newParts = newParts.length;
+        supplierEntry.deletedParts = delParts.length;
+  
+        supplierData.push(supplierEntry);
+      }
+    });
+      return supplierData;
+  }
+
+  onSMCommentsClick(index: number){
+    this.WorksheetDRQSupplierDetailsCard[index].isSMCommentsOpen = !this.WorksheetDRQSupplierDetailsCard[index].isSMCommentsOpen;
+  }
+
+  logTemplate(column: any, dataItem: any): void {
+    console.log('Column:', column);
+    console.log('Data Item:', dataItem);
+    if (typeof column.template === 'function') {
+      console.log('Template Output:', column.template(dataItem));
+    } else {
+      console.log('Template is not a function',typeof column.template);
+    }
+  }
+
+  isNullOrZero(item: any): any {
+    return (item == null || item == 0 || item == undefined) ? '' : item;
+  }
+
+  onBackClickHandle() {
+    this.isPartsGridOpen = false;
+  }
+
+  assignDRQRequestParams(){
+    const formValue = this.drqApprovalForm.value;
+    this.drqRequestItemsBO = this.WorksheetDRQGridItemsDetailsCard
+    .filter((item: WorksheetDRQItemsList) => item.isDRQ === true)
+    .map((item: WorksheetDRQItemsList) => {
+      return {
+        drqDtlId: item.drqDtlId,
+        configItemId: item.configItemId,
+        partsMasterId: item.partsMasterId,
+        supplierId: item.supplierId,
+        drqId: item.drqId,
+        sellinDiscountPC: item.sellinDiscountPC,
+        drqDiscountPC: item.drqDiscountPC,
+        reqDRQPC: item.reqDRQPC,
+        productLine: item.productLine,
+        smComments: formValue.drqSMComments,
+        guId:""
+      } as LstDRQRequestBO;
+    });
+    console.log('DRQItems',this.drqRequestItemsBO);
+  }
+
+  saveDRQRequest(){
+    if(this.drqApprovalForm.valid){
+      this.loaderService.showLoader();
+      const formValue = this.drqApprovalForm.value;
+      this.assignDRQRequestParams();
+      this.worksheetService.postDRQRequest(this.worksheetDetailsCard[0].enqId,this.selectedSupplierId, formValue.drqSMComments, this.drqRequestItemsBO)
+      .subscribe((data: any) => {
+        this.loaderService.hideLoader();
+        if (data) {
+          const notificationMessage = data.outPut;
+          const notificationType = data.outPut.indexOf('success') !== -1 ? 'success' : 'error';
+          this.notificationService.showNotification(
+            notificationMessage,
+            notificationType,
+            'center',
+            'bottom'
+          );
+        }
+        this.router.navigate(['/worksheet-approval',this.worksheetDetailsCard[0].enqId]);      
+      },
+      error => {
+        this.loaderService.hideLoader();
+        this.notificationService.showNotification(
+          'DRQ request not successful' + error,
+          'error', 'center', 'bottom'
+        );
+      });
+      this.worksheetService.resetValues();
+    }
+    else{
+      this.drqApprovalForm.markAllAsTouched();
+    }
+  }
+
+}

@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FileInfo } from "@progress/kendo-angular-upload";
 import { WorksheetService, WorkSheetSO, WorksheetPrerequisites } from '../../worksheet.service';
-import { EnquiryDetailsService } from 'src/app/features/enquiry-details/enquiry-details.service';
+import { CommonService } from 'src/app/features/Common/commonservice.service';
 
 
 @Component({
@@ -19,13 +19,12 @@ export class PriceDetailsComponent implements OnInit,OnChanges{
   sysDiscBackgroundColor: string = '';
   sysDiscleftBorderColor: string = '';
   sysDisc!: number;
-  docSrcTypeWSAttachment: number = 658;
   showSysDiscAttachment: boolean = false;
 
   constructor(
     private worksheetService: WorksheetService,
     private formBuilder: FormBuilder,
-    private enquiryDetailsService: EnquiryDetailsService
+    private commonService: CommonService
   ){}
 
   ngOnInit(){
@@ -80,11 +79,10 @@ export class PriceDetailsComponent implements OnInit,OnChanges{
 
   onClickShowSysDiscAttachment(){
     this.showSysDiscAttachment = !this.showSysDiscAttachment;
-    console.log('files',this.myFiles);
   }
 
   downloadAttachment(index: number) {
-    this.enquiryDetailsService.getAttachment(this.worksheetDetailsCard[0].workSheetId.toString(), this.docSrcTypeWSAttachment, "", index).subscribe((response) => {
+    this.commonService.getAttachment(this.worksheetDetailsCard[0].workSheetId.toString(), this.commonService.docSrcTypeWSAttachment, "", index).subscribe((response) => {
       const contentType = response.headers.get('content-type')!;
       const filename = this.myFiles[index].name;
       const blob = new Blob([response.body!], { type: contentType });

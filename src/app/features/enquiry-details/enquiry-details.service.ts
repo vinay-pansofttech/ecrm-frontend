@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AppSettingsConfigKey } from 'src/app/core/Constants';
 import { LoginService } from '../login/components/login/login.service';
 import { DatePipe } from '@angular/common';
+import { CommonService } from '../Common/commonservice.service';
 
 interface EnquiryTypeBody {
   soldToLEID: string | number;
@@ -42,13 +43,14 @@ export class EnquiryDetailsService {
   public salesExecID: string | number = '';
   public poExpectedDate: string | number = '';
   public soldToLESiteID: string | number = '';
-  public docSrcTypeAttachment: any = 22;
 
   constructor(
     private http: HttpClient,
     private loginService: LoginService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private commonService: CommonService
   ) {}
+
   getSoldToContactsList() {
     const url = `${this.loginUrl}`;
     return this.http.get(url);
@@ -68,6 +70,7 @@ export class EnquiryDetailsService {
     };
     return this.http.post(url, body);
   }
+  
   getAddEnquiry(formData: any) {
     const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/AddEnquiry`;
     // const body: EnquiryTypeBody = {
@@ -113,7 +116,7 @@ export class EnquiryDetailsService {
     body.append('quoteCurrencyID', formData.enquiryDetailsForms.quoteEntityCurrency);
     body.append('enquiryDescription', formData.enquiryDescription.enterDescription);
     body.append('loginID', this.loginService.employeeId as string);
-    body.append('docSrcType', this.docSrcTypeAttachment);
+    body.append('docSrcType', this.commonService.docSrcTypeAttachment as unknown as string);
     body.append('attachment', formData.enquiryDescription.attachment);
     if (formData.enquiryDetailsForms.generatedBy) {
       body.append('generatedByID', formData.enquiryDetailsForms.generatedBy);
@@ -171,7 +174,7 @@ export class EnquiryDetailsService {
     body.append('dealValue', formData.enquiryUpdateForm.dealValue);
     body.append('poExpectedDate', formattedDate as string);
     body.append('modeOfCommunicationID', formData.enquiryUpdateForm.modeOfCommunication);
-    body.append('docSrcType', this.docSrcTypeAttachment);
+    body.append('docSrcType', this.commonService.docSrcTypeAttachment as unknown as string);
     body.append('interaction_attachment', formData.enquiryUpdateForm.interaction_attachment);
 
     if (formData.enquiryDetailsForms.generatedBy) {

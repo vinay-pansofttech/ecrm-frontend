@@ -1,0 +1,77 @@
+.app-enquiry-details-listview--kendo-card-sold {
+    display: flex;
+    color: #383838;
+    font-family: Arial;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: var(--font-weight-bolder);
+    line-height: normal;
+    flex-basis: 70%;
+    justify-content: space-between;
+}
+.app-enquiry-details-listview--kendo-card-sold-left {
+    color: #383838;
+    font-family: Arial;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: var(--font-weight-bolder);
+    line-height: normal;
+    align-items: flex-start;
+}
+.app-enquiry-details-listview--kendo-card-sold-right {
+    color: #383838;
+    font-family: Arial;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: var(--font-weight-bolder);
+    line-height: normal;
+    align-items: flex-end;
+}  
+
+.dvBlue {
+    border-radius: 2px;
+    background-color: blue;
+    border: 1px solid #ccc;
+}
+.dvGreen {
+    border-radius: 2px;
+    background-color: Green;
+    border: 1px solid #ccc;
+}
+.dvRed {
+    border-radius: 2px;
+    background-color: red;
+    border: 1px solid #ccc;
+    width: 1px !important;
+}
+
+.status-cell {
+    display: block;
+    padding: 100% 100%;
+}
+
+.app-screen--header-right {
+    color: #FFFFFF;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: var(--font-weight-bolder);
+    line-height: 1.75rem;
+    justify-content: flex-end;
+    margin: 0rem 0rem 0rem 0rem;
+    margin-bottom: 1rem;
+    padding:0.5rem;
+    padding-right: 1rem;
+    background-color: rgb(16, 47, 63);
+}
+
+.k-checkbox,
+.chkbx {
+    width: 20px;
+    height: 20px;
+    margin: 0 auto;
+    display: block;
+}
+
+.chkAll {
+    margin-left: 10px;
+}

@@ -1,0 +1,231 @@
+<div *ngIf="!showWorksheetAPILoader">
+
+  <div class="enquiry-details-history--header">
+    <div class="enquiry-update--header">
+      Margin
+    </div>
+    <button class="enquiry-details-interations--button"
+      (click)="marginExcelDownload()"> 
+      <kendo-loader *ngIf="isDownloadloaderVisible" size="small"> </kendo-loader>
+      <img src="assets/worksheet-download-icon.svg" alt="->" width="15" height="15"/> 
+      Download 
+    </button>
+  </div>
+
+  <kendo-grid 
+    [kendoGridBinding]="marginGridDetails" 
+    [pageSize]="6" 
+    [pageable]="true"
+    [resizable]="true"
+    [sortable]="true"
+  >
+    <kendo-grid-column
+      field="productName"
+      title="Inst. + DealProdSeq"
+      [filterable]="false"
+      [sortable]="false"
+      [locked]="false"
+      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+      [width]="110"
+    >
+      <ng-template kendoGridCellTemplate let-dataItem>
+          {{isNullOrZero(dataItem.productName)}}
+      </ng-template> 
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      field="supplierName"
+      title="Supplier"
+      [filterable]="false"
+      [sortable]="false"
+      [locked]="false"
+      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+      [width]="110"
+    >
+      <ng-template kendoGridCellTemplate let-dataItem>
+          {{isNullOrZero(dataItem.supplierName)}}
+      </ng-template> 
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      field="partNo"
+      title="Part No."
+      [filterable]="false"
+      [sortable]="false"
+      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+      [width]="110"
+    >
+      <ng-template kendoGridCellTemplate let-dataItem>
+          {{isNullOrZero(dataItem.partNo)}}
+      </ng-template> 
+    </kendo-grid-column>
+
+    <kendo-grid-column
+    field="partNoOption"
+    title="Option."
+    [filterable]="false"
+    [sortable]="false"
+    [locked]="false"
+    [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+    [width]="80"
+  >
+    <ng-template kendoGridCellTemplate let-dataItem>
+        {{isNullOrZero(dataItem.partNoOption)}}
+    </ng-template> 
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      field="description"
+      title="Description."
+      [filterable]="false"
+      [sortable]="false"
+      [locked]="false"
+      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+      [width]="150"
+    >
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{isNullOrZero(dataItem.description)}}
+        </ng-template> 
+    </kendo-grid-column>
+
+    <kendo-grid-column
+    field="_QuoteMarginPC"
+    title="Margin"
+    [filterable]="false"
+    [sortable]="false"
+    [locked]="false"
+    [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+    [width]="100"
+    >
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div style="text-align:right">
+          {{dataItem._QuoteMarginPC | number: '1.2-2'}}     
+        </div>
+      </ng-template> 
+      <ng-template kendoGridHeaderTemplate>
+        <div style="text-align:right">Margin</div>
+      </ng-template> 
+      <ng-template kendoGridFooterTemplate>
+        <div style='text-align:right'>
+          {{calculateSumOfMargin("_TotalCostQC", "_NetQuote", marginGridDetails) | number: '1.2-2'}}
+        </div>
+      </ng-template> 
+    </kendo-grid-column>
+
+    <kendo-grid-column
+    field="_GoodsCost"
+    title="Cost of Goods in QC"
+    [filterable]="false"
+    [sortable]="false"
+    [locked]="false"
+    [headerStyle]="{ 'background-color': '#4880A1' , 'color': '#FFFFFF'}"
+    [width]="170"
+    >
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div style="text-align:right">
+          {{dataItem._GoodsCost | number: '1.2-2'}}     
+        </div>
+      </ng-template>
+      <ng-template kendoGridHeaderTemplate>
+        <div style="text-align:right">Cost of Goods + {{WorksheetPrerequisites[0].quoteCurrencyName}}</div>
+      </ng-template> 
+      <ng-template kendoGridFooterTemplate>
+        <div style='text-align:right'>
+          {{calculateSumValue("_GoodsCost", marginGridDetails) | number: '1.2-2'}}
+        </div>
+      </ng-template> 
+    </kendo-grid-column>
+
+    <kendo-grid-column
+    field="_NetQuote"
+    title="NetQuote"
+    [filterable]="false"
+    [sortable]="false"
+    [locked]="false"
+    [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+    [width]="150"
+    >
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div style="text-align:right">
+          {{dataItem._NetQuote | number: '1.2-2'}}     
+        </div>
+      </ng-template>
+      <ng-template kendoGridHeaderTemplate>
+        <div style="text-align:right">
+          Net Quote + {{WorksheetPrerequisites[0].quoteCurrencyName}}
+        </div>
+      </ng-template> 
+      <ng-template kendoGridFooterTemplate>
+        <div style='text-align:right'>
+          {{calculateSumValue("_NetQuote", marginGridDetails) | number: '1.2-2'}}
+        </div>
+      </ng-template> 
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      field="productLine"
+      title="PL"
+      [filterable]="false"
+      [sortable]="false"
+      [locked]="false"
+      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+      [width]="95"
+    >
+      <ng-template kendoGridCellTemplate let-dataItem>
+          {{isNullOrZero(dataItem.productLine)}}
+      </ng-template> 
+    </kendo-grid-column>
+
+    <!-- <kendo-grid-column
+      field="isOptional"
+      title="Is Opt."
+      [filterable]="false"
+      [sortable]="false"
+      [locked]="false"
+      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+      [width]="95"
+    >
+      <ng-template kendoGridCellTemplate let-dataItem>
+        {{(dataItem.isOptional == 0)?'No':'Yes'}}
+      </ng-template> 
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      field="isAlternateProduct"
+      title="Is Alt."
+      [filterable]="false"
+      [sortable]="false"
+      [locked]="false"
+      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+      [width]="95"
+    >
+      <ng-template kendoGridCellTemplate let-dataItem>
+        {{(dataItem.isAlternateProduct == 0)?'No':'Yes'}}
+      </ng-template> 
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      field="isUnManagedSupplier"
+      title="Is LocalSupplier"
+      [filterable]="false"
+      [sortable]="false"
+      [locked]="false"
+      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+      [width]="135"
+    >
+      <ng-template kendoGridCellTemplate let-dataItem>
+          {{(dataItem.isUnManagedSupplier == 0)?'No':'Yes'}}
+      </ng-template> 
+    </kendo-grid-column> -->
+
+  </kendo-grid>
+</div>
+
+<div class="app-screen--loader" *ngIf="showWorksheetAPILoader">
+  <kendo-loader
+    type="converging-spinner"
+    themeColor="info"
+    size="medium"></kendo-loader>
+  <div>Loading margin details...</div>
+</div>
+

@@ -32,11 +32,49 @@
         <div class="service-efforts--hours-content effort-hours">
           <kendo-formfield>
             <div class="app-kendo--content">
+              <kendo-label class="app-kendo--label" [for]="startTime"
+                >Start Time</kendo-label>
+              <kendo-timepicker class="app-kendo--textbox"
+                formControlName="startTime"
+                placeholder=" "
+                [format]="'HH:mm'"
+                [steps]="{ minute: 30 }"
+                #startTime>
+              </kendo-timepicker>
+            </div>
+          </kendo-formfield>
+        </div>
+
+        <div class="service-efforts--hours-content effort-hours">
+          <kendo-formfield>
+            <div class="app-kendo--content">
+              <kendo-label class="app-kendo--label" [for]="endTime"
+                >End Time</kendo-label>
+              <kendo-timepicker class="app-kendo--textbox"
+                formControlName="endTime"
+                placeholder=" "
+                [format]="'HH:mm'"
+                [steps]="{ minute: 30 }"
+                #endTime>
+              </kendo-timepicker>
+            </div>
+            <kendo-formerror class="app-kendo--error-msg"
+              >End time should be less than start time</kendo-formerror
+            >
+          </kendo-formfield>
+        </div>
+      </div>
+
+      <div class="app-kendo-forms--subcontent">
+        <div class="service-efforts--hours-content effort-hours">
+          <kendo-formfield>
+            <div class="app-kendo--content">
               <kendo-label class="app-kendo--label" [for]="efforthours"
                 >Effort Hours</kendo-label
               >
               <kendo-textbox class="app-kendo--textbox"
               formControlName="efforthours"
+              [readonly]="isEffortsDisabled"
               #efforthours>
               </kendo-textbox>
             </div>
@@ -69,7 +107,7 @@
             >Remarks</kendo-label
           >
           <kendo-textarea
-            placeholder="Type  your message here.."
+            placeholder="Type your message here.."
             formControlName="effortremarks"
             #effortremarks
             class="app-kendo--textarea"

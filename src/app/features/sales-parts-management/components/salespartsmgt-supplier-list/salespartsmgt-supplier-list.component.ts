@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { FileInfo } from "@progress/kendo-angular-upload";
 import { SalesPartsManagementService, SPMSupplierListItem, RemarksMessage} from '../../sales-parts-management.service';
+import { CommonService } from 'src/app/features/Common/commonservice.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
-import { EnquiryDetailsService } from 'src/app/features/enquiry-details/enquiry-details.service';
 
 @Component({
   selector: 'app-salespartsmgt-supplier-list',
@@ -20,7 +20,6 @@ export class SalespartsmgtSupplierListComponent {
   supplierCards: SPMSupplierListItem[] = [];
   showSuppAttachment: boolean = false;
   enqId!: number;
-  docSrcTypeSuppAttachment: number = 58;
 
   constructor(
     private router: Router,
@@ -28,7 +27,7 @@ export class SalespartsmgtSupplierListComponent {
     private loaderService: LoaderService,
     private loginService: LoginService,
     private spmService: SalesPartsManagementService,
-    private enquiryDetailsService: EnquiryDetailsService
+    private commonService : CommonService
   ){}
 
   ngOnInit() {
@@ -66,7 +65,7 @@ export class SalespartsmgtSupplierListComponent {
   }
 
   getAttachmentDetails(suppDocId: string, attachmentGUID: string){
-    this.enquiryDetailsService.getAttachmentDetails(suppDocId, this.docSrcTypeSuppAttachment, attachmentGUID).subscribe((data: any) => {
+    this.commonService.getAttachmentDetails(suppDocId, this.commonService.docSrcTypeSuppAttachment, attachmentGUID).subscribe((data: any) => {
       if(data!=null)
         this.myFiles = data;
       else
@@ -93,7 +92,7 @@ export class SalespartsmgtSupplierListComponent {
   }
 
   downloadAttachment(suppDocId: number, attachmentGUID: string, index: number) {
-    this.enquiryDetailsService.getAttachment(suppDocId.toString(), this.docSrcTypeSuppAttachment, attachmentGUID, index).subscribe((response) => {
+    this.commonService.getAttachment(suppDocId.toString(), this.commonService.docSrcTypeSuppAttachment, attachmentGUID, index).subscribe((response) => {
       const contentType = response.headers.get('content-type')!;
       const filename = this.myFiles[index].name;
       const blob = new Blob([response.body!], { type: contentType });

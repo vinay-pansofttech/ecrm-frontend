@@ -8,9 +8,11 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { fileDataIcon, downloadIcon} from '@progress/kendo-svg-icons';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { WorksheetService, EnquiryDetails, WorkSheetSO, EnquiryProductsSO, ConfigItems, WorksheetPrerequisites } from '../../worksheet.service';
+import { WorksheetService, EnquiryDetails, WorkSheetSO, EnquiryProductsSO, 
+  ConfigItems, WorksheetPrerequisites, WorksheetDLCList, WorksheetMarginList,
+  WorksheetDRQList, WorksheetDRQItemsList } from '../../worksheet.service';
+import { CommonService } from 'src/app/features/Common/commonservice.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
-import { EnquiryDetailsService } from 'src/app/features/enquiry-details/enquiry-details.service';
 
 const logoURL = 
 "https://raw.githubusercontent.com/fireflysemantics/logo/master/l1.svg";
@@ -27,19 +29,25 @@ export class WorksheetApprovalComponent{
   loaderMessage!: string;
   invalid = false;
   isCreditExposureSelected: boolean = false;
+  isDLCSelected: boolean = false;
   isPriceDetailsSelected: boolean = false;
+  isMarginSelected: boolean = false;
+  isDRQSelected: boolean = false;
   public worksheetDetailsCard: WorkSheetSO[] = [];
   @ViewChild('stepper', { static: true })
   public stepper!: StepperComponent;
   test: any;
   enqId!: number;
-  docSrcTypeWSAttachment: number = 658;
   drqStatusBackgroundColor: string = "";
   enquiryDetailsCard: EnquiryDetails[] = [];
   gridData: any[] = [];
   productItems: EnquiryProductsSO[] = [];
   configItems: ConfigItems[] = [];
   WorksheetPrerequisites: WorksheetPrerequisites[] = [];
+  WorksheetDLCDetailsCard: WorksheetDLCList[] = [];
+  WorksheetMarginDetailsCard: WorksheetMarginList[] = [];
+  WorksheetDRQDetailsCard: WorksheetDRQList[] = [];
+  WorksheetDRQItemsDetailsCard: WorksheetDRQItemsList[] = [];
 
   public steps = [
     {
@@ -73,8 +81,8 @@ export class WorksheetApprovalComponent{
     private domSanitizer: DomSanitizer,
     private worksheetService: WorksheetService,
     private loginService: LoginService,
-    private enquiryDetailsService: EnquiryDetailsService
-  ) {
+    private commonService : CommonService
+    ) {
     this.matIconRegistry.addSvgIcon(
       'worksheet_invoice',
       this.domSanitizer.bypassSecurityTrustResourceUrl('worksheet-invoice-icon.svg')
@@ -101,15 +109,21 @@ export class WorksheetApprovalComponent{
     this.WorksheetApprovalForm = this.formBuilder.group({
       creditExposure: new FormGroup({
       }),
+      DLC: new FormGroup({
+      }),
+      DRQ: new FormGroup({
+      }),
       priceDetails: new FormGroup({
         amComments: new FormControl('', Validators.required),
         smComments: new FormControl('', Validators.required),
         mgmtComments: new FormControl('', Validators.required),
         finComments: new FormControl('', Validators.required),
         wsattachment: new FormControl('', [Validators.nullValidator]),
+      }),
+      WSMargin: new FormGroup({
       })
     });
-    this.onCreditExposureClick();
+    this.onStepperClick(0);
   }
 
   public get currentGroup(): FormGroup {
@@ -173,6 +187,10 @@ export class WorksheetApprovalComponent{
       this.worksheetService.worksheetDetailsCard = data;
       this.worksheetDetailsCard = data;
       this.getWorksheetPrerequisites(this.worksheetService.worksheetDetailsCard[0].enqId);
+      this.getWorksheetDLCDetails(enqId);
+      this.getWorksheetMarginDetails(enqId);
+      this.getWorksheetDRQDetails(enqId);
+      this.getWorksheetDRQItemsDetails(enqId);
       this.getPaymentTerms(this.worksheetService.worksheetDetailsCard[0].enqId,this.worksheetService.worksheetDetailsCard[0].workSheetId);
       this.getProductItems(this.worksheetService.worksheetDetailsCard[0].enqId);
       this.getConfigItems(this.worksheetService.worksheetDetailsCard[0].enqId);
@@ -188,6 +206,37 @@ export class WorksheetApprovalComponent{
       this.WorksheetPrerequisites = data;
     });
   }
+
+  getWorksheetDLCDetails(enqId: number){
+    this.worksheetService.getWorksheetDLCDetails(enqId).subscribe((data: any) => {
+      this.WorksheetDLCDetailsCard = data.map((item: WorksheetDLCList) => ({
+        ...item,
+        isDescriptionOpen: false
+      }));
+      this.worksheetService.WorksheetDLCDetailsCard = this.WorksheetDLCDetailsCard;
+    });
+  }
+
+  getWorksheetMarginDetails(enqId: number){
+    this.worksheetService.getWorksheetMarginDetails(enqId).subscribe((data: any) => {
+      this.worksheetService.WorksheetMarginDetailsCard = data;
+      this.WorksheetMarginDetailsCard = data;
+    });
+  }
+
+  getWorksheetDRQDetails(enqId: number){
+    this.worksheetService.getWorksheetDRQDetails(enqId).subscribe((data: any) => {
+      this.worksheetService.WorksheetDRQDetailsCard = data;
+      this.WorksheetDRQDetailsCard = data;
+    });
+  }
+
+  getWorksheetDRQItemsDetails(enqId: number){
+    this.worksheetService.getWorksheetDRQItemsDetails(enqId).subscribe((data: any) => {
+      this.worksheetService.WorksheetDRQItemsDetailsCard = data;
+      this.WorksheetDRQItemsDetailsCard = data;
+    });
+  }  
 
   getPaymentTerms(enqId: number, worksheetId: number){
     this.worksheetService.getPaymentTerms(enqId,worksheetId).subscribe((data: any) => {
@@ -211,32 +260,42 @@ export class WorksheetApprovalComponent{
   }
 
   getAttachmentDetails(wsID: string){
-    this.enquiryDetailsService.getAttachmentDetails(wsID, this.docSrcTypeWSAttachment,"").subscribe((data: any) => {
+    this.commonService.getAttachmentDetails(wsID, this.commonService.docSrcTypeWSAttachment,"").subscribe((data: any) => {
       if(data!=null){
         this.worksheetService.wsattachments = data;
-        console.log('this.worksheetService.attachments',data);
       }
       else{
         this.worksheetService.wsattachments = null;
-        console.log('this.worksheetService.attachments',data);
       }
     });
   }
 
-  onCreditExposureClick(){
-    this.currentStep = 0;
-    this.isCreditExposureSelected = true;
+  onStepperClick(currentStep: number){
+    this.isCreditExposureSelected = false;
+    this.isDLCSelected = false;
     this.isPriceDetailsSelected = false;
+    this.isMarginSelected = false;
+    this.isDRQSelected = false;
+    this.currentStep = currentStep;
+
+    if(currentStep == 0){
+      this.isCreditExposureSelected = true;
+    }
+    else if(currentStep == 1){
+      this.isDLCSelected = true;
+    }
+    else if(currentStep == 2){
+      this.isDRQSelected = true;
+    }
+    else if(currentStep == 3){
+      this.isPriceDetailsSelected = true;
+    }
+    else if(currentStep == 4){
+      this.isMarginSelected = true;
+    }
+
   }
 
-  onPriceDetailsClick(){
-    this.currentStep = 1;
-    this.isCreditExposureSelected = false;
-    this.isPriceDetailsSelected = true;
-    console.log('worksheet Details', this.worksheetDetailsCard);
-    console.log('worksheet Prereq', this.WorksheetPrerequisites);
-  }
-  
   approveWorksheet(){
     if (!this.validateComments()) {
       this.WorksheetApprovalForm.markAllAsTouched();
@@ -337,7 +396,7 @@ export class WorksheetApprovalComponent{
             );
           }
           this.ngOnInit();
-          this.onPriceDetailsClick();
+          this.onStepperClick(3);
         },
         error => {
           this.loaderService.hideLoader();
@@ -400,15 +459,6 @@ export class WorksheetApprovalComponent{
 
   onReset() {
     this.ngOnInit();
-  }
-
-  onTabSelect(e: SelectEvent): void {
-    if(e.index == 0){
-      this.onCreditExposureClick();
-    }
-    else if(e.index == 1){
-      this.onPriceDetailsClick();
-    }
   }
 
 }

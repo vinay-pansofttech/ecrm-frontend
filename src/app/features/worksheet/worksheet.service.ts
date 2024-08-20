@@ -111,6 +111,9 @@ export interface WorksheetPrerequisites{
   quoteCurrencyId: number;
   conversionRate: number;
   marginExcelDownloadPrivilege?: number;
+  isSalesManager: boolean;
+  marginVersionID: number;
+  marginVersionName: string;
 }
 
 export interface WorksheetPaymentTerms {
@@ -285,6 +288,166 @@ export interface EnquiryList {
   quoteCurrencyName: string;
 }
 
+export interface WorksheetDLCList {
+  isDeletable?: boolean;
+  dealLevelCostId?: number;
+  enqId?: number;
+  partsMasterId?: number;
+  supplierId?: number;
+  supplierName?: string;
+  productLine?: string;
+  description?: string;
+  qty?: number;
+  partNo?: string;
+  options?: string;
+  sellIn?: number;
+  unitSellOut?: number;
+  sellOutValue?: number;
+  isAllowEdit?: boolean;
+  remarks?: string;
+  createdBy?: number;
+  createdOn?: Date;
+  modifiedBy?: number;
+  modifiedOn?: Date;
+  isDescriptionOpen?: boolean;
+}
+
+export interface WorksheetMarginList {
+  productName?: string;
+  supplierName?: string;
+  productLine?: string;
+  subCategoryName?: string;
+  partNo?: string;
+  partNoOption?: string;
+  description?: string;
+  isOptional?: boolean;
+  isAlternateProduct?: boolean;
+  listPrice?: number;
+  supplierCurrency?: string;
+  siDiscountPC?: number;
+  reqdQty?: number;
+  conversionRate?: number;
+  warrantyPC?: number;
+  finChargesPC?: number;
+  freightPC?: number;
+  incentivePC?: number;
+  countrySpecPC?: number;
+  dutyPC?: number;
+  dgPC?: number;
+  marginPC?: number;
+  channelDiscountPC?: number;
+  s_USOLP?: number;
+  s_TSOLP?: number;
+  totalDealLevelCostQC?: number;
+  quoteSellingPriceQC?: number;
+  quoteDiscQC?: number;
+  drqPC?: number;
+  isHighQuoteSelloutok?: boolean;
+  unitQuoteSellingPriceQC?: number;
+  isUnManagedSupplier?: boolean;
+}
+
+export interface WorksheetDRQList {
+  DRQId?: number;
+  DRQNo: string;
+  LeadNo: string;
+  Customer: string;
+  SupplierId?: number;
+  SupplierName: string;
+  DRQStatusId?: number;
+  DRQStatus: string;
+  AccountManager: string;
+  SalesManager: string;
+  CategoryManager: string;
+  DRQBy: string;
+  DRQDate: string;
+  ApprovedDate?: string;
+  DRQValidityDate?: string;
+  SMComments: string;
+  CMComments: string;
+}
+
+export interface WorksheetDRQItemsList {
+  drqDtlId?: number;
+  configItemId?: number;
+  partsMasterId?: number;
+  salesProductId?: number;
+  productId?: number;
+  productName?: string;
+  supplierId?: number;
+  supplierName?: string;
+  partNo?: string;
+  option?: string;
+  description?: string;
+  productLine?: string;
+  prodSeqNo?: number;
+  configSeqNo?: number;
+  isDRQ?: boolean;
+  sellinDiscountPC?: number;
+  drqDiscountPC?: number;
+  reqDRQPC?: number;
+  unitAddlDiscount?: number;
+  addDiscount?: number;
+  unitAddDiscount_QC?: number;
+  addDiscount_QC?: number;
+  unitDiscount?: number;
+  totalDiscount?: number;
+  unitDiscount_QC?: number;
+  totalDiscount_QC?: number;
+  sellInPrice?: number;
+  drqNo?: string;
+  drqDate?: string;
+  approvedDate?: string;
+  drqItemStatus?: number;
+  smComments?: string;
+  currency?: string;
+  uom?: string;
+  drqId?: number;
+  reqdQty?: number;
+  listPrice?: number;
+  newParts?: number;
+  deletedParts?: number;
+  unitSellInPrice?: number;
+  netSellIn?: number;
+  drqStatusId?: number;
+  isOptional?: boolean;
+  alternateOfferNo?: number;
+  drqpC_Prev?: number;
+  reqDRQPC_Prev?: number;
+  isDiscModified?: number;
+  isQtyModified?: number;
+}
+
+export interface LstDRQRequestBO {
+  drqDtlId?: number;
+  configItemId?: number;
+  partsMasterId?: number;
+  supplierId?: number;
+  drqId?: number;
+  sellinDiscountPC?: number;
+  drqDiscountPC?: number;
+  reqDRQPC?: number;
+  productLine?: string;
+  smComments?: string;
+  guId?: string;
+}
+
+export interface DRQRequestBO {
+  EnqId: number;
+  DRQId: number;
+  SupplierId: number;
+  DRQIds: string;
+  SMComments: string;
+  Type: string;
+  ApprovedCommens: string;
+  DRQValidityDate?: Date;
+  LoginID: number;
+  DRQItems: LstDRQRequestBO[];
+  SupplierList: LstDRQRequestBO[];
+  DRQApprovedListBO: LstDRQRequestBO[];
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -292,18 +455,29 @@ export class WorksheetService {
   private fetchWorksheetWorklistUrl = `${AppSettingsConfigKey.APIURL}/api/Enquiry/FetchWorksheetWorklist`;
   private fetchWorksheetDetailsUrl = `${AppSettingsConfigKey.APIURL}/api/Worksheet/GetWorksheetDetails`;
   private fetchWorksheetPrerequisiteUrl = `${AppSettingsConfigKey.APIURL}/api/Worksheet/GetWorksheetPrerequisites`;
+  private fetchWorksheetDLCDetails = `${AppSettingsConfigKey.APIURL}/api/Worksheet/GetWorksheetDLCDetails`;
+  private fetchWorksheetMarginDetails = `${AppSettingsConfigKey.APIURL}/api/Worksheet/GetWorksheetMarginDetails`;
+  private fetchWorksheetDRQDetails = `${AppSettingsConfigKey.APIURL}/api/Worksheet/GetWorksheetDRQDetails`;
+  private fetchWorksheetDRQItemsDetails = `${AppSettingsConfigKey.APIURL}/api/Worksheet/GetWorksheetDRQItemsDetails`;
   private fetchPaymentTermsUrl = `${AppSettingsConfigKey.APIURL}/api/Worksheet/GetPaymentTermsByCustomer`;
   private fetchtEnquiryProductsUrl = `${AppSettingsConfigKey.APIURL}/api/Worksheet/GetProductOverviewGridDtls`;
   private fetchtConfigItemsUrl = `${AppSettingsConfigKey.APIURL}/api/Worksheet/GetConfigItemsGridDtls`;
   private postAssignListParamsUrl = `${AppSettingsConfigKey.APIURL}/api/Worksheet/AssignWorksheetParam`;
   private getQuoteCompareFileUrl = `${AppSettingsConfigKey.APIURL}/api/UploadDownload/GetConfigPriceCompareDtls`;
   private postSaveWorksheetUrl = `${AppSettingsConfigKey.APIURL}/api/Worksheet/SaveWorksheet`;
+  private postDRQRequestUrl = `${AppSettingsConfigKey.APIURL}/api/Worksheet/SaveDRQRequest`;
+  private getWorksheetMarginExcel = `${AppSettingsConfigKey.APIURL}/api/UploadDownload/GetQuoteCompareExcel`;
+
 
   public worksheetDetailsCard: any[] = [];
   public paymentTerms: WorksheetPaymentTerms[] = [];
   public productItems: EnquiryProductsSO[] = [];
   public configItems: ConfigItems[] = [];
   public WorksheetPrerequisites: any[] = [];
+  public WorksheetDLCDetailsCard: WorksheetDLCList[] = [];
+  public WorksheetMarginDetailsCard: WorksheetMarginList[] = [];
+  public WorksheetDRQDetailsCard: WorksheetDRQList[] = [];
+  public WorksheetDRQItemsDetailsCard: WorksheetDRQItemsList[] = [];
   public wsattachments: any = [];
 
   constructor(
@@ -335,6 +509,37 @@ export class WorksheetService {
     return this.http.post(this.fetchWorksheetPrerequisiteUrl, body);
   }
 
+  getWorksheetDLCDetails(enqId: number) {
+    const body = {
+      EnqId: enqId,
+      LoginId: this.loginService.employeeId as number
+    };
+    return this.http.post(this.fetchWorksheetDLCDetails, body);
+  }
+
+  getWorksheetMarginDetails(enqId: number) {
+    const body = {
+      EnqId: enqId
+    };
+    return this.http.post(this.fetchWorksheetMarginDetails, body);
+  }
+
+  getWorksheetDRQDetails(enqId: number) {
+    const body = {
+      EnqId: enqId,
+      LoginId: this.loginService.employeeId as number
+    };
+    return this.http.post(this.fetchWorksheetDRQDetails, body);
+  }
+
+  getWorksheetDRQItemsDetails(enqId: number) {
+    const body = {
+      EnqId: enqId,
+      DRQId: 0
+    };
+    return this.http.post(this.fetchWorksheetDRQItemsDetails, body);
+  }
+  
   getPaymentTerms(enqId: number, worksheetId: number) {
     const body = {
       EnqId: enqId,
@@ -363,6 +568,17 @@ export class WorksheetService {
     const body = {
       EnqId: enqId,
       LoginId: loginId
+    };
+    return this.http.post(url, body, {responseType: 'blob', observe: 'response'});
+  }
+
+  getWorksheetMarginExcelFile(enqId: number, marginVersionId: number, marginVersionName: string) {
+    const url = this.getWorksheetMarginExcel;
+    const body = {
+      EnqId: enqId,
+      MarginVersionId: marginVersionId,
+      MarginVersionName: marginVersionName,
+      LoginId: this.loginService.employeeId as number
     };
     return this.http.post(url, body, {responseType: 'blob', observe: 'response'});
   }
@@ -644,9 +860,31 @@ export class WorksheetService {
     return this.http.put(this.postSaveWorksheetUrl, body);
   }
 
+  postDRQRequest(enqId: number, supplierId: number, smComments: string, drqItems: LstDRQRequestBO[]) {
+    const body = {
+      EnqId: enqId,
+      DRQId:0,
+      SupplierId:supplierId,
+      DRQIds:"",
+      SMComments:smComments,
+      Type:"SMCreateUpd",
+      ApprovedCommens:"",
+      DRQValidityDate:null,
+      LoginId: this.loginService.employeeId as number,
+      DRQItems:drqItems,
+      SupplierList:null,
+      DRQApprovedListBO:null,
+    };
+    return this.http.post(this.postDRQRequestUrl, body);
+  }
+
   resetValues(){
     this.worksheetDetailsCard = [];
     this.WorksheetPrerequisites = [];
+    this.WorksheetDLCDetailsCard = [];
+    this.WorksheetMarginDetailsCard = [];
+    this.WorksheetDRQDetailsCard = [];
+    this.WorksheetDRQItemsDetailsCard = [];
     this.paymentTerms = [];
     this.productItems = [];
     this.configItems = [];

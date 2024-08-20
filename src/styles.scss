@@ -86,6 +86,18 @@ body {
   padding-left: 1rem;
   background-color: rgb(16, 47, 63);
 }
+.app-screen-history--header {
+  background-color: rgb(16, 47, 63);
+  display: flex;
+  margin: 0rem 0rem 0rem 0rem;
+}
+.app-screen--header-button {
+  background: var(--terinary-color);
+  color: white;
+  margin: 0.5rem;
+  margin-right:1rem;
+  border-radius: 5px;
+}
 .app-screen--header-tag {
   max-width: 2.5rem;
   min-height: 0.1875rem;
@@ -375,9 +387,11 @@ body {
   margin-top: 0;
   margin-bottom: 0;
   background-color: rgb(16, 47, 63);
+  overflow-x: auto;
+  white-space: nowrap;
 }
 .app-screen--stepper-container {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -386,6 +400,7 @@ body {
   transition: all 0.2s ease-out;
   color: white;
   border-bottom: 3px solid transparent;
+  white-space: nowrap;
 }
 .app-screen--stepper-container-content {
   font-size: 1rem;

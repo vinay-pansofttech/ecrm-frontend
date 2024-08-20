@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ServiceCalendarService, engEffortsList } from '../../service-calendar.service';
+import { NotificationService } from 'src/app/core/services/notification.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { saveAs } from "@progress/kendo-file-saver";
@@ -27,6 +28,7 @@ export class CsrGeneratorComponent {
     private router: Router,
     private loaderService: LoaderService,
     private serviceCalendarService: ServiceCalendarService,
+    private notificationService: NotificationService,
     private sanitizer: DomSanitizer
   ) {}
 
@@ -44,6 +46,8 @@ export class CsrGeneratorComponent {
   public uploadSvg: SVGIcon = uploadIcon;
   public saveSvg: SVGIcon = saveIcon;
   public imageIcon: SVGIcon = imageIcon;
+  public engineerSignatureValue = '';
+  public customerSignatureValue = '';
   public tools: PDFViewerTool[] = [
       "zoom",
       "zoomInOut",
@@ -74,32 +78,51 @@ export class CsrGeneratorComponent {
   }
 
   public onSave() {
-     this.signatureOpen = !this.signatureOpen;
-     this.serviceCalendarService.getCSRfile(
+    this.signatureOpen = !this.signatureOpen;
+    this.loaderService.showLoader();
+    this.serviceCalendarService.getCSRfile(
         this.serviceCalendarService.selectedSRID,
         this.serviceCalendarService.csrComments,
         this.serviceCalendarService.selectedCallCat,
         this.serviceCalendarService.selectedCallCompletion,
-        this.value.replace(/^data:image\/png;base64,/, '')
-      ).subscribe((data: any) => {
-          console.log(data);
-          this.serviceCalendarService.getCSRPdf(data.outPut).subscribe((response) => {
+        this.customerSignatureValue.replace(/^data:image\/png;base64,/, ''),
+        this.engineerSignatureValue.replace(/^data:image\/png;base64,/, '')
+    ).subscribe((data: any) => {
+        this.serviceCalendarService.getCSRPdf(data.outPut).subscribe((response) => {
             const contentType = response.headers.get('content-type')!;
-            const filename = data.outPut;
             const blob = new Blob([response.body!], { type: contentType });
-            const url = window.URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = filename || 'attachment';
-            link.click();
-            window.URL.revokeObjectURL(url);
-          });
-      });
+            const file = new File([blob], data.outPut, { type: contentType });
+            this.serviceCalendarService.putUploadCSR(this.serviceCalendarService.selectedSRID as any, file).subscribe((uploadResponse: any) => {
+              const notificationMessage = uploadResponse.statusCode === 200 ? 'CSR Updated Successfully' : 'Error in Updating CSR';
+              this.notificationService.showNotification(
+                  notificationMessage,
+                  'success', 'center', 'bottom'
+              );
+              this.loaderService.hideLoader();
+              this.router.navigate(['/service-calendar']);
+            },
+            error => {
+              this.loaderService.hideLoader();
+              this.notificationService.showNotification(
+                'CSR not updated'+ error,
+                'error', 'center', 'bottom'
+              );
+            });
+        });
+    });
   }
 
   public onClear() {
     this.value = "";
     this.cleanupImage();
+  }
+
+  clearEngineerSignature(): void {
+    this.engineerSignatureValue = '';
+  }
+
+  clearCustomerSignature(): void {
+    this.customerSignatureValue = '';
   }
 
   public onImageUpload(file: File) {
@@ -124,6 +147,12 @@ export class CsrGeneratorComponent {
     const onLoad = () => {
       this.value = reader.result as string;
       reader.removeEventListener("load", onLoad);
+
+      this.customerSignatureValue = reader.result as string;
+      reader.removeEventListener("load", onLoad);
+
+      this.engineerSignatureValue = reader.result as string;
+      reader.removeEventListener("load", onLoad);
     };
 
     reader.addEventListener("load", onLoad);
@@ -137,6 +166,7 @@ export class CsrGeneratorComponent {
       this.serviceCalendarService.csrComments,
       this.serviceCalendarService.selectedCallCat,
       this.serviceCalendarService.selectedCallCompletion,
+      "",
       ""
     ).subscribe((data: any) => {
        if (data) {

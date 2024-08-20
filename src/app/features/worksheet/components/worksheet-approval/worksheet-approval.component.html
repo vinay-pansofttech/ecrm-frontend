@@ -24,7 +24,7 @@
            </kendo-stepper> -->
       <div class="app-screen--stepper">
           <div class="app-screen--stepper-container"
-              (click)="onCreditExposureClick()" [ngClass]="{'selected': isCreditExposureSelected}">
+              (click)="onStepperClick(0)" [ngClass]="{'selected': isCreditExposureSelected}">
             <!-- <div class="worksheet-approval-stepper-image">
               <img src="assets/worksheet-approval-credit-icon.svg"
               alt="CE"/>
@@ -32,16 +32,31 @@
             <div class="app-screen--stepper-container-content"> Credit Exposure </div>
           </div>
           <div class="app-screen--stepper-container"
-              (click)="onPriceDetailsClick()" [ngClass]="{'selected': isPriceDetailsSelected}">
+              (click)="onStepperClick(1)" [ngClass]="{'selected': isDLCSelected}">
+            <div class="app-screen--stepper-container-content"> DLC </div>
+          </div>
+          <div class="app-screen--stepper-container"
+              *ngIf="WorksheetPrerequisites[0].isSalesManager"
+              (click)="onStepperClick(2)" [ngClass]="{'selected': isDRQSelected}">
+            <div class="app-screen--stepper-container-content"> DRQ </div>
+          </div>
+          <div class="app-screen--stepper-container"
+              (click)="onStepperClick(3)" [ngClass]="{'selected': isPriceDetailsSelected}">
             <!-- <div class="worksheet-approval-stepper-image">
               <img src="assets/worksheet-approval-price-icon.svg"
               alt="CE"/>
             </div> -->
             <div class="app-screen--stepper-container-content"> Price Details </div>
           </div>
+          <div class="app-screen--stepper-container"
+              *ngIf="WorksheetPrerequisites[0].marginExcelDownloadPrivilege"
+              (click)="onStepperClick(4)" [ngClass]="{'selected': isMarginSelected}"
+              style="margin-right: 0.5rem;">
+            <div class="app-screen--stepper-container-content"> Margin </div>
+          </div>
       </div>
       <form class="k-form k-form-md worksheet-approval-container">
-          <div *ngFor="let a of worksheetDetailsCard" class="app-enquiry-details-listview--cards">
+          <div *ngFor="let a of worksheetDetailsCard;" class="app-enquiry-details-listview--cards">
             <kendo-card class="app-enquiry-details-listview--kendo-card">    
               <div class="app-enquiry-details-listview--kendo-card-content">
                 <div class="app-enquiry-details-listview--kendo-card-sold-details">
@@ -159,14 +174,24 @@
           <app-credit-exposure
             *ngIf="currentStep === 0" [gridData]="gridData" [worksheetDetailsCard]="worksheetDetailsCard"
             [WorksheetPrerequisites]="WorksheetPrerequisites"></app-credit-exposure>
+          <app-dlc
+            *ngIf="currentStep === 1" [WorksheetDLCDetailsCard]="WorksheetDLCDetailsCard"
+            [WorksheetPrerequisites]="WorksheetPrerequisites"></app-dlc>
+          <app-drq-details
+            *ngIf="currentStep === 2" [WorksheetDRQDetailsCard]="WorksheetDRQDetailsCard"
+            [WorksheetDRQItemsDetailsCard]="WorksheetDRQItemsDetailsCard"
+            [worksheetDetailsCard]="worksheetDetailsCard"></app-drq-details>
           <app-price-details
-            *ngIf="currentStep === 1" [priceDetails]="currentGroup" [worksheetDetailsCard]="worksheetDetailsCard"
+            *ngIf="currentStep === 3" [priceDetails]="currentGroup" [worksheetDetailsCard]="worksheetDetailsCard"
             [WorksheetPrerequisites]="WorksheetPrerequisites"></app-price-details>
+          <app-margin-details
+            *ngIf="currentStep === 4" [WorksheetMarginDetailsCard]="WorksheetMarginDetailsCard"
+            [WorksheetPrerequisites]="WorksheetPrerequisites" [enquiryDetailsCard]="enquiryDetailsCard"></app-margin-details>
       </form>
     </div>
   </div>
   <div class="app-screen--footer"
-  *ngIf="currentStep !== 0">
+  *ngIf="currentStep == 3">
     <button
       kendobutton
       class="app-save--button worksheet-approval-button"

@@ -43,6 +43,8 @@ export interface engEffortsList {
   srid: number;
   name: string;
   ondate: string;
+  startTime?: string;
+  endTime?: string;
   effortHours: string;
   travelHours: string;
   taskType: string;
@@ -59,6 +61,8 @@ export class ServiceCalendarService {
   selectedCallCat!: string;
   selectedCallCompletion!: boolean;
   csrComments!: string;
+  CSRUploadSrcType: number = 11;
+  private uploadURL= `${AppSettingsConfigKey.APIURL}/api/UploadDownload/UploadFile`;
 
   constructor(
     private http: HttpClient,
@@ -89,6 +93,14 @@ export class ServiceCalendarService {
 
   putServiceEfforts(formData: any){
     const url = `${AppSettingsConfigKey.APIURL}/api/ServiceCalendar/AddEngEfforts`;
+    const formattedStartDate = formData.startTime
+      ? this.datePipe.transform(formData.startTime, "yyyy-MM-dd'T'HH:mm:ss")
+      : null;
+
+    const formattedEndDate = formData.endTime
+      ? this.datePipe.transform(formData.endTime, "yyyy-MM-dd'T'HH:mm:ss")
+      : null;
+
     const body = {
       srid: formData.srid,
       lstEfforts: [
@@ -98,8 +110,8 @@ export class ServiceCalendarService {
           subTaskId: formData.subTaskId,
           calendarId: formData.calendarId,
           onDate: formData.onDate,
-          startTime: formData.startTime? formData.startTime : '',
-          endTime: formData.endTime? formData.endTime : '',
+          startTime: formData.startTime? formattedStartDate : '',
+          endTime: formData.endTime? formattedEndDate : '',
           effortHours: formData.effortHours,
           travelHours: formData.travelHours,
           isNoEffortSpent: formData.isNoEffortSpent,
@@ -112,7 +124,7 @@ export class ServiceCalendarService {
     return this.http.post(url, body);
   }
 
-  getCSRfile(SRID: number, CSRSummary: string, CallCategory: string, IsCallCompleted: boolean, CustomerSign: string){
+  getCSRfile(SRID: number, CSRSummary: string, CallCategory: string, IsCallCompleted: boolean, CustomerSign: string, EngineerSign: string){
     const url = `${AppSettingsConfigKey.APIURL}/api/ServiceCalendar/GenerateCSRPath`;
     const body = {
       "SRID": SRID,
@@ -120,7 +132,8 @@ export class ServiceCalendarService {
       "CSRSummary": CSRSummary,
       "CallCategory": CallCategory,
       "IsCallCompleted": IsCallCompleted,
-      "CustomerSign": CustomerSign? CustomerSign: null
+      "CustomerSign": CustomerSign? CustomerSign: null,
+      "EngineerSign": EngineerSign? EngineerSign: null
     };
     return this.http.post(url, body);
   }
@@ -133,6 +146,18 @@ export class ServiceCalendarService {
     return this.http.post(url, body, {responseType: 'arraybuffer', observe: 'response'});
   }
 
+  putUploadCSR(docSrcVal: string, attachment: any) {
+    const url = `${AppSettingsConfigKey.APIURL}/api/ServiceCalendar/UploadCSR`;
+
+    const body = new FormData();
+    body.append('docSrcVal', docSrcVal);
+    body.append('docSrcType', this.CSRUploadSrcType as any);
+    body.append('LoginID', this.loginService.employeeId as string);
+    body.append('attachment', attachment? attachment: null);
+  
+    return this.http.put(url, body);
+  }
+  
   resetValues(){
     this.selectedSRID = 0;
     this.selectedCallCat = "";

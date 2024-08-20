@@ -23,12 +23,39 @@
      [tools]="tools"> 
     </kendo-pdfviewer>
     <div class="content-wrapper">
-      <kendo-label style="margin-top: 0.15rem;">Customer Signature: </kendo-label>
+      <div class="app-screen--header">
+        Engineer Signature
+      </div>
       <div class="signature-wrapper">
         <kendo-signature
-            #signature
+            #engineerSignature
+            [(value)]="engineerSignatureValue"
+            [color]="color"
+            [backgroundColor]="backgroundColor"
+            [strokeWidth]="strokeWidth"
+            [smooth]="true"
+            [maximizable]="false"
+            [hideLine]="true"
+        ></kendo-signature>
+      </div>
+      <div class="clear-button">
+        <button 
+            kendoButton
+            (click)="clearEngineerSignature()">
+            Clear
+        </button>
+      </div>
+    </div>
+    
+    <div class="content-wrapper">
+      <div class="app-screen--header">
+        Customer Signature
+      </div>
+      <div class="signature-wrapper">
+        <kendo-signature
+            #customerSignature
             *ngIf="!showUpload"
-            [(value)]="value"
+            [(value)]="customerSignatureValue"
             [color]="color"
             [backgroundColor]="backgroundColor"
             [strokeWidth]="strokeWidth"
@@ -49,23 +76,24 @@
             />
         </ng-container>
       </div>
-      <div>
+      <div class="save-clear-button">
         <button
             kendoButton
             [svgIcon]="saveSvg"
             themeColor="primary"
-            [disabled]="!value"
+            [disabled]="!customerSignatureValue"
             (click)="onSave()"
             style="margin: 0.25rem;">
             Save and Generate CSR
         </button>
         <button 
             kendoButton
-            (click)="onClear()">
+            (click)="clearCustomerSignature()">
             Clear
         </button>
       </div>
     </div>
+    
 </div>
 
 <div class="app-screen--loader" *ngIf="showAPILoader">

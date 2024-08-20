@@ -60,10 +60,13 @@
   <div class="enquiry-update-forms--content">
     <kendo-label class="app-kendo--label" [for]="dealvalue" [for]="currency" >Deal Value / Currency</kendo-label>
     <div class="app-kendo-forms--subcontent">
-      <kendo-textbox class="app-kendo--dropdownlist"
+      <kendo-numerictextbox class="app-kendo--dropdownlist"
        formControlName="dealValue"
+       [format]="'#,##0'"
+       [decimals]="0"
+       [spinners]="false"
        #dealvalue>
-      </kendo-textbox>
+      </kendo-numerictextbox>
       <kendo-textbox class="app-kendo--dropdownlist"
        formControlName="currency"
        #currency
