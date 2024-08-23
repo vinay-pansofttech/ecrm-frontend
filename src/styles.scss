@@ -86,6 +86,28 @@ body {
   padding-left: 1rem;
   background-color: rgb(16, 47, 63);
 }
+.app-screen--info-header {
+  display: flex;
+  justify-content: space-between; 
+  color: #FFFFFF;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: var(--font-weight-bolder);
+  line-height: 1.75rem;
+  margin: 0rem 0rem 0rem 0rem;
+  margin-bottom: 0.30rem;
+  padding:0.5rem;
+  background-color: rgb(16, 47, 63);
+}
+.app-screen--info-header-left{
+  justify-content: flex-start;
+  padding-left: 0.5rem;
+}
+.app-screen--info-header-right{
+  justify-content: flex-end;
+  padding-right: 0.5rem ;
+  padding-left: 1.25rem ;
+}
 .app-screen-history--header {
   background-color: rgb(16, 47, 63);
   display: flex;
@@ -469,4 +491,42 @@ body {
 }
 .app-approval-button{
   background-color: rgb(92, 184, 92);
+}
+
+
+//Margin Styles
+.margin-bottom-1{
+  margin-bottom: 1rem;
+}
+.margin-bottom-0-25{
+  margin-bottom: 0.25rem;
+}
+.margin-bottom-0-5{
+  margin-bottom: 0.5rem;
+}
+.margin-top-1{
+  margin-top: 1rem;
+}
+.margin-top-0-25{
+  margin-top: 0.25rem;
+}
+.margin-top-0-5{
+  margin-top: 0.5rem;
+}
+.no-margin{
+  margin: 0rem;
+}
+
+
+//Screen Size Based Styling
+@media only screen and (min-width: 600px) {
+  .short-title {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  .long-title {
+    display: none;
+  }
 }

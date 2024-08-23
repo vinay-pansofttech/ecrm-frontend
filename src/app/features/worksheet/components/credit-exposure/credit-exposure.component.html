@@ -61,7 +61,8 @@
         Payment terms is different in master and quote
       </div>
       <div>
-        <img class="credit-exposure-notification-expand-icon" src="assets/credit-exposure-card--down-button.svg" alt=">>"/>
+        <img *ngIf="!showPaymentTerms" class="credit-exposure-notification-down-icon" src="assets/credit-exposure-card--down-button.svg" alt=">>"/>
+        <img *ngIf="showPaymentTerms" class="credit-exposure-notification-up-icon" src="assets/credit-exposure-card--down-button.svg" alt=">>"/>
       </div>
     </div>
     <kendo-grid *ngIf="showPaymentTerms" [data]="gridData" [pageSize]="15">

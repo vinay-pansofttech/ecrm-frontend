@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { KendoModule } from 'src/app/kendo.module';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { GridModule } from "@progress/kendo-angular-grid";
-
+import { TooltipsModule } from "@progress/kendo-angular-tooltip";
 import { LoginModule } from '../login/login.module';
 
 import { WorksheetRoutingModule } from './worksheet-routing.module';
@@ -34,6 +34,7 @@ import { DrqDetailsComponent } from './components/drq-details/drq-details.compon
     LayoutModule,
     LoginModule,
     GridModule,
+    TooltipsModule,
     WorksheetRoutingModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

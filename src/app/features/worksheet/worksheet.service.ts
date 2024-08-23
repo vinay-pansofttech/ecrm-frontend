@@ -447,6 +447,27 @@ export interface DRQRequestBO {
   DRQApprovedListBO: LstDRQRequestBO[];
 }
 
+export interface MarginProductGridList {
+  productName: string;
+  _QuoteMarginPC?: number;
+  _TotalCostQC?:number,
+  _NetQuote?: number,
+}
+
+export interface MarginSupplierGridList {
+  supplierName: string;
+  _QuoteMarginPC?: number;
+  _TotalCostQC?:number,
+  _NetQuote?: number,
+}
+
+export interface MarginPartsGridList {
+  productLine?: string;
+  partNo?: string;
+  partNoOption?: string;
+  description?: string;
+  _QuoteMarginPC?: number;
+}
 
 @Injectable({
   providedIn: 'root'

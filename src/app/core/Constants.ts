@@ -1,7 +1,7 @@
 export enum AppSettingsConfigKey {
   FileName = 'appSettings.json',
   Path = 'assets/configs',
-  APIURL = 'https://demo.engagecrmpro.com',
+  APIURL = 'https://localhost:7018',
 }
 
 export enum AppRoutePaths {
@@ -26,6 +26,7 @@ export enum AppRoutePaths {
   EnquiryDetailsUpdate = 'enquiry-details-update/:id',
   ServiceCalendar = 'service-calendar',
   ServiceEffortsList = 'service-efforts-listview/:id/:Date',
+  ServiceCSRGenerator = 'csr-generator',
   ServiceEfforts = 'service-efforts/:index/:id/:Date',
   WorksheetDetails = 'worksheet-details',
   WorksheetApproval = 'worksheet-approval/:id',

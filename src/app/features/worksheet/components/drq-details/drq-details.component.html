@@ -3,10 +3,12 @@
     DRQ Request
   </div>
   
-<div *ngIf="!isPartsGridOpen">  
-  <div class="app-screen--header">
-    Supplier List
-  </div>
+<div *ngIf="!isPartsGridOpen">
+  <div class="app-screen--info-header"> 
+    <div class="app-screen--info-header-left">
+      Supplier List
+    </div>
+  </div> 
   
   <div *ngFor="let a of WorksheetDRQSupplierDetailsCard; let i=index;" class="app-enquiry-details-listview--cards">
     <kendo-card class="app-enquiry-details-listview--kendo-card">
@@ -95,12 +97,12 @@
 </div>
 
 <div *ngIf="isPartsGridOpen">
-  <div style="display: flex; justify-content: space-between; width: 100%;">
-    <div class="app-screen--header">
+  <div class="app-screen--info-header">
+    <div class="app-screen--info-header-left">
       {{WorksheetDRQItemsDetailsCard[0].supplierName}}
     </div>
-    <div class="app-screen--header-right" (click)="onBackClickHandle()">
-      <<
+    <div class="app-screen--info-header-right" (click)="onBackClickHandle()">
+      Back
     </div>
   </div> 
 

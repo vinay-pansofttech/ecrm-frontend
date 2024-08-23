@@ -1,6 +1,8 @@
 import { Component, Injectable, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
-import { WorksheetService,WorksheetPrerequisites, WorksheetMarginList, EnquiryDetails } from '../../worksheet.service';
+import { WorksheetService,WorksheetPrerequisites, WorksheetMarginList, EnquiryDetails,
+  MarginProductGridList, MarginSupplierGridList, MarginPartsGridList
+ } from '../../worksheet.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -16,11 +18,19 @@ export class MarginDetailsComponent {
   @Input() WorksheetMarginDetailsCard!: WorksheetMarginList[];
   @Input() public WorksheetPrerequisites!: WorksheetPrerequisites[];
   @Input() enquiryDetailsCard: EnquiryDetails[] = [];
-  public marginGroupColumns: any [] = [];
   public marginConfigItemsColumns: any [] = [];
-  marginGridDetails: WorksheetMarginList[] = [];
+  marginProductGridDetails: MarginProductGridList[] = [];
+  marginSupplierGridDetails: MarginSupplierGridList[] = [];
+  marginPartsGridDetails: MarginPartsGridList[] = [];
+
   isDownloadloaderVisible: boolean = false;
-  
+  isProductGridOpen: boolean = true;
+  isSupplierGridOpen: boolean = false;
+  isPartsGridOpen: boolean = false;
+
+  selectedProduct: string | null = "";
+  selectedSupplier: string | null = "";
+
   constructor(
     private worksheetService: WorksheetService,
     private loginService: LoginService,
@@ -33,9 +43,7 @@ export class MarginDetailsComponent {
       this.showWorksheetAPILoader = res;
     });
     this.loaderService.hideLoader();
-    this.marginGroupColumns = [{ field: "productName", title: "Instrument + DealProdSeq", width: 110 }]
-    this.marginGridDetails=this.calculateValues(this.WorksheetMarginDetailsCard);
-    
+    this.calculateGridValues(this.WorksheetMarginDetailsCard,'Product',null,null);
     this.marginConfigItemsColumns =
     [
       {
@@ -64,7 +72,7 @@ export class MarginDetailsComponent {
           attributes: { "class": "columnRightToLeft paleGreen" }, format: "{0:n2}",
           headerTemplate: '<div style="text-align:right">Margin</div>',
           template: "# if(productName === 'Parts not to be shown in Quote'){#  <div style='text-align:right'>~</div> # } else {# <div style='text-align:right'>#=  kendo.toString(_QuoteMarginPC, 'n2')#</div>  #}#",
-          footerTemplate: this.calculateSumOfMargin("_TotalCostQC", "_NetQuote", this.WorksheetMarginDetailsCard),
+          footerTemplate: this.calculateSumOfMargin("_TotalCostQC", "_NetQuote", this.WorksheetMarginDetailsCard,'Parts'),
       },
       {
           field: "_GoodsCost", title: "Cost of Goods in QC ", filterable: true, sortable: true, 
@@ -98,7 +106,7 @@ export class MarginDetailsComponent {
           sortable: true, width: 135, template: "#=(isUnManagedSupplier == 0)?'No':'Yes'#",
       }
     ];
-
+    // this.marginGroupColumns = [{ field: "productName", title: "Instrument + DealProdSeq", width: 110 }]
     // this.marginConfigItemsColumns =
     // [
     //   {
@@ -419,6 +427,198 @@ export class MarginDetailsComponent {
     });
   }
 
+  calculateGridValues(data: any[], Type: string, SupplierName: string | null, ProductName: string | null): any {
+    if(Type == 'Parts'){
+      console.log('Selected Supplier', SupplierName);
+      console.log('Selected Product', ProductName);
+
+      this.marginPartsGridDetails = data
+      .filter(item => item.supplierName === SupplierName && item.productName === ProductName)
+      .map(val => {
+        let item = { ...val };
+    
+        item._NetSuppPriceInSC = item.listPrice - (item.listPrice * (item.sI_DiscountPC + item.drQ_PC) / 100);
+        item._TotNetSuppPriceInSC = item._NetSuppPriceInSC * item.reqdQty;
+        item._GoodsCost = item._NetSuppPriceInSC * item.conversionRate;
+        item._Warranty_QC = item.warrantyPC * item._GoodsCost / 100;
+        item._Logistics_QC = item.freightPC * item._GoodsCost / 100;
+        item._Duty_QC = item.dutyPC * item._GoodsCost / 100;
+        item._Incentive_QC = item.incentivePC * item._GoodsCost / 100;
+        item._Finance_QC = item.finChargesPC * item._GoodsCost / 100;
+        item._CountrySpec_DG_QC = (item.countrySpecPC + item.dgpc) * item._GoodsCost / 100;
+        item._TotalCostQC = (item._GoodsCost + item._Warranty_QC + item._Logistics_QC + item._Duty_QC + item._Incentive_QC + item._Finance_QC + item._CountrySpec_DG_QC) * item.reqdQty;
+        item._SellOut_QC = ((item._TotalCostQC / (1 - item.marginPC / 100)) / (1 - item.channelDiscountPC / 100));
+    
+        // For parts contract
+        item._UnitCostQC = item._GoodsCost + item._Warranty_QC + item._Logistics_QC + item._Duty_QC + item._Incentive_QC + item._Finance_QC + item._CountrySpec_DG_QC;
+        // item._UnitSellOut_QC = ((item._UnitCostQC / (1 - item.marginPC / 100)) / (1 - item.channelDiscountPC / 100));
+    
+        item._PartsNotShown_QC = item.totalDealLevelCostQC;
+        if (item.productName === 'Parts not to be shown in Quote') {
+          item._SellOut_QC = 0.0;
+          item._SystemSellout_DP = 0;
+    
+          item._QuoteDiscount = 0;
+          item.quoteDiscQC = 0;
+    
+          item._NetQuote = 0;
+          item._QuoteMarginPC = 0;
+        } else {
+          item._SystemSellout_DP = item._SellOut_QC + item._PartsNotShown_QC;
+    
+          item._QuoteDiscount = item.quoteSellingPriceQC * item.quoteDiscQC;
+          item.quoteDiscQC = item.quoteDiscQC * 100;
+    
+          item._NetQuote = item.quoteSellingPriceQC - item._QuoteDiscount;
+          item._QuoteMarginPC = (item._NetQuote == 0) ? 0 : ((item._NetQuote - item._TotalCostQC) / item._NetQuote) * 100;
+    
+          if (item.reqdQty == 0) {
+            item._QuoteMarginPC = ((item.unitQuoteSellingPriceQC - item._UnitCostQC) / item.unitQuoteSellingPriceQC) * 100;
+          }
+        }
+        return item;
+      });
+    }
+
+    else if (Type == 'Supplier'){
+      console.log('Selected Product', ProductName);
+
+      let selectedProductData = data
+      .filter(item => item.productName === ProductName)
+      .map(val => {
+        let item = { ...val };
+    
+        item._NetSuppPriceInSC = item.listPrice - (item.listPrice * (item.sI_DiscountPC + item.drQ_PC) / 100);
+        item._TotNetSuppPriceInSC = item._NetSuppPriceInSC * item.reqdQty;
+        item._GoodsCost = item._NetSuppPriceInSC * item.conversionRate;
+        item._Warranty_QC = item.warrantyPC * item._GoodsCost / 100;
+        item._Logistics_QC = item.freightPC * item._GoodsCost / 100;
+        item._Duty_QC = item.dutyPC * item._GoodsCost / 100;
+        item._Incentive_QC = item.incentivePC * item._GoodsCost / 100;
+        item._Finance_QC = item.finChargesPC * item._GoodsCost / 100;
+        item._CountrySpec_DG_QC = (item.countrySpecPC + item.dgpc) * item._GoodsCost / 100;
+        item._TotalCostQC = (item._GoodsCost + item._Warranty_QC + item._Logistics_QC + item._Duty_QC + item._Incentive_QC + item._Finance_QC + item._CountrySpec_DG_QC) * item.reqdQty;
+        item._SellOut_QC = ((item._TotalCostQC / (1 - item.marginPC / 100)) / (1 - item.channelDiscountPC / 100));
+    
+        // For parts contract
+        item._UnitCostQC = item._GoodsCost + item._Warranty_QC + item._Logistics_QC + item._Duty_QC + item._Incentive_QC + item._Finance_QC + item._CountrySpec_DG_QC;
+        // item._UnitSellOut_QC = ((item._UnitCostQC / (1 - item.marginPC / 100)) / (1 - item.channelDiscountPC / 100));
+    
+        item._PartsNotShown_QC = item.totalDealLevelCostQC;
+        if (item.productName === 'Parts not to be shown in Quote') {
+          item._SellOut_QC = 0.0;
+          item._SystemSellout_DP = 0;
+    
+          item._QuoteDiscount = 0;
+          item.quoteDiscQC = 0;
+    
+          item._NetQuote = 0;
+          item._QuoteMarginPC = 0;
+        } else {
+          item._SystemSellout_DP = item._SellOut_QC + item._PartsNotShown_QC;
+    
+          item._QuoteDiscount = item.quoteSellingPriceQC * item.quoteDiscQC;
+          item.quoteDiscQC = item.quoteDiscQC * 100;
+    
+          item._NetQuote = item.quoteSellingPriceQC - item._QuoteDiscount;
+          item._QuoteMarginPC = (item._NetQuote == 0) ? 0 : ((item._NetQuote - item._TotalCostQC) / item._NetQuote) * 100;
+    
+          if (item.reqdQty == 0) {
+            item._QuoteMarginPC = ((item.unitQuoteSellingPriceQC - item._UnitCostQC) / item.unitQuoteSellingPriceQC) * 100;
+          }
+        }
+        return item;
+      });
+
+      let uniqueSuppliers = Array.from(new Set(selectedProductData.map(item => item.supplierName)))
+      .map(supplierName => {
+        let filteredData = selectedProductData.filter(item => item.supplierName === supplierName);
+        let margin = this.calculateSumOfMargin("_TotalCostQC", "_NetQuote", filteredData,'Supplier');
+        let totalCost = this.calculateSumValue("_TotalCostQC", filteredData);
+        let netQuote = this.calculateSumValue("_NetQuote", filteredData);
+
+        return {
+          supplierName: supplierName,
+          _QuoteMarginPC: Number(margin),
+          _TotalCostQC:Number(totalCost),
+          _NetQuote: Number(netQuote)
+        };
+      });
+  
+      this.marginSupplierGridDetails = uniqueSuppliers;
+      console.log('Supplier Grid',this.marginSupplierGridDetails);
+    }
+    
+    else if (Type == 'Product'){
+      let marginData = data
+      .map(val => {
+        let item = { ...val };
+    
+        item._NetSuppPriceInSC = item.listPrice - (item.listPrice * (item.sI_DiscountPC + item.drQ_PC) / 100);
+        item._TotNetSuppPriceInSC = item._NetSuppPriceInSC * item.reqdQty;
+        item._GoodsCost = item._NetSuppPriceInSC * item.conversionRate;
+        item._Warranty_QC = item.warrantyPC * item._GoodsCost / 100;
+        item._Logistics_QC = item.freightPC * item._GoodsCost / 100;
+        item._Duty_QC = item.dutyPC * item._GoodsCost / 100;
+        item._Incentive_QC = item.incentivePC * item._GoodsCost / 100;
+        item._Finance_QC = item.finChargesPC * item._GoodsCost / 100;
+        item._CountrySpec_DG_QC = (item.countrySpecPC + item.dgpc) * item._GoodsCost / 100;
+        item._TotalCostQC = (item._GoodsCost + item._Warranty_QC + item._Logistics_QC + item._Duty_QC + item._Incentive_QC + item._Finance_QC + item._CountrySpec_DG_QC) * item.reqdQty;
+        item._SellOut_QC = ((item._TotalCostQC / (1 - item.marginPC / 100)) / (1 - item.channelDiscountPC / 100));
+    
+        // For parts contract
+        item._UnitCostQC = item._GoodsCost + item._Warranty_QC + item._Logistics_QC + item._Duty_QC + item._Incentive_QC + item._Finance_QC + item._CountrySpec_DG_QC;
+        // item._UnitSellOut_QC = ((item._UnitCostQC / (1 - item.marginPC / 100)) / (1 - item.channelDiscountPC / 100));
+    
+        item._PartsNotShown_QC = item.totalDealLevelCostQC;
+        if (item.productName === 'Parts not to be shown in Quote') {
+          item._SellOut_QC = 0.0;
+          item._SystemSellout_DP = 0;
+    
+          item._QuoteDiscount = 0;
+          item.quoteDiscQC = 0;
+    
+          item._NetQuote = 0;
+          item._QuoteMarginPC = 0;
+        } else {
+          item._SystemSellout_DP = item._SellOut_QC + item._PartsNotShown_QC;
+    
+          item._QuoteDiscount = item.quoteSellingPriceQC * item.quoteDiscQC;
+          item.quoteDiscQC = item.quoteDiscQC * 100;
+    
+          item._NetQuote = item.quoteSellingPriceQC - item._QuoteDiscount;
+          item._QuoteMarginPC = (item._NetQuote == 0) ? 0 : ((item._NetQuote - item._TotalCostQC) / item._NetQuote) * 100;
+    
+          if (item.reqdQty == 0) {
+            item._QuoteMarginPC = ((item.unitQuoteSellingPriceQC - item._UnitCostQC) / item.unitQuoteSellingPriceQC) * 100;
+          }
+        }
+        return item;
+      });
+
+      let uniqueProducts = Array.from(new Set(marginData.map(item => item.productName)))
+      .map(productName => {
+        let filteredData = marginData.filter(item => item.productName === productName);
+        let margin = this.calculateSumOfMargin("_TotalCostQC", "_NetQuote", filteredData,'Product');
+        let totalCost = this.calculateSumValue("_TotalCostQC", filteredData);
+        let netQuote = this.calculateSumValue("_NetQuote", filteredData);
+
+        return {
+          productName: productName,
+          _QuoteMarginPC: Number(margin),
+          _TotalCostQC:Number(totalCost),
+          _NetQuote: Number(netQuote)
+        };
+      });
+  
+      this.marginProductGridDetails = uniqueProducts;
+      console.log('Product Grid',this.marginProductGridDetails);
+    }
+    else{
+      return null;
+    }
+  }
+
   calculateSumValue(field: string, data: any[]): string {
     let sumTotalCost = 0;
 
@@ -428,18 +628,24 @@ export class MarginDetailsComponent {
           sumTotalCost += 0;
         } else {
           sumTotalCost += item[field];
+          // console.log('Individual Goods Cost',item[field]);
+          // console.log('Total Sum of Goods Cost',sumTotalCost);
         }
       }
     });
     return sumTotalCost.toFixed(2);
   }
 
-  calculateSumOfMargin(totalCost: string, netQuote: string, data: any[]): string {
+  calculateSumOfMargin(totalCost: string, netQuote: string, data: any[],Type: string): string {
     let sumTotalCost = 0;
     let sumNetQuote = 0;
 
     data.forEach(item => {
       if (item["isOptional"] == '0' && item["isAlternateProduct"] == '0' && item["partNo"] != null) {
+        sumTotalCost += isNaN(item[totalCost]) ? 0 : item[totalCost];
+        sumNetQuote += isNaN(item[netQuote]) ? 0 : item[netQuote];
+      }
+      else if (Type == 'Product' || Type == 'Supplier') {
         sumTotalCost += isNaN(item[totalCost]) ? 0 : item[totalCost];
         sumNetQuote += isNaN(item[netQuote]) ? 0 : item[netQuote];
       }
@@ -482,6 +688,35 @@ export class MarginDetailsComponent {
         'error', 'center', 'bottom'
       );
     });
+  }
+
+  resetValues(){
+    this.isProductGridOpen = false;
+    this.isSupplierGridOpen = false;
+    this.isPartsGridOpen = false;
+    this.isDownloadloaderVisible = false;
+    this.marginProductGridDetails = [];
+    this.marginSupplierGridDetails = [];
+    this.marginPartsGridDetails = [];
+  }
+
+  onSuppProdClick(Type: string, SupplierName: string | null, ProductName: string | null){
+    this.resetValues();
+    if(Type == 'Product'){
+      this.calculateGridValues(this.WorksheetMarginDetailsCard,'Product',null,null);
+      this.isProductGridOpen = true;
+    }
+    else if(Type == 'Supplier'){
+      this.calculateGridValues(this.WorksheetMarginDetailsCard,'Supplier',null,ProductName);
+      this.selectedProduct = ProductName;
+      this.isSupplierGridOpen = true;
+    }
+    else if(Type == 'Parts'){
+      this.calculateGridValues(this.WorksheetMarginDetailsCard,'Parts',SupplierName,ProductName);
+      this.selectedProduct = ProductName;
+      this.selectedSupplier = SupplierName;
+      this.isPartsGridOpen = true;
+    }
   }
 
 }
