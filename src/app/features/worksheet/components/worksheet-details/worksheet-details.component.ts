@@ -1,11 +1,27 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { process, State } from '@progress/kendo-data-query';
-import { WorksheetService, WorkSheetSO , EnquiryList} from '../../worksheet.service';
+import { WorksheetService, WorkSheetSO} from '../../worksheet.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { Router } from '@angular/router';
 
-
+interface EnquiryList {
+  id: string | number;
+  dealNo: string;
+  enqID: number;
+  soldToLEID: number;
+  soldToLE: string;
+  salesChannel: string;
+  enqStatusId: number;
+  enqStatus: string;
+  salesExecutiveID: number;
+  salesExecutive: string;
+  soldToContact: string;
+  wsApprovalPendingWith: string;
+  soldToContPhoneNo: number;
+  approxQuotevalue: number;
+  drqStatus: string;
+};
 
 @Component({
   selector: 'app-worksheet-details',
@@ -42,7 +58,6 @@ export class WorksheetDetailsComponent {
     this.loaderService.showLoader();
     this.worksheetService.getEnquiryWorksheetlist().subscribe((data: any) => {
       this.contactCards = data;
-      console.log('Contact Cards ', data);
       this.filterData();
       this.loaderService.hideLoader();
     },

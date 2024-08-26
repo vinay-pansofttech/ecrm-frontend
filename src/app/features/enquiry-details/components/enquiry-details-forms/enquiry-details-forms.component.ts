@@ -110,8 +110,7 @@ export class EnquiryDetailsFormsComponent implements OnInit {
       if (
         generated.generatedFrom === 'Marketing' ||
         generated.generatedFrom === 'Transactional Sales' ||
-        generated.generatedFrom === 'E-commerce Portals'  ||
-        generated.generatedFrom === 'Sales Account Coverage'
+        generated.generatedFrom === 'E-commerce Portals'  
       ) {
         this.enquiryDetailsService
           .getgeneratedBy(generated.generatedFrom)
