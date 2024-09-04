@@ -1,24 +1,20 @@
-<!-- <div class="app-screen--header">
-    Invoicing Milestone and Credit Exposure
-    <div class="app-screen--header-tag"></div>
-</div> -->
-<div
-    class="credit-exposure--container"
-    *ngIf="!showWorksheetAPILoader">
-    <kendo-grid [data]="gridData" [pageSize]="15">
+<div class="app-screen-content" *ngIf="!showWorksheetAPILoader">
+    <kendo-grid class="app-kendo-grid"
+    [data]="gridData" 
+    [pageSize]="15">
         <ng-container *ngFor="let column of PaymentTermsQuoteColumns">
           <kendo-grid-column
             [field]="column.field"
             [title]="column.title"
             [width]="column.width"
-            [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF', 'text-align': 'center'}"
+            [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF', 'text-align': 'center'}"
             [filterable]="column.filterable !== false"
             [sortable]="column.sortable !== false"
             [hidden]="column.hidden === true"
             *ngIf="!column.columns">
           </kendo-grid-column>
           <kendo-grid-column-group *ngIf="column.columns" [title]="column.title" 
-          [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+          [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
           >
             <ng-container *ngFor="let nestedColumn of column.columns">
               <kendo-grid-column
@@ -26,7 +22,7 @@
                 [title]="nestedColumn.title"
                 [width]="nestedColumn.width"
                 [format]="nestedColumn.format"
-                [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+                [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
                 [filterable]="nestedColumn.filterable !== false"
                 [sortable]="nestedColumn.sortable !== false"
                 [hidden]="nestedColumn.hidden === true">
@@ -38,11 +34,6 @@
     <div *ngIf="creditExposureText !== ''" class="credit-exposure-balance-container">
       <div>Cust. Total Outstanding</div>
       <div class="credit-exposure-balance-card">
-        <!-- <kendo-textbox
-        [style.text-align]="'right'"
-        [maxlength]="5"
-        [readonly]="true"
-        [value]="worksheetDetailsCard[0].totOutStanding.toString()"></kendo-textbox>&nbsp;&nbsp;AED -->
         <div class="credit-exposure-credit-balance-card"> 
           {{worksheetDetailsCard[0].totOutStanding | number:'1.0':'en-US'}}
         </div>
@@ -51,41 +42,47 @@
     </div>
     <div *ngIf="creditExposureText !== ''" class="app-screen--notification" 
       [style.background-color]="backgroundColor" [style.border-left]="'5px solid' + leftBorderColor">
-      <img class="credit-exposure-notification-bell-icon" src="assets/notification-bell.svg" alt="N"/>
-      {{creditExposureText}}
+      <div class="app-screen--notification-content-left">      
+        <img src="assets/notification-bell.svg" alt="N"/>
+        {{creditExposureText}}
+      </div>
     </div>
-    <div *ngIf="comparePaymentTerms()" class="credit-exposure-paymenterms-notification" 
+    <div *ngIf="comparePaymentTerms()" class="app-screen--notification-amber" 
       (click)="onClickShowPaymentTerms()">
-      <div class="credit-exposure-paymenterms-notification-content">      
-        <img class="credit-exposure-notification-bell-icon" src="assets/notification-bell.svg" alt="N"/>
+      <div class="app-screen--notification-content-left">      
+        <img src="assets/notification-bell.svg" alt="N"/>
         Payment terms is different in master and quote
       </div>
-      <div>
-        <img *ngIf="!showPaymentTerms" class="credit-exposure-notification-down-icon" src="assets/credit-exposure-card--down-button.svg" alt=">>"/>
-        <img *ngIf="showPaymentTerms" class="credit-exposure-notification-up-icon" src="assets/credit-exposure-card--down-button.svg" alt=">>"/>
+      <div class="app-screen--notification-content-right">
+        <img *ngIf="!showPaymentTerms" src="assets/down.svg" alt=">>"/>
+        <img *ngIf="showPaymentTerms" src="assets/up.svg" alt=">>"/>
       </div>
     </div>
-    <kendo-grid *ngIf="showPaymentTerms" [data]="gridData" [pageSize]="15">
+    <kendo-grid *ngIf="showPaymentTerms" 
+    class="app-kendo-grid"
+    [data]="gridData" 
+    [pageSize]="15"
+    >
       <ng-container *ngFor="let column of PaymentTermsMasterColumns">
         <kendo-grid-column
           [field]="column.field"
           [title]="column.title"
           [width]="column.width"
-          [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+          [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
           [filterable]="column.filterable !== false"
           [sortable]="column.sortable !== false"
           [hidden]="column.hidden === true"
           *ngIf="!column.columns">
         </kendo-grid-column>
         <kendo-grid-column-group *ngIf="column.columns" [title]="column.title" 
-        [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+        [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
         >
           <ng-container *ngFor="let nestedColumn of column.columns">
             <kendo-grid-column
               [field]="nestedColumn.field"
               [title]="nestedColumn.title"
               [width]="nestedColumn.width"
-              [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+              [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
               [filterable]="nestedColumn.filterable !== false"
               [sortable]="nestedColumn.sortable !== false"
               [hidden]="nestedColumn.hidden === true">
@@ -97,41 +94,25 @@
     <div *ngIf="worksheetDetailsCard[0].reasonForWSApproval" class="app-screen--notification"
       [style.background-color]="worksheetDetailsCard[0].approvalLevelBGColor" 
       [style.border-left]="'5px solid' + worksheetDetailsCard[0].approvalLevelLBColor">
-      <img class="credit-exposure-notification-bell-icon" src="assets/notification-bell.svg" alt="N"/>
-      {{worksheetDetailsCard[0].reasonForWSApproval}}
+      <div class="app-screen--notification-content-left">
+        <img src="assets/notification-bell.svg" alt="N"/>
+        {{worksheetDetailsCard[0].reasonForWSApproval}}
+      </div>
     </div>  
     <div *ngIf="worksheetDetailsCard[0].pendingApprovalMsg" class="app-screen--notification">
-      <img class="credit-exposure-notification-bell-icon" src="assets/notification-bell.svg" alt="N"/>
-      {{worksheetDetailsCard[0].pendingApprovalMsg}}
+      <div class="app-screen--notification-content-left">
+        <img src="assets/notification-bell.svg" alt="N"/>
+        {{worksheetDetailsCard[0].pendingApprovalMsg}}
+      </div>
     </div> 
     <div *ngIf="worksheetDetailsCard[0].isContractRateChanged" class="app-screen--notification">
-      <img class="credit-exposure-notification-bell-icon" src="assets/notification-bell.svg" alt="N"/>
-      Please check the manually modified quote prices
+      <div class="app-screen--notification-content-left">
+        <img src="assets/notification-bell.svg" alt="N"/>
+        Please check the manually modified quote prices
+      </div>
     </div>
 </div>
 
-<!-- <div class="app-screen--header">
-  Worksheet Downloads
-  <div class="app-screen--header-tag"></div>
-</div>
-<div
-  class="worksheet-download--container"
-  *ngIf="!showWorksheetAPILoader">
-  <div class="worksheet-download-content">
-      Quote Comparision File
-      <button class="worksheet-download-button" (click)="downloadQuoteCompare()"> 
-          <img src="assets/worksheet-download-icon.svg" alt="->"/> 
-          Download 
-      </button>
-  </div>
-  <div class="worksheet-download-content">
-      WS Item Download
-      <button class="worksheet-download-button"> 
-          <img src="assets/worksheet-download-icon.svg" alt="->"/> 
-          Download 
-      </button>
-  </div>
-</div> -->
 <div class="app-screen--loader" *ngIf="showWorksheetAPILoader">
   <kendo-loader
     type="converging-spinner"

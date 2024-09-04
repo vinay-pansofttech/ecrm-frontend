@@ -1,17 +1,16 @@
 <div>
     <div class="app-navigation-main--container">
       <div>
-      <img src="assets/worksheet-back.svg" kendobutton alt="back" 
+      <img src="assets/back.svg" kendobutton alt="back" 
       (click)="onBackClickHandle()"/>
       </div>
       <div class="app-navigation--header">Sales Parts Management</div>
-      <div>
-      <img
-          src="assets/worksheet-reset.svg"
-          kendobuttons
-          alt="reset"
-          class="app-navigation-reset--image" 
-          (click)="onReset()"/>
+      <div (click)="onReset()">
+        <img
+            src="assets/reset.svg"        
+            kendobuttons
+            alt="reset"
+            class="app-navigation-reset--image"/>
       </div>
     </div>
     <div class="app-screen--header">
@@ -27,7 +26,7 @@
               </div>
               <div>
                 <img
-                  src="assets/enquiry-details-listview-img/edit.svg"
+                  src="assets/edit.svg"
                   alt="new"
                   (click)="navigateById(a.supplierId)" />
               </div>
@@ -56,7 +55,7 @@
                   Attachment
                 </div>
                 <div class="app-enquiry-details-listview--kendo-card-sold">
-                  <img src="assets/app-paper-clip.svg" alt="CE" 
+                  <img src="assets/common/app-paper-clip.svg" alt="CE" 
                   width="20" height="20" 
                   (click)="onClickSuppAttachment(a.supplierDocId, a.attachmentGuId? a.attachmentGuId: '')"/> 
                 </div>

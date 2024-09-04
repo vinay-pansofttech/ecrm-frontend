@@ -48,7 +48,7 @@
 }
 
 .dashboard-card--splitter {
-  border-right: 1px solid #5cb5c1;
+  border-right: 1px solid var(--primary-color);
 }
 .dashboard-card--splitter kendo-card {
   min-width: 100px;
@@ -86,8 +86,8 @@
 // }
 
 .dashboard-quickLink-card--subtitle {
-  font-family: Arial;
-  font-size: 12px;
+  font-family: var(--font-family-text);
+  font-size: var(--text-size-02);
   font-weight: 700;
   line-height: 13px;
   letter-spacing: 0em;
@@ -110,8 +110,8 @@
   width: 101px !important;
 }
 .dashboard-module--label {
-  font-family: Arial;
-  font-size: 12px;
+  font-family: var(--font-family-text);
+  font-size: var(--text-size-02);
   font-weight: 700;
   line-height: 13px;
   letter-spacing: 0em;
@@ -151,5 +151,5 @@
 }
 .dashboard-quickLink-card--image {
   font-size: 30px;
-  color: var(--terinary-color);
+  color: var(--primary-color);
 }

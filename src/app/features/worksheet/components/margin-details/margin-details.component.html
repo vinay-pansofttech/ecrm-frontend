@@ -4,12 +4,12 @@
     <div class="app-screen--info-header-left">
       Margin
     </div>
-    <button class="app-screen--info-header-right"
+    <kendo-button class="app-screen--info-header-right"
       (click)="marginExcelDownload()"> 
       <kendo-loader *ngIf="isDownloadloaderVisible" size="small"> </kendo-loader>
-      <img src="assets/worksheet-download-icon.svg" alt="->" width="15" height="15"/> 
-      Download 
-    </button>
+      <img src="assets/download.svg" alt="->" width="12" height="12"/> 
+      <span>&nbsp;Download</span> 
+    </kendo-button>
   </div>
 
   <div *ngIf="isProductGridOpen"> 
@@ -19,6 +19,7 @@
       </div>
     </div>
     <kendo-grid 
+    class="app-kendo-grid"
     [kendoGridBinding]="marginProductGridDetails" 
     [pageSize]="6" 
     [pageable]="true"
@@ -32,7 +33,7 @@
       [filterable]="false"
       [sortable]="false"
       [locked]="false"
-      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+      [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
       [width]="160"
     >
       <ng-template kendoGridHeaderTemplate>
@@ -55,7 +56,7 @@
       [filterable]="false"
       [sortable]="false"
       [locked]="false"
-      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+      [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
       [width]="70"
     >
       <ng-template kendoGridCellTemplate let-dataItem>
@@ -77,7 +78,7 @@
       [filterable]="false"
       [sortable]="false"
       [locked]="false"
-      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+      [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
       [width]="30"
     >
       <ng-template kendoGridCellTemplate let-dataItem>
@@ -97,11 +98,13 @@
       </div>
       <div class="app-screen--info-header-right" 
         (click)="onSuppProdClick('Product',null,null)">
-        Back
+        <img src="assets/backward.svg"/>
+        <span>Back</span>
       </div>
     </div> 
 
     <kendo-grid
+    class="app-kendo-grid"
     [kendoGridBinding]="marginSupplierGridDetails" 
     [pageSize]="6" 
     [pageable]="true"
@@ -115,7 +118,7 @@
       [filterable]="false"
       [sortable]="false"
       [locked]="false"
-      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+      [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
       [width]="160"
     >
       <ng-template kendoGridHeaderTemplate>
@@ -137,7 +140,7 @@
       [filterable]="false"
       [sortable]="false"
       [locked]="false"
-      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+      [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
       [width]="70"
     >
       <ng-template kendoGridCellTemplate let-dataItem>
@@ -159,7 +162,7 @@
     [filterable]="false"
     [sortable]="false"
     [locked]="false"
-    [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+    [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
     [width]="30"
     >
       <ng-template kendoGridCellTemplate let-dataItem>
@@ -184,16 +187,18 @@
       </div>
       <div class="app-screen--info-header-right" 
         (click)="onSuppProdClick('Supplier',selectedSupplier, selectedProduct)">
-        Back
-      </div>
+        <img src="assets/backward.svg"/>
+        <span>Back</span>      </div>
     </div> 
     
     <kendo-grid
+      class="app-kendo-grid"
       [kendoGridBinding]="marginPartsGridDetails" 
       [pageSize]="6" 
       [pageable]="true"
       [resizable]="true"
       [sortable]="true"
+      (pageChange)="onPageChange($event)"
     >
 
       <kendo-grid-column
@@ -201,23 +206,62 @@
         title="Part No. |  Option  |  Description"
         [filterable]="false"
         [sortable]="false"
-        [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF', 'text-align': 'center'}"
-        [width]="160"
+        [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF', 'text-align': 'center'}"
+        [width]="150"
       >
         <ng-template kendoGridHeaderTemplate>
           <div style="text-align:center;">Part No. &nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp; Option  <br> Description</div>
         </ng-template> 
-        <ng-template kendoGridCellTemplate let-dataItem>
-            {{isNullOrZero(dataItem.partNo)}} &nbsp;&nbsp;|&nbsp;&nbsp;  {{isNullOrZero(dataItem.partNoOption)}}
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+          <div
+            kendoPopoverAnchor
+            [popover]="popover"      
+            #container="kendoPopoverAnchor"
+            #anchor="kendoPopoverAnchor"
+            (click)="showPopover(dataItem)"
+            showOn="click"
+            >
+            <span> {{isNullOrZero(dataItem.partNo)}} &nbsp;&nbsp;|&nbsp;&nbsp; {{isNullOrZero(dataItem.partNoOption)}} </span>
             <br/>
-            <div kendoTooltip position="right" [closable]="true" showOn="click">
-              <span class="short-title">
-                {{ isNullOrZero(dataItem.description) | slice:0:30 }} ..... 
-              </span>
-              <span class="long-title">
-                {{ isNullOrZero(dataItem.description) | slice:0:60 }} .....            
-              </span>
+            <span [title]="isNullOrZero(dataItem.description)" class="short-title">
+              {{ isNullOrZero(dataItem.description) | slice:0:22 }} ..... 
+            </span>
+            <span [title]="isNullOrZero(dataItem.description)" class="long-title">
+              {{ isNullOrZero(dataItem.description) | slice:0:60 }} .....            
+            </span>
+          </div>
+
+          <kendo-popover
+          class="kendo-popover"
+          #popover
+          position="top"
+          [width]="popoverWidth"
+          [callout]="true">
+          <ng-template
+            kendoPopoverTitleTemplate let-anchor let-container>
+            <div class="kendo-popover-title-wrapper">
+              <span class="kendo-popover-title">Part Details</span>
+              <span class="kendo-popover-title" (click)="closePopover(rowIndex)"> &times; </span>
             </div>
+          </ng-template>
+          <ng-template 
+            kendoPopoverBodyTemplate let-anchor let-data="data">
+            <ul width="100%">
+              <li>
+                <strong>Part No:</strong>
+                {{ isNullOrZero(dataItem.partNo) }}
+              </li>
+              <li>
+                <strong>Option:</strong>
+                {{ isNullOrZero(dataItem.partNoOption) }}
+              </li>
+              <li>
+                <strong>Description:</strong>
+                {{ isNullOrZero(dataItem.description) }}
+              </li>
+            </ul>
+          </ng-template>
+          </kendo-popover>
 
         </ng-template> 
       </kendo-grid-column>
@@ -228,7 +272,7 @@
       [filterable]="false"
       [sortable]="false"
       [locked]="false"
-      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+      [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
       [width]="30"
       >
       <ng-template kendoGridHeaderTemplate>
@@ -247,8 +291,8 @@
       [filterable]="false"
       [sortable]="false"
       [locked]="false"
-      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
-      [width]="50"
+      [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
+      [width]="60"
       >
         <ng-template kendoGridCellTemplate let-dataItem>
           <div style="text-align:right">
@@ -271,7 +315,7 @@
         [filterable]="false"
         [sortable]="false"
         [locked]="false"
-        [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+        [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
         [width]="95"
       >
         <ng-template kendoGridCellTemplate let-dataItem>
@@ -285,7 +329,7 @@
         [filterable]="false"
         [sortable]="false"
         [locked]="false"
-        [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+        [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
         [width]="95"
       >
         <ng-template kendoGridCellTemplate let-dataItem>
@@ -299,7 +343,7 @@
         [filterable]="false"
         [sortable]="false"
         [locked]="false"
-        [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+        [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
         [width]="135"
       >
         <ng-template kendoGridCellTemplate let-dataItem>
@@ -308,6 +352,7 @@
       </kendo-grid-column> -->
 
     </kendo-grid>
+
   </div>
 
 </div>

@@ -23,6 +23,7 @@ export class CommonService {
     private datePipe: DatePipe
   ) {}
 
+  //API Call to fetch the attachment details
   getAttachmentDetails(enqID: string, docSrcType: number, docSrcGUID: string) {
     const url = this.attachmentDetailsUrl;
 
@@ -34,6 +35,7 @@ export class CommonService {
     return this.http.post(url, body);
   }
 
+    //API Call to download the attachment
   getAttachment(enqID: string, docSrcType: number, attachmentGUID: string, index: number) {
     const url = this.downloadAttachmentUrl;
 

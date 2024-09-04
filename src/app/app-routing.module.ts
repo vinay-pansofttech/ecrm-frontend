@@ -37,13 +37,6 @@ const routes: Routes = [
       ),
   },
   {
-    path: AppRoutePaths.WorkList,
-    loadChildren: () =>
-      import('./features/work-list/work-list.module').then(
-        m => m.WorkListModule
-      ),
-  },
-  {
     path: AppRoutePaths.ServiceCalendar,
     component: CalendarComponent,
     loadChildren: () =>

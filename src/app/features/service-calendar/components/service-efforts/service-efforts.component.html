@@ -18,18 +18,18 @@
     </div>
   </div>
 
-    <div class="service-efforts-history--header">
-      <div class="service-efforts--header">
+    <div class="app-screen--info-header">
+      <div class="app-screen--info-header-left">
         Effort Details - {{srid}}
       </div>
-      <div class="service-efforts-date">
+      <div class="app-screen--info-header-right">
         {{ currentDate }}
       </div>
     </div>
 
     <div class="app-kendo-form--container" [formGroup]="serviceEffortsForm">
       <div class="app-kendo-forms--subcontent">
-        <div class="service-efforts--hours-content effort-hours">
+        <div class="app-kendo-forms--subcontent-left">
           <kendo-formfield>
             <div class="app-kendo--content">
               <kendo-label class="app-kendo--label" [for]="startTime"
@@ -45,7 +45,7 @@
           </kendo-formfield>
         </div>
 
-        <div class="service-efforts--hours-content effort-hours">
+        <div class="app-kendo-forms--subcontent-right">
           <kendo-formfield>
             <div class="app-kendo--content">
               <kendo-label class="app-kendo--label" [for]="endTime"
@@ -66,7 +66,7 @@
       </div>
 
       <div class="app-kendo-forms--subcontent">
-        <div class="service-efforts--hours-content effort-hours">
+        <div class="app-kendo-forms--subcontent-left">
           <kendo-formfield>
             <div class="app-kendo--content">
               <kendo-label class="app-kendo--label" [for]="efforthours"
@@ -83,7 +83,7 @@
             >
           </kendo-formfield>
         </div>
-        <div class="service-efforts--hours-content">
+        <div class="app-kendo-forms--subcontent-right">
           <kendo-formfield>
             <div class="app-kendo--content">
               <kendo-label class="app-kendo--label" [for]="travelhours"
@@ -120,11 +120,11 @@
       </kendo-formfield>
     </div>
 
-    <div class="service-efforts-history--header">
-      <div class="service-efforts--header">
+    <div class="app-screen--info-header">
+      <div class="app-screen--info-header-left">
         Other Efforts
       </div>
-      <div class="service-header-right-button">
+      <div class="app-screen--info-header-right">
         <img *ngIf="!isPrevEffortsOpen" (click)="isPrevEffortsOpened()" src="assets/down-white.svg"/>
         <img *ngIf="isPrevEffortsOpen" (click)="isPrevEffortsOpened()"src="assets/up-white.svg"/>
       </div>

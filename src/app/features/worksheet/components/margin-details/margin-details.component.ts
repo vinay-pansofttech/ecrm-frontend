@@ -1,5 +1,5 @@
-import { Component, Injectable, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { GridModule } from '@progress/kendo-angular-grid';
+import { Component, HostListener, Input, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { GridModule, Skip, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { WorksheetService,WorksheetPrerequisites, WorksheetMarginList, EnquiryDetails,
   MarginProductGridList, MarginSupplierGridList, MarginPartsGridList
  } from '../../worksheet.service';
@@ -7,6 +7,7 @@ import { LoginService } from 'src/app/features/login/components/login/login.serv
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { process, State } from '@progress/kendo-data-query';
+import { PopoverContainerDirective, PopoverAnchorDirective } from "@progress/kendo-angular-tooltip";
 
 @Component({
   selector: 'app-margin-details',
@@ -22,12 +23,19 @@ export class MarginDetailsComponent {
   marginProductGridDetails: MarginProductGridList[] = [];
   marginSupplierGridDetails: MarginSupplierGridList[] = [];
   marginPartsGridDetails: MarginPartsGridList[] = [];
+  skip: number = 6;
+  pageNumber: number = 0;
 
   isDownloadloaderVisible: boolean = false;
   isProductGridOpen: boolean = true;
   isSupplierGridOpen: boolean = false;
   isPartsGridOpen: boolean = false;
 
+  itemToDisplay!: MarginPartsGridList;
+  public popoverWidth: number = 270;
+  @ViewChildren(PopoverAnchorDirective) popovers!: QueryList<PopoverAnchorDirective>;
+  @ViewChild('grid') grid: any;
+  
   selectedProduct: string | null = "";
   selectedSupplier: string | null = "";
 
@@ -43,6 +51,7 @@ export class MarginDetailsComponent {
       this.showWorksheetAPILoader = res;
     });
     this.loaderService.hideLoader();
+    this.setPopoverWidth(window.innerWidth);
     this.calculateGridValues(this.WorksheetMarginDetailsCard,'Product',null,null);
     this.marginConfigItemsColumns =
     [
@@ -717,6 +726,34 @@ export class MarginDetailsComponent {
       this.selectedSupplier = SupplierName;
       this.isPartsGridOpen = true;
     }
+  }
+
+  public showPopover(dataItem: MarginPartsGridList) {
+      this.itemToDisplay = dataItem;
+  }
+
+  closePopover(rowIndex: number): void {
+    if(rowIndex >= this.skip){
+      rowIndex = rowIndex - (this.pageNumber * this.skip);
+    }
+    const popover = this.popovers.toArray()[rowIndex];
+    if (popover) {
+      popover.hide();
+    }
+  }
+
+  onPageChange(event: PageChangeEvent): void {
+    this.skip = event.take;
+    this.pageNumber = (event.skip / event.take);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.setPopoverWidth((event.target as Window).innerWidth);
+  }
+
+  private setPopoverWidth(screenWidth: number): void {
+    this.popoverWidth = screenWidth <= 590 ? 270 : 380;
   }
 
 }

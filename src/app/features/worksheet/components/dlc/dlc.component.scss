@@ -13,16 +13,16 @@
 }
 .sub-title{
   color: var(--body-grey, #69727b);
-  font-family: Arial;
-  font-size: 12px;
+  font-family: var(--font-family-text);
+  font-size: var(--text-size-02);
   font-style: normal;
   font-weight: var(--font-weight-normal);
   line-height: normal;
 }
 .sold{
   color: #383838;
-  font-family: Arial;
-  font-size: 12px;
+  font-family: var(--font-family-text);
+  font-size: var(--text-size-02);
   font-style: normal;
   font-weight: var(--font-weight-bolder);
   line-height: normal;

@@ -1,14 +1,16 @@
 <div *ngIf="!showWorksheetAPILoader">
-  <div class="app-screen--header">
-    DRQ Request
+  <div class="app-screen--info-header">
+    <div class="app-screen--info-header-left">
+      DRQ Request
+    </div>
   </div>
   
 <div *ngIf="!isPartsGridOpen">
-  <div class="app-screen--info-header"> 
+  <div class="app-screen--info-header">
     <div class="app-screen--info-header-left">
       Supplier List
     </div>
-  </div> 
+  </div>
   
   <div *ngFor="let a of WorksheetDRQSupplierDetailsCard; let i=index;" class="app-enquiry-details-listview--cards">
     <kendo-card class="app-enquiry-details-listview--kendo-card">
@@ -18,7 +20,7 @@
         </div>
         <div>
           <img
-            src="assets/enquiry-details-listview-img/edit.svg"
+            src="assets/edit.svg"
             alt="new"
             (click)="navigateById(a.supplierId)" />
         </div>
@@ -66,11 +68,11 @@
           <div class="app-enquiry-details-listview--kendo-card-sub-title">
             SM Comments
           </div>
-          <div class="app-enquiry-details-listview--kendo-card-sold">
-            <div class="app-enquiry-details-listview--kendo-card-sold-left">
+          <div class="app-enquiry-details-listview--kendo-card-comments">
+            <div class="app-enquiry-details-listview--kendo-card-comments-left">
                 {{ a.smComments | slice:0:30 }} ..... 
             </div>
-            <div class="app-enquiry-details-listview--kendo-card-sold-right">
+            <div class="app-enquiry-details-listview--kendo-card-comments-right">
               <img (click)="onSMCommentsClick(i)" src="assets/down.svg"/>
             </div>
           </div>
@@ -81,11 +83,11 @@
             SM Comments
           </div>
 
-          <div class="app-enquiry-details-listview--kendo-card-sold">
-            <div class="app-enquiry-details-listview--kendo-card-sold-left">
+          <div class="app-enquiry-details-listview--kendo-card-comments">
+            <div class="app-enquiry-details-listview--kendo-card-comments-left">
                 {{ a.smComments }}
             </div>
-            <div class="app-enquiry-details-listview--kendo-card-sold-right">
+            <div class="app-enquiry-details-listview--kendo-card-comments-right">
               <img (click)="onSMCommentsClick(i)" src="assets/up.svg"/>
             </div>
           </div>
@@ -102,7 +104,8 @@
       {{WorksheetDRQItemsDetailsCard[0].supplierName}}
     </div>
     <div class="app-screen--info-header-right" (click)="onBackClickHandle()">
-      Back
+      <img src="assets/backward.svg"/>
+      <span>Back</span>
     </div>
   </div> 
 
@@ -111,7 +114,7 @@
     [pageSize]="6"
     [resizable]="true"
     [sortable]="true"
-    [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+    [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
     >
 
     <kendo-grid-column
@@ -119,19 +122,19 @@
       title=""
       [filterable]="false"
       [sortable]="false"
-      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF'}"
+      [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
       [width]="10"
-      [locked]="true"
+      [locked]="false"
       [style]="{'padding': '0', 'margin': '0'}"
     >
       <ng-template kendoGridCellTemplate let-dataItem>
-        <span class="status-cell" [ngClass]="{
-          'dvGreen': dataItem.drqItemStatus == 1,
-          'dvBlue': dataItem.drqItemStatus == 2,
-          'dvRed': dataItem.drqItemStatus == 3,
-        }">
+        <div class="kendo-grid--Status-cell" [ngClass]="{
+          'kendo-grid--StatusGreen': dataItem.drqItemStatus == 1,
+          'kendo-grid--StatusBlue': dataItem.drqItemStatus == 2,
+          'kendo-grid--StatusRed': dataItem.drqItemStatus == 3,
+          }">
           &nbsp;
-      </span>
+        </div>
       </ng-template> 
 
     </kendo-grid-column>
@@ -139,17 +142,24 @@
     <kendo-grid-column
     field="isDRQ"
     title="Raise DRQ"
-    [width]="120"
-    [locked]="true"
+    [width]="100"
+    [locked]="false"
     editor="boolean"
     [headerStyle]="{ 'background-color': '#1C6C73' , 'color': '#FFFFFF', 'text-align': 'center'}"
     >
-    <ng-template kendoGridCellTemplate let-dataItem>
-      <input type="checkbox" [(ngModel)]="dataItem.isDRQ" class="chkbx k-checkbox" [disabled]="false" />
-    </ng-template>
-    <ng-template kendoGridHeaderTemplate>
-      Raise DRQ<input type="checkbox" [(ngModel)]="allChecked" (change)="toggleAll($event)" class="chkAll k-checkbox enabled" />
-    </ng-template>
+      <ng-template kendoGridHeaderTemplate>
+        <div style="display: flex; align-items: center; justify-content: left; width: 100%;">
+            <span style="text-align: left;">
+                Raise<br/>DRQ
+            </span>
+            <input type="checkbox" [(ngModel)]="allChecked" (change)="toggleAll($event)" class="chkAll k-checkbox enabled" />
+        </div>
+      </ng-template>
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div style="text-align:center;width: 100%;">
+          <input type="checkbox" [(ngModel)]="dataItem.isDRQ" class="chkbx k-checkbox" [disabled]="false" />
+        </div>
+      </ng-template>
     </kendo-grid-column>
 
     <kendo-grid-column
@@ -157,51 +167,79 @@
       title="Product"
       [filterable]="false"
       [sortable]="false"
-      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF', 'text-align': 'center'}"
+      [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF', 'text-align': 'center'}"
       [width]="120"
     >
+      <ng-template kendoGridHeaderTemplate>
+        <div style="text-align:left;width:100%;height:100%;">Product</div>
+      </ng-template> 
       <ng-template kendoGridCellTemplate let-dataItem>
         <div>{{ isNullOrZero(dataItem.productName) }}</div>
       </ng-template>
     </kendo-grid-column>
 
     <kendo-grid-column
-      field="partNo"
-      title="Part No."
-      [filterable]="false"
-      [sortable]="false"
-      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF', 'text-align': 'center'}"
-      [width]="120"
+    field="partNo"
+    title="Part No. |  Option  |  Description"
+    [filterable]="false"
+    [sortable]="false"
+    [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF', 'text-align': 'center'}"
+    [width]="180"
     >
-      <ng-template kendoGridCellTemplate let-dataItem>
-        <div>{{ isNullOrZero(dataItem.partNo) }}</div>
-      </ng-template>
-    </kendo-grid-column>
+    <ng-template kendoGridHeaderTemplate>
+      <div style="text-align:center;">Part No. &nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp; Option  <br> Description</div>
+    </ng-template> 
+    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+      <div
+        kendoPopoverAnchor
+        [popover]="popover"      
+        #container="kendoPopoverAnchor"
+        #anchor="kendoPopoverAnchor"
+        (click)="showPopover(dataItem)"
+        showOn="click"
+        >
+        <span> {{isNullOrZero(dataItem.partNo)}} &nbsp;&nbsp;|&nbsp;&nbsp; {{isNullOrZero(dataItem.option)}} </span>
+        <br/>
+        <span [title]="isNullOrZero(dataItem.description)" class="short-title">
+          {{ isNullOrZero(dataItem.description) | slice:0:15 }} ..... 
+        </span>
+        <span [title]="isNullOrZero(dataItem.description)" class="long-title">
+          {{ isNullOrZero(dataItem.description) | slice:0:60 }} .....            
+        </span>
+      </div>
 
-    <kendo-grid-column
-      field="option"
-      title="Option"
-      [filterable]="false"
-      [sortable]="false"
-      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF', 'text-align': 'center'}"
-      [width]="100"
-    >
-      <ng-template kendoGridCellTemplate let-dataItem>
-        <div>{{ isNullOrZero(dataItem.option) }}</div>
+      <kendo-popover
+      class="kendo-popover"
+      #popover
+      position="top"
+      [width]="popoverWidth"
+      [callout]="true">
+      <ng-template
+        kendoPopoverTitleTemplate let-anchor let-container>
+        <div class="kendo-popover-title-wrapper">
+          <span class="kendo-popover-title">Part Details</span>
+          <span class="kendo-popover-title" (click)="closePopover(rowIndex)"> &times; </span>
+        </div>
       </ng-template>
-    </kendo-grid-column>
-
-    <kendo-grid-column
-      field="description"
-      title="Description"
-      [filterable]="false"
-      [sortable]="false"
-      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF', 'text-align': 'center'}"
-      [width]="160"
-    >
-      <ng-template kendoGridCellTemplate let-dataItem>
-        <div>{{ isNullOrZero(dataItem.description) }}</div>
+      <ng-template 
+        kendoPopoverBodyTemplate let-anchor let-data="data">
+        <ul width="100%">
+          <li>
+            <strong>Part No:</strong>
+            {{ isNullOrZero(dataItem.partNo) }}
+          </li>
+          <li>
+            <strong>Option:</strong>
+            {{ isNullOrZero(dataItem.option) }}
+          </li>
+          <li>
+            <strong>Description:</strong>
+            {{ isNullOrZero(dataItem.description) }}
+          </li>
+        </ul>
       </ng-template>
+      </kendo-popover>
+      </ng-template> 
     </kendo-grid-column>
 
     <kendo-grid-column
@@ -209,11 +247,14 @@
       title="PL"
       [filterable]="true"
       [sortable]="true"
-      [headerStyle]="{ 'background-color': '#5cb5c1' , 'color': '#FFFFFF', 'text-align': 'center'}"
+      [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF', 'text-align': 'center'}"
       [width]="80"
     >
+      <ng-template kendoGridHeaderTemplate>
+        <div style="text-align:center;width:100%;height:100%;">PL</div>
+      </ng-template> 
       <ng-template kendoGridCellTemplate let-dataItem>
-        <div>{{ isNullOrZero(dataItem.productLine) }}</div>
+        <div style="text-align:center;width:100%;height:100%;">{{ isNullOrZero(dataItem.productLine) }}</div>
       </ng-template>
     </kendo-grid-column>
 

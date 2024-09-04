@@ -1,34 +1,23 @@
 <div *ngIf="!showAPILoader">
   <div class="app-navigation-main--container">
     <div>
-        <img src="assets/worksheet-back.svg" kendobutton alt="back" 
+        <img src="assets/back.svg" kendobutton alt="back" 
         (click)="onBackClickHandle()"/>
     </div>
     <div class="app-navigation--header">Worksheet</div>
-    <div>
+    <div (click)="onReset()">
       <img
-          src="assets/worksheet-reset.svg"
+          src="assets/reset.svg"
           kendobuttons
           alt="reset"
-          class="app-navigation-reset--image" 
-          (click)="onReset()"/>
+          class="app-navigation-reset--image"/>
     </div>
   </div>
   <div [formGroup]="WorksheetApprovalForm">
     <div class="app-screen--content">
-      <!-- <kendo-stepper
-           [steps]="steps"
-           stepType="full"
-           [(currentStep)]="currentStep"
-           [linear]="false">
-           </kendo-stepper> -->
       <div class="app-screen--stepper">
           <div class="app-screen--stepper-container"
               (click)="onStepperClick(0)" [ngClass]="{'selected': isCreditExposureSelected}">
-            <!-- <div class="worksheet-approval-stepper-image">
-              <img src="assets/worksheet-approval-credit-icon.svg"
-              alt="CE"/>
-            </div> -->
             <div class="app-screen--stepper-container-content"> Credit Exposure </div>
           </div>
           <div class="app-screen--stepper-container"
@@ -42,10 +31,6 @@
           </div>
           <div class="app-screen--stepper-container"
               (click)="onStepperClick(3)" [ngClass]="{'selected': isPriceDetailsSelected}">
-            <!-- <div class="worksheet-approval-stepper-image">
-              <img src="assets/worksheet-approval-price-icon.svg"
-              alt="CE"/>
-            </div> -->
             <div class="app-screen--stepper-container-content"> Price Details </div>
           </div>
           <div class="app-screen--stepper-container"
@@ -55,7 +40,7 @@
             <div class="app-screen--stepper-container-content"> Margin </div>
           </div>
       </div>
-      <form class="k-form k-form-md worksheet-approval-container">
+      <form class="k-form k-form-md margin-top-1">
           <div *ngFor="let a of worksheetDetailsCard;" class="app-enquiry-details-listview--cards">
             <kendo-card class="app-enquiry-details-listview--kendo-card">    
               <div class="app-enquiry-details-listview--kendo-card-content">
@@ -147,13 +132,13 @@
                   <div class="app-enquiry-details-listview--kendo-card-sub-title">
                       Disc. Level
                   </div>
-                  <div *ngIf=a.isLeadLevelDiscount class="app-enquiry-details-listview--kendo-card-sold worksheet-details-listview--kendo-card-info-radio-button">
+                  <div *ngIf=a.isLeadLevelDiscount class="app-enquiry-details-listview--kendo-card-sold">
                       Quote
                   </div>
-                  <div *ngIf=a.isProductLevelDiscount class="app-enquiry-details-listview--kendo-card-sold worksheet-details-listview--kendo-card-info-radio-button">
+                  <div *ngIf=a.isProductLevelDiscount class="app-enquiry-details-listview--kendo-card-sold">
                       Product
                   </div>
-                  <div *ngIf=a.isItemLevelDiscount class="app-enquiry-details-listview--kendo-card-sold worksheet-details-listview--kendo-card-info-radio-button">
+                  <div *ngIf=a.isItemLevelDiscount class="app-enquiry-details-listview--kendo-card-sold">
                       Item
                   </div>
                 </div>
@@ -191,10 +176,10 @@
     </div>
   </div>
   <div class="app-screen--footer"
-  *ngIf="currentStep == 3">
+    *ngIf="currentStep == 3">
     <button
       kendobutton
-      class="app-save--button worksheet-approval-button"
+      class="app-save--button"
       (click)="saveWorksheet()">
       Save
     </button>

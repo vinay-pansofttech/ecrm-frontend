@@ -2,7 +2,7 @@
   box-shadow: none;
   background-color: transparent;
   padding-top: 1rem;
-  color: white;
+  color: var(--primary-white);
   display: flex;
   justify-content: space-between;
 }
@@ -14,7 +14,7 @@
   line-height: 28px;
   letter-spacing: 0em;
   text-align: center;
-  color: white;
+  color: var(--primary-white);
   display: flex;
   gap: 10px;
   align-items: center;
@@ -52,12 +52,12 @@
   font-weight: 700;
   border-radius: 50%;
   border: 2px solid white;
-  color: white;
+  color: var(--primary-white);
 }
 .dashboard--menu-drawer-username{
   font-size: 20px;
   font-weight: 700;
-  color: white;
+  color: var(--primary-white);
 }
 .dashboard--menu-drawer-footer{
   position: absolute; 

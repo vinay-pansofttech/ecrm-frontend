@@ -13,7 +13,7 @@
     </div>
   </div>
   <div>
-    <div class="enquiry-details--content">
+    <div class="app-screen--content">
       <kendo-stepper
           [steps]="steps"
           stepType="full"
@@ -37,7 +37,7 @@
             [enqId]="enqId"
             [enquiryUpdateForm]="currentGroup"></app-enquiry-update>
       </form>
-      <div class="enquiry-details--footer">
+      <div class="app-screen--footer">
         <button
             kendobutton
             class="app-general--button"
@@ -70,7 +70,7 @@
     </div>
   </div>
 </div>
-<div class="enquiry-details--loader" *ngIf="showAPILoader">
+<div class="app-screen--loader" *ngIf="showAPILoader">
     <kendo-loader
       type="converging-spinner"
       themeColor="info"

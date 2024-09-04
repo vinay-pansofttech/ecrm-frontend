@@ -27,7 +27,7 @@
         class="app-enquiry-details-listview--kendo-textbox">
         <ng-template kendoTextBoxPrefixTemplate>
           <img
-            src="assets/enquiry-details-listview-img/search.svg"
+            src="assets/search.svg"
             alt="new"
             class="app-enquiry-details-listview--search-icon" />
         </ng-template>
@@ -42,7 +42,7 @@
           </div>
           <div>
             <img
-              src="assets/enquiry-details-listview-img/edit.svg"
+              src="assets/edit.svg"
               alt="new"
               (click)="navigateById(a.enqID)" />
           </div>
@@ -61,11 +61,6 @@
               {{ a.soldToContact }}
             </div>
           </div>
-          <!-- <div class="enquiry-details-listview--vertical-splitter">
-            <kendo-splitter
-              orientation="vertical"
-              class="enquiry-details-listview--splitter"></kendo-splitter>
-          </div> -->
           <div class="app-enquiry-details-listview--kendo-card-sold-details">
             <div class="app-enquiry-details-listview--kendo-card-sub-title">
               Sold to Site
@@ -86,14 +81,11 @@
 
         <div class="app-enquiry-details-listview--information-outline-card" (click)="callPhoneNumber(a.phoneNumber)">
           <div>
-            <img src="assets/enquiry-details-phone-icon.svg" alt="new" />
+            <img src="assets/phone.svg" alt="new" />
           </div>
           <div class="app-enquiry-details-listview--information">
             {{ a.soldToContPhoneNo }}
           </div>
-          <!-- <div>
-            <img src="assets/enquiry-details-copy-icon.svg" alt="new"/>
-          </div> -->
         </div>
       </kendo-card>
     </div>

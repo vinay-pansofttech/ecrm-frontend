@@ -1,5 +1,13 @@
 :where(html) {
-  --primary-color: #6eafd3;
-  --secondary-color: '';
-  --terinary-color: #5cb5c1;
+  --primary-background-color: linear-gradient(270deg, #327790 0%, #49AFCD 33.33%, #89BA82 67.19%);
+
+  --primary-color: #5cb5c1;
+  --secondary-color: #163e4f;
+  --terinary-color: #6eafd3;
+  --quaternary-color: #2dbac6;
+
+  --primary-white: #ffffff;
+  --primary-black: #1c1b1b;
+
+  --secondary-selected: #ff6978;
 }

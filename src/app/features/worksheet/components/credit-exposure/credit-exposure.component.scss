@@ -1,21 +1,9 @@
-.credit-exposure--container {
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    margin: 1rem;
-    gap: 1rem;
-}
 .credit-exposure-balance-container{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-}
-.credit-exposure-balance-card-notification{
-    background-color:rgb(182, 238, 98);
-    padding:1rem;
-    border-radius: 10px;
-    // box-shadow: 1px 1px 2px 2px #7fecad;
+    margin: 0rem 1rem;
 }
 .credit-exposure-balance-card{
     display: flex;
@@ -29,75 +17,4 @@
     border: 1px solid black;
     padding: 0.25rem;
     border-radius: 5px;
-}
-.credit-exposure-notification{
-    color: black;
-    background-color: #edf5ff;
-    border-left: 5px solid #0043ce;
-    border-radius: 10px;
-    padding:1rem;
-    display: flex;
-    position: relative;
-    align-items: center;
-    justify-content: left;
-    gap: 1rem;
-}
-.credit-exposure-paymenterms-notification{
-    color: black;
-    background-color: #fac4c3;
-    border-left: 5px solid #FF0000;
-    border-radius: 10px;
-    padding:1rem;
-    display: flex;
-    position: relative;
-    align-items: center;
-    justify-content: space-between;
-}
-.credit-exposure-paymenterms-notification-content{
-    display: flex;
-    position: relative;
-    align-items: center;
-    justify-content: left;
-    gap: 1rem;
-}
-.credit-exposure-notification-down-icon{
-    rotate: -90deg;
-    justify-content: right;
-}
-.credit-exposure-notification-up-icon{
-    rotate: 90deg;
-    justify-content: right;
-}
-.worksheet-download--container {
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    margin: 1rem;
-    gap: 0.5rem;
-}
-.worksheet-download-content{
-  display: flex;
-  flex-direction: row;
-  padding: 1rem;
-  justify-content: space-between;
-  align-items: center;
-  background-color: rgb(251, 251, 252);
-  border-radius: 20px;
-}
-.worksheet-download-button{
-  border: 2px solid #5cb5c1;
-  border-radius: 20px;
-  background-color: white;
-  padding: 0.7rem;
-  font-weight: bold;
-  color:#5cb5c1;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  gap:0.5rem;
-  cursor: pointer;
-}
-.worksheet-download-button :hover {
-  background-color: #f0f0f0;  
 }

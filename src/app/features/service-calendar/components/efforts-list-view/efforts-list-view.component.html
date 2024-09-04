@@ -18,11 +18,11 @@
 </div>
 
 <div *ngIf="!showAPILoader" class="service-efforts-main--container">
-  <div class="service-efforts-history--header">
-    <div class="service-efforts--header">
+  <div class="app-screen--info-header">
+    <div class="app-screen--info-header-left">
       Effort Details - {{srid}}
     </div>
-    <div class="service-efforts-date">
+    <div class="app-screen--info-header-right">
       {{ currentDate }}
     </div>
   </div>
@@ -35,7 +35,7 @@
         </div>
         <div *ngIf="iseditable(i)">
           <img
-            src="assets/enquiry-details-listview-img/edit.svg"
+            src="assets/edit.svg"
             alt="new"
             (click)="addEffort(i)" />
         </div>

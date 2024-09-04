@@ -1,4 +1,4 @@
-import { Component,Input } from '@angular/core';
+import { Component,Input,HostListener,ViewChild,ViewChildren,QueryList } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { WorksheetService, WorksheetDRQItemsList, WorkSheetSO,
@@ -6,6 +6,7 @@ import { WorksheetService, WorksheetDRQItemsList, WorkSheetSO,
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { PopoverContainerDirective, PopoverAnchorDirective } from "@progress/kendo-angular-tooltip";
 
 @Component({
   selector: 'app-drq-details',
@@ -26,6 +27,10 @@ export class DrqDetailsComponent {
   public allChecked: boolean = false;
   selectedSupplierId: number = 0;
   drqRequestItemsBO: LstDRQRequestBO[] = []
+
+  itemToDisplay!: WorksheetDRQItemsList;
+  public popoverWidth: number = 270;
+  @ViewChildren(PopoverAnchorDirective) popovers!: QueryList<PopoverAnchorDirective>;
 
   constructor(
     private router: Router,
@@ -48,51 +53,6 @@ export class DrqDetailsComponent {
     this.drqApprovalForm = new FormGroup({
       drqSMComments: new FormControl('', Validators.required)
     });
-    // this.drqItemsColumns =
-    // [
-    //   {   field: "drqItemStatus", title:" ", editor: false, filterable: false, sortable: true, 
-    //       width: 6, 
-    //   },
-    //   {
-    //       field: "productName", title: "Product", filterable: false, sortable: false, 
-    //       editor: false, width: 120, 
-    //       template: "<ng-template kendoGridCellTemplate let-dataItem> <div> isNullOrZero(dataItem[column.field])</div></ng-template>",
-    //   },
-    //   {
-    //       field: "partNo", title: "Part No.", filterable: false, sortable: false, 
-    //       editor: false, width: 120, 
-    //       template: "<ng-template kendoGridCellTemplate let-dataItem> <div> isNullOrZero(dataItem[column.field])</div></ng-template>",
-    //   },
-    //   {
-    //       field: "option", title: "Option", filterable: false, sortable: false, 
-    //       editor: false, width: 100, 
-    //       template: "<ng-template kendoGridCellTemplate let-dataItem> <div> isNullOrZero(dataItem[column.field])</div></ng-template>",
-    //   },
-    //   {
-    //       field: "description", title: "Description", filterable: false, sortable: false, 
-    //       editor: false, width: 160, 
-    //       template: "<ng-template kendoGridCellTemplate let-dataItem> <div> isNullOrZero(dataItem[column.field])</div></ng-template>",
-    //   },
-    //   {
-    //       field: "productLine", title: "PL", filterable: true, sortable: true, 
-    //       editor: false,  width: 80, 
-    //       template: "<ng-template kendoGridCellTemplate let-dataItem> <div> isNullOrZero(dataItem[column.field])</div></ng-template>",
-    //   },
-    //   {
-    //       field: "isDRQ", title: "Raise DRQ", type: "boolean", width: 100, filterable: false, sortable: false, 
-    //       editable: false,
-    //       template: '<input type="checkbox" #= IsDRQ ? "checked=checked" : "" # class="chkbx k-checkbox"  #= (EnquiryLeadBase.saveMode != LeadManagementBase.EDIT) ? "disabled" : "" #></input>',
-    //       headerTemplate: 'Raise DRQ<input type="checkbox" class="chkAll k-checkbox enabled"></input>',
-    //       headerAttributes: { "class": "PLgrideditColumnMandatory" },
-    //   },
-    //   {
-    //       field: "reqDRQPC", title: "Req. Addl. Disc. %", filterable: false, sortable: false, 
-    //       width: 100, type: "number",
-    //       attributes: { "class": "gridEditColumn", style: "text-align: right;" },
-    //       headerTemplate: '<div style="text-align:right">Requested <br> Addl. Disc. %</div>',
-    //       headerAttributes: { "class": "PLgrideditColumnMandatory" },
-    //   },
-    // ];
   }
 
   toggleAll(event: any): void {
@@ -233,6 +193,26 @@ export class DrqDetailsComponent {
     else{
       this.drqApprovalForm.markAllAsTouched();
     }
+  }
+
+  public showPopover(dataItem: WorksheetDRQItemsList) {
+    this.itemToDisplay = dataItem;
+  }
+
+  closePopover(rowIndex: number): void {
+    const popover = this.popovers.toArray()[rowIndex];
+    if (popover) {
+      popover.hide();
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.setPopoverWidth((event.target as Window).innerWidth);
+  }
+
+  private setPopoverWidth(screenWidth: number): void {
+    this.popoverWidth = screenWidth <= 590 ? 270 : 380;
   }
 
 }

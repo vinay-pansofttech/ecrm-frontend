@@ -1,17 +1,16 @@
 <div>
   <div class="app-navigation-main--container">
     <div>
-      <img src="assets/worksheet-back.svg" kendobutton alt="back" 
+      <img src="assets/back.svg" kendobutton alt="back" 
       (click)="onBackClickHandle()"/>
     </div>
     <div class="app-navigation--header">Worksheet</div>
-    <div>
+    <div (click)="onReset()">
       <img
-          src="assets/worksheet-reset.svg"
+          src="assets/reset.svg"
           kendobuttons
           alt="reset"
-          class="app-navigation-reset--image" 
-          (click)="onReset()"/>
+          class="app-navigation-reset--image"/>
     </div>
   </div>
       
@@ -28,7 +27,7 @@
         class="app-enquiry-details-listview--kendo-textbox">
         <ng-template kendoTextBoxPrefixTemplate>
           <img
-            src="assets/enquiry-details-listview-img/search.svg"
+            src="assets/search.svg"
             alt="new"
             class="app-enquiry-details-listview--search-icon" />
         </ng-template>
@@ -44,7 +43,7 @@
           </div>
           <div>
             <img
-              src="assets/enquiry-details-listview-img/edit.svg"
+              src="assets/edit.svg"
               alt="new"
               (click)="navigateById(a.enqID)" />
           </div>
@@ -99,7 +98,7 @@
   
         <div class="app-enquiry-details-listview--information-outline-card">
           <div>
-            <img src="assets/worksheet-approval-price-icon.svg" alt="new" height="20" width="20"/>
+            <img src="assets/price.svg" alt="new" height="20" width="20"/>
           </div>
           <div class="app-enquiry-details-listview--information">
             {{ (a.approxQuotevalue? a.approxQuotevalue: 0) | number:'1.0':'en-US' }} {{a.quoteCurrencyName}} 

@@ -4,7 +4,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginModule } from './features/login/login.module';
 import { DashboardModule } from './features/dashboard/dashboard.module';
-import { WorkListModule } from './features/work-list/work-list.module';
 import { KendoModule } from './kendo.module';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { EnquiryDetailsModule } from './features/enquiry-details/enquiry-details.module';
@@ -37,7 +36,6 @@ import { PDFViewerModule } from '@progress/kendo-angular-pdfviewer';
     HttpClientModule,
     IndicatorsModule,
     NotificationModule,
-    WorkListModule,
     LayoutModule,
     EnquiryDetailsModule,
     ServiceCalendarModule,

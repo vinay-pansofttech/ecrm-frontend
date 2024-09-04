@@ -3,7 +3,7 @@
     <div class="app-screen--header-tag"></div>
 </div> -->
 <div
-    class="price-details--container"
+    class="app-screen--content"
     *ngIf="!showWorksheetAPILoader">
     <div class="price-details--card">
         <div class="price-details--header price-details-system--header">
@@ -122,9 +122,9 @@
                   {{formatNumber((a.sowspDifferenceQC / a.grossSPQC) * 100) | number:'1.2-2'}}&nbsp;%
                 </div>  
                 <div class="price-details-attachment-info">
-                  <img *ngIf="myFiles.length == 0" src="assets/app-paper-clip.svg" alt="CE" 
+                  <img *ngIf="myFiles.length == 0" src="assets/common/app-paper-clip.svg" alt="CE" 
                   width="30" height="30" (click)="onClickShowSysDiscAttachment()"/> 
-                  <img *ngIf="myFiles.length > 0" src="assets/app-paper-clip-green.svg" alt="CE" 
+                  <img *ngIf="myFiles.length > 0" src="assets/common/app-paper-clip-green.svg" alt="CE" 
                   width="30" height="30" (click)="onClickShowSysDiscAttachment()"/> 
                 </div>
               </div>    
@@ -175,7 +175,7 @@
           <span class="k-window-title">System Discount Attachments</span>
           <button kendoWindowCloseAction></button>
         </kendo-window-titlebar>
-        <div class="app-comments--container worksheet-comments--container ">
+        <div class="app-comments--container price-details-comments--container ">
           <!-- <kendo-formfield> -->
             <!-- <div>
               <kendo-fileselect
@@ -191,7 +191,7 @@
         </div>
       </kendo-window>
       <div *ngIf="['Auto', '1', '2', '3', '4'].includes(worksheetDetailsCard[0].currentApprovalLevel) || [0,1].includes(worksheetDetailsCard[0].nextApprovalLevel)" 
-        class="app-comments--container worksheet-comments--container ">
+        class="app-comments--container price-details-comments--container ">
         <kendo-formfield>
           <div class="app-comments--content">
             <kendo-label class="app-comments--label"
@@ -214,7 +214,7 @@
         </kendo-formfield>
       </div>
       <div *ngIf="['2', '3', '4'].includes(worksheetDetailsCard[0].currentApprovalLevel) || worksheetDetailsCard[0].nextApprovalLevel == 2"
-        class="app-comments--container worksheet-comments--container ">
+        class="app-comments--container price-details-comments--container ">
         <kendo-formfield>
           <div class="app-comments--content">
             <kendo-label class="app-comments--label"
@@ -237,7 +237,7 @@
         </kendo-formfield>
       </div>
       <div *ngIf="worksheetDetailsCard[0].currentApprovalLevel === '3' || worksheetDetailsCard[0].nextApprovalLevel === 3 || (worksheetDetailsCard[0].currentApprovalLevel === '4' && worksheetDetailsCard[0].level3Comments != '')"
-        class="app-comments--container worksheet-comments--container ">
+        class="app-comments--container price-details-comments--container ">
         <kendo-formfield>
           <div class="app-comments--content">
             <kendo-label class="app-comments--label"
@@ -260,7 +260,7 @@
         </kendo-formfield>
       </div>
       <div *ngIf="['4'].includes(worksheetDetailsCard[0].currentApprovalLevel) || worksheetDetailsCard[0].nextApprovalLevel == 4"
-        class="app-comments--container worksheet-comments--container ">
+        class="app-comments--container price-details-comments--container ">
         <kendo-formfield>
           <div class="app-comments--content">
             <kendo-label class="app-comments--label"
