@@ -106,6 +106,7 @@ export class SalesPartsManagementService {
     private datePipe: DatePipe
   ) {}
 
+  //API call to fetch display in sales parts management
   getSPMWorkList(loginId: number) {
     const body = {
       loginId: loginId,
@@ -113,6 +114,7 @@ export class SalesPartsManagementService {
     return this.http.post(this.fetchSPMWorklistUrl, body);
   }
 
+  //API call to fetch display supplier list in sales parts management
   getSPMSupplierList(loginId: number, enqId: number) {
     const body = {
       loginId: loginId,
@@ -121,6 +123,7 @@ export class SalesPartsManagementService {
     return this.http.post(this.fetchSPMSupplierlistUrl, body);
   }
 
+  //API call to fetch display parts list in sales parts management
   getSPMPartslist(loginId: number, enqId: number, supplierId: number){
     const body = {
       loginId: loginId,
@@ -131,6 +134,7 @@ export class SalesPartsManagementService {
     return this.http.post(this.fetchSPMPartslistUrl, body);
   }
 
+  //API call to update price validations
   updatePriceValidation(loginId: number, validateComments: string, buttonType: string, lstLeadProductConfig: ProductConfigItemsBO[]){
     const body = {
       buttonType: buttonType,

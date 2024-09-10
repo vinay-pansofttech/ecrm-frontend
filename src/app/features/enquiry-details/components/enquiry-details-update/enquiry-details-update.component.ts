@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { StepperComponent } from '@progress/kendo-angular-layout';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { EnquiryDetailsService } from '../../enquiry-details.service';
-import { CommonService } from 'src/app/features/Common/commonservice.service';
+import { CommonService } from 'src/app/features/common/common.service';
 import { FormStateService } from '../../form-state.service';
 import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -19,7 +19,6 @@ export class EnquiryDetailsUpdateComponent {
   public currentStep = 3;
   showAPILoader = false;
   invalid = false;
-  public getAddEnquiry: unknown = [];
   @ViewChild('stepper', { static: true })
   public stepper!: StepperComponent;
   id!: string | null;
@@ -178,7 +177,7 @@ export class EnquiryDetailsUpdateComponent {
     if (this.enquiryCaptureForm.valid) {
       this.loaderService.showLoader();
       this.enquiryDetailsService
-        .getUpdateEnquiry(this.enquiryCaptureForm.value, this.enqId)
+        .UpdateEnquiry(this.enquiryCaptureForm.value, this.enqId)
         .subscribe((data: any) => {
           console.log('after submit', data);
           this.loaderService.hideLoader();

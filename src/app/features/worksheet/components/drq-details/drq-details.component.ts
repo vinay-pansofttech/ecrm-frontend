@@ -1,18 +1,19 @@
-import { Component,Input,HostListener,ViewChild,ViewChildren,QueryList } from '@angular/core';
+import { Component,Input,HostListener,ViewChildren,QueryList } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { WorksheetService, WorksheetDRQItemsList, WorkSheetSO,
-  LstDRQRequestBO, DRQRequestBO } from '../../worksheet.service';
+  LstDRQRequestBO } from '../../worksheet.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
-import { PopoverContainerDirective, PopoverAnchorDirective } from "@progress/kendo-angular-tooltip";
+import { PopoverAnchorDirective } from "@progress/kendo-angular-tooltip";
 
 @Component({
   selector: 'app-drq-details',
   templateUrl: './drq-details.component.html',
   styleUrls: ['./drq-details.component.scss']
 })
+
 export class DrqDetailsComponent {
   public showWorksheetAPILoader = false;
   @Input() WorksheetDRQSupplierDetailsCard!: any[];
@@ -31,13 +32,18 @@ export class DrqDetailsComponent {
   itemToDisplay!: WorksheetDRQItemsList;
   public popoverWidth: number = 270;
   @ViewChildren(PopoverAnchorDirective) popovers!: QueryList<PopoverAnchorDirective>;
+  colorNotificationData = [
+    { color: 'blue', name: 'New/Not yet raised Parts' },
+    { color: 'green', name: 'DRQ Parts' },
+    { color: 'red', name: 'Deleted Parts' }
+  ];
 
   constructor(
     private router: Router,
     private worksheetService: WorksheetService,
     private loginService: LoginService,
     private notificationService: NotificationService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
   ){}
 
   ngOnInit() {

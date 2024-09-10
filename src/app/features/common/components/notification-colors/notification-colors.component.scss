@@ -1,0 +1,22 @@
+.item-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item-box {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+}
+
+.color-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  margin-right: 10px;
+}
+
+.item-name {
+  font-weight: bold;
+}

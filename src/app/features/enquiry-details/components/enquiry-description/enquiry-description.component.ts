@@ -2,7 +2,8 @@ import { Component,Input } from '@angular/core';
 import { FormGroup } from "@angular/forms";
 import { FileInfo } from "@progress/kendo-angular-upload";
 import { FormStateService } from '../../form-state.service';
-import { CommonService } from 'src/app/features/Common/commonservice.service';
+import { CommonService } from 'src/app/features/common/common.service';
+
 @Component({
   selector: 'app-enquiry-description',
   templateUrl: './enquiry-description.component.html',

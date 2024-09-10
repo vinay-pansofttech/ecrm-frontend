@@ -21,7 +21,6 @@ export class EnquiryDetailsComponent implements OnInit {
   public currentStep = 0;
   showAPILoader = false;
   invalid = false;
-  public getAddEnquiry: unknown = [];
   @ViewChild('stepper', { static: true })
   public stepper!: StepperComponent;
 
@@ -136,7 +135,7 @@ export class EnquiryDetailsComponent implements OnInit {
     if (this.enquiryCaptureForm.valid) {
       this.loaderService.showLoader();
       this.enquiryDetailsService
-        .getAddEnquiry(this.enquiryCaptureForm.value)
+        .AddEnquiry(this.enquiryCaptureForm.value)
         .subscribe((data: any) => {
           this.loaderService.hideLoader();
           

@@ -4,6 +4,8 @@ import { AppSettingsConfigKey } from 'src/app/core/Constants';
 import { LoginService } from '../login/components/login/login.service';
 import { DatePipe } from '@angular/common';
 
+
+//All interfaces used in worksheet module
 export interface WorkSheetSO {
   workSheetId: number;
   enqId: number;
@@ -507,6 +509,7 @@ export class WorksheetService {
     private datePipe: DatePipe
   ) {}
 
+  //API call to fetch enquiry list for worksheet
   getEnquiryWorksheetlist() {
     const body = {
       loginID: this.loginService.employeeId,
@@ -514,6 +517,7 @@ export class WorksheetService {
     return this.http.post(this.fetchWorksheetWorklistUrl, body);
   }
 
+  //API call to fetch worksheet details of selected enquiry
   getWorksheetDetails(enqId: number) {
     const body = {
       EnqId: enqId,
@@ -522,6 +526,7 @@ export class WorksheetService {
     return this.http.post(this.fetchWorksheetDetailsUrl, body);
   }
 
+  //API call to fetch worksheet prerequisite details
   getWorksheetPrerequisites(enqId: number) {
     const body = {
       EnqId: enqId,
@@ -530,6 +535,7 @@ export class WorksheetService {
     return this.http.post(this.fetchWorksheetPrerequisiteUrl, body);
   }
 
+  //API call to fetch dlc details of selected enquiry
   getWorksheetDLCDetails(enqId: number) {
     const body = {
       EnqId: enqId,
@@ -538,6 +544,7 @@ export class WorksheetService {
     return this.http.post(this.fetchWorksheetDLCDetails, body);
   }
 
+  //API call to fetch margin details of selected enquiry
   getWorksheetMarginDetails(enqId: number) {
     const body = {
       EnqId: enqId
@@ -545,6 +552,7 @@ export class WorksheetService {
     return this.http.post(this.fetchWorksheetMarginDetails, body);
   }
 
+  //API call to fetch drq details of selected enquiry
   getWorksheetDRQDetails(enqId: number) {
     const body = {
       EnqId: enqId,
@@ -553,6 +561,7 @@ export class WorksheetService {
     return this.http.post(this.fetchWorksheetDRQDetails, body);
   }
 
+  //API call to fetch drq item details of selected enquiry
   getWorksheetDRQItemsDetails(enqId: number) {
     const body = {
       EnqId: enqId,
@@ -561,6 +570,7 @@ export class WorksheetService {
     return this.http.post(this.fetchWorksheetDRQItemsDetails, body);
   }
   
+  //API call to fetch payment terms details of selected enquiry
   getPaymentTerms(enqId: number, worksheetId: number) {
     const body = {
       EnqId: enqId,
@@ -569,6 +579,7 @@ export class WorksheetService {
     return this.http.post(this.fetchPaymentTermsUrl, body);
   }
 
+  //API call to fetch product item details of selected enquiry(Not displayed anywhere)
   getProductItems(enqId: number, loginId: number) {
     const body = {
       EnqID: enqId,
@@ -577,6 +588,7 @@ export class WorksheetService {
     return this.http.post(this.fetchtEnquiryProductsUrl, body);
   }
 
+  //API call to fetch config item details of selected enquiry(Not displayed anywhere)
   getConfigItems(enqId: number) {
     const body = {
       EnqID: enqId
@@ -593,6 +605,7 @@ export class WorksheetService {
     return this.http.post(url, body, {responseType: 'blob', observe: 'response'});
   }
 
+  //API call to download worksheet's latest margin excel file
   getWorksheetMarginExcelFile(enqId: number, marginVersionId: number, marginVersionName: string) {
     const url = this.getWorksheetMarginExcel;
     const body = {
@@ -604,76 +617,7 @@ export class WorksheetService {
     return this.http.post(url, body, {responseType: 'blob', observe: 'response'});
   }
 
-  postSaveEnquiry(formData: any,enqID: number) {
-    // const attachmentfile =
-    // formData.enquiryDescription.attachment && formData.enquiryDescription.attachment.length > 0
-    //       ? formData.enquiryDescription.attachment[0]
-    //       : null;
-    // if (attachmentfile) {
-    //   formData.enquiryDescription.attachment = attachmentfile;
-    // } else {
-    //   formData.enquiryDescription.attachment = '';
-    // }  
-    
-    // const body = {
-    //   enqId: enqID,
-    //   worksheetId: this.worksheetDetailsCard[0].workSheetId,
-    //   advancedTraining: this.worksheetDetailsCard[0].advancedTraining,
-    //   otherCommitments: this.worksheetDetailsCard[0].otherCommitments,
-    //   specialDiscountPC: this.worksheetDetailsCard[0].specialDiscountPC,
-    //   paymentNoOfDays: this.worksheetDetailsCard[0].paymentNoOfDays,
-    //   taxComponent: "",
-    //   wsTaxSouceTypeId: 35,
-    //   milestoneGuid: "",
-    //   milestoneSouceTypeId: 65,
-    //   lstConfigItems: this.configItems,
-    //   _GrossSP: this.worksheetDetailsCard[0].grossSPQC,
-    //   _GrossSPBC: this.worksheetDetailsCard[0].grossSPBC,
-    //   _NetSP: this.worksheetDetailsCard[0].netSPQC,
-    //   _NetSPBC: this.worksheetDetailsCard[0].netSPBC,
-    //   _SplDiscActual: this.worksheetDetailsCard[0].specialDiscountPC,
-    //   taxPC: this.worksheetDetailsCard[0].taxPC,
-    //   taxTypeId: this.worksheetDetailsCard[0].taxTypeId,
-    //   lstLeadProducts: this.productItems,
-    //   gstExemptionPC: this.worksheetDetailsCard[0].gstExemptionPC,
-    //   gstExemptionValue: this.worksheetDetailsCard[0].gstExemptedValue,
-    //   lstPaymentTerms: this.paymentTerms,
-    //   _AdjWsQuoteValueBC: this.worksheetDetailsCard[0].quoteValueBC,
-    //   _AdjWsQuoteValue: this.worksheetDetailsCard[0].quoteValueQC,
-    //   saveType: "Save",
-    //   createdBy: this.loginService.employeeId,
-    //   operationMode: "Save",
-    //   appRejComments: "",
-    //   isPriced: true,
-    //   tax: 0,
-    //   _VAT: this.worksheetDetailsCard[0].vat,
-    //   _SGST: this.worksheetDetailsCard[0].sgst,
-    //   _CGST: this.worksheetDetailsCard[0].cgst,
-    //   _IGST: this.worksheetDetailsCard[0].igst,
-    //   isDutyFree: this.worksheetDetailsCard[0].isDutyFree,
-    //   isLeadLevelDiscount: this.worksheetDetailsCard[0].isLeadLevelDiscount,
-    //   isProdLevelDiscount: this.worksheetDetailsCard[0].isProductLevelDiscount,
-    //   isItemLevelDiscount: this.worksheetDetailsCard[0].isItemLevelDiscount,
-    //   isFlatAmount: this.worksheetDetailsCard[0].isFlatAmount,
-    //   otherCommitmentRemarks: this.worksheetDetailsCard[0].otherCommitmentRemarks == null? "": this.worksheetDetailsCard[0].otherCommitmentRemarks,
-    //   level1Comments: formData.priceDetails.amComments,
-    //   level2Comments: formData.priceDetails.smComments,
-    //   level3Comments: formData.priceDetails.finComments,
-    //   level4Comments: formData.priceDetails.mgmtComments,
-    //   isDiscExempted: this.worksheetDetailsCard[0].isDiscountCapExempted,
-    //   isPriceEdited: this.worksheetDetailsCard[0].isPriceEdited,
-    //   wsDocumentGUID: "",
-    //   wsDocumentSouceTypeId: 658,
-    //   outPut: ""
-    // };  
-
-    const body = this.assignWorksheetParam(formData, enqID, "Save");
-    // const headers = new HttpHeaders({
-    //   'Accept': 'application/json'
-    // });
-    return this.http.put(this.postSaveWorksheetUrl, body);
-  }
-
+  //Function to assign worksheet parameters
   assignWorksheetParam(formData: any, enqID: any, operationMode: string){
     const wsattachmentfile =
     formData.priceDetails.wsattachment && formData.priceDetails.wsattachment.length > 0
@@ -799,88 +743,13 @@ export class WorksheetService {
     return body;
   }
 
-  // postAssignListParams() {
-  //   const body = {
-  //      lstPaymentTerms: this.paymentTerms,
-  //      lstConfigItems: this.configItems,
-  //      lstLeadProducts: this.productItems,
-  //   };
-  //   return this.http.post(this.postAssignListParamsUrl, body);
-  // }
-
-  postApproveEnquiry(formData: any,enqID: number) {
-    // const attachmentfile =
-    // formData.enquiryDescription.attachment && formData.enquiryDescription.attachment.length > 0
-    //       ? formData.enquiryDescription.attachment[0]
-    //       : null;
-    // if (attachmentfile) {
-    //   formData.enquiryDescription.attachment = attachmentfile;
-    // } else {
-    //   formData.enquiryDescription.attachment = '';
-    // }  
-    
-    // const body = {
-    //   enqId: enqID,
-    //   worksheetId: this.worksheetDetailsCard[0].workSheetId,
-    //   advancedTraining: this.worksheetDetailsCard[0].advancedTraining,
-    //   otherCommitments: this.worksheetDetailsCard[0].otherCommitments,
-    //   specialDiscountPC: this.worksheetDetailsCard[0].specialDiscountPC,
-    //   paymentNoOfDays: this.worksheetDetailsCard[0].paymentNoOfDays,
-    //   taxComponent: "",
-    //   wsTaxSouceTypeId: 35,
-    //   milestoneGuid: "",
-    //   milestoneSouceTypeId: 65,
-    //   lstConfigItems: this.configItems,
-    //   _GrossSP: this.worksheetDetailsCard[0].grossSPQC,
-    //   _GrossSPBC: this.worksheetDetailsCard[0].grossSPBC,
-    //   _NetSP: this.worksheetDetailsCard[0].netSPQC,
-    //   _NetSPBC: this.worksheetDetailsCard[0].netSPBC,
-    //   _SplDiscActual: this.worksheetDetailsCard[0].specialDiscountPC,
-    //   taxPC: this.worksheetDetailsCard[0].taxPC,
-    //   taxTypeId: this.worksheetDetailsCard[0].taxTypeId,
-    //   lstLeadProducts: this.productItems,
-    //   gstExemptionPC: this.worksheetDetailsCard[0].gstExemptionPC,
-    //   gstExemptionValue: this.worksheetDetailsCard[0].gstExemptedValue,
-    //   lstPaymentTerms: this.paymentTerms,
-    //   _AdjWsQuoteValueBC: this.worksheetDetailsCard[0].quoteValueBC,
-    //   _AdjWsQuoteValue: this.worksheetDetailsCard[0].quoteValueQC,
-    //   saveType: "Approve",
-    //   createdBy: this.loginService.employeeId,
-    //   operationMode: "Approve",
-    //   appRejComments: "",
-    //   isPriced: true,
-    //   tax: 0,
-    //   _VAT: this.worksheetDetailsCard[0].vat,
-    //   _SGST: this.worksheetDetailsCard[0].sgst,
-    //   _CGST: this.worksheetDetailsCard[0].cgst,
-    //   _IGST: this.worksheetDetailsCard[0].igst,
-    //   isDutyFree: this.worksheetDetailsCard[0].isDutyFree,
-    //   isLeadLevelDiscount: this.worksheetDetailsCard[0].isLeadLevelDiscount,
-    //   isProdLevelDiscount: this.worksheetDetailsCard[0].isProductLevelDiscount,
-    //   isItemLevelDiscount: this.worksheetDetailsCard[0].isItemLevelDiscount,
-    //   isFlatAmount: this.worksheetDetailsCard[0].isFlatAmount,
-    //   otherCommitmentRemarks: this.worksheetDetailsCard[0].otherCommitmentRemarks == null? "": this.worksheetDetailsCard[0].otherCommitmentRemarks,
-    //   level1Comments: formData.priceDetails.amComments,
-    //   level2Comments: formData.priceDetails.smComments,
-    //   level3Comments: formData.priceDetails.finComments,
-    //   level4Comments: formData.priceDetails.mgmtComments,
-    //   isDiscExempted: this.worksheetDetailsCard[0].isDiscountCapExempted,
-    //   isPriceEdited: this.worksheetDetailsCard[0].isPriceEdited,
-    //   wsDocumentGUID: "",
-    //   wsDocumentSouceTypeId: 658,
-    //   outPut: ""
-    // };  
-    const body = this.assignWorksheetParam(formData, enqID, "Approve");
-    console.log("Body Json Approve", body);
+  //API call to either save, approve or reject worksheet
+  postSave_App_Rej_Enquiry(formData: any,enqID: number,type: string) {
+    const body = this.assignWorksheetParam(formData, enqID, type);
     return this.http.put(this.postSaveWorksheetUrl, body);
   }
 
-  postRejectEnquiry(formData: any,enqID: number) {
-    const body = this.assignWorksheetParam(formData, enqID, "Reject");
-    console.log("Body Json Reject", body);
-    return this.http.put(this.postSaveWorksheetUrl, body);
-  }
-
+  //API call to raise drq request for selected items
   postDRQRequest(enqId: number, supplierId: number, smComments: string, drqItems: LstDRQRequestBO[]) {
     const body = {
       EnqId: enqId,
@@ -899,6 +768,7 @@ export class WorksheetService {
     return this.http.post(this.postDRQRequestUrl, body);
   }
 
+  //Function to reset all the common values stored in worksheet service
   resetValues(){
     this.worksheetDetailsCard = [];
     this.WorksheetPrerequisites = [];

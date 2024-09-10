@@ -7,6 +7,8 @@ import { DatePipe } from '@angular/common';
 @Injectable({
   providedIn: 'root',
 })
+
+//Common service for API calls which should is accessible through all components
 export class CommonService {
 
   private attachmentDetailsUrl = `${AppSettingsConfigKey.APIURL}/api/UploadDownload/GetAttachmentDetails`;
@@ -49,3 +51,4 @@ export class CommonService {
   }
 
 }
+

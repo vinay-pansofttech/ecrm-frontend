@@ -27,6 +27,8 @@ export class DashboardComponent {
   getEmployeeName(): string {
     return this.loginService.getEmployeeName();
   }
+
+  //Getting initials for login image
   getInitials(name: string): string {
     const initials = name.split(' ')
       .map(part => part.charAt(0))
@@ -34,5 +36,6 @@ export class DashboardComponent {
       .toUpperCase();
     return initials;
   }
+  
 }
 

@@ -70,6 +70,7 @@ export class ServiceCalendarService {
     private datePipe: DatePipe
   ) {}
 
+  //API call to fetch calls scheduled for that day
   getScheduledCalls(EmpId: number, ScheduledDate: Date) {
     const url = `${AppSettingsConfigKey.APIURL}/api/ServiceCalendar/GetScheduledCalls`;
     const formattedDate = ScheduledDate
@@ -82,6 +83,7 @@ export class ServiceCalendarService {
     return this.http.post(url, body);
   }
 
+  //API call to fetch engineer efforts
   getEngEfforts(EmpId: number, SRID: number) {
     const url = `${AppSettingsConfigKey.APIURL}/api/ServiceCalendar/GetEngEfforts`;
     const body = {
@@ -91,6 +93,7 @@ export class ServiceCalendarService {
     return this.http.post(url, body);
   }
 
+  //API call to update service efforts entered by engineer
   putServiceEfforts(formData: any){
     const url = `${AppSettingsConfigKey.APIURL}/api/ServiceCalendar/AddEngEfforts`;
     const formattedStartDate = formData.startTime
@@ -124,6 +127,7 @@ export class ServiceCalendarService {
     return this.http.post(url, body);
   }
 
+  //API call to generate new CSR file after signature
   getCSRfile(SRID: number, CSRSummary: string, CallCategory: string, IsCallCompleted: boolean, CustomerSign: string, EngineerSign: string){
     const url = `${AppSettingsConfigKey.APIURL}/api/ServiceCalendar/GenerateCSRPath`;
     const body = {
@@ -138,6 +142,7 @@ export class ServiceCalendarService {
     return this.http.post(url, body);
   }
 
+  //API call to get generated CSR file
   getCSRPdf(FilePath: string){
     const url = `${AppSettingsConfigKey.APIURL}/api/UploadDownload/GetCSRDownloadFile`;
     const body = {
@@ -146,6 +151,7 @@ export class ServiceCalendarService {
     return this.http.post(url, body, {responseType: 'arraybuffer', observe: 'response'});
   }
 
+  //API call to upload CSR file
   putUploadCSR(docSrcVal: string, attachment: any) {
     const url = `${AppSettingsConfigKey.APIURL}/api/ServiceCalendar/UploadCSR`;
 
@@ -158,6 +164,7 @@ export class ServiceCalendarService {
     return this.http.put(url, body);
   }
   
+  //Function to reset all the common values stored in calendar service
   resetValues(){
     this.selectedSRID = 0;
     this.selectedCallCat = "";

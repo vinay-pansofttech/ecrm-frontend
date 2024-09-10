@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FileInfo } from "@progress/kendo-angular-upload";
 import { WorksheetService, WorkSheetSO, WorksheetPrerequisites } from '../../worksheet.service';
-import { CommonService } from 'src/app/features/Common/commonservice.service';
+import { CommonService } from 'src/app/features/common/common.service';
 
 
 @Component({

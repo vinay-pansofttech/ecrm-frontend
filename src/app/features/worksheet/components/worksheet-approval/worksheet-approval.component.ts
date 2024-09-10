@@ -11,7 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { WorksheetService, EnquiryDetails, WorkSheetSO, EnquiryProductsSO, 
   ConfigItems, WorksheetPrerequisites, WorksheetDLCList, WorksheetMarginList,
   WorksheetDRQList, WorksheetDRQItemsList } from '../../worksheet.service';
-import { CommonService } from 'src/app/features/Common/commonservice.service';
+import { CommonService } from 'src/app/features/common/common.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 
 const logoURL = 
@@ -301,13 +301,11 @@ export class WorksheetApprovalComponent{
       this.WorksheetApprovalForm.markAllAsTouched();
     }
     else if (this.validateComments()) {
-      console.log("Worksheet Form", this.WorksheetApprovalForm.value);
       this.loaderMessage = "Approving Worksheet..."
       this.loaderService.showLoader();
       this.worksheetService
-      .postApproveEnquiry(this.WorksheetApprovalForm.value, this.enqId)
+      .postSave_App_Rej_Enquiry(this.WorksheetApprovalForm.value, this.enqId, "Approve")
       .subscribe((data: any) => {
-        console.log('on save', data);
         this.loaderService.hideLoader();
         this.loaderMessage = "";
         if (data) {
@@ -338,11 +336,10 @@ export class WorksheetApprovalComponent{
   }
 
   saveWorksheet(): void{
-      console.log("Worksheet Form", this.WorksheetApprovalForm.value);
       this.loaderMessage = "Saving Worksheet..."
       this.loaderService.showLoader();
       this.worksheetService
-        .postSaveEnquiry(this.WorksheetApprovalForm.value, this.enqId)
+        .postSave_App_Rej_Enquiry(this.WorksheetApprovalForm.value, this.enqId, "Save")
         .subscribe((data: any) => {
           console.log('on save', data);
           this.loaderService.hideLoader();
@@ -376,13 +373,11 @@ export class WorksheetApprovalComponent{
     //   this.WorksheetApprovalForm.markAllAsTouched();
     // }
     // if (this.WorksheetApprovalForm.valid) {
-      console.log("Worksheet Form", this.WorksheetApprovalForm.value);
       this.loaderMessage = "";
       this.loaderService.showLoader();
       this.worksheetService
-        .postRejectEnquiry(this.WorksheetApprovalForm.value, this.enqId)
+        .postSave_App_Rej_Enquiry(this.WorksheetApprovalForm.value, this.enqId, "Reject")
         .subscribe((data: any) => {
-          console.log('on save', data);
           this.loaderService.hideLoader();
           this.loaderMessage = "";
           if (data) {
@@ -395,8 +390,7 @@ export class WorksheetApprovalComponent{
               'bottom'
             );
           }
-          this.ngOnInit();
-          this.onStepperClick(3);
+          this.router.navigate(['/worksheet-details']);
         },
         error => {
           this.loaderService.hideLoader();

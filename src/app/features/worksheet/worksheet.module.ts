@@ -3,10 +3,8 @@ import { CommonModule } from '@angular/common';
 import { KendoModule } from 'src/app/kendo.module';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { GridModule } from "@progress/kendo-angular-grid";
-import { TooltipsModule } from "@progress/kendo-angular-tooltip";
+import { TooltipsModule, PopoverModule } from "@progress/kendo-angular-tooltip";
 import { LoginModule } from '../login/login.module';
-import { PopoverModule } from "@progress/kendo-angular-tooltip";
-
 import { WorksheetRoutingModule } from './worksheet-routing.module';
 import { WorksheetDetailsComponent } from './components/worksheet-details/worksheet-details.component';
 import { CreditExposureComponent } from './components/credit-exposure/credit-exposure.component';
@@ -15,7 +13,7 @@ import { WorksheetApprovalComponent } from './components/worksheet-approval/work
 import { DlcComponent } from './components/dlc/dlc.component';
 import { MarginDetailsComponent } from './components/margin-details/margin-details.component';
 import { DrqDetailsComponent } from './components/drq-details/drq-details.component';
-
+import { CommonFeaturesModule } from '../common/common.module';
 
 @NgModule({
   declarations: [
@@ -36,6 +34,7 @@ import { DrqDetailsComponent } from './components/drq-details/drq-details.compon
     TooltipsModule,
     PopoverModule,
     WorksheetRoutingModule,
+    CommonFeaturesModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

@@ -6,6 +6,7 @@ import { LoginModule } from './features/login/login.module';
 import { DashboardModule } from './features/dashboard/dashboard.module';
 import { KendoModule } from './kendo.module';
 import { LayoutModule } from '@progress/kendo-angular-layout';
+import { CommonFeaturesModule } from './features/common/common.module';
 import { EnquiryDetailsModule } from './features/enquiry-details/enquiry-details.module';
 import { ServiceCalendarModule } from './features/service-calendar/service-calendar.module';
 import { WorksheetModule } from './features/worksheet/worksheet.module';
@@ -22,7 +23,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DatePipe } from '@angular/common';
 import { IconsModule } from '@progress/kendo-angular-icons';
 import { PDFViewerModule } from '@progress/kendo-angular-pdfviewer';
-
+import { PopoverModule } from "@progress/kendo-angular-tooltip";
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { PDFViewerModule } from '@progress/kendo-angular-pdfviewer';
     IndicatorsModule,
     NotificationModule,
     LayoutModule,
+    CommonFeaturesModule,
     EnquiryDetailsModule,
     ServiceCalendarModule,
     WorksheetModule,
@@ -45,6 +47,7 @@ import { PDFViewerModule } from '@progress/kendo-angular-pdfviewer';
     FontAwesomeModule,
     IconsModule,
     PDFViewerModule,
+    PopoverModule
   ],
   providers: [
     LoginService,

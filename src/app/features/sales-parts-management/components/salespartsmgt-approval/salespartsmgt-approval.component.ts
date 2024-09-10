@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { SalesPartsManagementService, SPMPartsListItem, ProductConfigItemsBO} from '../../sales-parts-management.service';
+import { SalesPartsManagementService, SPMPartsListItem, ProductConfigItemsBO, SPMSupplierListItem} from '../../sales-parts-management.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
+import { FileInfo } from "@progress/kendo-angular-upload";
 import { Statement } from '@angular/compiler';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { CommonService } from 'src/app/features/common/common.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 
 @Component({
@@ -17,6 +19,7 @@ export class SalespartsmgtApprovalComponent {
   public showSPMAPILoader = false;
   isAllCardSelected: boolean = false;
   isDescOpen: boolean = false;
+  supplierCards: SPMSupplierListItem[] = [];
   partsCards: SPMPartsListItem[] = [];
   pageSize = 3;
   filteredCards: SPMPartsListItem[] = [];
@@ -26,13 +29,17 @@ export class SalespartsmgtApprovalComponent {
   lstProductConfig: ProductConfigItemsBO[] = [];
   loaderMessage!: string;
 
+  myFiles: Array<FileInfo> = [];
+  showSuppAttachment: boolean = false;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private spmService: SalesPartsManagementService,
     private loginService: LoginService,
     private notificationService: NotificationService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private commonService: CommonService
   ){}
 
   ngOnInit(){
@@ -57,6 +64,8 @@ export class SalespartsmgtApprovalComponent {
     }
 
     this.getSPMPartslist();
+    this.getSPMSupplierlist();
+
     this.salespartsmgtApprovalForm = new FormGroup({
         priceValidateComments: new FormControl('', Validators.nullValidator)
     });
@@ -190,8 +199,46 @@ export class SalespartsmgtApprovalComponent {
     });
   }
 
+  getSPMSupplierlist() {
+    this.loaderService.showLoader();
+    this.spmService.getSPMSupplierList(this.loginService.employeeId as number,this.enqId).subscribe((data: any) => {
+      this.supplierCards = data;
+      this.supplierCards = this.supplierCards.filter((item: any) => item.supplierId === this.supplierId);
+      this.loaderService.hideLoader();
+    });
+  }
+
+  getAttachmentDetails(suppDocId: string, attachmentGUID: string){
+    this.commonService.getAttachmentDetails(suppDocId, this.commonService.docSrcTypeSuppAttachment, attachmentGUID).subscribe((data: any) => {
+      if(data!=null)
+        this.myFiles = data;
+      else
+        this.myFiles = [];
+    });
+  }
+
+  onClickSuppAttachment(suppDocId: number, attachmentGUID: string){
+    if(suppDocId != 0)
+      this.getAttachmentDetails(suppDocId as unknown as string,attachmentGUID);
+    this.showSuppAttachment = !this.showSuppAttachment;
+  }
+
   onBackClickHandle(){
     window.history.back();
+  }
+
+  downloadAttachment(suppDocId: number, attachmentGUID: string, index: number) {
+    this.commonService.getAttachment(suppDocId.toString(), this.commonService.docSrcTypeSuppAttachment, attachmentGUID, index).subscribe((response) => {
+      const contentType = response.headers.get('content-type')!;
+      const filename = this.myFiles[index].name;
+      const blob = new Blob([response.body!], { type: contentType });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename || 'attachment';
+      link.click();
+      window.URL.revokeObjectURL(url);
+    });
   }
 
 }

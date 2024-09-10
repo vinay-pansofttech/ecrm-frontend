@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { FileInfo } from "@progress/kendo-angular-upload";
 import { SalesPartsManagementService, SPMSupplierListItem, RemarksMessage} from '../../sales-parts-management.service';
-import { CommonService } from 'src/app/features/Common/commonservice.service';
+import { CommonService } from 'src/app/features/common/common.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 

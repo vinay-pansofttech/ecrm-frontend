@@ -1,38 +1,44 @@
- <div class="app-navigation-main--container">
-    <div>
+<div class="app-navigation-main--container-locked">
+  <div>
     <img src="assets/back.svg" kendobutton alt="back" 
     (click)="onBackClickHandle()"/>
-    </div>
-    <div class="app-navigation--header">Sales Parts Management</div>
-    <div (click)="onReset()">
-      <img
-          src="assets/reset.svg"        
-          kendobuttons
-          alt="reset"
-          class="app-navigation-reset--image" />
-    </div>
   </div>
+  <div class="app-navigation--header">Sales Parts Management</div>
+  <div (click)="onReset()">
+    <img
+      src="assets/reset.svg"        
+      kendobuttons
+      alt="reset"
+      class="app-navigation-reset--image" />
+  </div>
+</div>
 
-  <div *ngIf="!showSPMAPILoader">
+<div *ngIf="!showSPMAPILoader" class="app-screen--content">
 
-    <div *ngIf="partsCards.length > 0" class="app-screen--header">
-      {{ partsCards[0].supplier }}
+    <div *ngIf="partsCards.length > 0" class="app-screen--info-header">
+      <div class="app-screen--info-header-left">{{ partsCards[0].supplier }}</div>
+      <div class="app-screen--info-header-right" *ngFor="let a of supplierCards">
+        <img src="assets/common/app-paper-clip-white.svg" alt="CE" 
+        width="20" height="20" 
+        (click)="onClickSuppAttachment(a.supplierDocId, a.attachmentGuId? a.attachmentGuId: '')"/> 
+      </div>
     </div>
 
-    <div class="app-details--container">
-      <div class="spm-selectall-button"> 
+    <div class="app-screen--info-tab">
+      <div class="app-screen--info-tab-left"> 
+      </div>
+      <div class="app-screen--info-tab-right"> 
         <input
-        type="radio"
-        kendoRadioButton
-        value="selectall"
-        #selectall
-        [checked]="isAllCardSelected"
-        (click)="toggleCardSelection()"
-        />
+          kendoRadioButton
+          type="radio"
+          value="selectall"
+          #selectall
+          [checked]="isAllCardSelected"
+          (click)="toggleCardSelection()"/>
         <kendo-label
-        class="selectall-label"
-        [for]="selectall"
-        text=" Select all"
+          style="margin-top: 0.12rem;"
+          [for]="selectall"
+          text="Select all"
         ></kendo-label>
       </div>
     </div>
@@ -156,6 +162,26 @@
         </div>
 
       </kendo-card>
+    </div>
+
+    <div *ngFor="let a of supplierCards">
+      <kendo-window 
+      *ngIf="showSuppAttachment"
+      (close)="onClickSuppAttachment(0,'')"
+      [minWidth]="200"
+      [width]="400">
+        <kendo-window-titlebar>
+          <span class="k-window-title">Supplier Attachments</span>
+          <button kendoWindowCloseAction></button>
+        </kendo-window-titlebar>           
+        <div class="app-comments--container">
+            <kendo-label class="app-comments--grid">Uploaded Files</kendo-label>
+            <div *ngFor="let file of myFiles; let i = index"
+              class="app-kendo-attachment-files">
+              <div (click)="downloadAttachment(a.supplierDocId, a.attachmentGuId? a.attachmentGuId: '', i)">{{ file.name }}</div>
+            </div>
+        </div>
+      </kendo-window>
     </div>
 
     <div class="app-screen--footer">

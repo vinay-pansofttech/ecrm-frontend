@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AppSettingsConfigKey } from 'src/app/core/Constants';
 import { LoginService } from '../login/components/login/login.service';
 import { DatePipe } from '@angular/common';
-import { CommonService } from '../Common/commonservice.service';
+import { CommonService } from 'src/app/features/common/common.service';
 
 interface EnquiryTypeBody {
   soldToLEID: string | number;
@@ -55,6 +55,7 @@ export class EnquiryDetailsService {
     const url = `${this.loginUrl}`;
     return this.http.get(url);
   }
+
   getSoldToSiteList(contactId: number) {
     const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetLESiteByContact`;
     const body = {
@@ -71,7 +72,8 @@ export class EnquiryDetailsService {
     return this.http.post(url, body);
   }
   
-  getAddEnquiry(formData: any) {
+  //API call to add enquiry
+  AddEnquiry(formData: any) {
     const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/AddEnquiry`;
     // const body: EnquiryTypeBody = {
     //   soldToLEID: this.leID,
@@ -127,7 +129,8 @@ export class EnquiryDetailsService {
     return this.http.put(url, body);
   }
 
-  getUpdateEnquiry(formData: any,enqID: string) {
+  //API call to update enquiry
+  UpdateEnquiry(formData: any,enqID: string) {
     const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/UpdateEnquiryAllStepper`;
     const file =
     formData.enquiryUpdateForm.interaction_attachment && formData.enquiryUpdateForm.interaction_attachment.length > 0
@@ -197,14 +200,11 @@ export class EnquiryDetailsService {
     };
     return this.http.post(url, body);
   }
-
   getquoteEntityCompany() {
     return this.http.get(this.quoteEntityCompany);
   }
-
   getquoteEntityCurrency(companyID: number) {
     const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetQuoteCurrencyByCompany`;
-
     const body = {
       quoteCompanyID: companyID,
     };
@@ -233,6 +233,7 @@ export class EnquiryDetailsService {
     return this.http.post(url, body);
   }
 
+  //Get enquiry lists to display in funnel update
   getEnquirylist() {
     const body = {
       loginID: this.loginService.employeeId,
@@ -240,53 +241,27 @@ export class EnquiryDetailsService {
     return this.http.post(this.fetchFunnelWorklistUrl, body);
   }
 
+  //Get previous interactions history
   getEnquiryDetailsHistory(endId: string) {
     const body = {
       enqID: endId,
     };
     return this.http.post(this.accountLogDetails, body);
   }
-
   getupdateEnqDropdown() {
     const updateEnqDropdownUrl = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetUpdateEnqDropdowns`;
     return this.http.get(updateEnqDropdownUrl);
   }
-
   getEnquiryDetails(enqID: string | null) {
     const enquiryDetailsurl = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetEnqDetails`;
     const body = {
       enqID,
       loginID: this.loginService.employeeId,
     };
-
     return this.http.post(enquiryDetailsurl, body);
   }
   updateEnquiryDetails(updateBody: any) {
     const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/UpdateEnquiry`;
     return this.http.put(url, updateBody);
-  }
-
-  getAttachmentDetails(enqID: string, docSrcType: number, docSrcGUID: string) {
-    const url = this.attachmentDetails;
-
-    const body = {
-      docSrcVal: enqID.toString(),
-      docSrcType: docSrcType,
-      docSrcGUID: docSrcGUID
-    };
-    return this.http.post(url, body);
-  }
-
-  getAttachment(enqID: string, docSrcType: number, attachmentGUID: string, index: number) {
-    const url = this.downloadAttachment;
-
-    const body = {
-      docSrcVal: enqID.toString(),
-      docSrcType: docSrcType,
-      docSrcGUID: attachmentGUID,
-      index: index
-    };
-    return this.http.post(url, body, {responseType: 'blob', observe: 'response'});
-  }
-  
+  }  
 }
