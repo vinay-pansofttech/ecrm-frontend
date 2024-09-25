@@ -1,7 +1,6 @@
 export enum AppSettingsConfigKey {
   FileName = 'appsettings.json',
   Path = 'assets',
-  APIURL = 'https://localhost:7018',
 }
 
 export enum AppRoutePaths {
