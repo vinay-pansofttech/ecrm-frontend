@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AppSettingsConfigKey } from 'src/app/core/Constants';
 import { LoginService } from '../login/components/login/login.service';
+import { ConfigService } from 'src/app/core/services/config.service';
 import { DatePipe } from '@angular/common';
 
 export interface SPMWorklistItem {
@@ -95,14 +95,15 @@ export interface ProductConfigItemsBO {
 })
 
 export class SalesPartsManagementService {
-  private fetchSPMWorklistUrl = `${AppSettingsConfigKey.APIURL}/api/SalesPartsManagement/GetSPMWorklist`;
-  private fetchSPMSupplierlistUrl = `${AppSettingsConfigKey.APIURL}/api/SalesPartsManagement/GetSPMSupplierlist`;
-  private fetchSPMPartslistUrl = `${AppSettingsConfigKey.APIURL}/api/SalesPartsManagement/GetSPMPartslist`;
-  private postSPMPriceValidation = `${AppSettingsConfigKey.APIURL}/api/SalesPartsManagement/UpdatePriceValidation`;
+  private getSPMWorklistUrl = `${this.configService.apiUrl}/api/SalesPartsManagement/GetSPMWorklist`;
+  private getSPMSupplierlistUrl = `${this.configService.apiUrl}/api/SalesPartsManagement/GetSPMSupplierlist`;
+  private getSPMPartslistUrl = `${this.configService.apiUrl}/api/SalesPartsManagement/GetSPMPartslist`;
+  private postSPMPriceValidationUrl = `${this.configService.apiUrl}/api/SalesPartsManagement/UpdatePriceValidation`;
 
   constructor(
     private http: HttpClient,
     private loginService: LoginService,
+    private configService: ConfigService,
     private datePipe: DatePipe
   ) {}
 
@@ -111,7 +112,7 @@ export class SalesPartsManagementService {
     const body = {
       loginId: loginId,
     };
-    return this.http.post(this.fetchSPMWorklistUrl, body);
+    return this.http.post(this.getSPMWorklistUrl, body);
   }
 
   //API call to fetch display supplier list in sales parts management
@@ -120,7 +121,7 @@ export class SalesPartsManagementService {
       loginId: loginId,
       enqId: enqId
     };
-    return this.http.post(this.fetchSPMSupplierlistUrl, body);
+    return this.http.post(this.getSPMSupplierlistUrl, body);
   }
 
   //API call to fetch display parts list in sales parts management
@@ -131,7 +132,7 @@ export class SalesPartsManagementService {
       type: "",
       supplierId: supplierId
     };
-    return this.http.post(this.fetchSPMPartslistUrl, body);
+    return this.http.post(this.getSPMPartslistUrl, body);
   }
 
   //API call to update price validations
@@ -142,8 +143,7 @@ export class SalesPartsManagementService {
       lstLeadProductConfig: lstLeadProductConfig,
       priceValidateComments: validateComments
     };
-    console.log('Body for Price Validate', body);
-    return this.http.post(this.postSPMPriceValidation, body);
+    return this.http.post(this.postSPMPriceValidationUrl, body);
   }
   
 }

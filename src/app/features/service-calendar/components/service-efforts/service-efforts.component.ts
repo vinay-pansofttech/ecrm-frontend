@@ -6,7 +6,7 @@ import { LoginService } from 'src/app/features/login/components/login/login.serv
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { DatePipe } from '@angular/common';
-
+import { CommonService } from 'src/app/features/common/common.service';
 
 @Component({
   selector: 'app-service-efforts',
@@ -31,7 +31,8 @@ export class ServiceEffortsComponent {
     private loginService: LoginService,
     private loaderService: LoaderService,
     private notificationService: NotificationService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    public commonService: CommonService
   ) {}
 
   ngOnInit(): void {
@@ -68,7 +69,10 @@ export class ServiceEffortsComponent {
 
   getEngEffortsList() {
     this.serviceCalendarService.getEngEfforts(this.loginService.employeeId as number, this.srid).subscribe((data: any) => {
-      this.engeffortListCards = data;
+      this.engeffortListCards = data.filter(
+        (item: any) => this.commonService.displayDateFormat(item.ondate) != this.currentDate
+      );
+
       this.effortCardDetails = data.filter(
         (item: any) => item.empId === this.loginService.employeeId
       );
@@ -77,7 +81,7 @@ export class ServiceEffortsComponent {
         this.patchFormValues();
       }
       else{
-        console.log('Effort is null');
+        console.log('No Effort available');
       }
     });
   }
@@ -140,17 +144,28 @@ export class ServiceEffortsComponent {
       if (formData) {
         this.loaderService.showLoader();
         this.serviceCalendarService.putServiceEfforts(formData)
-          .subscribe(data => {
+          .subscribe((data: any) => {
+            this.loaderService.hideLoader();
+            const notificationMessage = data.outPut;
+            const notificationType = data.outPut.indexOf('Success') !== -1 ? 'success' : 'error';
+            this.notificationService.showNotification(
+              notificationMessage,
+              notificationType,
+              'center',
+              'bottom'
+            );
+            if(notificationType == 'success'){
+              window.history.back();
+            }
+          },
+          error => {
             this.loaderService.hideLoader();
             this.notificationService.showNotification(
-              'Efforts updated successfully',
-              'success', 'center', 'bottom'
+              'Efforts update unsuccessful' + error,
+              'error', 'center', 'bottom'
             );
-            window.history.back();
           });
-      } else {
-        console.error('No Effort available');
-      }
+      } 
     } else {
       this.serviceEffortsForm.markAllAsTouched();
     }

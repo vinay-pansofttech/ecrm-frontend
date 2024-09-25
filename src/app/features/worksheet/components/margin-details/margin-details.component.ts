@@ -1,10 +1,11 @@
 import { Component, HostListener, Input, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { GridModule, Skip, PageChangeEvent } from '@progress/kendo-angular-grid';
+import { GridModule, Skip, PageChangeEvent, RowClassArgs } from '@progress/kendo-angular-grid';
 import { WorksheetService,WorksheetPrerequisites, WorksheetMarginList, EnquiryDetails,
   MarginProductGridList, MarginSupplierGridList, MarginPartsGridList
  } from '../../worksheet.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { CommonService } from 'src/app/features/common/common.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { process, State } from '@progress/kendo-data-query';
 import { PopoverContainerDirective, PopoverAnchorDirective } from "@progress/kendo-angular-tooltip";
@@ -43,7 +44,8 @@ export class MarginDetailsComponent {
     private worksheetService: WorksheetService,
     private loginService: LoginService,
     private notificationService: NotificationService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    public  commonService: CommonService
   ){}
 
   ngOnInit() {
@@ -438,9 +440,6 @@ export class MarginDetailsComponent {
 
   calculateGridValues(data: any[], Type: string, SupplierName: string | null, ProductName: string | null): any {
     if(Type == 'Parts'){
-      console.log('Selected Supplier', SupplierName);
-      console.log('Selected Product', ProductName);
-
       this.marginPartsGridDetails = data
       .filter(item => item.supplierName === SupplierName && item.productName === ProductName)
       .map(val => {
@@ -490,8 +489,6 @@ export class MarginDetailsComponent {
     }
 
     else if (Type == 'Supplier'){
-      console.log('Selected Product', ProductName);
-
       let selectedProductData = data
       .filter(item => item.productName === ProductName)
       .map(val => {
@@ -555,7 +552,6 @@ export class MarginDetailsComponent {
       });
   
       this.marginSupplierGridDetails = uniqueSuppliers;
-      console.log('Supplier Grid',this.marginSupplierGridDetails);
     }
     
     else if (Type == 'Product'){
@@ -621,7 +617,6 @@ export class MarginDetailsComponent {
       });
   
       this.marginProductGridDetails = uniqueProducts;
-      console.log('Product Grid',this.marginProductGridDetails);
     }
     else{
       return null;
@@ -637,8 +632,6 @@ export class MarginDetailsComponent {
           sumTotalCost += 0;
         } else {
           sumTotalCost += item[field];
-          // console.log('Individual Goods Cost',item[field]);
-          // console.log('Total Sum of Goods Cost',sumTotalCost);
         }
       }
     });
@@ -675,7 +668,6 @@ export class MarginDetailsComponent {
      this.WorksheetPrerequisites[0].marginVersionName)
     .subscribe((response) => {
       const contentType = response.headers.get('content-type')!;
-      console.log(contentType);
       const filename = this.WorksheetPrerequisites[0].marginVersionName + '.xlsx';
       const blob = new Blob([response.body!], { type: contentType });
       const url = window.URL.createObjectURL(blob);
@@ -755,5 +747,4 @@ export class MarginDetailsComponent {
   private setPopoverWidth(screenWidth: number): void {
     this.popoverWidth = screenWidth <= 590 ? 270 : 380;
   }
-
 }

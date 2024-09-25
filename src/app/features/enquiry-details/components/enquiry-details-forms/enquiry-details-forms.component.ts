@@ -162,7 +162,6 @@ export class EnquiryDetailsFormsComponent implements OnInit {
     if (sales && sales?.salesChannelID) {
       this.showEnquiryDetailsAPILoader = true;
       this.formStateService.selectedsales = sales;
-      console.log('Selected Contact', this.formStateService.selectedContact.leSiteId);
       this.enquiryDetailsService
         .getsalesExecutive(0, 0, sales.salesChannelID, this.formStateService.selectedContact.leSiteId)
         .subscribe((res: any) => {

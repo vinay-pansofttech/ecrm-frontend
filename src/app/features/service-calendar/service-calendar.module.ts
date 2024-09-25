@@ -10,13 +10,17 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { EffortsListViewComponent } from './components/efforts-list-view/efforts-list-view.component';
 import { PDFViewerModule } from '@progress/kendo-angular-pdfviewer';
 import { CsrGeneratorComponent } from './components/csr-generator/csr-generator.component';
+import { PartsRequestComponent } from './components/parts-request/parts-request.component';
+import { SrlcComponent } from './components/srlc/srlc.component';
 
 @NgModule({
   declarations: [
     CalendarComponent,
     ServiceEffortsComponent,
     EffortsListViewComponent,
-    CsrGeneratorComponent
+    CsrGeneratorComponent,
+    PartsRequestComponent,
+    SrlcComponent
   ],
   imports: [
     CommonModule,

@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,15 +16,20 @@ import { IndicatorsModule } from '@progress/kendo-angular-indicators';
 import { NotificationModule } from '@progress/kendo-angular-notification';
 import { LoginService } from './features/login/components/login/login.service';
 import { NotificationService } from './core/services/notification.service';
+import { ConfigService } from './core/services/config.service';
 import { LoaderService } from './core/services/loader.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthGuard } from './auth.guard';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { IconsModule } from '@progress/kendo-angular-icons';
 import { PDFViewerModule } from '@progress/kendo-angular-pdfviewer';
 import { PopoverModule } from "@progress/kendo-angular-tooltip";
+import { CommonService } from './features/common/common.service';
 
+export function initializeApp(configService: ConfigService) {
+  return () => configService.loadConfig();
+}
 
 @NgModule({
   declarations: [AppComponent],
@@ -52,9 +57,16 @@ import { PopoverModule } from "@progress/kendo-angular-tooltip";
   providers: [
     LoginService,
     NotificationService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeApp,
+      deps: [ConfigService],
+      multi: true
+    },
     LoaderService,
     AuthGuard,
     DatePipe,
+    DecimalPipe
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

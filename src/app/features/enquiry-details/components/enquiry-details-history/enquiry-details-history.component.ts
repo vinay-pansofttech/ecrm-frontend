@@ -1,21 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { process, State } from '@progress/kendo-data-query';
-import { EnquiryDetailsService } from '../../enquiry-details.service';
+import { EnquiryDetailsService, EnquiryDetailsHistory } from '../../enquiry-details.service';
 import { ActivatedRoute, Router } from '@angular/router';
-interface EnquiryDetailsHistory {
-  remarksID: number;
-  remarks: string;
-  leadLogGUID: number;
-  leadLogDocName: string;
-  leadLogSrcType: string;
-  leadLogDocPath: string;
-  updDate: string;
-  createdByID: number;
-  updatedBy: string;
-  isMultiple: number;
-  modeOfContactId: number;
-  modeOfContact: string;
-}
+import { CommonService } from 'src/app/features/common/common.service';
+
 @Component({
   selector: 'app-enquiry-details-history',
   templateUrl: './enquiry-details-history.component.html',
@@ -32,7 +20,8 @@ export class EnquiryDetailsHistoryComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private enquiryDetailService: EnquiryDetailsService
+    private enquiryDetailService: EnquiryDetailsService,
+    public commonService: CommonService
   ) {}
 
   ngOnInit() {

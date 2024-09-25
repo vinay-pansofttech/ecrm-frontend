@@ -54,7 +54,7 @@
               USILP:
             </div>
             <div class="sold sold-content-left">
-              {{ a.isAllowEdit? a.sellIn: '' | number: '1.2-2' }} &nbsp; {{a.isAllowEdit? WorksheetPrerequisites[0].quoteCurrencyName: ''}}
+              {{ a.isAllowEdit? commonService.displayDecimalFormat(a.sellIn): ''}} &nbsp; {{a.isAllowEdit && a.sellIn? WorksheetPrerequisites[0].quoteCurrencyName: ''}}
             </div>
           </div>
           <div class="sub-title-right">
@@ -73,12 +73,12 @@
               TSOLP:
             </div>
             <div class="sold sold-content-left">
-              {{ a.sellOutValue | number: '1.2-2' }} &nbsp; {{WorksheetPrerequisites[0].quoteCurrencyName}}
+              {{ commonService.displayDecimalFormat(a.sellOutValue)}} &nbsp; {{ a.sellOutValue? WorksheetPrerequisites[0].quoteCurrencyName: ''}}
             </div>
           </div>
           <div class="sub-title-right">
-            <img *ngIf="!a.isDescriptionOpen" (click)="isDescOpened(i)" src="assets/down.svg"/>
-            <img *ngIf="a.isDescriptionOpen" (click)="isDescOpened(i)"src="assets/up.svg"/>
+            <img *ngIf="!a.isDescriptionOpen" (click)="isDescOpened(i)" src="assets/content/images/down.svg"/>
+            <img *ngIf="a.isDescriptionOpen" (click)="isDescOpened(i)"src="assets/content/images/up.svg"/>
           </div>
         </div>
 
@@ -118,7 +118,7 @@
             Total:
           </div>
           <div class="sold sold-content-left">
-            {{ DLCTotalCost | number: '1.2-2' }} &nbsp; {{WorksheetPrerequisites[0].quoteCurrencyName}}
+            {{ commonService.displayDecimalFormat(DLCTotalCost)}} &nbsp; {{ DLCTotalCost? WorksheetPrerequisites[0].quoteCurrencyName: ''}}
           </div>
         </div>
       </div>

@@ -179,7 +179,6 @@ export class EnquiryDetailsUpdateComponent {
       this.enquiryDetailsService
         .UpdateEnquiry(this.enquiryCaptureForm.value, this.enqId)
         .subscribe((data: any) => {
-          console.log('after submit', data);
           this.loaderService.hideLoader();
           if (data) {
             const notificationMessage = data.outPut;
@@ -277,7 +276,6 @@ export class EnquiryDetailsUpdateComponent {
           this.enquiryDetailsService.salesExecID = res[0].salesExecutiveID;
           this.enquiryDetailsService.soldToLESiteID = res[0].soldToSite;
           this.getAttachmentDetails(this.enqId);
-          console.log('result',res[0]);
           this.enquiryCaptureForm.patchValue({
             contactDteails: {
               soldToContact: res[0]?.soldToContactID,

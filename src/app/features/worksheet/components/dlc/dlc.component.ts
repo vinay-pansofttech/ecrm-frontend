@@ -1,6 +1,7 @@
 import { Component, Injectable, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { WorksheetService,WorksheetPrerequisites, WorksheetDLCList } from '../../worksheet.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
+import { CommonService } from 'src/app/features/common/common.service';
 
 @Component({
   selector: 'app-dlc',
@@ -15,7 +16,8 @@ export class DlcComponent {
 
   constructor(
     private worksheetService: WorksheetService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    public  commonService: CommonService
   ){}
 
   ngOnInit() {

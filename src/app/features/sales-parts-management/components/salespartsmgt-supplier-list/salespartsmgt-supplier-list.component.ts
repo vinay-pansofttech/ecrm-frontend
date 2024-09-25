@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { FileInfo } from "@progress/kendo-angular-upload";
-import { SalesPartsManagementService, SPMSupplierListItem, RemarksMessage} from '../../sales-parts-management.service';
-import { CommonService } from 'src/app/features/common/common.service';
+import { SalesPartsManagementService, SPMSupplierListItem } from '../../sales-parts-management.service';
+import { CommonService, AttachmentPopupDetails } from 'src/app/features/common/common.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 
@@ -15,19 +14,20 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 
 export class SalespartsmgtSupplierListComponent {
   public showSPMAPILoader = false;
-  myFiles: Array<FileInfo> = [];
-
   supplierCards: SPMSupplierListItem[] = [];
-  showSuppAttachment: boolean = false;
   enqId!: number;
 
+  //Attachment Pop up related variables
+  showSuppAttachment: boolean = false;
+  attachmentPopupDetails: AttachmentPopupDetails [] = [];
+  
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private loaderService: LoaderService,
     private loginService: LoginService,
     private spmService: SalesPartsManagementService,
-    private commonService : CommonService
+    public commonService : CommonService
   ){}
 
   ngOnInit() {
@@ -64,18 +64,18 @@ export class SalespartsmgtSupplierListComponent {
     });
   }
 
-  getAttachmentDetails(suppDocId: string, attachmentGUID: string){
-    this.commonService.getAttachmentDetails(suppDocId, this.commonService.docSrcTypeSuppAttachment, attachmentGUID).subscribe((data: any) => {
-      if(data!=null)
-        this.myFiles = data;
-      else
-        this.myFiles = [];
+  onClickSuppAttachment(docSrcVal: number, docSrcType: number, docSrcGUID: string, event: MouseEvent | TouchEvent | null){
+    this.attachmentPopupDetails = [];
+    this.attachmentPopupDetails.push({
+      docSrcVal: docSrcVal as unknown as string,
+      docSrcType: docSrcType,
+      docSrcGUID: docSrcGUID,
+      touchEvent: event
     });
+    this.showSuppAttachment = !this.showSuppAttachment;
   }
 
-  onClickSuppAttachment(suppDocId: number, attachmentGUID: string){
-    if(suppDocId != 0)
-      this.getAttachmentDetails(suppDocId as unknown as string,attachmentGUID);
+  onCloseAttachmentPopup(){
     this.showSuppAttachment = !this.showSuppAttachment;
   }
 
@@ -89,20 +89,6 @@ export class SalespartsmgtSupplierListComponent {
 
   onBackClickHandle(){
     this.router.navigate(['/sales-parts-management']);
-  }
-
-  downloadAttachment(suppDocId: number, attachmentGUID: string, index: number) {
-    this.commonService.getAttachment(suppDocId.toString(), this.commonService.docSrcTypeSuppAttachment, attachmentGUID, index).subscribe((response) => {
-      const contentType = response.headers.get('content-type')!;
-      const filename = this.myFiles[index].name;
-      const blob = new Blob([response.body!], { type: contentType });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = filename || 'attachment';
-      link.click();
-      window.URL.revokeObjectURL(url);
-    });
   }
 
 }

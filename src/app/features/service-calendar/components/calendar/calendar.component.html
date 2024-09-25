@@ -3,13 +3,13 @@
     <div class="app-navigation-main--container">
       <div (click)="onBackClickHandle()">
         <img
-          src="assets/back.svg"
+          src="assets/content/images/back.svg"
           alt="new"/>
       </div>
       <div class="app-navigation--header">Service Calendar</div>
       <div>
         <img
-          src="assets/reset.svg"
+          src="assets/content/images/reset.svg"
           kendobuttons
           alt="reset"
           class="app-navigation-reset--image" 
@@ -20,23 +20,23 @@
     <div class="service-calendar-container">
       <div class="service-kendo-calendar-pop-up-icon">
         <img
-          src="assets/dashboard/dashboard-calendar-icon.svg"
+          src="assets/content/images/calendar.svg"
           alt="new"
           (click)="openCloseCalendar()" />
       </div>
       <div class="service-calendar-date-container">
         <div class="service-calendar--back-img">
             <img
-              src="assets/back.svg"
+              src="assets/content/images/back.svg"
               alt="new"
               (click)="onPrevDateClickHandle()" />
         </div>
         <div class="service-calendar-date">
-            {{ currentDate | date:'dd-MMM-yyyy' }}
+            {{ commonService.displayDateFormat(currentDate) }}
         </div>
         <div class="service-calendar--front-img">
           <img
-            src="assets/back.svg"
+            src="assets/content/images/back.svg"
             alt="new"
             (click)="onNextDateClickHandle()" />
         </div>
@@ -68,7 +68,7 @@
           </div>
           <div>
             <img
-            src="assets/chevron.svg"
+            src="assets/content/images/chevron.svg"
             alt="edit"
             (click)="onScheduledCallClick(a.srid,i)"
             />
@@ -140,7 +140,7 @@
   
         <div class="app-enquiry-details-listview--information-outline-card" (click)="callPhoneNumber(a.phoneNumber)">
           <div>
-            <img src="assets/phone.svg" alt="new" />
+            <img src="assets/content/images/phone.svg" alt="new" />
           </div>
           <div class="app-enquiry-details-listview--information">
             {{a.phoneNumber}}
@@ -149,7 +149,7 @@
 
         <div class="app-enquiry-details-listview--information-outline-card" (click)="sendEmail(a.email)">
           <div>
-            <img src="assets/email.svg" alt="new" />
+            <img src="assets/content/images/email.svg" alt="new" />
           </div>
           <div class="app-enquiry-details-listview--information">
             {{a.email}}
@@ -158,7 +158,7 @@
 
         <div class="app-enquiry-details-listview--information-outline-card" (click)="openLocation(a.gpsCoordinate)">
           <div>
-            <img src="assets/location.svg" alt="new" />
+            <img src="assets/content/images/location.svg" alt="new" />
           </div>
           <div class="app-enquiry-details-listview--information">
             {{a.gpsCoordinate}}

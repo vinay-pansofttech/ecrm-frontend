@@ -24,7 +24,7 @@
           </div>
           <div>
             <img
-              src="assets/edit.svg"
+              src="assets/content/images/edit.svg"
               alt="new"
               (click)="navigateById(a.supplierId)" />
           </div>
@@ -56,7 +56,7 @@
               Tot. Disc. Amt. QC
             </div>
             <div class="app-enquiry-details-listview--kendo-card-sold">
-              {{ a.totalDiscount_QC | number:'1.00':'en-US' }}
+              {{ commonService.displayDecimalFormat(a.totalDiscount_QC) }}
             </div>
           </div>
           <div class="app-enquiry-details-listview--kendo-card-sold-details">
@@ -64,7 +64,7 @@
               Tot. Addl. Disc. Amt. QC
             </div>
             <div class="app-enquiry-details-listview--kendo-card-sold">
-              {{ a.addDiscount_QC | number:'1.00':'en-US' }}
+              {{ commonService.displayDecimalFormat(a.addDiscount_QC) }}
             </div>
           </div>
 
@@ -77,7 +77,7 @@
                   {{ a.smComments | slice:0:30 }} ..... 
               </div>
               <div class="app-enquiry-details-listview--kendo-card-comments-right">
-                <img (click)="onSMCommentsClick(i)" src="assets/down.svg"/>
+                <img (click)="onSMCommentsClick(i)" src="assets/content/images/down.svg"/>
               </div>
             </div>
           </div>
@@ -92,7 +92,7 @@
                   {{ a.smComments }}
               </div>
               <div class="app-enquiry-details-listview--kendo-card-comments-right">
-                <img (click)="onSMCommentsClick(i)" src="assets/up.svg"/>
+                <img (click)="onSMCommentsClick(i)" src="assets/content/images/up.svg"/>
               </div>
             </div>
           </div>
@@ -108,7 +108,7 @@
         {{WorksheetDRQItemsDetailsCard[0].supplierName}}
       </div>
       <div class="app-screen--info-header-right" (click)="onBackClickHandle()">
-        <img src="assets/backward.svg"/>
+        <img src="assets/content/images/backward.svg"/>
         <span>Back</span>
       </div>
     </div> 
@@ -118,6 +118,7 @@
       [pageSize]="6"
       [resizable]="true"
       [sortable]="true"
+      [height]="450"
       [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
       >
 
@@ -129,7 +130,7 @@
         [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
         [width]="10"
         [locked]="false"
-        [style]="{'padding': '0', 'margin': '0'}"
+        [style]="{'display': 'block', 'padding': '0% 0%'}"
       >
         <ng-template kendoGridCellTemplate let-dataItem>
           <div class="kendo-grid--Status-cell" [ngClass]="{
@@ -137,7 +138,7 @@
             'kendo-grid--StatusBlue': dataItem.drqItemStatus == 2,
             'kendo-grid--StatusRed': dataItem.drqItemStatus == 3,
             }">
-            &nbsp;
+            &nbsp;<br/> &nbsp;
           </div>
         </ng-template> 
 
@@ -208,7 +209,7 @@
               {{ isNullOrZero(dataItem.description) | slice:0:15 }} ..... 
             </span>
             <span [title]="isNullOrZero(dataItem.description)" class="long-title">
-              {{ isNullOrZero(dataItem.description) | slice:0:60 }} .....            
+              {{ isNullOrZero(dataItem.description) | slice:0:20 }} .....            
             </span>
           </div>
 

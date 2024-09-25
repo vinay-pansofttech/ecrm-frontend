@@ -1,40 +1,39 @@
-<div>
-    <div class="app-navigation-main--container">
-        <div>
-        <img src="assets/back.svg" kendobutton alt="back" 
+<div class="app-navigation-main--container">
+  <div>
+    <img src="assets/content/images/back.svg" kendobutton alt="back" 
         (click)="onBackClickHandle()"/>
-        </div>
-        <div class="app-navigation--header">Sales Parts Management</div>
-        <div (click)="onReset()">
-          <img
-              src="assets/reset.svg"
-              kendobuttons
-              alt="reset"
-              class="app-navigation-reset--image"/>
-        </div>
     </div>
-
-    <div class="app-screen--header">
-        Price Validation
+    <div class="app-navigation--header">Sales Parts Management</div>
+    <div (click)="onReset()">
+      <img
+        src="assets/content/images/reset.svg"
+        kendobuttons
+        alt="reset"
+        class="app-navigation-reset--image"/>
     </div>
+</div>
 
-    <div *ngIf="filteredCards.length > 0 && !showSPMAPILoader">
-        <div class="app-enquiry-details-listview--searchbox">
-          <kendo-textbox
-            [(ngModel)]="searchTerm"
-            (ngModelChange)="filterData()"
-            placeholder="Search"
-            class="app-enquiry-details-listview--kendo-textbox">
-            <ng-template kendoTextBoxPrefixTemplate>
-              <img
-                src="assets/search.svg"
-                alt="new"
-                class="app-enquiry-details-listview--search-icon" />
-            </ng-template>
-          </kendo-textbox>
-        </div>
+<div class="app-screen--header">
+    Price Validation
+</div>
 
-        <div *ngFor="let a of filteredCards" class="app-enquiry-details-listview--cards">
+<div *ngIf="!showSPMAPILoader">
+  <div class="app-enquiry-details-listview--searchbox">
+    <kendo-textbox
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="filterData()"
+      placeholder="Search"
+      class="app-enquiry-details-listview--kendo-textbox">
+      <ng-template kendoTextBoxPrefixTemplate>
+        <img
+          src="assets/content/images/search.svg"
+          alt="new"
+          class="app-enquiry-details-listview--search-icon" />
+      </ng-template>
+    </kendo-textbox>
+  </div>
+
+  <div *ngFor="let a of filteredCards" class="app-enquiry-details-listview--cards">
             <kendo-card class="app-enquiry-details-listview--kendo-card">
               <div class="app-enquiry-details-listview--kendo-card-header">
                 <div class="app-enquiry-details-listview--kendo-card-number">
@@ -42,7 +41,7 @@
                 </div>
                 <div>
                   <img
-                    src="assets/edit.svg"
+                    src="assets/content/images/edit.svg"
                     alt="new"
                     (click)="navigateById(a.enqId)" />
                 </div>
@@ -87,9 +86,9 @@
                 </div>
               </div>
             </kendo-card>
-        </div>
+  </div>
 
-        <div class="app-enquiry-details-listview--kendo-pager">
+  <div *ngIf="filteredCards.length > 0" class="app-enquiry-details-listview--kendo-pager">
             <kendo-datapager
               class="app-enquiry-details-listview--kendo-datapager"
               [pageSize]="pageSize"
@@ -97,15 +96,14 @@
               [total]="contactCards.length"
               (pageChange)="onPageChange($event)">
             </kendo-datapager>
-        </div>
-    </div>
+  </div>
+</div>
 
-    <div *ngIf="filteredCards.length === 0 && !showSPMAPILoader" class="app-disclaimer--card">
+  <div *ngIf="filteredCards.length === 0 && !showSPMAPILoader" class="app-disclaimer--card">
       <div class="app-disclaimer--content">
         <h5> No parts pending for price validation </h5>
       </div>
-    </div>
-</div>
+  </div>
 
 <div class="app-screen--loader" *ngIf="showSPMAPILoader">
     <kendo-loader

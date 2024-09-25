@@ -46,7 +46,6 @@ export class LoginComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit() {
-    console.log('login');
   }
   public ngAfterViewInit(): void {
     this.textbox.input.nativeElement.type = 'password';
@@ -63,7 +62,6 @@ export class LoginComponent implements AfterViewInit, OnInit {
   }
 
   onHandleAfterSignin(apiResponse: any) {
-    console.log('after login service', apiResponse);
     if (apiResponse[0]?.empId) {
       this.loginService.employeeId = apiResponse[0]?.empId;
       this.loginService.setEmployeeName(apiResponse[0]?.employeeName);
@@ -88,7 +86,6 @@ export class LoginComponent implements AfterViewInit, OnInit {
       .subscribe(
         data => {
           this.showLoader = false;
-          console.log('subscribe', data);
           this.onHandleAfterSignin(data);
         },
         error => {

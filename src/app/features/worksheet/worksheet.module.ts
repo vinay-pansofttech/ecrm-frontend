@@ -14,6 +14,7 @@ import { DlcComponent } from './components/dlc/dlc.component';
 import { MarginDetailsComponent } from './components/margin-details/margin-details.component';
 import { DrqDetailsComponent } from './components/drq-details/drq-details.component';
 import { CommonFeaturesModule } from '../common/common.module';
+import { CommonService } from 'src/app/features/common/common.service';
 
 @NgModule({
   declarations: [

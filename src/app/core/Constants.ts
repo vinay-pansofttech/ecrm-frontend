@@ -1,6 +1,6 @@
 export enum AppSettingsConfigKey {
-  FileName = 'appSettings.json',
-  Path = 'assets/configs',
+  FileName = 'appsettings.json',
+  Path = 'assets',
   APIURL = 'https://localhost:7018',
 }
 
@@ -25,9 +25,11 @@ export enum AppRoutePaths {
   EnquiryDetailsHistory = 'enquiry-details-history/:id',
   EnquiryDetailsUpdate = 'enquiry-details-update/:id',
   ServiceCalendar = 'service-calendar',
+  SRLC = 'srlc/:id/:Date',
   ServiceEffortsList = 'service-efforts-listview/:id/:Date',
   ServiceCSRGenerator = 'csr-generator',
   ServiceEfforts = 'service-efforts/:index/:id/:Date',
+  PartsRequest = 'parts-request/:id',
   WorksheetDetails = 'worksheet-details',
   WorksheetApproval = 'worksheet-approval/:id',
   SalesPartsManagementList = 'sales-parts-management',

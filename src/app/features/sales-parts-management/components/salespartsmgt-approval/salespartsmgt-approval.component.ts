@@ -4,10 +4,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { SalesPartsManagementService, SPMPartsListItem, ProductConfigItemsBO, SPMSupplierListItem} from '../../sales-parts-management.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
-import { FileInfo } from "@progress/kendo-angular-upload";
-import { Statement } from '@angular/compiler';
 import { NotificationService } from 'src/app/core/services/notification.service';
-import { CommonService } from 'src/app/features/common/common.service';
+import { CommonService, AttachmentPopupDetails } from 'src/app/features/common/common.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 
 @Component({
@@ -29,8 +27,9 @@ export class SalespartsmgtApprovalComponent {
   lstProductConfig: ProductConfigItemsBO[] = [];
   loaderMessage!: string;
 
-  myFiles: Array<FileInfo> = [];
+  //Attachment Pop up related variables
   showSuppAttachment: boolean = false;
+  attachmentPopupDetails: AttachmentPopupDetails [] = [];
 
   constructor(
     private router: Router,
@@ -39,7 +38,7 @@ export class SalespartsmgtApprovalComponent {
     private loginService: LoginService,
     private notificationService: NotificationService,
     private loaderService: LoaderService,
-    private commonService: CommonService
+    public commonService: CommonService
   ){}
 
   ngOnInit(){
@@ -208,37 +207,23 @@ export class SalespartsmgtApprovalComponent {
     });
   }
 
-  getAttachmentDetails(suppDocId: string, attachmentGUID: string){
-    this.commonService.getAttachmentDetails(suppDocId, this.commonService.docSrcTypeSuppAttachment, attachmentGUID).subscribe((data: any) => {
-      if(data!=null)
-        this.myFiles = data;
-      else
-        this.myFiles = [];
+  onClickSuppAttachment(docSrcVal: number, docSrcType: number, docSrcGUID: string, event: MouseEvent | TouchEvent | null){
+    this.attachmentPopupDetails = [];
+    this.attachmentPopupDetails.push({
+      docSrcVal: docSrcVal as unknown as string,
+      docSrcType: docSrcType,
+      docSrcGUID: docSrcGUID,
+      touchEvent: event
     });
+    this.showSuppAttachment = !this.showSuppAttachment;
   }
 
-  onClickSuppAttachment(suppDocId: number, attachmentGUID: string){
-    if(suppDocId != 0)
-      this.getAttachmentDetails(suppDocId as unknown as string,attachmentGUID);
+  onCloseAttachmentPopup(){
     this.showSuppAttachment = !this.showSuppAttachment;
   }
 
   onBackClickHandle(){
     window.history.back();
-  }
-
-  downloadAttachment(suppDocId: number, attachmentGUID: string, index: number) {
-    this.commonService.getAttachment(suppDocId.toString(), this.commonService.docSrcTypeSuppAttachment, attachmentGUID, index).subscribe((response) => {
-      const contentType = response.headers.get('content-type')!;
-      const filename = this.myFiles[index].name;
-      const blob = new Blob([response.body!], { type: contentType });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = filename || 'attachment';
-      link.click();
-      window.URL.revokeObjectURL(url);
-    });
   }
 
 }

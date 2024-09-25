@@ -2,14 +2,14 @@
   <div class="app-navigation-main--container">
     <div>
       <img
-        src="assets/back.svg"
+        src="assets/content/images/back.svg"
         alt="new"
         routerLink="/dashboard" />
     </div>
     <div class="app-navigation--header">Funnel Update</div>
     <div (click)="onReset()">
       <img
-        src="assets/reset.svg"
+        src="assets/content/images/reset.svg"
         kendobuttons
         alt="reset"
         class="app-navigation-reset--image" />
@@ -27,7 +27,7 @@
         class="app-enquiry-details-listview--kendo-textbox">
         <ng-template kendoTextBoxPrefixTemplate>
           <img
-            src="assets/search.svg"
+            src="assets/content/images/search.svg"
             alt="new"
             class="app-enquiry-details-listview--search-icon" />
         </ng-template>
@@ -42,7 +42,7 @@
           </div>
           <div>
             <img
-              src="assets/edit.svg"
+              src="assets/content/images/edit.svg"
               alt="new"
               (click)="navigateById(a.enqID)" />
           </div>
@@ -81,7 +81,7 @@
 
         <div class="app-enquiry-details-listview--information-outline-card" (click)="callPhoneNumber(a.phoneNumber)">
           <div>
-            <img src="assets/phone.svg" alt="new" />
+            <img src="assets/content/images/phone.svg" alt="new" />
           </div>
           <div class="app-enquiry-details-listview--information">
             {{ a.soldToContPhoneNo }}

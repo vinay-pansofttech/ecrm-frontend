@@ -20,6 +20,5 @@ export class EmailLoginComponent {
   }
 
   onSubmit() {
-  console.log(this.loginForm);
   }
 }

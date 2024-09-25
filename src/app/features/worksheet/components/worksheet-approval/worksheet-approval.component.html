@@ -1,13 +1,13 @@
 <div *ngIf="!showAPILoader">
   <div class="app-navigation-main--container">
     <div>
-        <img src="assets/back.svg" kendobutton alt="back" 
+        <img src="assets/content/images/back.svg" kendobutton alt="back" 
         (click)="onBackClickHandle()"/>
     </div>
     <div class="app-navigation--header">Worksheet</div>
     <div (click)="onReset()">
       <img
-          src="assets/reset.svg"
+          src="assets/content/images/reset.svg"
           kendobuttons
           alt="reset"
           class="app-navigation-reset--image"/>
@@ -25,7 +25,7 @@
             <div class="app-screen--stepper-container-content"> DLC </div>
           </div>
           <div class="app-screen--stepper-container"
-              *ngIf="WorksheetPrerequisites[0].isSalesManager"
+              *ngIf="WorksheetPrerequisites[0]? WorksheetPrerequisites[0].isSalesManager: false"
               (click)="onStepperClick(2)" [ngClass]="{'selected': isDRQSelected}">
             <div class="app-screen--stepper-container-content"> DRQ </div>
           </div>
@@ -34,7 +34,7 @@
             <div class="app-screen--stepper-container-content"> Price Details </div>
           </div>
           <div class="app-screen--stepper-container"
-              *ngIf="WorksheetPrerequisites[0].marginExcelDownloadPrivilege"
+              *ngIf="WorksheetPrerequisites[0] ? WorksheetPrerequisites[0].marginExcelDownloadPrivilege: false"
               (click)="onStepperClick(4)" [ngClass]="{'selected': isMarginSelected}"
               style="margin-right: 0.5rem;">
             <div class="app-screen--stepper-container-content"> Margin </div>
@@ -65,7 +65,7 @@
                     Sales Channel
                   </div>
                   <div class="app-enquiry-details-listview--kendo-card-sold ">
-                    {{enquiryDetailsCard[0].salesChannel}}
+                    {{enquiryDetailsCard[0]? enquiryDetailsCard[0].salesChannel: ''}}
                   </div>
                 </div>
                 <div class="app-enquiry-details-listview--kendo-card-sold-details">
@@ -73,7 +73,7 @@
                     AM
                   </div>
                   <div class="app-enquiry-details-listview--kendo-card-sold ">
-                    {{enquiryDetailsCard[0].salesExecutive}}
+                    {{enquiryDetailsCard[0]? enquiryDetailsCard[0].salesExecutive: ''}}
                   </div>
                 </div>
                 <div class="app-enquiry-details-listview--kendo-card-sold-details">
@@ -90,8 +90,8 @@
                   </div>
                   <div class="app-enquiry-details-listview--kendo-card-sold">
                     <span  style="color:white" 
-                    [style.background-color]="drqStatusBgColor(enquiryDetailsCard[0].drqStatus)">
-                      &nbsp;{{enquiryDetailsCard[0].drqStatus == "NA"? "":enquiryDetailsCard[0].drqStatus}}&nbsp;
+                    [style.background-color]="drqStatusBgColor(enquiryDetailsCard[0]? enquiryDetailsCard[0].drqStatus: '')">
+                      &nbsp;{{enquiryDetailsCard[0]? (enquiryDetailsCard[0].drqStatus == "NA"? "":enquiryDetailsCard[0].drqStatus) : ''}}&nbsp;
                     </span>
                   </div>
                 </div>
@@ -106,7 +106,7 @@
                     Quote Name
                   </div>
                   <div class="app-enquiry-details-listview--kendo-card-sold ">
-                    {{WorksheetPrerequisites[0].quoteCompanyName == null? "-": WorksheetPrerequisites[0].quoteCompanyName}}
+                    {{ WorksheetPrerequisites[0]? (WorksheetPrerequisites[0].quoteCompanyName == null? "-": WorksheetPrerequisites[0].quoteCompanyName): '' }}
                   </div>
                 </div>
                 <div class="app-enquiry-details-listview--kendo-card-sold-details">
@@ -114,7 +114,7 @@
                       Quote Curr.
                   </div>
                   <div class="app-enquiry-details-listview--kendo-card-sold ">
-                    {{WorksheetPrerequisites[0].quoteCurrencyName == null? "-":WorksheetPrerequisites[0].quoteCurrencyName}}
+                    {{ WorksheetPrerequisites[0]? (WorksheetPrerequisites[0].quoteCurrencyName == null? "-":WorksheetPrerequisites[0].quoteCurrencyName): '' }}
                   </div>
                 </div>
                 <div *ngIf=a.isDutyChangeAllowed class="app-enquiry-details-listview--kendo-card-sold-details">
@@ -150,7 +150,7 @@
                     Amt
                   </div>
                   <div *ngIf=!a.isFlatAmount class="app-enquiry-details-listview--kendo-card-sold ">
-                    Amt
+                    Discount
                   </div>
                 </div>
               </div>

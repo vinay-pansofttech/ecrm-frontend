@@ -3,9 +3,8 @@ import { FormGroup } from '@angular/forms';
 import { process, State } from '@progress/kendo-data-query';
 import { WorksheetService, WorkSheetSO , EnquiryList} from '../../worksheet.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { CommonService } from 'src/app/features/common/common.service';
 import { Router } from '@angular/router';
-
-
 
 @Component({
   selector: 'app-worksheet-details',
@@ -27,7 +26,8 @@ export class WorksheetDetailsComponent {
   constructor(
     private router: Router,
     private loaderService: LoaderService,
-    private worksheetService: WorksheetService
+    private worksheetService: WorksheetService,
+    public  commonService: CommonService,
   ){}
   
   ngOnInit() {
@@ -42,7 +42,6 @@ export class WorksheetDetailsComponent {
     this.loaderService.showLoader();
     this.worksheetService.getEnquiryWorksheetlist().subscribe((data: any) => {
       this.contactCards = data;
-      console.log('Contact Cards ', data);
       this.filterData();
       this.loaderService.hideLoader();
     },
@@ -68,7 +67,6 @@ export class WorksheetDetailsComponent {
     }
     this.total = this.filteredCards.length;
     this.applyPagination();
-    console.log('enquiry List',this.filteredCards);
   }
 
   applyPagination(): void {

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AppSettingsConfigKey } from 'src/app/core/Constants';
 import { LoginService } from '../login/components/login/login.service';
+import { ConfigService } from 'src/app/core/services/config.service';
 import { DatePipe } from '@angular/common';
 import { CommonService } from 'src/app/features/common/common.service';
 
-interface EnquiryTypeBody {
+export interface EnquiryTypeBody {
   soldToLEID: string | number;
   soldToContactID: any;
   soldToLESiteID: any;
@@ -22,21 +22,41 @@ interface EnquiryTypeBody {
   attachment: any;
 }
 
+export interface EnquiryDetailsHistory {
+  remarksID: number;
+  remarks: string;
+  leadLogGUID: number;
+  leadLogDocName: string;
+  leadLogSrcType: string;
+  leadLogDocPath: string;
+  updDate: string;
+  createdByID: number;
+  updatedBy: string;
+  isMultiple: number;
+  modeOfContactId: number;
+  modeOfContact: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class EnquiryDetailsService {
-  private loginUrl = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetLEContacts`;
-  private generatedFrom = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetGeneratedFrom`;
-  private salesWorkflow = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetSalesWorkflow`;
-  private salesChannel = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetSalesChannel`;
-  private quoteEntityCompany = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetQuoteCompany`;
-  private fetchFunnelWorklistUrl = `${AppSettingsConfigKey.APIURL}/api/Enquiry/FetchFunnelWorklist`;
-  private accountLogDetails = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetAccountLogDetails`;
-  private attachmentDetails = `${AppSettingsConfigKey.APIURL}/api/UploadDownload/GetAttachmentDetails`;
-  private downloadAttachment = `${AppSettingsConfigKey.APIURL}/api/UploadDownload/DownloadAttachment`;
-
+  private getLEContactsUrl = `${this.configService.apiUrl}/api/Enquiry/GetLEContacts`;
+  private getLESiteByContactUrl = `${this.configService.apiUrl}/api/Enquiry/GetLESiteByContact`;
+  private getLERegionBySiteUrl = `${this.configService.apiUrl}/api/Enquiry/GetLegalEntityRegionBySite`;
+  private putAddEnquiryUrl = `${this.configService.apiUrl}/api/Enquiry/AddEnquiry`;
+  private putUpdateEnquiryUrl = `${this.configService.apiUrl}/api/Enquiry/UpdateEnquiryAllStepper`;
+  private getGeneratedFromUrl = `${this.configService.apiUrl}/api/Enquiry/GetGeneratedFrom`;
+  private getGeneratedByUrl = `${this.configService.apiUrl}/api/Enquiry/GetGeneratedBy`;
+  private getQuoteEntityCompanyUrl = `${this.configService.apiUrl}/api/Enquiry/GetQuoteCompany`;
+  private getQuoteCurrencyByCompanyUrl = `${this.configService.apiUrl}/api/Enquiry/GetQuoteCurrencyByCompany`;
+  private getSalesWorkflowUrl = `${this.configService.apiUrl}/api/Enquiry/GetSalesWorkflow`;
+  private getSalesChannelUrl = `${this.configService.apiUrl}/api/Enquiry/GetSalesChannel`;
+  private getSalesExecutivesUrl = `${this.configService.apiUrl}/api/Enquiry/GetSalesExecutives`;
+  private getFunnelWorklistUrl = `${this.configService.apiUrl}/api/Enquiry/FetchFunnelWorklist`;
+  private getAccountLogDetailsUrl = `${this.configService.apiUrl}/api/Enquiry/GetAccountLogDetails`;
+  private getUpdateEnqDropdownUrl = `${this.configService.apiUrl}/api/Enquiry/GetUpdateEnqDropdowns`;
+  private getEnquiryDetailsUrl = `${this.configService.apiUrl}/api/Enquiry/GetEnqDetails`;
 
   public regionId: string | number = '';
   public leID: string | number = '';
@@ -47,34 +67,31 @@ export class EnquiryDetailsService {
   constructor(
     private http: HttpClient,
     private loginService: LoginService,
+    private configService: ConfigService,
     private datePipe: DatePipe,
     private commonService: CommonService
   ) {}
 
   getSoldToContactsList() {
-    const url = `${this.loginUrl}`;
-    return this.http.get(url);
+    return this.http.get(this.getLEContactsUrl);
   }
 
   getSoldToSiteList(contactId: number) {
-    const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetLESiteByContact`;
     const body = {
       leContactID: contactId,
     };
-    return this.http.post(url, body);
+    return this.http.post(this.getLESiteByContactUrl, body);
   }
 
   getRegionFromSiteList(siteId: number) {
-    const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetLegalEntityRegionBySite`;
     const body = {
       leSiteID: siteId,
     };
-    return this.http.post(url, body);
+    return this.http.post(this.getLERegionBySiteUrl, body);
   }
   
   //API call to add enquiry
   AddEnquiry(formData: any) {
-    const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/AddEnquiry`;
     // const body: EnquiryTypeBody = {
     //   soldToLEID: this.leID,
     //   soldToContactID: formData.contactDteails.soldToContact,
@@ -125,13 +142,11 @@ export class EnquiryDetailsService {
     } else {
       body.append('generatedByID', String(0) );
     }
-    console.log('body for add',body);
-    return this.http.put(url, body);
+    return this.http.put(this.putAddEnquiryUrl, body);
   }
 
   //API call to update enquiry
   UpdateEnquiry(formData: any,enqID: string) {
-    const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/UpdateEnquiryAllStepper`;
     const file =
     formData.enquiryUpdateForm.interaction_attachment && formData.enquiryUpdateForm.interaction_attachment.length > 0
           ? formData.enquiryUpdateForm.interaction_attachment[0]
@@ -185,52 +200,52 @@ export class EnquiryDetailsService {
     } else {
       body.append('generatedByID', String(0) );
     }
-    console.log('Update Body',body);
-    return this.http.put(url, body);
+    return this.http.put(this.putUpdateEnquiryUrl, body);
   }
 
   getgeneratedFrom() {
-    return this.http.get(this.generatedFrom);
+    return this.http.get(this.getGeneratedFromUrl);
   }
-  getgeneratedBy(generatedFrom: string) {
-    const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetGeneratedBy`;
 
+  getgeneratedBy(generatedFrom: string) {
     const body = {
       generatedFrom: generatedFrom,
     };
-    return this.http.post(url, body);
+    return this.http.post(this.getGeneratedByUrl, body);
   }
+
   getquoteEntityCompany() {
-    return this.http.get(this.quoteEntityCompany);
+    return this.http.get(this.getQuoteEntityCompanyUrl);
   }
+
   getquoteEntityCurrency(companyID: number) {
-    const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetQuoteCurrencyByCompany`;
     const body = {
       quoteCompanyID: companyID,
     };
-    return this.http.post(url, body);
+    return this.http.post(this.getQuoteCurrencyByCompanyUrl, body);
   }
+
   getsalesWorkFlow() {
-    return this.http.get(this.salesWorkflow);
+    return this.http.get(this.getSalesWorkflowUrl);
   }
+
   getsalesChannel() {
-    return this.http.get(this.salesChannel);
+    return this.http.get(this.getSalesChannelUrl);
   }
+
   getsalesExecutive(
     enId: string | number,
     leId: string | number,
     salesChannelID: string | number,
     leSiteID: string | number
   ) {
-    const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetSalesExecutives`;
-
     const body = {
       enqId: enId,
       leid: leId,
       salesChannelID: salesChannelID,
       LESiteID: leSiteID,
     };
-    return this.http.post(url, body);
+    return this.http.post(this.getSalesExecutivesUrl, body);
   }
 
   //Get enquiry lists to display in funnel update
@@ -238,7 +253,7 @@ export class EnquiryDetailsService {
     const body = {
       loginID: this.loginService.employeeId,
     };
-    return this.http.post(this.fetchFunnelWorklistUrl, body);
+    return this.http.post(this.getFunnelWorklistUrl, body);
   }
 
   //Get previous interactions history
@@ -246,22 +261,18 @@ export class EnquiryDetailsService {
     const body = {
       enqID: endId,
     };
-    return this.http.post(this.accountLogDetails, body);
+    return this.http.post(this.getAccountLogDetailsUrl, body);
   }
+
   getupdateEnqDropdown() {
-    const updateEnqDropdownUrl = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetUpdateEnqDropdowns`;
-    return this.http.get(updateEnqDropdownUrl);
+    return this.http.get(this.getUpdateEnqDropdownUrl);
   }
+
   getEnquiryDetails(enqID: string | null) {
-    const enquiryDetailsurl = `${AppSettingsConfigKey.APIURL}/api/Enquiry/GetEnqDetails`;
     const body = {
       enqID,
       loginID: this.loginService.employeeId,
     };
-    return this.http.post(enquiryDetailsurl, body);
+    return this.http.post(this.getEnquiryDetailsUrl, body);
   }
-  updateEnquiryDetails(updateBody: any) {
-    const url = `${AppSettingsConfigKey.APIURL}/api/Enquiry/UpdateEnquiry`;
-    return this.http.put(url, updateBody);
-  }  
 }

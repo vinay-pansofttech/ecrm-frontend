@@ -1,28 +1,30 @@
-<div class="app-navigation-main--container-locked">
-  <div>
-    <img src="assets/back.svg" kendobutton alt="back" 
-    (click)="onBackClickHandle()"/>
+<div class="app-locked--container">
+  <div class="app-navigation-main--container">
+    <div>
+      <img src="assets/content/images/back.svg" kendobutton alt="back" 
+      (click)="onBackClickHandle()"/>
+    </div>
+    <div class="app-navigation--header">Sales Parts Management</div>
+    <div (click)="onReset()">
+      <img
+        src="assets/content/images/reset.svg"        
+        kendobuttons
+        alt="reset"
+        class="app-navigation-reset--image" />
+    </div>
   </div>
-  <div class="app-navigation--header">Sales Parts Management</div>
-  <div (click)="onReset()">
-    <img
-      src="assets/reset.svg"        
-      kendobuttons
-      alt="reset"
-      class="app-navigation-reset--image" />
+
+  <div *ngIf="supplierCards.length > 0 && !showSPMAPILoader" class="app-screen--info-header">
+    <div class="app-screen--info-header-left">{{ supplierCards[0].supplierName }}</div>
+    <div class="app-screen--info-header-right" *ngFor="let a of supplierCards">
+      <img src="assets/content/images/app-paper-clip-white.svg" alt="CE" 
+      width="20" height="20" 
+      (click)="onClickSuppAttachment(a.supplierDocId, commonService.docSrcTypeSuppAttachment, a.attachmentGuId? a.attachmentGuId: '', $event)"/> 
+    </div>
   </div>
 </div>
 
 <div *ngIf="!showSPMAPILoader" class="app-screen--content">
-
-    <div *ngIf="partsCards.length > 0" class="app-screen--info-header">
-      <div class="app-screen--info-header-left">{{ partsCards[0].supplier }}</div>
-      <div class="app-screen--info-header-right" *ngFor="let a of supplierCards">
-        <img src="assets/common/app-paper-clip-white.svg" alt="CE" 
-        width="20" height="20" 
-        (click)="onClickSuppAttachment(a.supplierDocId, a.attachmentGuId? a.attachmentGuId: '')"/> 
-      </div>
-    </div>
 
     <div class="app-screen--info-tab">
       <div class="app-screen--info-tab-left"> 
@@ -81,7 +83,7 @@
               Price:
             </div>
             <div class="sold sold-content-left">
-              {{ a.listPrice | number: '1.2-2' }}
+              {{ commonService.displayDecimalFormat(a.listPrice) }}
             </div>
           </div>
 
@@ -101,7 +103,7 @@
               Disc %:
             </div>
             <div class="sold sold-content-left">
-              {{ a.discountPC | number: '1.2-2' }}
+              {{ commonService.displayDecimalFormat(a.discountPC) }}
             </div>
           </div>
           <div class="sub-title-right">
@@ -124,12 +126,12 @@
               Total:
             </div>
             <div class="sold sold-content-left">
-              {{ a.netTotalValue | number: '1.2-2' }}
+              {{ commonService.displayDecimalFormat(a.netTotalValue) }}
             </div>
           </div>
           <div class="sub-title-right">
-            <img *ngIf="!a.isDescriptionOpen" (click)="isDescOpened(i)" src="assets/down.svg"/>
-            <img *ngIf="a.isDescriptionOpen" (click)="isDescOpened(i)"src="assets/up.svg">
+            <img *ngIf="!a.isDescriptionOpen" (click)="isDescOpened(i)" src="assets/content/images/down.svg"/>
+            <img *ngIf="a.isDescriptionOpen" (click)="isDescOpened(i)"src="assets/content/images/up.svg">
           </div>
         </div>
 
@@ -164,25 +166,12 @@
       </kendo-card>
     </div>
 
-    <div *ngFor="let a of supplierCards">
-      <kendo-window 
-      *ngIf="showSuppAttachment"
-      (close)="onClickSuppAttachment(0,'')"
-      [minWidth]="200"
-      [width]="400">
-        <kendo-window-titlebar>
-          <span class="k-window-title">Supplier Attachments</span>
-          <button kendoWindowCloseAction></button>
-        </kendo-window-titlebar>           
-        <div class="app-comments--container">
-            <kendo-label class="app-comments--grid">Uploaded Files</kendo-label>
-            <div *ngFor="let file of myFiles; let i = index"
-              class="app-kendo-attachment-files">
-              <div (click)="downloadAttachment(a.supplierDocId, a.attachmentGuId? a.attachmentGuId: '', i)">{{ file.name }}</div>
-            </div>
-        </div>
-      </kendo-window>
-    </div>
+    <app-attachment-pop-up 
+    [showAttachmentPopup]="showSuppAttachment"
+    (attachmentPopupClose)="onCloseAttachmentPopup()"
+    title = "Supplier Attachments"
+    [attachmentPopupDetails]="attachmentPopupDetails">
+    </app-attachment-pop-up>
 
     <div class="app-screen--footer">
       <form [formGroup]="salespartsmgtApprovalForm">

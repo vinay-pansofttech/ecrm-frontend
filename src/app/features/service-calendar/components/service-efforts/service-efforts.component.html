@@ -4,13 +4,13 @@
   <div class="app-navigation-main--container">
     <div (click)="onBackClickHandle()">
       <img
-        src="assets/back.svg"
+        src="assets/content/images/back.svg"
         alt="new"/>
     </div>
     <div class="app-navigation--header">Service Calendar</div>
     <div>
       <img
-        src="assets/reset.svg"
+        src="assets/content/images/reset.svg"
         kendobuttons
         alt="reset"
         class="app-navigation-reset--image" 
@@ -120,13 +120,13 @@
       </kendo-formfield>
     </div>
 
-    <div class="app-screen--info-header">
+    <div *ngIf="engeffortListCards.length > 0" class="app-screen--info-header">
       <div class="app-screen--info-header-left">
         Other Efforts
       </div>
       <div class="app-screen--info-header-right">
-        <img *ngIf="!isPrevEffortsOpen" (click)="isPrevEffortsOpened()" src="assets/down-white.svg"/>
-        <img *ngIf="isPrevEffortsOpen" (click)="isPrevEffortsOpened()"src="assets/up-white.svg"/>
+        <img *ngIf="!isPrevEffortsOpen" (click)="isPrevEffortsOpened()" src="assets/content/images/down-white.svg"/>
+        <img *ngIf="isPrevEffortsOpen" (click)="isPrevEffortsOpened()"src="assets/content/images/up-white.svg"/>
       </div>
     </div>
 

@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { WorksheetService,WorkSheetSO,WorksheetPrerequisites } from '../../worksheet.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
+import { CommonService } from 'src/app/features/common/common.service';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,8 @@ export class CreditExposureComponent implements OnInit, OnChanges{
   public PaymentTermsMasterColumns: any [] = [];
   constructor(
     private worksheetService: WorksheetService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    public commonService: CommonService
   ){}
 
   ngOnInit() {

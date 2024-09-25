@@ -65,19 +65,29 @@
   flex-basis: 31.5%;
 }
 
-.app-navigation-main--container-locked {
-  position: fixed;
+// .app-locked--container {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   overflow: hidden;
+//   z-index: 1000;
+// }
+
+// .app-screen--content {
+//   position: relative;
+// }
+
+.app-locked--container {
+  position: sticky;
   top: 0;
   left: 0;
-  width: 98.25%;
-  display: flex;
-  padding: 0.25rem;
-  align-items: center;
-  background: var(--primary-background-color);
-  overflow: hidden;
+  width: 100%;
   z-index: 1000;
+  background-color: white;
 }
 
 .app-screen--content {
-  padding-top: 3.20rem;
+  margin-top: 0.5rem;
+  position: relative;
 }

@@ -1,12 +1,10 @@
 import { Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServiceCalendarService, CallsList } from '../../service-calendar.service';
+import { ServiceCalendarService, callsList } from '../../service-calendar.service';
+import { CommonService } from 'src/app/features/common/common.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { DatePipe } from '@angular/common';
-
-
-
 
 @Component({
   selector: 'app-calendar',
@@ -17,7 +15,7 @@ export class CalendarComponent implements OnInit{
   currentDate: Date = new Date();
   selectedDate: Date = new Date();
   isCalendarOpen: boolean = false;
-  schCallCards: CallsList[] = [];
+  schCallCards: callsList[] = [];
   SRID: number = 0;
   showAPILoader = false;
 
@@ -26,7 +24,8 @@ export class CalendarComponent implements OnInit{
     private serviceCalendarService: ServiceCalendarService,
     private loginService: LoginService,
     private loaderService: LoaderService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    public commonService: CommonService
   ) {}
 
   ngOnInit() {
@@ -86,7 +85,7 @@ export class CalendarComponent implements OnInit{
       this.serviceCalendarService.selectedSRID = SRID;
       this.serviceCalendarService.selectedCallCompletion = this.schCallCards[index].isCallCompleted;
       this.serviceCalendarService.selectedCallCat = this.schCallCards[index].callCategory;
-    this.router.navigate(['/service-efforts-listview',SRID,this.convertDateFormat(this.currentDate)]);
+      this.router.navigate(['/srlc',SRID,this.commonService.displayDateFormat(this.currentDate)]);
   }
 
   convertDateFormat(currentDate: Date){

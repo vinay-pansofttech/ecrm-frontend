@@ -12,7 +12,6 @@ export class LoginDialogComponent {
   public opened = false;
 
   public close(status: string): void {
-    console.log(`Dialog result: ${status}`);
     this.opened = false;
   }
 

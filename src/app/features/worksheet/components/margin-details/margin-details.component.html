@@ -1,5 +1,4 @@
 <div *ngIf="!showWorksheetAPILoader">
-
   <div class="app-screen--info-header">
     <div class="app-screen--info-header-left">
       Margin
@@ -7,7 +6,7 @@
     <kendo-button class="app-screen--info-header-right"
       (click)="marginExcelDownload()"> 
       <kendo-loader *ngIf="isDownloadloaderVisible" size="small"> </kendo-loader>
-      <img src="assets/download.svg" alt="->" width="12" height="12"/> 
+      <img src="assets/content/images/download.svg" alt="->" width="12" height="12"/> 
       <span>&nbsp;Download</span> 
     </kendo-button>
   </div>
@@ -34,6 +33,7 @@
       [sortable]="false"
       [locked]="false"
       [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
+      [footerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF', 'text-align': 'left'}"
       [width]="160"
     >
       <ng-template kendoGridHeaderTemplate>
@@ -43,7 +43,7 @@
           {{isNullOrZero(dataItem.productName)}}
       </ng-template> 
       <ng-template kendoGridFooterTemplate>
-        <div style='text-align:right'>
+        <div>
           <strong>Deal Margin</strong>
         </div>
       </ng-template> 
@@ -57,19 +57,20 @@
       [sortable]="false"
       [locked]="false"
       [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
+      [footerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF', 'text-align': 'right'}"
       [width]="70"
     >
       <ng-template kendoGridCellTemplate let-dataItem>
         <div style="text-align:right">
-          {{dataItem._QuoteMarginPC | number: '1.2-2'}}     
+          {{ commonService.displayDecimalFormat(dataItem._QuoteMarginPC)}}     
         </div>
       </ng-template> 
       <ng-template kendoGridHeaderTemplate>
-        <div style="text-align:center;width: 100%;">Margin %</div>
+        <div style="text-align:right;width: 100%;">Margin %</div>
       </ng-template> 
       <ng-template kendoGridFooterTemplate>
-        <div style='text-align:right'>
-          {{calculateSumOfMargin("_TotalCostQC", "_NetQuote", marginProductGridDetails, 'Product') | number: '1.2-2'}}
+        <div>
+          {{calculateSumOfMargin("_TotalCostQC", "_NetQuote", marginProductGridDetails, 'Product') }}
         </div>
       </ng-template> 
     </kendo-grid-column>
@@ -79,6 +80,7 @@
       [sortable]="false"
       [locked]="false"
       [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
+      [footerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF', 'text-align': 'right'}"
       [width]="30"
     >
       <ng-template kendoGridCellTemplate let-dataItem>
@@ -94,11 +96,11 @@
   <div *ngIf="isSupplierGridOpen"> 
     <div class="app-screen--info-header">
       <div class="app-screen--info-header-left">
-        {{selectedProduct}}
+        {{ selectedProduct }}
       </div>
       <div class="app-screen--info-header-right" 
         (click)="onSuppProdClick('Product',null,null)">
-        <img src="assets/backward.svg"/>
+        <img src="assets/content/images/backward.svg"/>
         <span>Back</span>
       </div>
     </div> 
@@ -119,6 +121,7 @@
       [sortable]="false"
       [locked]="false"
       [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
+      [footerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF', 'text-align': 'left'}"
       [width]="160"
     >
       <ng-template kendoGridHeaderTemplate>
@@ -128,7 +131,7 @@
           {{isNullOrZero(dataItem.supplierName)}}
       </ng-template> 
       <ng-template kendoGridFooterTemplate>
-        <div style='text-align:right'>
+        <div>
           <strong>Product Margin</strong>
         </div>
       </ng-template> 
@@ -141,19 +144,20 @@
       [sortable]="false"
       [locked]="false"
       [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
+      [footerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF', 'text-align': 'right'}"
       [width]="70"
     >
       <ng-template kendoGridCellTemplate let-dataItem>
         <div style="text-align:right">
-          {{dataItem._QuoteMarginPC | number: '1.2-2'}}     
+          {{ commonService.displayDecimalFormat(dataItem._QuoteMarginPC)}} 
         </div>
       </ng-template> 
       <ng-template kendoGridHeaderTemplate>
-        <div style="text-align:center;width: 100%;">Margin %</div>
+        <div style="text-align:right;width: 100%;">Margin %</div>
       </ng-template> 
       <ng-template kendoGridFooterTemplate>
         <div style='text-align:right'>
-          {{calculateSumOfMargin("_TotalCostQC", "_NetQuote", marginSupplierGridDetails,'Supplier') | number: '1.2-2'}}
+          {{calculateSumOfMargin("_TotalCostQC", "_NetQuote", marginSupplierGridDetails,'Supplier') }}
         </div>
       </ng-template> 
     </kendo-grid-column>
@@ -163,6 +167,7 @@
     [sortable]="false"
     [locked]="false"
     [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
+    [footerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF', 'text-align': 'right'}"
     [width]="30"
     >
       <ng-template kendoGridCellTemplate let-dataItem>
@@ -187,8 +192,9 @@
       </div>
       <div class="app-screen--info-header-right" 
         (click)="onSuppProdClick('Supplier',selectedSupplier, selectedProduct)">
-        <img src="assets/backward.svg"/>
-        <span>Back</span>      </div>
+        <img src="assets/content/images/backward.svg"/>
+        <span>Back</span>      
+      </div>
     </div> 
     
     <kendo-grid
@@ -207,10 +213,11 @@
         [filterable]="false"
         [sortable]="false"
         [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF', 'text-align': 'center'}"
+        [footerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF', 'text-align': 'left'}"
         [width]="150"
       >
         <ng-template kendoGridHeaderTemplate>
-          <div style="text-align:center;">Part No. &nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp; Option  <br> Description</div>
+          <div style="text-align:left;">Part No. &nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp; Option  <br> Description</div>
         </ng-template> 
         <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
           <div
@@ -264,6 +271,11 @@
           </kendo-popover>
 
         </ng-template> 
+        <ng-template kendoGridFooterTemplate>
+          <div>
+            Supplier Margin
+          </div>
+        </ng-template> 
       </kendo-grid-column>
 
       <kendo-grid-column
@@ -273,6 +285,7 @@
       [sortable]="false"
       [locked]="false"
       [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
+      [footerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF', 'text-align': 'left'}"
       [width]="30"
       >
       <ng-template kendoGridHeaderTemplate>
@@ -292,19 +305,20 @@
       [sortable]="false"
       [locked]="false"
       [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
+      [footerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF', 'text-align': 'right'}"
       [width]="60"
       >
         <ng-template kendoGridCellTemplate let-dataItem>
           <div style="text-align:right">
-            {{dataItem._QuoteMarginPC | number: '1.2-2'}}     
+            {{ commonService.displayDecimalFormat(dataItem._QuoteMarginPC) }}  
           </div>
         </ng-template> 
         <ng-template kendoGridHeaderTemplate>
           <div style="text-align:right;width: 100%;">Margin %</div>
         </ng-template> 
         <ng-template kendoGridFooterTemplate>
-          <div style='text-align:right'>
-            {{calculateSumOfMargin("_TotalCostQC", "_NetQuote", marginPartsGridDetails, 'Parts') | number: '1.2-2'}}
+          <div>
+            {{calculateSumOfMargin("_TotalCostQC", "_NetQuote", marginPartsGridDetails, 'Parts')}}
           </div>
         </ng-template> 
       </kendo-grid-column>
@@ -354,7 +368,6 @@
     </kendo-grid>
 
   </div>
-
 </div>
 
 <div class="app-screen--loader" *ngIf="showWorksheetAPILoader">

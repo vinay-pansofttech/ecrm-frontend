@@ -48,7 +48,6 @@ export class DashboardCardsComponent implements OnInit {
         return '#d5d8db';
         break;
     }
-    console.log(text);
     return '#F2F2F2';
   }
 
@@ -67,7 +66,6 @@ export class DashboardCardsComponent implements OnInit {
         return '#B9305B';
         break;
     }
-    console.log(text);
     return '#F2F2F2';
   }
   handleCardNavigate(cardData: any) {

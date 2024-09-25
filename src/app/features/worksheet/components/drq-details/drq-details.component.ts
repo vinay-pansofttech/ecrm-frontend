@@ -6,7 +6,9 @@ import { WorksheetService, WorksheetDRQItemsList, WorkSheetSO,
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { CommonService } from 'src/app/features/common/common.service';
 import { PopoverAnchorDirective } from "@progress/kendo-angular-tooltip";
+import { RowClassArgs } from "@progress/kendo-angular-grid";
 
 @Component({
   selector: 'app-drq-details',
@@ -44,6 +46,7 @@ export class DrqDetailsComponent {
     private loginService: LoginService,
     private notificationService: NotificationService,
     private loaderService: LoaderService,
+    public commonService: CommonService
   ){}
 
   ngOnInit() {
@@ -127,16 +130,6 @@ export class DrqDetailsComponent {
     this.WorksheetDRQSupplierDetailsCard[index].isSMCommentsOpen = !this.WorksheetDRQSupplierDetailsCard[index].isSMCommentsOpen;
   }
 
-  logTemplate(column: any, dataItem: any): void {
-    console.log('Column:', column);
-    console.log('Data Item:', dataItem);
-    if (typeof column.template === 'function') {
-      console.log('Template Output:', column.template(dataItem));
-    } else {
-      console.log('Template is not a function',typeof column.template);
-    }
-  }
-
   isNullOrZero(item: any): any {
     return (item == null || item == 0 || item == undefined) ? '' : item;
   }
@@ -164,7 +157,6 @@ export class DrqDetailsComponent {
         guId:""
       } as LstDRQRequestBO;
     });
-    console.log('DRQItems',this.drqRequestItemsBO);
   }
 
   saveDRQRequest(){
@@ -220,5 +212,13 @@ export class DrqDetailsComponent {
   private setPopoverWidth(screenWidth: number): void {
     this.popoverWidth = screenWidth <= 590 ? 270 : 380;
   }
+
+  public rowCallback = (context: RowClassArgs) => {
+    return {
+      'kendo-grid--StatusGreen': context.dataItem.drqItemStatus == 1,
+      'kendo-grid--StatusBlue': context.dataItem.drqItemStatus == 2,
+      'kendo-grid--StatusRed': context.dataItem.drqItemStatus == 3,
+    };
+  };
 
 }

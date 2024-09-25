@@ -14,9 +14,6 @@ import { WorksheetService, EnquiryDetails, WorkSheetSO, EnquiryProductsSO,
 import { CommonService } from 'src/app/features/common/common.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 
-const logoURL = 
-"https://raw.githubusercontent.com/fireflysemantics/logo/master/l1.svg";
-
 @Component({
   selector: 'app-worksheet-approval',
   templateUrl: './worksheet-approval.component.html',
@@ -82,13 +79,7 @@ export class WorksheetApprovalComponent{
     private worksheetService: WorksheetService,
     private loginService: LoginService,
     private commonService : CommonService
-    ) {
-    this.matIconRegistry.addSvgIcon(
-      'worksheet_invoice',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('worksheet-invoice-icon.svg')
-    );
-    this.matIconRegistry.addSvgIconLiteral('thumbs-up', this.domSanitizer.bypassSecurityTrustHtml(logoURL));
-  }
+    ) {}
 
   ngOnInit(): void {
     this.loaderMessage = "";
@@ -194,7 +185,6 @@ export class WorksheetApprovalComponent{
       this.getPaymentTerms(this.worksheetService.worksheetDetailsCard[0].enqId,this.worksheetService.worksheetDetailsCard[0].workSheetId);
       this.getProductItems(this.worksheetService.worksheetDetailsCard[0].enqId);
       this.getConfigItems(this.worksheetService.worksheetDetailsCard[0].enqId);
-      this.getAttachmentDetails(this.worksheetService.worksheetDetailsCard[0].workSheetId.toString());
       this.loaderService.hideLoader();
       this.loaderMessage = "";
     });
@@ -256,17 +246,6 @@ export class WorksheetApprovalComponent{
     this.worksheetService.getConfigItems(enqId).subscribe((data: any) => {
       this.worksheetService.configItems = data;
       this.configItems = data;
-    });
-  }
-
-  getAttachmentDetails(wsID: string){
-    this.commonService.getAttachmentDetails(wsID, this.commonService.docSrcTypeWSAttachment,"").subscribe((data: any) => {
-      if(data!=null){
-        this.worksheetService.wsattachments = data;
-      }
-      else{
-        this.worksheetService.wsattachments = null;
-      }
     });
   }
 
@@ -341,7 +320,6 @@ export class WorksheetApprovalComponent{
       this.worksheetService
         .postSave_App_Rej_Enquiry(this.WorksheetApprovalForm.value, this.enqId, "Save")
         .subscribe((data: any) => {
-          console.log('on save', data);
           this.loaderService.hideLoader();
           this.loaderMessage = "";
           if (data) {

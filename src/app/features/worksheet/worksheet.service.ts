@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AppSettingsConfigKey } from 'src/app/core/Constants';
 import { LoginService } from '../login/components/login/login.service';
+import { ConfigService } from 'src/app/core/services/config.service';
 import { DatePipe } from '@angular/common';
 
 
@@ -113,7 +113,7 @@ export interface WorksheetPrerequisites{
   quoteCurrencyId: number;
   conversionRate: number;
   marginExcelDownloadPrivilege?: number;
-  isSalesManager: boolean;
+  isSalesManager?: boolean;
   marginVersionID: number;
   marginVersionName: string;
 }
@@ -138,7 +138,7 @@ export interface EnquiryDetails {
   enqID: number;
   soldToLEID: number;
   soldToLE: string;
-  salesChannel: string;
+  salesChannel?: string;
   enqStatusId: number;
   enqStatus: string;
   salesExecutiveID: number;
@@ -475,21 +475,20 @@ export interface MarginPartsGridList {
   providedIn: 'root'
 })
 export class WorksheetService {
-  private fetchWorksheetWorklistUrl = `${AppSettingsConfigKey.APIURL}/api/Enquiry/FetchWorksheetWorklist`;
-  private fetchWorksheetDetailsUrl = `${AppSettingsConfigKey.APIURL}/api/Worksheet/GetWorksheetDetails`;
-  private fetchWorksheetPrerequisiteUrl = `${AppSettingsConfigKey.APIURL}/api/Worksheet/GetWorksheetPrerequisites`;
-  private fetchWorksheetDLCDetails = `${AppSettingsConfigKey.APIURL}/api/Worksheet/GetWorksheetDLCDetails`;
-  private fetchWorksheetMarginDetails = `${AppSettingsConfigKey.APIURL}/api/Worksheet/GetWorksheetMarginDetails`;
-  private fetchWorksheetDRQDetails = `${AppSettingsConfigKey.APIURL}/api/Worksheet/GetWorksheetDRQDetails`;
-  private fetchWorksheetDRQItemsDetails = `${AppSettingsConfigKey.APIURL}/api/Worksheet/GetWorksheetDRQItemsDetails`;
-  private fetchPaymentTermsUrl = `${AppSettingsConfigKey.APIURL}/api/Worksheet/GetPaymentTermsByCustomer`;
-  private fetchtEnquiryProductsUrl = `${AppSettingsConfigKey.APIURL}/api/Worksheet/GetProductOverviewGridDtls`;
-  private fetchtConfigItemsUrl = `${AppSettingsConfigKey.APIURL}/api/Worksheet/GetConfigItemsGridDtls`;
-  private postAssignListParamsUrl = `${AppSettingsConfigKey.APIURL}/api/Worksheet/AssignWorksheetParam`;
-  private getQuoteCompareFileUrl = `${AppSettingsConfigKey.APIURL}/api/UploadDownload/GetConfigPriceCompareDtls`;
-  private postSaveWorksheetUrl = `${AppSettingsConfigKey.APIURL}/api/Worksheet/SaveWorksheet`;
-  private postDRQRequestUrl = `${AppSettingsConfigKey.APIURL}/api/Worksheet/SaveDRQRequest`;
-  private getWorksheetMarginExcel = `${AppSettingsConfigKey.APIURL}/api/UploadDownload/GetQuoteCompareExcel`;
+  private getWorksheetWorklistUrl = `${this.configService.apiUrl}/api/Enquiry/FetchWorksheetWorklist`;
+  private getWorksheetDetailsUrl = `${this.configService.apiUrl}/api/Worksheet/GetWorksheetDetails`;
+  private getWorksheetPrerequisiteUrl = `${this.configService.apiUrl}/api/Worksheet/GetWorksheetPrerequisites`;
+  private getWorksheetDLCDetailsUrl = `${this.configService.apiUrl}/api/Worksheet/GetWorksheetDLCDetails`;
+  private getWorksheetMarginDetailsUrl = `${this.configService.apiUrl}/api/Worksheet/GetWorksheetMarginDetails`;
+  private getWorksheetDRQDetailsUrl = `${this.configService.apiUrl}/api/Worksheet/GetWorksheetDRQDetails`;
+  private getWorksheetDRQItemsDetailsUrl = `${this.configService.apiUrl}/api/Worksheet/GetWorksheetDRQItemsDetails`;
+  private getPaymentTermsUrl = `${this.configService.apiUrl}/api/Worksheet/GetPaymentTermsByCustomer`;
+  private getEnquiryProductsUrl = `${this.configService.apiUrl}/api/Worksheet/GetProductOverviewGridDtls`;
+  private getConfigItemsUrl = `${this.configService.apiUrl}/api/Worksheet/GetConfigItemsGridDtls`;
+  private getQuoteCompareFileUrl = `${this.configService.apiUrl}/api/UploadDownload/GetConfigPriceCompareDtls`;
+  private postSaveWorksheetUrl = `${this.configService.apiUrl}/api/Worksheet/SaveWorksheet`;
+  private postDRQRequestUrl = `${this.configService.apiUrl}/api/Worksheet/SaveDRQRequest`;
+  private getWorksheetMarginExcelUrl = `${this.configService.apiUrl}/api/UploadDownload/GetQuoteCompareExcel`;
 
 
   public worksheetDetailsCard: any[] = [];
@@ -501,11 +500,12 @@ export class WorksheetService {
   public WorksheetMarginDetailsCard: WorksheetMarginList[] = [];
   public WorksheetDRQDetailsCard: WorksheetDRQList[] = [];
   public WorksheetDRQItemsDetailsCard: WorksheetDRQItemsList[] = [];
-  public wsattachments: any = [];
+  public wsSysDiscAttachments: any = [];
 
   constructor(
     private http: HttpClient,
     private loginService: LoginService,
+    private configService: ConfigService,
     private datePipe: DatePipe
   ) {}
 
@@ -514,7 +514,7 @@ export class WorksheetService {
     const body = {
       loginID: this.loginService.employeeId,
     };
-    return this.http.post(this.fetchWorksheetWorklistUrl, body);
+    return this.http.post(this.getWorksheetWorklistUrl, body);
   }
 
   //API call to fetch worksheet details of selected enquiry
@@ -523,7 +523,7 @@ export class WorksheetService {
       EnqId: enqId,
       EmpId: this.loginService.employeeId
     };
-    return this.http.post(this.fetchWorksheetDetailsUrl, body);
+    return this.http.post(this.getWorksheetDetailsUrl, body);
   }
 
   //API call to fetch worksheet prerequisite details
@@ -532,7 +532,7 @@ export class WorksheetService {
       EnqId: enqId,
       EmpId: this.loginService.employeeId as number
     };
-    return this.http.post(this.fetchWorksheetPrerequisiteUrl, body);
+    return this.http.post(this.getWorksheetPrerequisiteUrl, body);
   }
 
   //API call to fetch dlc details of selected enquiry
@@ -541,7 +541,7 @@ export class WorksheetService {
       EnqId: enqId,
       LoginId: this.loginService.employeeId as number
     };
-    return this.http.post(this.fetchWorksheetDLCDetails, body);
+    return this.http.post(this.getWorksheetDLCDetailsUrl, body);
   }
 
   //API call to fetch margin details of selected enquiry
@@ -549,7 +549,7 @@ export class WorksheetService {
     const body = {
       EnqId: enqId
     };
-    return this.http.post(this.fetchWorksheetMarginDetails, body);
+    return this.http.post(this.getWorksheetMarginDetailsUrl, body);
   }
 
   //API call to fetch drq details of selected enquiry
@@ -558,7 +558,7 @@ export class WorksheetService {
       EnqId: enqId,
       LoginId: this.loginService.employeeId as number
     };
-    return this.http.post(this.fetchWorksheetDRQDetails, body);
+    return this.http.post(this.getWorksheetDRQDetailsUrl, body);
   }
 
   //API call to fetch drq item details of selected enquiry
@@ -567,7 +567,7 @@ export class WorksheetService {
       EnqId: enqId,
       DRQId: 0
     };
-    return this.http.post(this.fetchWorksheetDRQItemsDetails, body);
+    return this.http.post(this.getWorksheetDRQItemsDetailsUrl, body);
   }
   
   //API call to fetch payment terms details of selected enquiry
@@ -576,7 +576,7 @@ export class WorksheetService {
       EnqId: enqId,
       WorkSheetId: worksheetId
     };
-    return this.http.post(this.fetchPaymentTermsUrl, body);
+    return this.http.post(this.getPaymentTermsUrl, body);
   }
 
   //API call to fetch product item details of selected enquiry(Not displayed anywhere)
@@ -585,7 +585,7 @@ export class WorksheetService {
       EnqID: enqId,
       LoginId: loginId
     };
-    return this.http.post(this.fetchtEnquiryProductsUrl, body);
+    return this.http.post(this.getEnquiryProductsUrl, body);
   }
 
   //API call to fetch config item details of selected enquiry(Not displayed anywhere)
@@ -593,7 +593,7 @@ export class WorksheetService {
     const body = {
       EnqID: enqId
     };
-    return this.http.post(this.fetchtConfigItemsUrl, body);
+    return this.http.post(this.getConfigItemsUrl, body);
   }
 
   getQuoteCompareFile(enqId: number, loginId: number) {
@@ -607,14 +607,13 @@ export class WorksheetService {
 
   //API call to download worksheet's latest margin excel file
   getWorksheetMarginExcelFile(enqId: number, marginVersionId: number, marginVersionName: string) {
-    const url = this.getWorksheetMarginExcel;
     const body = {
       EnqId: enqId,
       MarginVersionId: marginVersionId,
       MarginVersionName: marginVersionName,
       LoginId: this.loginService.employeeId as number
     };
-    return this.http.post(url, body, {responseType: 'blob', observe: 'response'});
+    return this.http.post(this.getWorksheetMarginExcelUrl, body, {responseType: 'blob', observe: 'response'});
   }
 
   //Function to assign worksheet parameters
@@ -735,11 +734,6 @@ export class WorksheetService {
     body.append("wsDocumentSouceTypeId", "658");
     body.append("loginId", this.loginService.employeeId as string);
     body.append("outPut", "''");
-
-    console.log('productItems',this.productItems);
-    console.log('configItems',this.configItems);
-    console.log('paymentTerms',this.paymentTerms);
-
     return body;
   }
 
@@ -779,6 +773,6 @@ export class WorksheetService {
     this.paymentTerms = [];
     this.productItems = [];
     this.configItems = [];
-    this.wsattachments = [];
+    this.wsSysDiscAttachments = [];
   }
 }

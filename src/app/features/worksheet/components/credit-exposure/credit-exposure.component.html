@@ -31,31 +31,31 @@
           </kendo-grid-column-group>
         </ng-container>
     </kendo-grid>
-    <div *ngIf="creditExposureText !== ''" class="credit-exposure-balance-container">
+    <div *ngIf="creditExposureText !== '' && worksheetDetailsCard[0].totOutStanding > 0" class="credit-exposure-balance-container">
       <div>Cust. Total Outstanding</div>
       <div class="credit-exposure-balance-card">
         <div class="credit-exposure-credit-balance-card"> 
-          {{worksheetDetailsCard[0].totOutStanding | number:'1.0':'en-US'}}
+          {{ commonService.displayNumberFormat(worksheetDetailsCard[0].totOutStanding) }}
         </div>
-        &nbsp;&nbsp;{{WorksheetPrerequisites[0].baseCurrency}}
+        &nbsp;&nbsp;{{WorksheetPrerequisites[0]? WorksheetPrerequisites[0].baseCurrency: ''}}
       </div> 
     </div>
     <div *ngIf="creditExposureText !== ''" class="app-screen--notification" 
       [style.background-color]="backgroundColor" [style.border-left]="'5px solid' + leftBorderColor">
       <div class="app-screen--notification-content-left">      
-        <img src="assets/notification-bell.svg" alt="N"/>
+        <img src="assets/content/images/notification-bell.svg" alt="N"/>
         {{creditExposureText}}
       </div>
     </div>
     <div *ngIf="comparePaymentTerms()" class="app-screen--notification-amber" 
       (click)="onClickShowPaymentTerms()">
       <div class="app-screen--notification-content-left">      
-        <img src="assets/notification-bell.svg" alt="N"/>
+        <img src="assets/content/images/notification-bell.svg" alt="N"/>
         Payment terms is different in master and quote
       </div>
       <div class="app-screen--notification-content-right">
-        <img *ngIf="!showPaymentTerms" src="assets/down.svg" alt=">>"/>
-        <img *ngIf="showPaymentTerms" src="assets/up.svg" alt=">>"/>
+        <img *ngIf="!showPaymentTerms" src="assets/content/images/down.svg" alt=">>"/>
+        <img *ngIf="showPaymentTerms" src="assets/content/images/up.svg" alt=">>"/>
       </div>
     </div>
     <kendo-grid *ngIf="showPaymentTerms" 
@@ -95,19 +95,19 @@
       [style.background-color]="worksheetDetailsCard[0].approvalLevelBGColor" 
       [style.border-left]="'5px solid' + worksheetDetailsCard[0].approvalLevelLBColor">
       <div class="app-screen--notification-content-left">
-        <img src="assets/notification-bell.svg" alt="N"/>
+        <img src="assets/content/images/notification-bell.svg" alt="N"/>
         {{worksheetDetailsCard[0].reasonForWSApproval}}
       </div>
     </div>  
     <div *ngIf="worksheetDetailsCard[0].pendingApprovalMsg" class="app-screen--notification">
       <div class="app-screen--notification-content-left">
-        <img src="assets/notification-bell.svg" alt="N"/>
+        <img src="assets/content/images/notification-bell.svg" alt="N"/>
         {{worksheetDetailsCard[0].pendingApprovalMsg}}
       </div>
     </div> 
     <div *ngIf="worksheetDetailsCard[0].isContractRateChanged" class="app-screen--notification">
       <div class="app-screen--notification-content-left">
-        <img src="assets/notification-bell.svg" alt="N"/>
+        <img src="assets/content/images/notification-bell.svg" alt="N"/>
         Please check the manually modified quote prices
       </div>
     </div>

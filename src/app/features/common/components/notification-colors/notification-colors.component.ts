@@ -1,19 +1,17 @@
-import { Component, Input, HostListener, ViewChild, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
-import { PopoverComponent, PopoverContainerDirective, PopoverAnchorDirective } from '@progress/kendo-angular-tooltip';
+import { Component, Input, HostListener, ViewChildren, QueryList } from '@angular/core';
+import { PopoverAnchorDirective } from '@progress/kendo-angular-tooltip';
 
 @Component({
   selector: 'app-notification-colors',
   templateUrl: './notification-colors.component.html',
   styleUrls: ['./notification-colors.component.scss']
 })
-export class NotificationColorsComponent implements AfterViewInit {
+export class NotificationColorsComponent {
   public popoverWidth: number = 270;
   @Input() data: { color: string, name: string }[] = [];
   @ViewChildren(PopoverAnchorDirective) popovers!: QueryList<PopoverAnchorDirective>;
 
-  ngAfterViewInit() {
-    console.log('Data Received for Notification', this.data);
-    console.log('Popover Container Directive:', this.popovers);
+  ngOnInit() {
   }
 
   closePopover(rowIndex: number): void {
