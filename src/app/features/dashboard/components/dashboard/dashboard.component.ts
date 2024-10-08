@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { bellIcon, menuIcon, SVGIcon } from "@progress/kendo-svg-icons";
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { DrawerItem, DrawerMode } from "@progress/kendo-angular-layout";
@@ -9,11 +8,7 @@ import { DrawerItem, DrawerMode } from "@progress/kendo-angular-layout";
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
-  constructor(
-    private router: Router,
-    private loginService: LoginService
-  ) {}
+export class DashboardComponent implements OnInit{
   isDrawerOpen = false;
   public menuIcon: SVGIcon = menuIcon;
   public bellIcon: SVGIcon = bellIcon;
@@ -23,6 +18,13 @@ export class DashboardComponent {
     { separator: true },
     { text: "Notifications", svgIcon: bellIcon},
   ];
+
+  constructor(
+    private loginService: LoginService
+  ) {}
+
+  ngOnInit(): void {
+  }
 
   getEmployeeName(): string {
     return this.loginService.getEmployeeName();

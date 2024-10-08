@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ServiceCalendarService, engEffortsList } from '../../service-calendar.service';
+import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
+import { PDFViewerTool } from "@progress/kendo-angular-pdfviewer";
+import { AppRoutePaths } from 'src/app/core/Constants';
+import { ServiceCalendarService } from '../../service-calendar.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
-import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
-import { saveAs } from "@progress/kendo-file-saver";
-import { PDFViewerTool } from "@progress/kendo-angular-pdfviewer";
+
 import {
   SVGIcon,
   brushIcon,
@@ -99,7 +100,7 @@ export class CsrGeneratorComponent {
                   'success', 'center', 'bottom'
               );
               this.loaderService.hideLoader();
-              this.router.navigate(['/service-calendar']);
+              this.router.navigate([AppRoutePaths.ServiceCalendar]);
             },
             error => {
               this.loaderService.hideLoader();
@@ -186,7 +187,7 @@ export class CsrGeneratorComponent {
 
   onBackClickHandle() {
     this.serviceCalendarService.resetValues();
-    this.router.navigate(['/service-calendar']);
+    this.router.navigate([AppRoutePaths.ServiceCalendar]);
   }
 
   onRefresh(){

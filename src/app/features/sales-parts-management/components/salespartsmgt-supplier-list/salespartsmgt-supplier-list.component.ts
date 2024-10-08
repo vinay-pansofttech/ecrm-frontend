@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { SalesPartsManagementService, SPMSupplierListItem } from '../../sales-parts-management.service';
-import { CommonService, AttachmentPopupDetails } from 'src/app/features/common/common.service';
+import { Subscription } from 'rxjs';
+import { AppRoutePaths } from 'src/app/core/Constants';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { SalesPartsManagementService, SPMSupplierListItem } from '../../sales-parts-management.service';
+import { CommonService, AttachmentPopupDetails } from 'src/app/features/common/common.service';
+
 
 @Component({
   selector: 'app-salespartsmgt-supplier-list',
@@ -12,7 +15,8 @@ import { LoaderService } from 'src/app/core/services/loader.service';
   styleUrls: ['./salespartsmgt-supplier-list.component.scss']
 })
 
-export class SalespartsmgtSupplierListComponent {
+export class SalespartsmgtSupplierListComponent implements OnInit, OnDestroy {
+  private popstateSubscription?: Subscription;
   public showSPMAPILoader = false;
   supplierCards: SPMSupplierListItem[] = [];
   enqId!: number;
@@ -28,19 +32,26 @@ export class SalespartsmgtSupplierListComponent {
     private loginService: LoginService,
     private spmService: SalesPartsManagementService,
     public commonService : CommonService
-  ){}
+  ){
+    const navigation = this.router.getCurrentNavigation();
+    if(navigation?.extras.state){
+      this.enqId = navigation.extras.state['id'];
+    }
+  }
 
   ngOnInit() {
+    this.popstateSubscription = this.commonService.handleNavigationEvents(this.router.events, () => {
+      this.onBackClickHandle();
+    });
     this.loaderService.loaderState.subscribe(res => {
       this.showSPMAPILoader = res;
     });
     this.loaderService.hideLoader();
-    const enqIdString = this.route.snapshot.paramMap.get('id');
-    if (enqIdString !== null) {
-      const idNumber: number = parseInt(enqIdString, 10);
-      this.enqId = idNumber;   
-    }
     this.getSPMSupplierlist();
+  }
+
+  ngOnDestroy(): void {
+    this.popstateSubscription?.unsubscribe();
   }
 
   getSPMSupplierlist() {
@@ -80,7 +91,7 @@ export class SalespartsmgtSupplierListComponent {
   }
 
   navigateById(supplierID: number) {
-    this.router.navigate(['/sales-parts-management-approval',this.enqId,supplierID]);
+    this.router.navigate([AppRoutePaths.SalesPartsManagementApproval], {state: {id: this.enqId, suppId: supplierID}});
   }
 
   onReset(){
@@ -88,7 +99,7 @@ export class SalespartsmgtSupplierListComponent {
   }
 
   onBackClickHandle(){
-    this.router.navigate(['/sales-parts-management']);
+    this.router.navigate([AppRoutePaths.SalesPartsManagementList]);
   }
 
 }

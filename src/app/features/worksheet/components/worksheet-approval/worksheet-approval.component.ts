@@ -1,18 +1,15 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
-import { StepperComponent, SelectEvent  } from '@progress/kendo-angular-layout';
+import { Router,ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AppRoutePaths } from 'src/app/core/Constants';
 import { LoaderService } from 'src/app/core/services/loader.service';
-import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from 'src/app/core/services/notification.service';
-import { fileDataIcon, downloadIcon} from '@progress/kendo-svg-icons';
-import { MatIconRegistry } from '@angular/material/icon';
-import { DomSanitizer } from '@angular/platform-browser';
-import { WorksheetService, EnquiryDetails, WorkSheetSO, EnquiryProductsSO, 
-  ConfigItems, WorksheetPrerequisites, WorksheetDLCList, WorksheetMarginList,
-  WorksheetDRQList, WorksheetDRQItemsList } from '../../worksheet.service';
-import { CommonService } from 'src/app/features/common/common.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
+import { CommonService } from 'src/app/features/common/common.service';
+import { WorksheetService, EnquiryDetails, WorkSheetSO, EnquiryProductsSO, 
+         ConfigItems, WorksheetPrerequisites, WorksheetDLCList, WorksheetMarginList,
+         WorksheetDRQList, WorksheetDRQItemsList } from '../../worksheet.service';
 
 @Component({
   selector: 'app-worksheet-approval',
@@ -20,20 +17,17 @@ import { LoginService } from 'src/app/features/login/components/login/login.serv
   styleUrls: ['./worksheet-approval.component.scss']
 })
 
-export class WorksheetApprovalComponent{
+export class WorksheetApprovalComponent implements OnInit, OnDestroy{
+  private popstateSubscription?: Subscription;
   currentStep!: number;
   showAPILoader = false;
   loaderMessage!: string;
-  invalid = false;
   isCreditExposureSelected: boolean = false;
   isDLCSelected: boolean = false;
   isPriceDetailsSelected: boolean = false;
   isMarginSelected: boolean = false;
   isDRQSelected: boolean = false;
   public worksheetDetailsCard: WorkSheetSO[] = [];
-  @ViewChild('stepper', { static: true })
-  public stepper!: StepperComponent;
-  test: any;
   enqId!: number;
   drqStatusBackgroundColor: string = "";
   enquiryDetailsCard: EnquiryDetails[] = [];
@@ -45,27 +39,6 @@ export class WorksheetApprovalComponent{
   WorksheetMarginDetailsCard: WorksheetMarginList[] = [];
   WorksheetDRQDetailsCard: WorksheetDRQList[] = [];
   WorksheetDRQItemsDetailsCard: WorksheetDRQItemsList[] = [];
-
-  public steps = [
-    {
-      label: 'Worksheet Details',
-      svgIcon: fileDataIcon,
-    },
-    {
-      label: 'Credit Exposure',
-      svgIcon: fileDataIcon,
-    },
-    {
-      label: 'Downloads',
-      svgIcon: downloadIcon,
-    },
-    {
-      label: 'Price Details',
-      svgIcon: fileDataIcon,
-    },
-  ];
-  current: any;
-
   WorksheetApprovalForm!: FormGroup;
 
   constructor(
@@ -74,27 +47,25 @@ export class WorksheetApprovalComponent{
     private router: Router,
     private route: ActivatedRoute,
     private notificationService: NotificationService,
-    private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer,
     private worksheetService: WorksheetService,
     private loginService: LoginService,
     private commonService : CommonService
-    ) {}
+  ){
+    const navigation = this.router.getCurrentNavigation();
+    if(navigation?.extras.state){
+      this.enqId = navigation.extras.state['id'];
+    }
+  }
 
   ngOnInit(): void {
+    this.popstateSubscription = this.commonService.handleNavigationEvents(this.router.events, () => {
+      this.onBackClickHandle();
+    });
     this.loaderMessage = "";
     this.loaderService.loaderState.subscribe(res => {
       this.showAPILoader = res;
     });
     this.loaderService.hideLoader();
-    this.loaderService.loaderState.subscribe(res => {
-      this.showAPILoader = res;
-    });
-    const enqIdString = this.route.snapshot.paramMap.get('id');
-    if (enqIdString !== null) {
-      const idNumber: number = parseInt(enqIdString, 10);
-      this.enqId = idNumber;   
-    }
     this.getEnquiryDetails(this.enqId);
     this.getWorksheetDetails(this.enqId);
     this.WorksheetApprovalForm = this.formBuilder.group({
@@ -117,25 +88,12 @@ export class WorksheetApprovalComponent{
     this.onStepperClick(0);
   }
 
+  ngOnDestroy(): void {
+    this.popstateSubscription?.unsubscribe();
+  }
+
   public get currentGroup(): FormGroup {
     return this.getGroupAt(this.currentStep);
-  }
-
-  onStepSelect(event: any): void{
-    this.ngOnInit();
-  }
-  
-  public next(): void {
-    if (this.currentGroup.valid && this.currentStep !== this.steps.length) {
-      this.currentStep += 1;
-      return;
-    }
-    this.currentGroup.markAllAsTouched();
-    this.stepper.validateSteps();
-  }
-
-  public prev(): void {
-    this.currentStep -= 1;
   }
 
   private getGroupAt(index: number): FormGroup {
@@ -297,7 +255,7 @@ export class WorksheetApprovalComponent{
             'bottom'
           );
         }
-        this.router.navigate(['/worksheet-details']);
+        this.router.navigate([AppRoutePaths.WorksheetDetails]);
       },
       error => {
         this.loaderService.hideLoader();
@@ -332,7 +290,7 @@ export class WorksheetApprovalComponent{
               'bottom'
             );
           }
-          this.router.navigate(['/worksheet-details']);
+          this.router.navigate([AppRoutePaths.WorksheetDetails]);
         },
         error => {
           this.loaderService.hideLoader();
@@ -368,7 +326,7 @@ export class WorksheetApprovalComponent{
               'bottom'
             );
           }
-          this.router.navigate(['/worksheet-details']);
+          this.router.navigate([AppRoutePaths.WorksheetDetails]);
         },
         error => {
           this.loaderService.hideLoader();
@@ -425,7 +383,7 @@ export class WorksheetApprovalComponent{
   }
 
   onBackClickHandle() {
-    this.router.navigate(['worksheet-details']);
+    this.router.navigate([AppRoutePaths.WorksheetDetails]);
     this.worksheetService.resetValues();
   }
 

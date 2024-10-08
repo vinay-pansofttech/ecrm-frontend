@@ -1,8 +1,10 @@
-<div>
+<div class="app-locked--container">
   <div class="app-screen--header">
     Enquiry Description
   </div>
-  <div class="app-kendo-form--container" [formGroup]="enquiryDescription">
+</div>
+
+<div class="app-kendo-form--container" [formGroup]="enquiryDescription">
     <kendo-formfield>
     <div class="app-kendo--content">
       <kendo-label
@@ -33,5 +35,4 @@
       <div (click)="downloadAttachment(i)">{{ file.name }}</div>
     </div>
   </kendo-formfield>
-  </div>
 </div>

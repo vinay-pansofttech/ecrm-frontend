@@ -1,33 +1,4 @@
-<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
-<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
-<div class="service-efforts-main--container">
-  <div class="app-navigation-main--container">
-    <div (click)="onBackClickHandle()">
-      <img
-        src="assets/content/images/back.svg"
-        alt="new"/>
-    </div>
-    <div class="app-navigation--header">Service Calendar</div>
-    <div>
-      <img
-        src="assets/content/images/reset.svg"
-        kendobuttons
-        alt="reset"
-        class="app-navigation-reset--image" 
-        (click)="onRefresh()" />
-    </div>
-  </div>
-
-    <div class="app-screen--info-header">
-      <div class="app-screen--info-header-left">
-        Effort Details - {{srid}}
-      </div>
-      <div class="app-screen--info-header-right">
-        {{ currentDate }}
-      </div>
-    </div>
-
-    <div class="app-kendo-form--container" [formGroup]="serviceEffortsForm">
+<div class="app-kendo-form--container" [formGroup]="serviceEffortsForm">
       <div class="app-kendo-forms--subcontent">
         <div class="app-kendo-forms--subcontent-left">
           <kendo-formfield>
@@ -74,7 +45,7 @@
               >
               <kendo-textbox class="app-kendo--textbox"
               formControlName="efforthours"
-              [readonly]="isEffortsDisabled"
+              [readonly]="true"
               #efforthours>
               </kendo-textbox>
             </div>
@@ -118,19 +89,19 @@
           >Effort remarks is required</kendo-formerror
         >
       </kendo-formfield>
-    </div>
+</div>
 
-    <div *ngIf="engeffortListCards.length > 0" class="app-screen--info-header">
+<div *ngIf="engeffortListCards.length > 0" class="app-screen--info-header">
       <div class="app-screen--info-header-left">
         Other Efforts
       </div>
       <div class="app-screen--info-header-right">
-        <img *ngIf="!isPrevEffortsOpen" (click)="isPrevEffortsOpened()" src="assets/content/images/down-white.svg"/>
-        <img *ngIf="isPrevEffortsOpen" (click)="isPrevEffortsOpened()"src="assets/content/images/up-white.svg"/>
+        <img *ngIf="!isPrevEffortsOpen" (click)="isPrevEffortsOpen = !isPrevEffortsOpen" src="assets/content/images/down-white.svg"/>
+        <img *ngIf="isPrevEffortsOpen" (click)="isPrevEffortsOpen = !isPrevEffortsOpen"src="assets/content/images/up-white.svg"/>
       </div>
-    </div>
+</div>
 
-    <div *ngIf="isPrevEffortsOpen">
+<div *ngIf="isPrevEffortsOpen">
       <div *ngFor="let a of engeffortListCards; let i = index" class="app-enquiry-details-listview--cards">
         <kendo-card class="app-enquiry-details-listview--kendo-card">
           <div class="app-enquiry-details-listview--kendo-card-header">
@@ -185,9 +156,9 @@
           </div>
         </kendo-card>
       </div>
-    </div>
+</div>
 
-    <div class="app-screen--footer">
+<div class="app-screen--footer">
       <button
         kendoButton
         class="app-save--button"
@@ -197,10 +168,7 @@
       <button
         kendobutton
         class="app-cancel--button"
-        (click)="onBackClickHandle()">
+        (click)="onCancel()">
         Cancel
       </button>
-    </div>
-    
-</div>
-  
+</div>  

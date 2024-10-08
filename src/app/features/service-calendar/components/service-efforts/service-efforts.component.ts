@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { ServiceCalendarService, engEffortsDetails, engEffortsList } from '../../service-calendar.service';
@@ -15,13 +15,13 @@ import { CommonService } from 'src/app/features/common/common.service';
 })
 export class ServiceEffortsComponent {
   serviceEffortsForm!: FormGroup;
-  srid: number = 0;
-  currentDate: string  = '';
-  engeffortListCards: engEffortsList[] = [];
-  effortCardDetails: any;
-  cardIndex: number = 0;
+  @Input() srid: number = 0;
+  @Input() engeffortListCards: engEffortsList[] = [];
+  @Input() effortCardDetails: any;
   isPrevEffortsOpen: boolean = false;
   isEffortsDisabled: boolean = true;
+
+  @Output() onBackClickHandle: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private route: ActivatedRoute,
@@ -43,18 +43,6 @@ export class ServiceEffortsComponent {
         travelhours: new FormControl(null, Validators.nullValidator),
         effortremarks: new FormControl('', Validators.required),
     });
-    const idString = this.route.snapshot.paramMap.get('id');
-    this.currentDate = this.route.snapshot.paramMap.get('Date')!;
-    const cardIndexString = this.route.snapshot.paramMap.get('index');
-
-    if (idString !== null) {
-      const idNumber: number = parseInt(idString, 10);
-      this.srid = idNumber;   
-    }
-    if (cardIndexString !== null) {
-      const cardIndexnumber: number = parseInt(cardIndexString, 10);
-      this.cardIndex = cardIndexnumber;   
-    }
 
     this.serviceEffortsForm.get('startTime')?.valueChanges.subscribe(() => {
       this.calculateEffortHours();
@@ -64,27 +52,9 @@ export class ServiceEffortsComponent {
       this.calculateEffortHours();
     });
 
-    this.getEngEffortsList();
+    this.patchFormValues();
   }
 
-  getEngEffortsList() {
-    this.serviceCalendarService.getEngEfforts(this.loginService.employeeId as number, this.srid).subscribe((data: any) => {
-      this.engeffortListCards = data.filter(
-        (item: any) => this.commonService.displayDateFormat(item.ondate) != this.currentDate
-      );
-
-      this.effortCardDetails = data.filter(
-        (item: any) => item.empId === this.loginService.employeeId
-      );
-      if(this.effortCardDetails.length > 0) {
-        this.effortCardDetails = this.effortCardDetails[this.cardIndex];
-        this.patchFormValues();
-      }
-      else{
-        console.log('No Effort available');
-      }
-    });
-  }
 
   timeStringToDate (timeString: string): Date | null {
     if (!timeString) return null;
@@ -109,12 +79,8 @@ export class ServiceEffortsComponent {
     });
   }
 
-  onBackClickHandle() {
-    window.history.back();
-  }
-
-  isPrevEffortsOpened(){
-    this.isPrevEffortsOpen = !this.isPrevEffortsOpen;
+  onCancel() {
+    this.onBackClickHandle.emit();
   }
 
   assignFormData(): any {
@@ -171,10 +137,6 @@ export class ServiceEffortsComponent {
     }
   }
 
-  onRefresh(){
-    this.ngOnInit();
-  }
-
   calculateEffortHours() {
     const startTime: Date = this.serviceEffortsForm.get('startTime')?.value;
     const endTime: Date = this.serviceEffortsForm.get('endTime')?.value;
@@ -199,5 +161,4 @@ export class ServiceEffortsComponent {
     }
   }
   
-
 }

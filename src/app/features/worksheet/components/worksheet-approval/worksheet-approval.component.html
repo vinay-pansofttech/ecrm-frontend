@@ -1,103 +1,109 @@
-<div *ngIf="!showAPILoader">
-  <div class="app-navigation-main--container">
-    <div>
-        <img src="assets/content/images/back.svg" kendobutton alt="back" 
-        (click)="onBackClickHandle()"/>
-    </div>
-    <div class="app-navigation--header">Worksheet</div>
-    <div (click)="onReset()">
-      <img
-          src="assets/content/images/reset.svg"
-          kendobuttons
-          alt="reset"
-          class="app-navigation-reset--image"/>
+<div class="app-container">
+  <div class="app-locked--container">
+    <div class="app-navigation-main--container">
+      <div>
+          <img src="assets/content/images/back.svg" kendobutton alt="back" 
+          (click)="onBackClickHandle()"/>
+      </div>
+      <div class="app-navigation--header">Worksheet</div>
+      <div (click)="onReset()">
+        <img
+            src="assets/content/images/reset.svg"
+            kendobuttons
+            alt="reset"
+            class="app-navigation-reset--image"/>
+      </div>
     </div>
   </div>
-  <div [formGroup]="WorksheetApprovalForm">
-    <div class="app-screen--content">
-      <div class="app-screen--stepper">
-          <div class="app-screen--stepper-container"
-              (click)="onStepperClick(0)" [ngClass]="{'selected': isCreditExposureSelected}">
-            <div class="app-screen--stepper-container-content"> Credit Exposure </div>
+  <div class="app-screen--stepper" *ngIf="!showAPILoader">
+    <div class="app-screen--stepper-container"
+        (click)="onStepperClick(0)" [ngClass]="{'selected': isCreditExposureSelected}">
+      <div class="app-screen--stepper-container-content"> Credit Exposure </div>
+    </div>
+    <div class="app-screen--stepper-container"
+        (click)="onStepperClick(1)" [ngClass]="{'selected': isDLCSelected}">
+      <div class="app-screen--stepper-container-content"> DLC </div>
+    </div>
+    <div class="app-screen--stepper-container"
+        *ngIf="WorksheetPrerequisites[0]? WorksheetPrerequisites[0].isSalesManager: false"
+        (click)="onStepperClick(2)" [ngClass]="{'selected': isDRQSelected}">
+      <div class="app-screen--stepper-container-content"> DRQ </div>
+    </div>
+    <div class="app-screen--stepper-container"
+        (click)="onStepperClick(3)" [ngClass]="{'selected': isPriceDetailsSelected}">
+      <div class="app-screen--stepper-container-content"> Price Details </div>
+    </div>
+    <div class="app-screen--stepper-container"
+        *ngIf="WorksheetPrerequisites[0] ? WorksheetPrerequisites[0].marginExcelDownloadPrivilege: false"
+        (click)="onStepperClick(4)" [ngClass]="{'selected': isMarginSelected}"
+        style="margin-right: 0.5rem;">
+      <div class="app-screen--stepper-container-content"> Margin </div>
+    </div>
+  </div>
+
+  <div class="app-screen--content" *ngIf="!showAPILoader">
+    <div *ngFor="let a of worksheetDetailsCard;" class="app-enquiry-details-listview--cards">
+      <kendo-card class="app-enquiry-details-listview--kendo-card">    
+        <div class="app-enquiry-details-listview--kendo-card-content">
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
+              Deal
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold ">
+              {{a.leadNo}}
+            </div>
           </div>
-          <div class="app-screen--stepper-container"
-              (click)="onStepperClick(1)" [ngClass]="{'selected': isDLCSelected}">
-            <div class="app-screen--stepper-container-content"> DLC </div>
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+              <div class="app-enquiry-details-listview--kendo-card-sub-title">
+              UEU
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold ">
+              {{a.customerName}}
+            </div>
           </div>
-          <div class="app-screen--stepper-container"
-              *ngIf="WorksheetPrerequisites[0]? WorksheetPrerequisites[0].isSalesManager: false"
-              (click)="onStepperClick(2)" [ngClass]="{'selected': isDRQSelected}">
-            <div class="app-screen--stepper-container-content"> DRQ </div>
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
+              Sales Channel
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold ">
+              {{enquiryDetailsCard[0]? enquiryDetailsCard[0].salesChannel: ''}}
+            </div>
           </div>
-          <div class="app-screen--stepper-container"
-              (click)="onStepperClick(3)" [ngClass]="{'selected': isPriceDetailsSelected}">
-            <div class="app-screen--stepper-container-content"> Price Details </div>
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
+              AM
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold ">
+              {{enquiryDetailsCard[0]? enquiryDetailsCard[0].salesExecutive: ''}}
+            </div>
           </div>
-          <div class="app-screen--stepper-container"
-              *ngIf="WorksheetPrerequisites[0] ? WorksheetPrerequisites[0].marginExcelDownloadPrivilege: false"
-              (click)="onStepperClick(4)" [ngClass]="{'selected': isMarginSelected}"
-              style="margin-right: 0.5rem;">
-            <div class="app-screen--stepper-container-content"> Margin </div>
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
+              Deal Status
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold ">
+              {{a.leadStatus}}
+            </div>
           </div>
-      </div>
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
+              DRQ Status
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold">
+              <span  style="color:white" 
+              [style.background-color]="drqStatusBgColor(enquiryDetailsCard[0]? enquiryDetailsCard[0].drqStatus: '')">
+                &nbsp;{{enquiryDetailsCard[0]? (enquiryDetailsCard[0].drqStatus == "NA"? "":enquiryDetailsCard[0].drqStatus) : ''}}&nbsp;
+              </span>
+            </div>
+          </div>
+        </div>
+      </kendo-card>
+    </div>
+  </div>
+   
+  <div class="app-scrollable--container" *ngIf="!showAPILoader">
+    <div class="app-screen--content" [formGroup]="WorksheetApprovalForm">
       <form class="k-form k-form-md margin-top-1">
-          <div *ngFor="let a of worksheetDetailsCard;" class="app-enquiry-details-listview--cards">
-            <kendo-card class="app-enquiry-details-listview--kendo-card">    
-              <div class="app-enquiry-details-listview--kendo-card-content">
-                <div class="app-enquiry-details-listview--kendo-card-sold-details">
-                  <div class="app-enquiry-details-listview--kendo-card-sub-title">
-                    Deal
-                  </div>
-                  <div class="app-enquiry-details-listview--kendo-card-sold ">
-                    {{a.leadNo}}
-                  </div>
-                </div>
-                <div class="app-enquiry-details-listview--kendo-card-sold-details">
-                    <div class="app-enquiry-details-listview--kendo-card-sub-title">
-                    UEU
-                  </div>
-                  <div class="app-enquiry-details-listview--kendo-card-sold ">
-                    {{a.customerName}}
-                  </div>
-                </div>
-                <div class="app-enquiry-details-listview--kendo-card-sold-details">
-                  <div class="app-enquiry-details-listview--kendo-card-sub-title">
-                    Sales Channel
-                  </div>
-                  <div class="app-enquiry-details-listview--kendo-card-sold ">
-                    {{enquiryDetailsCard[0]? enquiryDetailsCard[0].salesChannel: ''}}
-                  </div>
-                </div>
-                <div class="app-enquiry-details-listview--kendo-card-sold-details">
-                  <div class="app-enquiry-details-listview--kendo-card-sub-title">
-                    AM
-                  </div>
-                  <div class="app-enquiry-details-listview--kendo-card-sold ">
-                    {{enquiryDetailsCard[0]? enquiryDetailsCard[0].salesExecutive: ''}}
-                  </div>
-                </div>
-                <div class="app-enquiry-details-listview--kendo-card-sold-details">
-                  <div class="app-enquiry-details-listview--kendo-card-sub-title">
-                    Deal Status
-                  </div>
-                  <div class="app-enquiry-details-listview--kendo-card-sold ">
-                    {{a.leadStatus}}
-                  </div>
-                </div>
-                <div class="app-enquiry-details-listview--kendo-card-sold-details">
-                  <div class="app-enquiry-details-listview--kendo-card-sub-title">
-                    DRQ Status
-                  </div>
-                  <div class="app-enquiry-details-listview--kendo-card-sold">
-                    <span  style="color:white" 
-                    [style.background-color]="drqStatusBgColor(enquiryDetailsCard[0]? enquiryDetailsCard[0].drqStatus: '')">
-                      &nbsp;{{enquiryDetailsCard[0]? (enquiryDetailsCard[0].drqStatus == "NA"? "":enquiryDetailsCard[0].drqStatus) : ''}}&nbsp;
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </kendo-card>
-          </div>
           <div *ngIf="currentStep == 0" class="app-enquiry-details-listview--cards">
             <kendo-card *ngFor="let a of worksheetDetailsCard" class="app-enquiry-details-listview--kendo-card">    
               <div class="app-enquiry-details-listview--kendo-card-content">
@@ -174,43 +180,45 @@
             [WorksheetPrerequisites]="WorksheetPrerequisites" [enquiryDetailsCard]="enquiryDetailsCard"></app-margin-details>
       </form>
     </div>
+    <div class="app-screen--footer"
+      *ngIf="currentStep == 3">
+      <button
+        kendobutton
+        class="app-save--button"
+        (click)="saveWorksheet()">
+        Save
+      </button>
+      <button
+        *ngIf="worksheetDetailsCard[0].isAccessWSApproval"
+        kendobutton
+        class="app-save--button app-approval-button"
+        (click)="approveWorksheet()">
+        Approve
+      </button>
+      <button
+        *ngIf="worksheetDetailsCard[0].isAccessWSApproval"
+        kendobutton
+        class="app-save--button app-reject-button"
+        (click)="rejectWorksheet()">
+        Reject
+      </button>
+      <button
+        kendobutton
+        class="app-cancel--button"
+        (click)="onBackClickHandle()">
+        Cancel
+      </button>
+    </div>
   </div>
-  <div class="app-screen--footer"
-    *ngIf="currentStep == 3">
-    <button
-      kendobutton
-      class="app-save--button"
-      (click)="saveWorksheet()">
-      Save
-    </button>
-    <button
-      *ngIf="worksheetDetailsCard[0].isAccessWSApproval"
-      kendobutton
-      class="app-save--button app-approval-button"
-      (click)="approveWorksheet()">
-      Approve
-    </button>
-    <button
-      *ngIf="worksheetDetailsCard[0].isAccessWSApproval"
-      kendobutton
-      class="app-save--button app-reject-button"
-      (click)="rejectWorksheet()">
-      Reject
-    </button>
-    <button
-      kendobutton
-      class="app-cancel--button"
-      (click)="onBackClickHandle()">
-      Cancel
-    </button>
+
+  <div class="app-screen--loader" *ngIf="showAPILoader">
+    <kendo-loader
+      type="converging-spinner"
+      themeColor="info"
+      size="medium"></kendo-loader>
+    <div>{{loaderMessage}}</div>
   </div>
 </div>
-<div class="app-screen--loader" *ngIf="showAPILoader">
-  <kendo-loader
-    type="converging-spinner"
-    themeColor="info"
-    size="medium"></kendo-loader>
-  <div>{{loaderMessage}}</div>
-</div>
+
   
 

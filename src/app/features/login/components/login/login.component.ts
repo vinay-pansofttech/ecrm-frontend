@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TextBoxComponent } from '@progress/kendo-angular-inputs';
 import { eyeIcon, SVGIcon } from '@progress/kendo-svg-icons';
+import { AppRoutePaths } from 'src/app/core/Constants';
 import { LoginService } from './login.service';
+import { CommonService } from 'src/app/features/common/common.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
-import { Router } from '@angular/router';
 import { NotificationService } from 'src/app/core/services/notification.service';
 
 function extractPrivilegeAndMenuName(data: any) {
@@ -24,18 +27,19 @@ function extractPrivilegeAndMenuName(data: any) {
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements AfterViewInit, OnInit {
+export class LoginComponent implements AfterViewInit, OnInit, OnDestroy {
   loginForm: FormGroup;
   invalid = false;
-
   @ViewChild('textbox')
   public textbox!: TextBoxComponent;
-
   public eyeIcon: SVGIcon = eyeIcon;
   public showLoader = false;
+  private popstateSubscription?: Subscription;
+
   constructor(
     private loginService: LoginService,
     private loaderService: LoaderService,
+    private commonService: CommonService,
     private router: Router,
     private notificationService: NotificationService
   ) {
@@ -46,7 +50,13 @@ export class LoginComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit() {
+    this.popstateSubscription = this.commonService.handleNavigationEvents(this.router.events);
   }
+
+  ngOnDestroy(): void {
+    this.popstateSubscription?.unsubscribe();
+  }
+
   public ngAfterViewInit(): void {
     this.textbox.input.nativeElement.type = 'password';
   }
@@ -67,7 +77,10 @@ export class LoginComponent implements AfterViewInit, OnInit {
       this.loginService.setEmployeeName(apiResponse[0]?.employeeName);
       const result = extractPrivilegeAndMenuName(apiResponse);
       this.loginService.privileges = result.privileges;
-      this.router.navigate(['dashboard']);
+      this.loginService.tokenId = apiResponse[0]?.tokenID;
+      this.commonService.navigationMap.set('/login', '/dashboard');
+      this.commonService.currentUrl = '/dashboard';
+      this.router.navigate([AppRoutePaths.Dashboard]);
     } else {
       this.notificationService.showNotification(
         'Invalid username or password',

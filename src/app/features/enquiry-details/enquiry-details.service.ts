@@ -5,6 +5,22 @@ import { ConfigService } from 'src/app/core/services/config.service';
 import { DatePipe } from '@angular/common';
 import { CommonService } from 'src/app/features/common/common.service';
 
+export interface EnquiryList {
+  id: string | number;
+  dealNo: string;
+  enqID: number;
+  soldToLEID: number;
+  soldToLE: string;
+  salesChannel: string;
+  enqStatusId: number;
+  enqStatus: string;
+  salesExecutiveID: number;
+  salesExecutive: string;
+  soldToContact: string;
+  wsApprovalPendingWith: string;
+  soldToContPhoneNo: number;
+}
+
 export interface EnquiryTypeBody {
   soldToLEID: string | number;
   soldToContactID: any;
@@ -92,26 +108,6 @@ export class EnquiryDetailsService {
   
   //API call to add enquiry
   AddEnquiry(formData: any) {
-    // const body: EnquiryTypeBody = {
-    //   soldToLEID: this.leID,
-    //   soldToContactID: formData.contactDteails.soldToContact,
-    //   soldToLESiteID: formData.contactDteails.soldToSite,
-    //   regionID: this.regionId,
-    //   salesChannelID: formData.enquiryDetailsForms.salesChannel,
-    //   salesExecutiveID: this.salesExecID,
-    //   workflowID: formData.enquiryDetailsForms.salesWorkFlow,
-    //   generatedFromID: formData.enquiryDetailsForms.generatedFrom,
-    //   quoteCompanyID: formData.enquiryDetailsForms.quoteEntityCompany,
-    //   quoteCurrencyID: formData.enquiryDetailsForms.quoteEntityCurrency,
-    //   enquiryDescription: formData.enquiryDescription.enterDescription,
-    //   loginID: this.loginService.employeeId,
-    //   attachment: formData.enquiryDescription.attachment,
-    // };
-    // if (formData.enquiryDetailsForms.generatedBy) {
-    //   body.generatedByID = formData.enquiryDetailsForms.generatedBy;
-    // } else {
-    //   body.generatedByID = 0;
-    // }
     const attachmentfile =
     formData.enquiryDescription.attachment && formData.enquiryDescription.attachment.length > 0
           ? formData.enquiryDescription.attachment[0]
@@ -124,8 +120,8 @@ export class EnquiryDetailsService {
 
     const body = new FormData();
     body.append('soldToLEID', this.leID as string);
-    body.append('soldToContactID', formData.contactDteails.soldToContact);
-    body.append('soldToLESiteID', formData.contactDteails.soldToSite);
+    body.append('soldToContactID', formData.contactDetails.soldToContact);
+    body.append('soldToLESiteID', formData.contactDetails.soldToSite);
     body.append('regionID', this.regionId as string);
     body.append('salesChannelID', formData.enquiryDetailsForms.salesChannel);
     body.append('salesExecutiveID', this.salesExecID as string);
@@ -173,8 +169,8 @@ export class EnquiryDetailsService {
 
     const body = new FormData();
     body.append('soldToLEID', this.leID as string);
-    body.append('soldToContactID', formData.contactDteails.soldToContact);
-    body.append('soldToLESiteID', formData.contactDteails.soldToSite);
+    body.append('soldToContactID', formData.contactDetails.soldToContact);
+    body.append('soldToLESiteID', formData.contactDetails.soldToSite);
     body.append('regionID', this.regionId as string);
     body.append('salesChannelID', formData.enquiryDetailsForms.salesChannel);
     body.append('salesExecutiveID', this.salesExecID as string);

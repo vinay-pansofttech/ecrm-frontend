@@ -1,24 +1,24 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { process, State } from '@progress/kendo-data-query';
-import { WorksheetService, WorkSheetSO , EnquiryList} from '../../worksheet.service';
-import { LoaderService } from 'src/app/core/services/loader.service';
-import { CommonService } from 'src/app/features/common/common.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AppRoutePaths } from 'src/app/core/Constants';
+import { CommonService } from 'src/app/features/common/common.service';
+import { LoaderService } from 'src/app/core/services/loader.service';
+import { WorksheetService, WorkSheetSO , EnquiryList} from '../../worksheet.service';
 
 @Component({
   selector: 'app-worksheet-details',
   templateUrl: './worksheet-details.component.html',
   styleUrls: ['./worksheet-details.component.scss']
 })
-export class WorksheetDetailsComponent {
-  @Input()
-  public worksheetDetails!: FormGroup;
+export class WorksheetDetailsComponent implements OnInit, OnDestroy {
+  private popstateSubscription?: Subscription;
+  @Input() public worksheetDetails!: FormGroup;
   contactCards: EnquiryList[] = [];
   pageSize = 3;
   filteredCards: any[] = [];
-  skip = 0;
-  total = 0;
   searchTerm = '';
   public showWorksheetAPILoader = false;
   public worksheetDetailsCard: WorkSheetSO[] =[];
@@ -26,16 +26,23 @@ export class WorksheetDetailsComponent {
   constructor(
     private router: Router,
     private loaderService: LoaderService,
-    private worksheetService: WorksheetService,
+    public worksheetService: WorksheetService,
     public  commonService: CommonService,
   ){}
   
   ngOnInit() {
+    this.popstateSubscription = this.commonService.handleNavigationEvents(this.router.events, () => {
+      this.onBackClickHandle();
+    });
     this.loaderService.loaderState.subscribe(res => {
       this.showWorksheetAPILoader = res;
     });
     this.loaderService.hideLoader();
     this.enquiryList();
+  }
+
+  ngOnDestroy(): void {
+    this.popstateSubscription?.unsubscribe();
   }
 
   enquiryList() {
@@ -65,31 +72,32 @@ export class WorksheetDetailsComponent {
             a.soldToLE.toLowerCase().includes(this.searchTerm.toLowerCase()))
       );
     }
-    this.total = this.filteredCards.length;
+    this.worksheetService.total = this.filteredCards.length;
     this.applyPagination();
   }
 
   applyPagination(): void {
     const state: State = {
-      skip: this.skip,
+      skip: this.worksheetService.skip,
       take: this.pageSize,
     };
     const processed = process(this.filteredCards, state);
     this.filteredCards = processed.data;
-    this.total = processed.total;
+    this.worksheetService.total = processed.total;
   }
 
   onPageChange(state: State): void {
-    this.skip = state.skip as number;
+    this.worksheetService.skip = state.skip as number;
     this.filterData();
   }
 
   navigateById(enqId: number) {
-    this.router.navigate(['/worksheet-approval',enqId]);
+    this.router.navigate([AppRoutePaths.WorksheetApproval], {state: {id: enqId}});
   }
 
   onBackClickHandle() {
-    this.router.navigate(['dashboard']);
+    this.worksheetService.resetPaginationValues();
+    this.router.navigate([AppRoutePaths.Dashboard]);
   }
 
   onReset(){

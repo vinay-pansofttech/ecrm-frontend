@@ -100,6 +100,9 @@ export class SalesPartsManagementService {
   private getSPMPartslistUrl = `${this.configService.apiUrl}/api/SalesPartsManagement/GetSPMPartslist`;
   private postSPMPriceValidationUrl = `${this.configService.apiUrl}/api/SalesPartsManagement/UpdatePriceValidation`;
 
+  skip = 0;
+  total = 0;
+
   constructor(
     private http: HttpClient,
     private loginService: LoginService,
@@ -146,4 +149,9 @@ export class SalesPartsManagementService {
     return this.http.post(this.postSPMPriceValidationUrl, body);
   }
   
+  //Function to reset pagination related values stored in sales-parts-service
+  resetPaginationValues(){
+    this.skip = 0;
+    this.total = 0;
+  }
 }

@@ -1,12 +1,4 @@
 //locked-and-floating-styles
-.app-locked--container {
-  position: sticky;
-  top: 6rem;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  background-color: white;
-}
 .parts-request-add-button {
   position: fixed;    
   bottom: 9rem;
@@ -14,31 +6,31 @@
   display: flex;
   z-index: 1000;
 }
-.app-scrollable--container {
-  margin-top: 0.5rem;
-  position: relative;
-  height: calc(100vh - 5rem);
-  left: 0;
-  width: 100%;
-  overflow-y: auto;
-  padding-bottom: 10rem;
-}
-.app-screen--locked-footer {
-  position: sticky;
-  bottom: 0;
-  left: 0;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1rem;
-  background-color: var(--primary-white);
-}
-
 //Card Design
 .selected-card {
   border: 2px solid var(--secondary-selected);
 }
+.part-details-cards--container{
+  padding-bottom: 8rem;
+}
+.part-details-listview--cards {
+  margin: 1rem;
+  border-radius: 20px;
+  border: 2px solid transparent;
+  transition: border-color 2s ease-in-out;
+}
+.part-details-listview--cards.selected {
+  animation: borderEffect 2s forwards;
+}
+@keyframes borderEffect {
+  0% {
+    border-color: var(--secondary-selected);
+  }
+  100% {
+    border-color: transparent;
+  }
+}
+
 .header{
   display: flex;
   margin: 1rem;
@@ -217,6 +209,7 @@
 }
 .app-control--container{
   border-top: 1px solid #dfdfdf;
+  padding-bottom: 10rem;
 }
 .app-control-button-container{
   display: flex;
@@ -243,11 +236,9 @@
   border: 1px solid #fff;
   color: var(--primary-white);
 }
-
 .app-enquiry-details-listview--kendo-splitter {
   margin: 0.5rem 1rem;
 }
-
 .app-kendo--search-textbox {
   border-radius: 19.5px;
   background: var(--neutral-4, #f2f2f2);

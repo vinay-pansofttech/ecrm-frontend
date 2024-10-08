@@ -1,19 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { SalesPartsManagementService, SPMPartsListItem, ProductConfigItemsBO, SPMSupplierListItem} from '../../sales-parts-management.service';
+import { Subscription } from 'rxjs';
+import { AppRoutePaths } from 'src/app/core/Constants';
+import { LoaderService } from 'src/app/core/services/loader.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { SalesPartsManagementService, SPMPartsListItem, ProductConfigItemsBO, SPMSupplierListItem} from '../../sales-parts-management.service';
 import { CommonService, AttachmentPopupDetails } from 'src/app/features/common/common.service';
-import { LoaderService } from 'src/app/core/services/loader.service';
+
 
 @Component({
   selector: 'app-salespartsmgt-approval',
   templateUrl: './salespartsmgt-approval.component.html',
   styleUrls: ['./salespartsmgt-approval.component.scss']
 })
-export class SalespartsmgtApprovalComponent {
+export class SalespartsmgtApprovalComponent implements OnInit, OnDestroy {
+  private popstateSubscription?: Subscription;
   public showSPMAPILoader = false;
   isAllCardSelected: boolean = false;
   isDescOpen: boolean = false;
@@ -39,35 +43,32 @@ export class SalespartsmgtApprovalComponent {
     private notificationService: NotificationService,
     private loaderService: LoaderService,
     public commonService: CommonService
-  ){}
+  ){
+    const navigation = this.router.getCurrentNavigation();
+    if(navigation?.extras.state){
+      this.enqId = navigation.extras.state['id'];
+      this.supplierId = navigation.extras.state['suppId']
+    }
+  }
 
   ngOnInit(){
+    this.popstateSubscription = this.commonService.handleNavigationEvents(this.router.events, () => {
+      this.onBackClickHandle();
+    });
     this.loaderService.loaderState.subscribe(res => {
       this.showSPMAPILoader = res;
     });
     this.loaderService.hideLoader();
-
-    const enqIdString = this.route.snapshot.paramMap.get('id');
-    if (enqIdString !== null) {
-      const idNumber: number = parseInt(enqIdString, 10);
-      this.enqId = idNumber;   
-    }
-    
-    const suppIdString = this.route.snapshot.paramMap.get('suppId');
-    if (suppIdString !== null) {
-      const idNumber: number = parseInt(suppIdString, 10);
-      this.supplierId = idNumber;   
-    }
-    else{
-      this.supplierId = 0;
-    }
-
     this.getSPMPartslist();
     this.getSPMSupplierlist();
 
     this.salespartsmgtApprovalForm = new FormGroup({
         priceValidateComments: new FormControl('', Validators.nullValidator)
     });
+  }
+
+  ngOnDestroy(): void {
+    this.popstateSubscription?.unsubscribe();
   }
 
   getSPMPartslist() {
@@ -192,9 +193,9 @@ export class SalespartsmgtApprovalComponent {
   navigateById(enqId: number) {
     this.spmService.getSPMSupplierList(this.loginService.employeeId as number,enqId).subscribe((data: any) => {
       if(data.length > 0)
-        this.router.navigate(['sales-parts-management-supplist',enqId]);
+        this.router.navigate([AppRoutePaths.SalesPartsManagementSupplierList],{state: {id: enqId}});
       else
-        this.router.navigate(['sales-parts-management']);
+        this.router.navigate([AppRoutePaths.SalesPartsManagementList]);
     });
   }
 
@@ -223,7 +224,12 @@ export class SalespartsmgtApprovalComponent {
   }
 
   onBackClickHandle(){
-    window.history.back();
+    this.spmService.getSPMSupplierList(this.loginService.employeeId as number,this.enqId).subscribe((data: any) => {
+      if(data.length > 0)
+        this.router.navigate([AppRoutePaths.SalesPartsManagementSupplierList], {state: {id: this.enqId}});
+      else
+        this.router.navigate([AppRoutePaths.SalesPartsManagementList]);
+    });
   }
 
 }

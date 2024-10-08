@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import quickCards from '../../data/mock.json';
 import moduleCards from '../../data/mock.json';
-import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
-import { IconsModule } from '@progress/kendo-angular-icons';
+import { AppRoutePaths } from 'src/app/core/Constants';
+import { LoginService } from 'src/app/features/login/components/login/login.service';
+import { CommonService } from 'src/app/features/common/common.service';
 
 type quickCards = {
   image: string;
@@ -21,19 +23,29 @@ type moduleCards = {
   templateUrl: './dashboard-cards.component.html',
   styleUrls: ['./dashboard-cards.component.scss'],
 })
-export class DashboardCardsComponent implements OnInit {
+export class DashboardCardsComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private commonService: CommonService
   ) {}
 
   cards!: quickCards[];
   moduleCards!: moduleCards[];
   userPrivileges: string[] = [];
+  private popstateSubscription?: Subscription;
+
   ngOnInit(): void {
+    this.popstateSubscription = this.commonService.handleNavigationEvents(this.router.events, () => {
+      this.onBackClickHandle();
+    });
     this.cards = [quickCards.quickCards][0];
     this.userPrivileges = this.loginService.privileges;
     this.moduleCards = [moduleCards.moduleCards][0];
+  }
+
+  ngOnDestroy(): void {
+    this.popstateSubscription?.unsubscribe();
   }
 
   setColor(text: string) {
@@ -68,23 +80,25 @@ export class DashboardCardsComponent implements OnInit {
     }
     return '#F2F2F2';
   }
+
   handleCardNavigate(cardData: any) {
-    if (cardData.path === 'enquiry-details') {
+    if (cardData.path === AppRoutePaths.EnquiryDetails) {
       this.router.navigate([cardData.path]);
     }
-    if (cardData.path === 'enquiry-listview') {
+    if (cardData.path === AppRoutePaths.EnquiryDetailsListView) {
       this.router.navigate([cardData.path]);
     }
-    if (cardData.path === 'service-calendar') {
+    if (cardData.path === AppRoutePaths.ServiceCalendar) {
       this.router.navigate([cardData.path]);
     }
-    if (cardData.path === 'worksheet-details') {
+    if (cardData.path === AppRoutePaths.WorksheetDetails) {
       this.router.navigate([cardData.path]);
     }
-    if (cardData.path === 'sales-parts-management') {
+    if (cardData.path === AppRoutePaths.SalesPartsManagementList) {
       this.router.navigate([cardData.path]);
     }
   }
+
   showCards(cardType: any): boolean {
     // If the card type is 'Funnel Update', show it only if the user has the 'prvViewSales' privilege.
     if(cardType.text === 'Enquiry'){
@@ -116,16 +130,26 @@ export class DashboardCardsComponent implements OnInit {
       return true;
     }
   }
+
   getEmployeeName(): string {
     return this.loginService.getEmployeeName();
   }
+
   getEmployeeFirstName(): string {
     const EmpFullName = this.getEmployeeName();
     const FirstName = EmpFullName.slice(0, EmpFullName.indexOf(' '));
     return FirstName as string;
   }
+
   getIconName(image: string): IconName {
     // Assuming all your icons are valid FontAwesome icon names
     return image as unknown as IconName;
+  }
+
+  onBackClickHandle() {
+    const userConfirmed = confirm('Do you really wanna leave this page? You will be logged out.');
+    if (userConfirmed) {
+      this.commonService.handleLogout();
+    }
   }
 }

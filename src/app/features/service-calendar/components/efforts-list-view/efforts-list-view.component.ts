@@ -1,11 +1,12 @@
 import { Component,Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServiceCalendarService, engEffortsList } from '../../service-calendar.service';
+import { DatePipe } from '@angular/common';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { AppRoutePaths } from 'src/app/core/Constants';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { CommonService } from 'src/app/features/common/common.service';
-import { DatePipe } from '@angular/common';
+import { ServiceCalendarService, engEffortsList } from '../../service-calendar.service';
 
 @Component({
   selector: 'app-efforts-list-view',
@@ -18,6 +19,10 @@ export class EffortsListViewComponent {
   @Input() srid: number = 0;
   @Input() currentDate: string = '';
   showAPILoader = false;
+
+  otherEngEffortsList: engEffortsList[] = [];
+  effortCardDetails!: engEffortsList;
+  isEditEffortOpen: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,19 +45,6 @@ export class EffortsListViewComponent {
     this.loaderService.hideLoader();
   }
 
-  // engEffortsList() {
-  //   this.loaderService.showLoader();
-  //   this.serviceCalendarService.getEngEfforts(this.loginService.employeeId as number, this.srid).subscribe((data: any) => {
-  //     this.engeffortListCards = data.filter(
-  //       (item: any) => item.empId === this.loginService.employeeId
-  //     );
-  //     this.loaderService.hideLoader();
-  //   },
-  //   error => {
-  //     this.loaderService.hideLoader();
-  //   });
-  // }
-
   iseditable(cardIndex: number): boolean{
     const cardemployeeId = this.engeffortListCards[cardIndex].empId;
     const scheduledDate = this.engeffortListCards[cardIndex].ondate;
@@ -65,12 +57,20 @@ export class EffortsListViewComponent {
   }
 
   addEffort(cardIndex: number){
-    this.router.navigate(['/service-efforts', cardIndex, this.srid, this.currentDate]);
+    this.otherEngEffortsList = this.engeffortListCards.filter(
+      (item: any) => this.commonService.displayDateFormat(item.ondate) != this.currentDate
+    );
+    this.effortCardDetails = this.engeffortListCards[cardIndex];
+    this.isEditEffortOpen = true;
   }
 
   onBackClickHandle() {
     this.serviceCalendarService.resetValues();
-    this.router.navigate(['/service-calendar']);
+    this.router.navigate([AppRoutePaths.ServiceCalendar]);
+  }
+
+  EditEffortClose(){
+    this.isEditEffortOpen = false;
   }
 
   onRefresh(){
@@ -80,7 +80,7 @@ export class EffortsListViewComponent {
   generateCSR(){
     const formValue = this.csrGenerateForm.value;
     this.serviceCalendarService.csrComments = formValue.csrComments? formValue.csrComments: "";
-    this.router.navigate(['/csr-generator']);
+    this.router.navigate([AppRoutePaths.ServiceCSRGenerator]);
   }
 
 }

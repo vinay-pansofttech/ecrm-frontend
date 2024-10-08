@@ -27,20 +27,17 @@ type quoteEntityCompany = {
   comboType: string;
   isCompActive: true;
 };
-
 type quoteEntityCurrency = {
   quoteCurrencyID: number;
   quoteCurrencyName: string;
   comboType: string;
 };
-
 type generatedBy = {
   generatedByID: number;
   generatedBy: string;
   comboType: string;
   isGeneratedByActive: true;
 };
-
 type salesExecutive = {
   salesExecID: number;
   salesExecName: string;
@@ -74,29 +71,36 @@ export class EnquiryDetailsFormsComponent implements OnInit {
 
   @Input()
   public enquiryDetailsForms!: FormGroup;
-  public generatedByVisible = false;
-  constructor(public enquiryDetailsService: EnquiryDetailsService
-    ,private formStateService: FormStateService) {
+  constructor(
+    private enquiryDetailsService: EnquiryDetailsService,
+    public formStateService: FormStateService
+  ){
     this.areaList = this.areaList.slice();
     this.company = this.company.slice();
   }
+
   ngOnInit(): void {
-    if (this.formStateService.enquiryDetailsFormState) {
-      this.enquiryDetailsForms.patchValue(
-        this.formStateService.enquiryDetailsFormState
-      );
-    }   
-    if (this.formStateService.selectedsales) {
-      this.handleSalesChannel(this.formStateService.selectedsales);
-    }
-    if (this.formStateService.selectedcompany) {
-      this.handlequoteEntityCurrency(this.formStateService.selectedcompany);
-    }
     this.generatedFrom();
     this.salesWorkFlow();
     this.fetchsalesChannel();
     this.quoteEntityCompany();
+    
+    if (this.formStateService.enquiryDetailsFormState) {
+      this.enquiryDetailsForms.patchValue(
+        this.formStateService.enquiryDetailsFormState
+      );
+    }  
+    if (this.formStateService.selectedGeneratedFrom) {
+      this.handlegeneratedFrom(this.formStateService.selectedGeneratedFrom);
+    } 
+    if (this.formStateService.selectedSales) {
+      this.handleSalesChannel(this.formStateService.selectedSales);
+    }
+    if (this.formStateService.selectedCompany) {
+      this.handlequoteEntityCurrency(this.formStateService.selectedCompany);
+    }
   }
+
   private generatedFrom() {
     this.enquiryDetailsService.getgeneratedFrom().subscribe(data => {
       this.areaList = data;
@@ -104,8 +108,8 @@ export class EnquiryDetailsFormsComponent implements OnInit {
     });
   }
 
-  @Input()
   handlegeneratedFrom(generated: generatedFrom) {
+    this.formStateService.selectedGeneratedFrom = generated;
     if (generated && generated.generatedFrom) {
       if (
         generated.generatedFrom === 'Marketing' ||
@@ -114,16 +118,16 @@ export class EnquiryDetailsFormsComponent implements OnInit {
         generated.generatedFrom === 'Sales Account Coverage'
       ) {
         this.enquiryDetailsService
-          .getgeneratedBy(generated.generatedFrom)
-          .subscribe(res => {
-            this.generatedBy = res;
-          })
-        this.generatedByVisible = true;
+        .getgeneratedBy(generated.generatedFrom)
+        .subscribe(res => {
+          this.generatedBy = res;
+        })
+        this.formStateService.generatedByVisible = true;
         this.enquiryDetailsForms.controls['generatedBy'].setValidators([
           Validators.required,
         ]);
       } else {
-        this.generatedByVisible = false;
+        this.formStateService.generatedByVisible = false;
       }
     }
   }
@@ -143,7 +147,7 @@ export class EnquiryDetailsFormsComponent implements OnInit {
 
   handlequoteEntityCurrency(company: quoteEntityCompany) {
     if (company && company?.companyID) {
-      this.formStateService.selectedcompany = company
+      this.formStateService.selectedCompany = company
       this.enquiryDetailsService
         .getquoteEntityCurrency(company.companyID)
         .subscribe(res => {
@@ -161,7 +165,7 @@ export class EnquiryDetailsFormsComponent implements OnInit {
   handleSalesChannel(sales: salesChannel) {
     if (sales && sales?.salesChannelID) {
       this.showEnquiryDetailsAPILoader = true;
-      this.formStateService.selectedsales = sales;
+      this.formStateService.selectedSales = sales;
       this.enquiryDetailsService
         .getsalesExecutive(0, 0, sales.salesChannelID, this.formStateService.selectedContact.leSiteId)
         .subscribe((res: any) => {
@@ -183,7 +187,6 @@ export class EnquiryDetailsFormsComponent implements OnInit {
   }
 
   //dropdown filter//
-
   handlegeneratedFromFilter(generatedFromID: any) {
     if (generatedFromID && generatedFromID.length >= 1) {
       this.areaList = this.areaList.filter(
@@ -196,6 +199,7 @@ export class EnquiryDetailsFormsComponent implements OnInit {
       this.areaList = this.generatedFromList;
     }
   }
+
   handlequoteEntityCurrencyFilter(companyID: any) {
     if (companyID && companyID.length >= 1) {
       this.company = this.company.filter(

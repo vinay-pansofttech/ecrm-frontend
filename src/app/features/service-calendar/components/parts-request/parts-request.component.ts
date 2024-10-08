@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServiceCalendarService, svcPartsDetails, svcDependentComboData, svcPrerequisites, svcPartsRequest } from '../../service-calendar.service';
+import { DatePipe } from '@angular/common';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { AppRoutePaths } from 'src/app/core/Constants';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
-import { CommonService } from 'src/app/features/common/common.service';
-import { DatePipe } from '@angular/common';
 import { NotificationService } from 'src/app/core/services/notification.service';
-
+import { CommonService } from 'src/app/features/common/common.service';
+import { ServiceCalendarService, svcPartsDetails, svcDependentComboData, svcPrerequisites, svcPartsRequest } from '../../service-calendar.service';
 
 @Component({
   selector: 'app-parts-request',
@@ -107,6 +107,14 @@ export class PartsRequestComponent {
       this.addedPartsDetailsCard[index].isCardSelected = !this.addedPartsDetailsCard[index].isCardSelected;
   }
 
+  onCardClick(event: Event) {
+    const targetElement = event.currentTarget as HTMLElement;
+    targetElement.classList.add('selected');
+        setTimeout(() => {
+      targetElement.classList.remove('selected');
+    }, 2000);
+  }
+
   addPartsToList(index: number) {
     const selectedPart = this.searchPartsDetailsCard[index];
     const existingPart = this.addedPartsDetailsCard.find(
@@ -204,7 +212,7 @@ export class PartsRequestComponent {
         );
         if(notificationType == 'success'){
           this.resetValues();
-          this.router.navigate(['/service-calendar']);
+          this.router.navigate([AppRoutePaths.ServiceCalendar]);
         }
       }
     },
@@ -281,7 +289,7 @@ export class PartsRequestComponent {
     if(this.isPartsRequisitionOpen){
       this.serviceCalendarService.resetValues();
       this.resetValues();
-      this.router.navigate(['/service-calendar']);
+      this.router.navigate([AppRoutePaths.ServiceCalendar]);
     }
     else{
       this.isPartsRequisitionOpen = true;

@@ -1,40 +1,67 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { process, State } from '@progress/kendo-data-query';
 import { EnquiryDetailsService, EnquiryDetailsHistory } from '../../enquiry-details.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AppRoutePaths } from 'src/app/core/Constants';
 import { CommonService } from 'src/app/features/common/common.service';
+import { LoaderService } from 'src/app/core/services/loader.service';
 
 @Component({
   selector: 'app-enquiry-details-history',
   templateUrl: './enquiry-details-history.component.html',
   styleUrls: ['./enquiry-details-history.component.scss'],
 })
-export class EnquiryDetailsHistoryComponent implements OnInit {
+export class EnquiryDetailsHistoryComponent implements OnInit, OnDestroy {
+  private popstateSubscription?: Subscription;
   contactCards: EnquiryDetailsHistory[] = [];
-  pageSize = 3;
+  pageSize = 4;
   filteredCards: any[] = [];
   skip = 0;
   total = 0;
   searchTerm = '';
   id!: string | null;
+  public showEnquiryHistoryAPILoader = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private enquiryDetailService: EnquiryDetailsService,
+    private loaderService: LoaderService,
     public commonService: CommonService
-  ) {}
+  ) {
+    const navigation = this.router.getCurrentNavigation();
+    if(navigation?.extras.state){
+      this.id = navigation.extras.state['id'];
+    }
+  }
 
   ngOnInit() {
-    this.id = this.route.snapshot.paramMap.get('id');
+    this.popstateSubscription = this.commonService.handleNavigationEvents(this.router.events, () => {
+      this.onBackClickHandle();
+    });
+    this.loaderService.loaderState.subscribe(res => {
+      this.showEnquiryHistoryAPILoader = res;
+    });
+    this.loaderService.hideLoader();
     this.enquiryDetailsHistory();
   }
 
+  ngOnDestroy(): void {
+    this.popstateSubscription?.unsubscribe();
+  }
+
   enquiryDetailsHistory() {
+    this.loaderService.showLoader();
     this.enquiryDetailService
       .getEnquiryDetailsHistory(this.id as string)
       .subscribe((data: any) => {
         this.contactCards = data;
         this.filterData();
+        this.loaderService.hideLoader();
+      },
+      error => {
+      this.loaderService.hideLoader();
       });
   }
 
@@ -72,8 +99,8 @@ export class EnquiryDetailsHistoryComponent implements OnInit {
     this.filterData();
   }
 
-  onBackClick() {
-    window.history.back();
+  onBackClickHandle() {
+    this.router.navigate([AppRoutePaths.EnquiryDetailsUpdate],{state: {id: this.id}});
   }
 
   onReset(){

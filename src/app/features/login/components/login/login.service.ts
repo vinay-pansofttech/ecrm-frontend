@@ -11,10 +11,11 @@ export class LoginService {
 
   public employeeId: string | number = '';
   private employeeName = '';
+  public tokenId: string = '';
   public privileges: string[] = [];
   constructor(
     private http: HttpClient,
-    private configService: ConfigService
+    private configService: ConfigService,
   ) {}
 
   loginUser(body: unknown) {

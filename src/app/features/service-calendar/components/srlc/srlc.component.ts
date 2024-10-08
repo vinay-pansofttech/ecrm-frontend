@@ -1,19 +1,19 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { StepperComponent, SelectEvent  } from '@progress/kendo-angular-layout';
+import { Subscription } from 'rxjs';
+import { AppRoutePaths } from 'src/app/core/Constants';
 import { LoaderService } from 'src/app/core/services/loader.service';
-import { ActivatedRoute } from '@angular/router';
-import { NotificationService } from 'src/app/core/services/notification.service';
 import { CommonService } from 'src/app/features/common/common.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
-import { ServiceCalendarService, engEffortsList, svcPrerequisites } from '../../service-calendar.service';
+import { ServiceCalendarService, engEffortsList, callsList, svcPrerequisites } from '../../service-calendar.service';
 
 @Component({
   selector: 'app-srlc',
   templateUrl: './srlc.component.html',
   styleUrls: ['./srlc.component.scss']
 })
-export class SrlcComponent {
+export class SrlcComponent implements OnInit, OnDestroy{
+  private popstateSubscription?: Subscription;
   currentStep!: number;
   showAPILoader = false;
   loaderMessage!: string;
@@ -26,33 +26,39 @@ export class SrlcComponent {
 
   engeffortListCards: engEffortsList[] = [];
   servicePrerequisites: svcPrerequisites[] = [];
+  schCallCards: callsList[] = [];
 
   constructor(
     private loaderService: LoaderService,
     private router: Router,
-    private route: ActivatedRoute,
-    private notificationService: NotificationService,
     private loginService: LoginService,
     private commonService : CommonService,
-    private serviceCalendarService: ServiceCalendarService
-    ) {}
+    private serviceCalendarService: ServiceCalendarService,
+    ) {
+      const navigation = this.router.getCurrentNavigation();
+      if(navigation?.extras.state){
+        this.selectedSRID = navigation.extras.state['id'];
+        this.currentDate = navigation.extras.state['date']
+      }
+    }
 
     ngOnInit(): void {
+      this.popstateSubscription = this.commonService.handleNavigationEvents(this.router.events, () => {
+        this.onBackClickHandle();
+      });
       this.loaderMessage = "";
       this.loaderService.loaderState.subscribe(res => {
         this.showAPILoader = res;
       });
       this.loaderService.hideLoader();
-
-      this.currentDate = this.route.snapshot.paramMap.get('Date')!;
-      const enqIdString = this.route.snapshot.paramMap.get('id');
-      if (enqIdString !== null) {
-        const idNumber: number = parseInt(enqIdString, 10);
-        this.selectedSRID = idNumber;   
-      }
       this.engEffortsList();
       this.getServicePrereq();
+      this.scheduledCallsDetails();
       this.onStepperClick(0);
+    }
+
+    ngOnDestroy(): void {
+      this.popstateSubscription?.unsubscribe();
     }
 
     engEffortsList() {
@@ -65,6 +71,19 @@ export class SrlcComponent {
       },
       error => {
         this.loaderService.hideLoader();
+      });
+    }
+
+    scheduledCallsDetails() {
+      this.loaderService.showLoader();
+      this.serviceCalendarService.getScheduledCalls(this.loginService.employeeId as number, this.serviceCalendarService.selectedDate).subscribe((data: any) => {
+        this.schCallCards = data.filter(
+          (item: any) => item.srid === this.selectedSRID
+        );
+        this.loaderService.hideLoader();
+      },
+      error => {
+        this.loaderService.hideLoader();;
       });
     }
 
@@ -90,7 +109,7 @@ export class SrlcComponent {
 
     onBackClickHandle() {
         this.serviceCalendarService.resetValues();
-        this.router.navigate(['/service-calendar']);
+        this.router.navigate([AppRoutePaths.ServiceCalendar]);
     }
   
     onRefresh(){

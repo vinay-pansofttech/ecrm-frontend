@@ -10,7 +10,7 @@
   </div>
   
   <div *ngIf="!isPartsGridOpen">
-    <div class="app-screen--info-header">
+    <div class="app-screen--info-header" *ngIf="!isPartsGridOpen">
       <div class="app-screen--info-header-left">
         Supplier List
       </div>
@@ -103,7 +103,7 @@
   </div>
 
   <div *ngIf="isPartsGridOpen">
-    <div class="app-screen--info-header">
+    <div class="app-screen--info-header" *ngIf="isPartsGridOpen">
       <div class="app-screen--info-header-left">
         {{WorksheetDRQItemsDetailsCard[0].supplierName}}
       </div>
@@ -118,7 +118,6 @@
       [pageSize]="6"
       [resizable]="true"
       [sortable]="true"
-      [height]="450"
       [headerStyle]="{ 'background-color': 'var(--primary-color)' , 'color': '#FFFFFF'}"
       >
 

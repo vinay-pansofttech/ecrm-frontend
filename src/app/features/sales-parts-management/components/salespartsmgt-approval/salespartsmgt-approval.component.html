@@ -1,230 +1,232 @@
-<div class="app-locked--container">
-  <div class="app-navigation-main--container">
-    <div>
-      <img src="assets/content/images/back.svg" kendobutton alt="back" 
-      (click)="onBackClickHandle()"/>
-    </div>
-    <div class="app-navigation--header">Sales Parts Management</div>
-    <div (click)="onReset()">
-      <img
-        src="assets/content/images/reset.svg"        
-        kendobuttons
-        alt="reset"
-        class="app-navigation-reset--image" />
-    </div>
-  </div>
-
-  <div *ngIf="supplierCards.length > 0 && !showSPMAPILoader" class="app-screen--info-header">
-    <div class="app-screen--info-header-left">{{ supplierCards[0].supplierName }}</div>
-    <div class="app-screen--info-header-right" *ngFor="let a of supplierCards">
-      <img src="assets/content/images/app-paper-clip-white.svg" alt="CE" 
-      width="20" height="20" 
-      (click)="onClickSuppAttachment(a.supplierDocId, commonService.docSrcTypeSuppAttachment, a.attachmentGuId? a.attachmentGuId: '', $event)"/> 
-    </div>
-  </div>
-</div>
-
-<div *ngIf="!showSPMAPILoader" class="app-screen--content">
-
-    <div class="app-screen--info-tab">
-      <div class="app-screen--info-tab-left"> 
+<div class="app-container">
+  <div class="app-locked--container">
+    <div class="app-navigation-main--container">
+      <div>
+        <img src="assets/content/images/back.svg" kendobutton alt="back" 
+        (click)="onBackClickHandle()"/>
       </div>
-      <div class="app-screen--info-tab-right"> 
-        <input
-          kendoRadioButton
-          type="radio"
-          value="selectall"
-          #selectall
-          [checked]="isAllCardSelected"
-          (click)="toggleCardSelection()"/>
-        <kendo-label
-          style="margin-top: 0.12rem;"
-          [for]="selectall"
-          text="Select all"
-        ></kendo-label>
+      <div class="app-navigation--header">Sales Parts Management</div>
+      <div (click)="onReset()">
+        <img
+          src="assets/content/images/reset.svg"        
+          kendobuttons
+          alt="reset"
+          class="app-navigation-reset--image" />
       </div>
     </div>
 
-    <div *ngFor="let a of partsCards; let i = index" class="app-enquiry-details-listview--cards">
-      <kendo-card class="app-enquiry-details-listview--kendo-card" [ngClass]="{'selected-card': a.isCardSelected}">
-        <div class="header" style="margin-top: 0.5rem;">
-          <div class="sub-title-left">
-            <div class="sub-title sub-title-content-left">
-              Supp Part No:
-            </div>
-            <div class="sold sold-content-left">
-              {{ a.supp_PartNo}}
-            </div>
-          </div>
-          <div class="sub-title-right">
-              <input
-              type="radio"
-              kendoRadioButton
-              [checked]="a.isCardSelected"
-              (click)="isCardSelected(i)"
-              />
-          </div>
-        </div>
-  
-        <div class="header">
-          <div class="sub-title-left">
-            <div class="sub-title sub-title-content-left">
-              Supp Option:
-            </div>
-            <div class="sold sold-content-left">
-              {{ a.supp_Option != "" ? a.supp_Option : ""}} &nbsp; 
-            </div>
-          </div>
-        </div>
-
-        <div class="header">
-          <div class="sub-title-left">
-            <div class="sub-title sub-title-content-left">
-              Price:
-            </div>
-            <div class="sold sold-content-left">
-              {{ commonService.displayDecimalFormat(a.listPrice) }}
-            </div>
-          </div>
-
-          <div class="sub-title-right">
-            <div class="sub-title sub-title-content-right">
-              Curr:
-            </div>
-            <div class="sold sold-content-right">
-              {{ a.currency }}
-            </div>
-          </div>
-        </div>
-
-        <div class="header">
-          <div class="sub-title-left">
-            <div class="sub-title sub-title-content-left">
-              Disc %:
-            </div>
-            <div class="sold sold-content-left">
-              {{ commonService.displayDecimalFormat(a.discountPC) }}
-            </div>
-          </div>
-          <div class="sub-title-right">
-            <div class="sub-title sub-title-content-right">
-              Qty:
-            </div>
-            <div class="sold sold-content-right">
-              {{ a.qty }}
-            </div>
-          </div>
-        </div>
-
-        <div class="app-enquiry-details-listview--kendo-splitter">
-          <kendo-splitter orientation="horizontal"></kendo-splitter>
-        </div>
-
-        <div class="header" style="margin-top: 0.5rem;">
-          <div class="sub-title-left">
-            <div class="sub-title sub-title-content-left">
-              Total:
-            </div>
-            <div class="sold sold-content-left">
-              {{ commonService.displayDecimalFormat(a.netTotalValue) }}
-            </div>
-          </div>
-          <div class="sub-title-right">
-            <img *ngIf="!a.isDescriptionOpen" (click)="isDescOpened(i)" src="assets/content/images/down.svg"/>
-            <img *ngIf="a.isDescriptionOpen" (click)="isDescOpened(i)"src="assets/content/images/up.svg">
-          </div>
-        </div>
-
-        <div *ngIf="a.isDescriptionOpen" class="total-header">
-          <div class="sub-title-left">
-            <div class="sub-title sub-title-total">
-              Description:
-            </div>
-            <div class="sold sold-content-total">
-              {{ a.description }}
-            </div>
-          </div>
-        </div>
-
-        <div *ngIf="a.isDescriptionOpen && a.isUnManagedSupplier" class="total-header">
-          <div class="sub-title-left">
-            <div class="sub-title sub-title-total">
-              Local Supplier:
-            </div>
-            <div class="sold sold-content-total">
-              <input
-              type="radio"
-              kendoRadioButton
-              value="LocalSupp"
-              (change)="onSelectLocalSupplier(i)"
-              #LocalSupp
-              />
-            </div>
-          </div>
-        </div>
-
-      </kendo-card>
+    <div *ngIf="supplierCards.length > 0 && !showSPMAPILoader" class="app-screen--info-header">
+      <div class="app-screen--info-header-left">{{ supplierCards[0].supplierName }}</div>
+      <div class="app-screen--info-header-right" *ngFor="let a of supplierCards">
+        <img src="assets/content/images/app-paper-clip-white.svg" alt="CE" 
+        width="20" height="20" 
+        (click)="onClickSuppAttachment(a.supplierDocId, commonService.docSrcTypeSuppAttachment, a.attachmentGuId? a.attachmentGuId: '', $event)"/> 
+      </div>
     </div>
+  </div>
 
-    <app-attachment-pop-up 
-    [showAttachmentPopup]="showSuppAttachment"
-    (attachmentPopupClose)="onCloseAttachmentPopup()"
-    title = "Supplier Attachments"
-    [attachmentPopupDetails]="attachmentPopupDetails">
-    </app-attachment-pop-up>
-
-    <div class="app-screen--footer">
-      <form [formGroup]="salespartsmgtApprovalForm">
-        <div class="app-comments--container">
-          <kendo-formfield>
-            <div class="app-comments--content">
-              <kendo-label class="app-comments--label"
-              [for]="priceValidateComments"
-              >Comments:</kendo-label
-              >
-              <kendo-textarea
-                class="app-comments--textarea"
-                placeholder="Type your message here.."
-                formControlName="priceValidateComments"
-                #priceValidateComments
-                [rows]="5"
-                resizable="vertical">
-              </kendo-textarea>
-            </div>
-            <kendo-formerror class="app-comments--error-msg"
-              >Comments is required</kendo-formerror>
-          </kendo-formfield>
+  <div class="app-scrollable--container" *ngIf="!showSPMAPILoader">
+      <div class="app-screen--info-tab">
+        <div class="app-screen--info-tab-left"> 
         </div>
-      </form>
+        <div class="app-screen--info-tab-right"> 
+          <input
+            kendoRadioButton
+            type="radio"
+            value="selectall"
+            #selectall
+            [checked]="isAllCardSelected"
+            (click)="toggleCardSelection()"/>
+          <kendo-label
+            style="margin-top: 0.12rem;"
+            [for]="selectall"
+            text="Select all"
+          ></kendo-label>
+        </div>
+      </div>
 
-      <button
-        *ngIf=true
-        kendobutton
-        class="app-save--button app-approval-button"
-        (click)="updatePriceValidation('Approved')">
-        Approve
-      </button>
-      <button
-        *ngIf=true
-        kendobutton
-        class="app-save--button app-reject-button"
-        (click)="updatePriceValidation('Rejected')">
-        Reject
-      </button>
-      <button
-        kendobutton
-        class="app-cancel--button"
-        (click)="onBackClickHandle()">
-        Cancel
-      </button>
-    </div>
+      <div *ngFor="let a of partsCards; let i = index" class="app-enquiry-details-listview--cards">
+        <kendo-card class="app-enquiry-details-listview--kendo-card" [ngClass]="{'selected-card': a.isCardSelected}">
+          <div class="header" style="margin-top: 0.5rem;">
+            <div class="sub-title-left">
+              <div class="sub-title sub-title-content-left">
+                Supp Part No:
+              </div>
+              <div class="sold sold-content-left">
+                {{ a.supp_PartNo}}
+              </div>
+            </div>
+            <div class="sub-title-right">
+                <input
+                type="radio"
+                kendoRadioButton
+                [checked]="a.isCardSelected"
+                (click)="isCardSelected(i)"
+                />
+            </div>
+          </div>
+    
+          <div class="header">
+            <div class="sub-title-left">
+              <div class="sub-title sub-title-content-left">
+                Supp Option:
+              </div>
+              <div class="sold sold-content-left">
+                {{ a.supp_Option != "" ? a.supp_Option : ""}} &nbsp; 
+              </div>
+            </div>
+          </div>
+
+          <div class="header">
+            <div class="sub-title-left">
+              <div class="sub-title sub-title-content-left">
+                Price:
+              </div>
+              <div class="sold sold-content-left">
+                {{ commonService.displayDecimalFormat(a.listPrice) }}
+              </div>
+            </div>
+
+            <div class="sub-title-right">
+              <div class="sub-title sub-title-content-right">
+                Curr:
+              </div>
+              <div class="sold sold-content-right">
+                {{ a.currency }}
+              </div>
+            </div>
+          </div>
+
+          <div class="header">
+            <div class="sub-title-left">
+              <div class="sub-title sub-title-content-left">
+                Disc %:
+              </div>
+              <div class="sold sold-content-left">
+                {{ commonService.displayDecimalFormat(a.discountPC) }}
+              </div>
+            </div>
+            <div class="sub-title-right">
+              <div class="sub-title sub-title-content-right">
+                Qty:
+              </div>
+              <div class="sold sold-content-right">
+                {{ a.qty }}
+              </div>
+            </div>
+          </div>
+
+          <div class="app-enquiry-details-listview--kendo-splitter">
+            <kendo-splitter orientation="horizontal"></kendo-splitter>
+          </div>
+
+          <div class="header" style="margin-top: 0.5rem;">
+            <div class="sub-title-left">
+              <div class="sub-title sub-title-content-left">
+                Total:
+              </div>
+              <div class="sold sold-content-left">
+                {{ commonService.displayDecimalFormat(a.netTotalValue) }}
+              </div>
+            </div>
+            <div class="sub-title-right">
+              <img *ngIf="!a.isDescriptionOpen" (click)="isDescOpened(i)" src="assets/content/images/down.svg"/>
+              <img *ngIf="a.isDescriptionOpen" (click)="isDescOpened(i)"src="assets/content/images/up.svg">
+            </div>
+          </div>
+
+          <div *ngIf="a.isDescriptionOpen" class="total-header">
+            <div class="sub-title-left">
+              <div class="sub-title sub-title-total">
+                Description:
+              </div>
+              <div class="sold sold-content-total">
+                {{ a.description }}
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="a.isDescriptionOpen && a.isUnManagedSupplier" class="total-header">
+            <div class="sub-title-left">
+              <div class="sub-title sub-title-total">
+                Local Supplier:
+              </div>
+              <div class="sold sold-content-total">
+                <input
+                type="radio"
+                kendoRadioButton
+                value="LocalSupp"
+                (change)="onSelectLocalSupplier(i)"
+                #LocalSupp
+                />
+              </div>
+            </div>
+          </div>
+
+        </kendo-card>
+      </div>
+
+      <app-attachment-pop-up 
+      [showAttachmentPopup]="showSuppAttachment"
+      (attachmentPopupClose)="onCloseAttachmentPopup()"
+      title = "Supplier Attachments"
+      [attachmentPopupDetails]="attachmentPopupDetails">
+      </app-attachment-pop-up>
+  </div>
+
+  <div class="app-screen--loader" *ngIf="showSPMAPILoader" >
+    <kendo-loader
+      type="converging-spinner"
+      themeColor="info"
+      size="medium"></kendo-loader>
+    <div>{{ loaderMessage }}</div>
+  </div>
+
+  <div class="app-screen--locked-footer" *ngIf="!showSPMAPILoader">
+    <form [formGroup]="salespartsmgtApprovalForm">
+      <div class="app-comments--container">
+        <kendo-formfield>
+          <div class="app-comments--content">
+            <kendo-label class="app-comments--label"
+            [for]="priceValidateComments"
+            >Comments:</kendo-label
+            >
+            <kendo-textarea
+              class="app-comments--textarea"
+              placeholder="Type your message here.."
+              formControlName="priceValidateComments"
+              #priceValidateComments
+              [rows]="5"
+              resizable="vertical">
+            </kendo-textarea>
+          </div>
+          <kendo-formerror class="app-comments--error-msg"
+            >Comments is required</kendo-formerror>
+        </kendo-formfield>
+      </div>
+    </form>
+
+    <button
+      *ngIf=true
+      kendobutton
+      class="app-save--button app-approval-button"
+      (click)="updatePriceValidation('Approved')">
+      Approve
+    </button>
+    <button
+      *ngIf=true
+      kendobutton
+      class="app-save--button app-reject-button"
+      (click)="updatePriceValidation('Rejected')">
+      Reject
+    </button>
+    <button
+      kendobutton
+      class="app-cancel--button"
+      (click)="onBackClickHandle()">
+      Cancel
+    </button>
+  </div>
 </div>
 
-<div class="app-screen--loader" *ngIf="showSPMAPILoader">
-  <kendo-loader
-    type="converging-spinner"
-    themeColor="info"
-    size="medium"></kendo-loader>
-  <div>{{ loaderMessage }}</div>
-</div>
 

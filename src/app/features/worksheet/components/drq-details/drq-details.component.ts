@@ -1,14 +1,14 @@
 import { Component,Input,HostListener,ViewChildren,QueryList } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { WorksheetService, WorksheetDRQItemsList, WorkSheetSO,
-  LstDRQRequestBO } from '../../worksheet.service';
+import { PopoverAnchorDirective } from "@progress/kendo-angular-tooltip";
+import { RowClassArgs } from "@progress/kendo-angular-grid";
+import { AppRoutePaths } from 'src/app/core/Constants';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { CommonService } from 'src/app/features/common/common.service';
-import { PopoverAnchorDirective } from "@progress/kendo-angular-tooltip";
-import { RowClassArgs } from "@progress/kendo-angular-grid";
+import { WorksheetService, WorksheetDRQItemsList, WorkSheetSO, LstDRQRequestBO } from '../../worksheet.service';
 
 @Component({
   selector: 'app-drq-details',
@@ -177,7 +177,7 @@ export class DrqDetailsComponent {
             'bottom'
           );
         }
-        this.router.navigate(['/worksheet-approval',this.worksheetDetailsCard[0].enqId]);      
+        this.router.navigate([AppRoutePaths.WorksheetApproval], {state: {id: this.worksheetDetailsCard[0].enqId}});      
       },
       error => {
         this.loaderService.hideLoader();

@@ -490,7 +490,6 @@ export class WorksheetService {
   private postDRQRequestUrl = `${this.configService.apiUrl}/api/Worksheet/SaveDRQRequest`;
   private getWorksheetMarginExcelUrl = `${this.configService.apiUrl}/api/UploadDownload/GetQuoteCompareExcel`;
 
-
   public worksheetDetailsCard: any[] = [];
   public paymentTerms: WorksheetPaymentTerms[] = [];
   public productItems: EnquiryProductsSO[] = [];
@@ -501,6 +500,9 @@ export class WorksheetService {
   public WorksheetDRQDetailsCard: WorksheetDRQList[] = [];
   public WorksheetDRQItemsDetailsCard: WorksheetDRQItemsList[] = [];
   public wsSysDiscAttachments: any = [];
+
+  skip = 0;
+  total = 0;
 
   constructor(
     private http: HttpClient,
@@ -774,5 +776,11 @@ export class WorksheetService {
     this.productItems = [];
     this.configItems = [];
     this.wsSysDiscAttachments = [];
+  }
+
+  //Function to reset pagination related values stored in worksheet service
+  resetPaginationValues(){
+    this.skip = 0;
+    this.total = 0;
   }
 }

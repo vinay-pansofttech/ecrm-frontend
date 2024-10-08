@@ -65,29 +65,4 @@
   flex-basis: 31.5%;
 }
 
-// .app-locked--container {
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   overflow: hidden;
-//   z-index: 1000;
-// }
 
-// .app-screen--content {
-//   position: relative;
-// }
-
-.app-locked--container {
-  position: sticky;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  background-color: white;
-}
-
-.app-screen--content {
-  margin-top: 0.5rem;
-  position: relative;
-}
