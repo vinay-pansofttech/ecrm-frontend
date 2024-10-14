@@ -1,11 +1,13 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { StepperComponent } from '@progress/kendo-angular-layout';
+import { AppRoutePaths } from 'src/app/core/Constants';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { EnquiryDetailsService } from '../../enquiry-details.service';
+import { CommonService } from 'src/app/features/common/common.service';
 import { FormStateService } from '../../form-state.service';
-import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
@@ -14,11 +16,12 @@ import { NotificationService } from 'src/app/core/services/notification.service'
   styleUrls: ['./enquiry-details-update.component.scss']
 })
 
-export class EnquiryDetailsUpdateComponent {
+export class EnquiryDetailsUpdateComponent implements OnInit, OnDestroy {
+  private popstateSubscription?: Subscription;
   public currentStep = 3;
   showAPILoader = false;
   invalid = false;
-  public getAddEnquiry: unknown = [];
+  current: any;
   @ViewChild('stepper', { static: true })
   public stepper!: StepperComponent;
   id!: string | null;
@@ -26,7 +29,10 @@ export class EnquiryDetailsUpdateComponent {
   enqId!: string;
   modeOfCommunicationValue = false;
   modeOfCommunicationControl!: FormControl;
-  docSrcTypeAttachment: number = 22;
+  public dealPositionList: Array<string> = [];
+  public probabilityList: Array<string> = [];
+  public enquiryModeList: Array<string> = [];
+  enquiryCaptureForm!: FormGroup;
 
   private isStepValid = (index: number): boolean => {
     return this.getGroupAt(index).valid || this.currentGroup.untouched;
@@ -35,7 +41,7 @@ export class EnquiryDetailsUpdateComponent {
   private shouldValidate = (index: number): boolean => {
     return this.getGroupAt(index)?.touched && this.currentStep >= index;
   };
-
+  
   public steps = [
     {
       label: 'Contact Details',
@@ -62,29 +68,34 @@ export class EnquiryDetailsUpdateComponent {
       icon: '',
     },
   ];
-  current: any;
 
-  enquiryCaptureForm!: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
     private loaderService: LoaderService,
     public enquiryDetailsService: EnquiryDetailsService,
     private router: Router,
-    private route: ActivatedRoute,
     private notificationService: NotificationService,
-    private formStateService: FormStateService
-  ) {}
+    private formStateService: FormStateService,
+    private commonService : CommonService
+  ) {
+    const navigation = this.router.getCurrentNavigation();
+    if(navigation?.extras.state){
+      this.id = navigation.extras.state['id'];
+    }
+  }
 
   ngOnInit(): void {
+    this.popstateSubscription = this.commonService.handleNavigationEvents(this.router.events, () => {
+      this.onBackClickHandle();
+    });
     this.loaderService.loaderState.subscribe(res => {
       this.showAPILoader = res;
     });
     this.loaderService.hideLoader();
-    this.id = this.route.snapshot.paramMap.get('id');
-    this.getEnqdetails();
+
     this.enquiryCaptureForm = this.formBuilder.group({
-      contactDteails: new FormGroup({
+      contactDetails: new FormGroup({
         soldToContact: new FormControl('', Validators.required),
         soldToSite: new FormControl('', Validators.required),
         soldToLE: new FormControl(
@@ -121,9 +132,6 @@ export class EnquiryDetailsUpdateComponent {
         interaction_attachment: new FormControl([null], Validators.nullValidator),
       })
     });
-    this.loaderService.loaderState.subscribe(res => {
-      this.showAPILoader = res;
-    });
     this.modeOfCommunicationControl = this.enquiryCaptureForm.get('enquiryUpdateForm.modeOfCommunication') as FormControl;
 
     if (this.modeOfCommunicationControl) {
@@ -133,6 +141,11 @@ export class EnquiryDetailsUpdateComponent {
         this.updateValidatorsBasedOnMode(this.modeOfCommunicationValue);
       });
     }
+    this.getEnqdetails();
+  }
+
+  ngOnDestroy(): void {
+    this.popstateSubscription?.unsubscribe();
   }
 
   private updateValidatorsBasedOnMode(modeValue: any): void {
@@ -143,10 +156,6 @@ export class EnquiryDetailsUpdateComponent {
     !this.modeOfCommunicationValue? attachmentControl.disable():attachmentControl.enable();
     this.enquiryCaptureForm.markAllAsTouched();
   }
-
-  public dealPositionList: Array<string> = [];
-  public probabilityList: Array<string> = [];
-  public enquiryModeList: Array<string> = [];
 
   public get currentGroup(): FormGroup {
     return this.getGroupAt(this.currentStep);
@@ -177,9 +186,8 @@ export class EnquiryDetailsUpdateComponent {
     if (this.enquiryCaptureForm.valid) {
       this.loaderService.showLoader();
       this.enquiryDetailsService
-        .getUpdateEnquiry(this.enquiryCaptureForm.value, this.enqId)
+        .UpdateEnquiry(this.enquiryCaptureForm.value, this.enqId)
         .subscribe((data: any) => {
-          console.log('after submit', data);
           this.loaderService.hideLoader();
           if (data) {
             const notificationMessage = data.outPut;
@@ -191,7 +199,7 @@ export class EnquiryDetailsUpdateComponent {
               'bottom'
             );
           }
-          this.router.navigate(['/enquiry-listview']);
+          this.router.navigate([AppRoutePaths.EnquiryDetailsListView]);
         },
         error => {
           this.loaderService.hideLoader();;
@@ -202,7 +210,7 @@ export class EnquiryDetailsUpdateComponent {
         });
         this.formStateService.resetValues();
     }
-    this.loaderService.showLoader();
+    this.loaderService.hideLoader();
     this.enquiryCaptureForm.markAllAsTouched();
   }
 
@@ -226,39 +234,50 @@ export class EnquiryDetailsUpdateComponent {
       }
     });
   }
+  filterGeneratedFrom(generatedFromID: number): void {
+    this.enquiryDetailsService.getgeneratedFrom().subscribe((data: any) => {
+      this.formStateService.selectedGeneratedFrom = data.filter(
+        (item: any) => item.generatedFromID === generatedFromID
+      );
+      if (this.formStateService.selectedGeneratedFrom.length > 0) {
+        this.formStateService.selectedGeneratedFrom = this.formStateService.selectedGeneratedFrom[0];
+      } else {
+        this.formStateService.selectedGeneratedFrom = null;
+      }
+    });
+  }
   filterSalesChannelByID(salesChannelID: number): void {
     this.enquiryDetailsService.getsalesChannel().subscribe((data: any) => {
-      this.formStateService.selectedsales = data.filter(
+      this.formStateService.selectedSales = data.filter(
         (item: any) => item.salesChannelID === salesChannelID
       );
-      if (this.formStateService.selectedsales.length > 0) {
-        this.formStateService.selectedsales = this.formStateService.selectedsales[0];
+      if (this.formStateService.selectedSales.length > 0) {
+        this.formStateService.selectedSales = this.formStateService.selectedSales[0];
       } else {
-        this.formStateService.selectedsales = null;
+        this.formStateService.selectedSales = null;
       }
     });
   }
   filterEntityByID(quoteCompanyID: number): void {
     this.enquiryDetailsService.getquoteEntityCompany().subscribe((data: any) => {
-      this.formStateService.selectedcompany = data.filter(
+      this.formStateService.selectedCompany = data.filter(
         (item: any) => item.companyID === quoteCompanyID
       );
-      if (this.formStateService.selectedcompany.length > 0) {
-        this.formStateService.selectedcompany = this.formStateService.selectedcompany[0];
+      if (this.formStateService.selectedCompany.length > 0) {
+        this.formStateService.selectedCompany = this.formStateService.selectedCompany[0];
       } else {
-        this.formStateService.selectedcompany = null;
+        this.formStateService.selectedCompany = null;
       }
     });
   }
   
   getAttachmentDetails(enqID: string){
-    this.enquiryDetailsService.getAttachmentDetails(enqID, this.docSrcTypeAttachment, "").subscribe((data: any) => {
+    this.commonService.getAttachmentDetails(enqID, this.commonService.docSrcTypeAttachment, "").subscribe((data: any) => {
       if(data!=null){
         this.formStateService.attachments = data;
       }
       else{
         this.formStateService.attachments = null;
-        console.log('this.formStateService.attachments',data);
       }
     });
   }
@@ -271,6 +290,7 @@ export class EnquiryDetailsUpdateComponent {
           this.enqId = res[0].enqID;
           this.formStateService.enqId=this.enqId;
           this.filterContactByID(res[0]?.soldToContactID);
+          this.filterGeneratedFrom(res[0]?.generatedFromID);
           this.filterSalesChannelByID(res[0]?.salesWorkflowID);
           this.filterEntityByID(res[0].quoteCompanyID);
           this.enquiryDetailsService.regionId= res[0].regionID;
@@ -278,9 +298,8 @@ export class EnquiryDetailsUpdateComponent {
           this.enquiryDetailsService.salesExecID = res[0].salesExecutiveID;
           this.enquiryDetailsService.soldToLESiteID = res[0].soldToSite;
           this.getAttachmentDetails(this.enqId);
-          console.log('result',res[0]);
           this.enquiryCaptureForm.patchValue({
-            contactDteails: {
+            contactDetails: {
               soldToContact: res[0]?.soldToContactID,
               soldToSite: res[0]?.soldToSiteID,
               soldToLE: res[0]?.soldToLEID,
@@ -288,7 +307,7 @@ export class EnquiryDetailsUpdateComponent {
             },
             enquiryDetailsForms: {
               generatedFrom: res[0]?.generatedFromID,
-              generatedby: res[0]?.generatedByName,
+              generatedBy: res[0]?.generatedByID,
               quoteEntityCompany: res[0]?.quoteCompanyID,
               quoteEntityCurrency: res[0]?.quoteCurrencyID,
               salesWorkFlow: res[0]?.salesChannelID,
@@ -313,8 +332,8 @@ export class EnquiryDetailsUpdateComponent {
   }
 
   onBackClickHandle() {
-    this.router.navigate(['enquiry-listview']);
     this.formStateService.resetValues();
+    this.router.navigate([AppRoutePaths.EnquiryDetailsListView]);
   }
 
   onReset() {

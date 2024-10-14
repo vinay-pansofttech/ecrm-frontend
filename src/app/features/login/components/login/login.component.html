@@ -3,7 +3,7 @@
 <div class="login-page--main-container">
   <kendo-card class="login-page--kendo-card" *ngIf="!showLoader">
     <div class="login-page--logo-img">
-      <img src="assets/login-images/Group-img.svg" alt="new" />
+      <img src="assets/content/images/login-images/Group-img.svg" alt="new" />
     </div>
     <!-- <div class="login-page--title">Login</div> -->
 
@@ -23,7 +23,7 @@
                 placeholder="Username">
                 <ng-template kendoTextBoxPrefixTemplate>
                   <img
-                    src="assets/login-images/profile.svg/"
+                    src="assets/content/images/login-images/profile.svg"
                     alt="new"
                     class="login-page--user-img" /> </ng-template
               ></kendo-textbox>
@@ -50,7 +50,7 @@
               </ng-template>
               <ng-template kendoTextBoxPrefixTemplate>
                 <img
-                  src="assets/login-images/password.svg/"
+                  src="assets/content/images/login-images/password.svg"
                   alt="new"
                   class="login-page--profile-img" />
                 <div></div>
@@ -62,9 +62,9 @@
           </kendo-formfield>
 
           <div class="login-page--forgot-div">
-            <a routerLink="/forgot-password" class="login-page--forgot-link"
+            <!-- <a routerLink="/forgot-password" class="login-page--forgot-link"
               >Forgot your password?</a
-            >
+            > -->
           </div>
         </div>
 
@@ -80,7 +80,7 @@
       </form>
     </div>
   </kendo-card>
-  <div class="login-page--loader" *ngIf="showLoader">
+  <div class="app-screen--loader" *ngIf="showLoader">
     <kendo-loader
       type="converging-spinner"
       themeColor="info"

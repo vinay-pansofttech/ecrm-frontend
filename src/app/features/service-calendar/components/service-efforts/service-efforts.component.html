@@ -1,35 +1,43 @@
-<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
-<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
-<div class="service-efforts-main--container">
-  <div class="app-navigation-main--container">
-    <div (click)="onBackClickHandle()">
-      <img
-        src="assets/back.svg"
-        alt="new"/>
-    </div>
-    <div class="app-navigation--header">Service Calendar</div>
-    <div>
-      <img
-        src="assets/reset.svg"
-        kendobuttons
-        alt="reset"
-        class="app-navigation-reset--image" 
-        (click)="onRefresh()" />
-    </div>
-  </div>
-
-    <div class="service-efforts-history--header">
-      <div class="service-efforts--header">
-        Effort Details - {{srid}}
-      </div>
-      <div class="service-efforts-date">
-        {{ currentDate }}
-      </div>
-    </div>
-
-    <div class="app-kendo-form--container" [formGroup]="serviceEffortsForm">
+<div class="app-kendo-form--container" [formGroup]="serviceEffortsForm">
       <div class="app-kendo-forms--subcontent">
-        <div class="service-efforts--hours-content effort-hours">
+        <div class="app-kendo-forms--subcontent-left">
+          <kendo-formfield>
+            <div class="app-kendo--content">
+              <kendo-label class="app-kendo--label" [for]="startTime"
+                >Start Time</kendo-label>
+              <kendo-timepicker class="app-kendo--textbox"
+                formControlName="startTime"
+                placeholder=" "
+                [format]="'HH:mm'"
+                [steps]="{ minute: 30 }"
+                #startTime>
+              </kendo-timepicker>
+            </div>
+          </kendo-formfield>
+        </div>
+
+        <div class="app-kendo-forms--subcontent-right">
+          <kendo-formfield>
+            <div class="app-kendo--content">
+              <kendo-label class="app-kendo--label" [for]="endTime"
+                >End Time</kendo-label>
+              <kendo-timepicker class="app-kendo--textbox"
+                formControlName="endTime"
+                placeholder=" "
+                [format]="'HH:mm'"
+                [steps]="{ minute: 30 }"
+                #endTime>
+              </kendo-timepicker>
+            </div>
+            <kendo-formerror class="app-kendo--error-msg"
+              >End time should be less than start time</kendo-formerror
+            >
+          </kendo-formfield>
+        </div>
+      </div>
+
+      <div class="app-kendo-forms--subcontent">
+        <div class="app-kendo-forms--subcontent-left">
           <kendo-formfield>
             <div class="app-kendo--content">
               <kendo-label class="app-kendo--label" [for]="efforthours"
@@ -37,6 +45,7 @@
               >
               <kendo-textbox class="app-kendo--textbox"
               formControlName="efforthours"
+              [readonly]="true"
               #efforthours>
               </kendo-textbox>
             </div>
@@ -45,7 +54,7 @@
             >
           </kendo-formfield>
         </div>
-        <div class="service-efforts--hours-content">
+        <div class="app-kendo-forms--subcontent-right">
           <kendo-formfield>
             <div class="app-kendo--content">
               <kendo-label class="app-kendo--label" [for]="travelhours"
@@ -69,7 +78,7 @@
             >Remarks</kendo-label
           >
           <kendo-textarea
-            placeholder="Type  your message here.."
+            placeholder="Type your message here.."
             formControlName="effortremarks"
             #effortremarks
             class="app-kendo--textarea"
@@ -80,19 +89,19 @@
           >Effort remarks is required</kendo-formerror
         >
       </kendo-formfield>
-    </div>
+</div>
 
-    <div class="service-efforts-history--header">
-      <div class="service-efforts--header">
+<div *ngIf="engeffortListCards.length > 0" class="app-screen--info-header">
+      <div class="app-screen--info-header-left">
         Other Efforts
       </div>
-      <div class="service-header-right-button">
-        <img *ngIf="!isPrevEffortsOpen" (click)="isPrevEffortsOpened()" src="assets/down-white.svg"/>
-        <img *ngIf="isPrevEffortsOpen" (click)="isPrevEffortsOpened()"src="assets/up-white.svg"/>
+      <div class="app-screen--info-header-right">
+        <img *ngIf="!isPrevEffortsOpen" (click)="isPrevEffortsOpen = !isPrevEffortsOpen" src="assets/content/images/down-white.svg"/>
+        <img *ngIf="isPrevEffortsOpen" (click)="isPrevEffortsOpen = !isPrevEffortsOpen"src="assets/content/images/up-white.svg"/>
       </div>
-    </div>
+</div>
 
-    <div *ngIf="isPrevEffortsOpen">
+<div *ngIf="isPrevEffortsOpen">
       <div *ngFor="let a of engeffortListCards; let i = index" class="app-enquiry-details-listview--cards">
         <kendo-card class="app-enquiry-details-listview--kendo-card">
           <div class="app-enquiry-details-listview--kendo-card-header">
@@ -147,9 +156,9 @@
           </div>
         </kendo-card>
       </div>
-    </div>
+</div>
 
-    <div class="app-screen--footer">
+<div class="app-screen--footer">
       <button
         kendoButton
         class="app-save--button"
@@ -159,10 +168,7 @@
       <button
         kendobutton
         class="app-cancel--button"
-        (click)="onBackClickHandle()">
+        (click)="onCancel()">
         Cancel
       </button>
-    </div>
-    
-</div>
-  
+</div>  

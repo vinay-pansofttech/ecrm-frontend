@@ -1,0 +1,86 @@
+<div class="app-container">
+  <div class="app-locked--container">
+      <div class="app-navigation-main--container">
+        <div>
+            <img src="assets/content/images/back.svg" kendobutton alt="back" 
+            (click)="onBackClickHandle()"/>
+        </div>
+        <div class="app-navigation--header">Service Calendar</div>
+        <div (click)="onRefresh()">
+          <img
+              src="assets/content/images/reset.svg"
+              kendobuttons
+              alt="reset"
+              class="app-navigation-reset--image"/>
+        </div>
+      </div>
+      <div class="app-screen--content">
+          <div class="app-screen--stepper">
+              <div class="app-screen--stepper-container"
+                  (click)="onStepperClick(0)" [ngClass]="{'selected': isEffortsSelected}">
+                  <div class="app-screen--stepper-container-content"> Effort Log</div>
+              </div>
+              <div *ngIf="servicePrerequisites[0]? servicePrerequisites[0].isPartsRequestShow: false" class="app-screen--stepper-container"
+                  (click)="onStepperClick(1)" [ngClass]="{'selected': isPRSelected}">
+                  <div class="app-screen--stepper-container-content"> Parts Request </div>
+              </div>
+          </div>
+      </div>
+      <div *ngFor="let a of schCallCards;" class="app-enquiry-details-listview--cards">
+          <kendo-card class="app-enquiry-details-listview--kendo-card">    
+            <div class="app-enquiry-details-listview--kendo-card-content">
+              <div class="app-enquiry-details-listview--kendo-card-sold-details">
+                <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                  SRID
+                </div>
+                <div class="app-enquiry-details-listview--kendo-card-sold ">
+                  {{ selectedSRID }}
+                </div>
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold-details">
+                <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                  UEU
+                </div>
+                <div class="app-enquiry-details-listview--kendo-card-sold ">
+                  {{ a.ueu }}
+                </div>
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold-details">
+                  <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                  Site
+                </div>
+                <div class="app-enquiry-details-listview--kendo-card-sold ">
+                  {{ a.siteName }}
+                </div>
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold-details">
+                <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                  Call Category
+                </div>
+                <div class="app-enquiry-details-listview--kendo-card-sold ">
+                  {{ a.callCategory }}
+                </div>
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold-details">
+                <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                  Call Type
+                </div>
+                <div class="app-enquiry-details-listview--kendo-card-sold ">
+                  {{ a.callType }}
+                </div>
+              </div>
+            </div>
+          </kendo-card>
+      </div>
+  </div>
+
+  <div class="app-scrollable--container">
+    <app-efforts-list-view
+        *ngIf="currentStep === 0" [srid]="selectedSRID" [currentDate]="currentDate"
+        [engeffortListCards]="engeffortListCards" 
+        [filteredEngeffortListCards]="filteredEngeffortListCards"></app-efforts-list-view>
+    <app-parts-request
+        *ngIf="currentStep === 1" [srid]="selectedSRID" 
+        [servicePrerequisites]="servicePrerequisites"></app-parts-request>
+  </div>
+</div>

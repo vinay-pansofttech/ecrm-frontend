@@ -1,15 +1,17 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div class="app-container"> 
+  <div class="app-locked--container">
     <div class="app-navigation-main--container">
       <div (click)="onBackClickHandle()">
         <img
-          src="assets/back.svg"
+          src="assets/content/images/back.svg"
           alt="new"/>
       </div>
       <div class="app-navigation--header">Service Calendar</div>
       <div>
         <img
-          src="assets/reset.svg"
+          src="assets/content/images/reset.svg"
           kendobuttons
           alt="reset"
           class="app-navigation-reset--image" 
@@ -20,23 +22,23 @@
     <div class="service-calendar-container">
       <div class="service-kendo-calendar-pop-up-icon">
         <img
-          src="assets/dashboard-calendar-icon.svg"
+          src="assets/content/images/calendar.svg"
           alt="new"
           (click)="openCloseCalendar()" />
       </div>
       <div class="service-calendar-date-container">
         <div class="service-calendar--back-img">
             <img
-              src="assets/back.svg"
+              src="assets/content/images/back.svg"
               alt="new"
               (click)="onPrevDateClickHandle()" />
         </div>
         <div class="service-calendar-date">
-            {{ currentDate | date:'dd-MMM-yyyy' }}
+            {{ commonService.displayDateFormat(currentDate) }}
         </div>
         <div class="service-calendar--front-img">
           <img
-            src="assets/back.svg"
+            src="assets/content/images/back.svg"
             alt="new"
             (click)="onNextDateClickHandle()" />
         </div>
@@ -53,130 +55,136 @@
       ></kendo-calendar>
     </div>
 
-    <div class="service-calendar-history--header">
-      <div class="app-screen--header">
+    <div class="app-screen--info-header">
+      <div class="app-screen--info-header-left">
         Scheduled Calls
       </div>
     </div>
-
-  <div *ngIf="schCallCards.length > 0 && !showAPILoader" class="my-calendar-main--container">
-    <div *ngFor="let a of schCallCards" class="app-enquiry-details-listview--cards">
-      <kendo-card class="app-enquiry-details-listview--kendo-card">
-        <div class="app-enquiry-details-listview--kendo-card-header">
-          <div class="app-enquiry-details-listview--kendo-card-number">
-            {{a.srid}}
-          </div>
-          <div>
-            <img
-            src="assets/calendar-details--chevron.svg"
-            alt="edit"
-            (click)="onScheduledCallClick(a.srid)"
-            />
-          </div>
-        </div>
-  
-        <div class="app-enquiry-details-listview--kendo-splitter">
-          <kendo-splitter orientation="horizontal"></kendo-splitter>
-        </div>
-  
-        <div class="app-enquiry-details-listview--kendo-card-content" (click)="onScheduledCallClick(a.srid)">
-          <div class="app-enquiry-details-listview--kendo-card-sold-details">
-            <div class="app-enquiry-details-listview--kendo-card-sub-title">
-              UEU
-            </div>
-            <div class="app-enquiry-details-listview--kendo-card-sold">
-              {{a.ueu}}
-            </div>
-          </div>
-          <div class="app-enquiry-details-listview--kendo-card-sold-details">
-            <div class="app-enquiry-details-listview--kendo-card-sub-title">
-              Site
-            </div>
-            <div class="app-enquiry-details-listview--kendo-card-sold">
-              {{a.siteName}}
-            </div>
-          </div>
-          <div class="app-enquiry-details-listview--kendo-card-sold-details">
-            <div class="app-enquiry-details-listview--kendo-card-sub-title">
-              Call Category
-            </div>
-            <div class="app-enquiry-details-listview--kendo-card-sold">
-              {{a.callCategory}}
-            </div>
-          </div>
-          <div class="app-enquiry-details-listview--kendo-card-sold-details">
-            <div class="app-enquiry-details-listview--kendo-card-sub-title">
-              Call Type
-            </div>
-            <div class="app-enquiry-details-listview--kendo-card-sold">
-              {{a.callType}}
-            </div>
-          </div>
-          <div class="app-enquiry-details-listview--kendo-card-sold-details">
-            <div class="app-enquiry-details-listview--kendo-card-sub-title">
-              Call Description
-            </div>
-            <div class="app-enquiry-details-listview--kendo-card-sold">
-              {{a.callDescription}}
-            </div>
-          </div>
-          <div class="app-enquiry-details-listview--kendo-card-sold-details">
-            <div class="app-enquiry-details-listview--kendo-card-sub-title">
-              Instrument
-            </div>
-            <div class="app-enquiry-details-listview--kendo-card-sold">
-              {{a.productName}}
-            </div>
-          </div>
-          <div class="app-enquiry-details-listview--kendo-card-sold-details">
-            <div class="app-enquiry-details-listview--kendo-card-sub-title">
-              Serial Number
-            </div>
-            <div class="app-enquiry-details-listview--kendo-card-sold">
-              {{a.serialNumber}}
-            </div>
-          </div>
-        </div>
-  
-        <div class="app-enquiry-details-listview--information-outline-card" (click)="callPhoneNumber(a.phoneNumber)">
-          <div>
-            <img src="assets/enquiry-details-phone-icon.svg" alt="new" />
-          </div>
-          <div class="app-enquiry-details-listview--information">
-            {{a.phoneNumber}}
-          </div>
-        </div>
-
-        <div class="app-enquiry-details-listview--information-outline-card" (click)="sendEmail(a.email)">
-          <div>
-            <img src="assets/calendar-details-email-icon.svg" alt="new" />
-          </div>
-          <div class="app-enquiry-details-listview--information">
-            {{a.email}}
-          </div>
-        </div>
-
-        <div class="app-enquiry-details-listview--information-outline-card" (click)="openLocation(a.gpsCoordinate)">
-          <div>
-            <img src="assets/calendar-details-location-icon.svg" alt="new" />
-          </div>
-          <div class="app-enquiry-details-listview--information">
-            {{a.gpsCoordinate}}
-          </div>
-        </div>
-      </kendo-card>     
-    </div>
-</div>
-<div *ngIf="schCallCards.length === 0 && !showAPILoader" class="app-disclaimer--card">
-  <div class="app-disclaimer--content">
-    <h5>No calls scheduled for the day</h5>
   </div>
-</div>
-<div class="app-screen--loader" *ngIf="showAPILoader">
-  <kendo-loader
-    type="converging-spinner"
-    themeColor="info"
-    size="medium"></kendo-loader>
-  <div>Loading details....</div>
+
+  <div class="app-scrollable--container">
+    <div *ngIf="schCallCards.length > 0 && !showAPILoader">
+      <div *ngFor="let a of schCallCards; let i=index;" class="app-enquiry-details-listview--cards">
+        <kendo-card class="app-enquiry-details-listview--kendo-card">
+          <div class="app-enquiry-details-listview--kendo-card-header">
+            <div class="app-enquiry-details-listview--kendo-card-number">
+              {{a.srid}}
+            </div>
+            <div>
+              <img
+              src="assets/content/images/chevron.svg"
+              alt="edit"
+              (click)="onScheduledCallClick(a.srid,i)"
+              />
+            </div>
+          </div>
+    
+          <div class="app-enquiry-details-listview--kendo-splitter">
+            <kendo-splitter orientation="horizontal"></kendo-splitter>
+          </div>
+    
+          <div class="app-enquiry-details-listview--kendo-card-content" (click)="onScheduledCallClick(a.srid,i)">
+            <div class="app-enquiry-details-listview--kendo-card-sold-details">
+              <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                UEU
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold">
+                {{a.ueu}}
+              </div>
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold-details">
+              <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                Site
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold">
+                {{a.siteName}}
+              </div>
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold-details">
+              <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                Call Category
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold">
+                {{a.callCategory}}
+              </div>
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold-details">
+              <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                Call Type
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold">
+                {{a.callType}}
+              </div>
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold-details">
+              <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                Call Description
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold">
+                {{a.callDescription}}
+              </div>
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold-details">
+              <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                Instrument
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold">
+                {{a.productName}}
+              </div>
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold-details">
+              <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                Serial Number
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold">
+                {{a.serialNumber}}
+              </div>
+            </div>
+          </div>
+    
+          <div class="app-enquiry-details-listview--information-outline-card" (click)="callPhoneNumber(a.phoneNumber)">
+            <div>
+              <img src="assets/content/images/phone.svg" alt="new" />
+            </div>
+            <div class="app-enquiry-details-listview--information">
+              {{a.phoneNumber}}
+            </div>
+          </div>
+
+          <div class="app-enquiry-details-listview--information-outline-card" (click)="sendEmail(a.email)">
+            <div>
+              <img src="assets/content/images/email.svg" alt="new" />
+            </div>
+            <div class="app-enquiry-details-listview--information">
+              {{a.email}}
+            </div>
+          </div>
+
+          <div class="app-enquiry-details-listview--information-outline-card" (click)="openLocation(a.gpsCoordinate)">
+            <div>
+              <img src="assets/content/images/location.svg" alt="new" />
+            </div>
+            <div class="app-enquiry-details-listview--information">
+              {{a.gpsCoordinate}}
+            </div>
+          </div>
+        </kendo-card>     
+      </div>
+    </div>
+
+    <div *ngIf="schCallCards.length === 0 && !showAPILoader" class="app-disclaimer--card">
+      <div class="app-disclaimer--content">
+        <h5>No calls scheduled for the day</h5>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-screen--loader" *ngIf="showAPILoader">
+    <kendo-loader
+      type="converging-spinner"
+      themeColor="info"
+      size="medium"></kendo-loader>
+    <div>Loading details....</div>
+  </div>
 </div>
   

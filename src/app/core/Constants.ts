@@ -1,37 +1,30 @@
 export enum AppSettingsConfigKey {
-  FileName = 'appSettings.json',
-  Path = 'assets/configs',
-  APIURL = 'https://demo.engagecrmpro.com',
+  FileName = 'appsettings.json',
+  Path = 'assets',
 }
 
 export enum AppRoutePaths {
   Default = '',
   Login = 'login',
   Empty = 'empty',
-  Waiting = 'waiting',
-  Error = 'error',
-  UserManagement = 'user-management',
-  UserList = 'user-list',
   Dashboard = 'dashboard',
   EnquiryUpdate = 'enquiry-update',
   ResetPassword = 'reset-password',
   Email = 'email',
   ForgotPassword = 'forgot-password',
-  DashboardWrapper = ' dashboard-wrapper',
   EnquiryDetails = 'enquiry-details',
-  WorkList = 'work-list',
   EnquiryDetailsListView = 'enquiry-listview',
   LoginDialog = 'login-dialog',
-  EnquiryDetailsHistory = 'enquiry-details-history/:id',
-  EnquiryDetailsUpdate = 'enquiry-details-update/:id',
+  EnquiryDetailsHistory = 'enquiry-details-history',
+  EnquiryDetailsUpdate = 'enquiry-details-update',
   ServiceCalendar = 'service-calendar',
-  ServiceEffortsList = 'service-efforts-listview/:id/:Date',
-  ServiceEfforts = 'service-efforts/:index/:id/:Date',
+  SRLC = 'srlc',
+  ServiceCSRGenerator = 'csr-generator',
   WorksheetDetails = 'worksheet-details',
-  WorksheetApproval = 'worksheet-approval/:id',
+  WorksheetApproval = 'worksheet-approval',
   SalesPartsManagementList = 'sales-parts-management',
-  SalesPartsManagementSupplierList = 'sales-parts-management-supplist/:id',
-  SalesPartsManagementApproval = 'sales-parts-management-approval/:id/:suppId'
+  SalesPartsManagementSupplierList = 'sales-parts-management-supplist',
+  SalesPartsManagementApproval = 'sales-parts-management-approval'
 }
 
 export enum EcrmUserAdminRoutePath {

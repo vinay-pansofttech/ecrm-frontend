@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService } from '../login/login.service';
+import { CommonService } from 'src/app/features/common/common.service';
 
 @Component({
   selector: 'app-logout-component',
@@ -10,10 +10,7 @@ import { LoginService } from '../login/login.service';
 export class LogoutComponent {
   constructor(
     public router: Router,
-    private loginService: LoginService
+    public commonService: CommonService
   ) {}
-  handleLogout() {
-    this.loginService.employeeId = '';
-    this.router.navigate(['/login']);
-  }
+
 }

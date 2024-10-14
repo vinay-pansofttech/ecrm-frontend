@@ -1,14 +1,14 @@
-@import './assets/css/text.scss';
-@import './assets/css/sizes.scss';
-@import url('./assets//css/colors.scss');
+@import './assets/content/css/text.scss';
+@import './assets/content/css/sizes.scss';
+@import url('./assets//content/css/colors.scss');
 
 // styles.scss
-$kendo-color-primary: #6eafd3;
+$kendo-color-primary: #5cb5c1;
 @import 'node_modules/@progress/kendo-theme-default/scss/all.scss';
 
 @font-face {
   font-family: 'Lato';
-  src: url('assets/fonts/Lato/Lato-Black.ttf') format('truetype');
+  src: url('assets/content/fonts/Lato/Lato-Black.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -18,9 +18,11 @@ body {
   padding: 0;
   font-family: 'lato';
 }
+
+//Kendo Styles
 .k-stepper .k-step-label .k-step-text {
   text-align: center;
-  font-family: Arial;
+  font-family: var(--font-family-text);
   font-size: 0.625rem;
   font-style: normal;
   font-weight: 400;
@@ -30,23 +32,27 @@ body {
   overflow: auto;
   text-wrap: wrap;
 }
-
+.k-stepper{
+  padding: 0.5rem;
+}
 .k-stepper .k-step-current .k-step-indicator,
 .k-stepper .k-step-done .k-step-indicator,
 .k-progressbar .k-selected,
 .k-stepper .k-step-done:hover .k-step-indicator,
 .k-stepper .k-step-current:hover .k-step-indicator {
-  border-color: var(--terinary-color);
-  color: white;
-  background-color: var(--terinary-color);
+  border-color: var(--primary-color);
+  color: var(--primary-white);
+  background-color: var(--primary-color);
 }
-
 .k-progress-status-wrap .k-progress-end,
 .k-progressbar .k-progressbar-horizontal {
     border: none !important;
     background: none !important;
-    color: white;
+    color: var(--primary-white);
     background-color: white;
+}
+:host ::ng-deep .k-button-flat-primary {
+  color: var(--primary-color) !important;
 }
 
 //General Screen Styles
@@ -54,11 +60,11 @@ body {
   display: flex;
   padding: 0.25rem;
   align-items: center;
-  background: linear-gradient(270deg, #327790 0%, #49AFCD 33.33%, #89BA82 67.19%);
+  background: var(--primary-background-color);
 }
 .app-navigation--header {
-  color: white;
-  font-family: Arial;
+  color: var(--primary-white);
+  font-family: var(--font-family-text);
   font-size: var(--text-size-3);
   font-style: normal;
   font-weight: var(--font-weight-bold);
@@ -74,24 +80,85 @@ body {
   justify-content: space-around;
 }
 .app-screen--header {
+  color: var(--primary-white);
+  font-size: var(--text-size-1);
+  font-style: normal;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.75rem;
+  flex: 1 0 0;
+  margin: 0rem 0rem 1rem 0rem;
+  padding:0.5rem 0.5rem 0.5rem 1rem;
+  background-color: var(--secondary-color);
+}
+.app-screen--info-header {
+  display: flex;
+  justify-content: space-between; 
   color: #FFFFFF;
   font-size: 1rem;
   font-style: normal;
   font-weight: var(--font-weight-bolder);
   line-height: 1.75rem;
-  flex: 1 0 0;
   margin: 0rem 0rem 0rem 0rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.30rem;
   padding:0.5rem;
-  padding-left: 1rem;
-  background-color: rgb(16, 47, 63);
+  background-color: var(--secondary-color);
+}
+.app-screen--info-header-left{
+  justify-content: flex-start;
+  padding-left: 0.5rem;
+}
+.app-screen--info-header-right{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 0.5rem ;
+  margin-left: 1.25rem ;
+  gap: 0.25rem;
+}
+.app-screen--info-tab {
+  display: flex;
+  justify-content: space-between; 
+  color: var(--colors-brand-black, #1C1B1B);
+  font-size: var(--text-size-01);
+  font-family: var(--font-family-text);
+  font-style: normal;
+  font-weight: var(--font-weight-bolder);
+  line-height: normal;
+  margin: 0rem 0.5rem 0rem 0.5rem;
+  padding:1rem 0rem 0rem 0rem;
+}
+.app-screen--info-tab-left{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap:0.25rem;
+}
+.app-screen--info-tab-right{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: 1.25rem ;
+  gap:0.25rem;
+}
+.app-screen-history--header {
+  background-color: var(--secondary-color);
+  display: flex;
+  margin: 0rem 0rem 0rem 0rem;
+}
+.app-screen--header-button {
+  background: var(--primary-color);
+  color: var(--primary-white);
+  margin: 0.5rem;
+  margin-right:1rem;
+  border-radius: 5px;
 }
 .app-screen--header-tag {
   max-width: 2.5rem;
   min-height: 0.1875rem;
   flex-shrink: 0;
   border-radius: 0.1875rem;
-  background: #5cb5c1;
+  background: var(--primary-color);
 }
 .app-screen--loader {
   display: flex;
@@ -100,6 +167,7 @@ body {
   height: 100vh;
   flex-direction: column;
   gap: 0.5rem;
+  z-index: 1002;
 }
 .app-disclaimer--card{
   display: flex;
@@ -109,12 +177,12 @@ body {
 }
 .app-disclaimer--content{
   color: #383838;
-  font-family: Arial;
+  font-family: var(--font-family-text);
   font-size: 1rem;
   font-style: normal;
 }
 .app-screen--notification{
-  color: black;
+  color: var(--primary-black);
   background-color: #edf5ff;
   border-left: 5px solid #0043ce;
   border-radius: 10px;
@@ -122,9 +190,38 @@ body {
   display: flex;
   position: relative;
   align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0.5rem 1rem;
+}
+.app-screen--notification-amber{
+    color: var(--primary-black);
+    background-color: #fac4c3;
+    border-left: 5px solid #FF0000;
+    border-radius: 10px;
+    padding:1rem;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0.5rem 1rem;
+}
+.app-screen--notification-content-left{
+  display: flex;
+  position: relative;
+  align-items: center;
   justify-content: left;
   gap: 1rem;
 }
+.app-screen--notification-content-right{
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: right;
+  gap: 1rem;
+}
+
 
 //Enquiry Kendo Card Styles
 .app-enquiry-details-listview--vertical-splitter {
@@ -139,7 +236,7 @@ body {
 }
 .app-enquiry-details-listview--kendo-datapager {
   margin-left: 3rem;
-  color: #6eafd3;
+  color: var(--primary-color);
   border: 0px;
   background-color: white;
 }
@@ -150,7 +247,7 @@ body {
   border-radius: 19.5px;
   background: var(--neutral-4, #f2f2f2);
   color: var(--neutral-1, #343434);
-  font-family: Arial;
+  font-family: var(--font-family-text);
   font-size: var(--text-size-1);
   font-style: normal;
   font-weight: var(--font-weight-normal);
@@ -159,21 +256,12 @@ body {
 .app-enquiry-details-listview--search-icon {
   margin: 0 6px 0 8px;
 }
-.app-enquiry-details-listview--sub-title {
-  color: var(--primary-black, #1f1f1f);
-  font-family: Arial;
-  font-size: var(--text-size-2);
-  font-style: normal;
-  font-weight: var(--font-weight-bolder);
-  line-height: normal;
-  margin: 1rem 1rem 1rem 1rem;
-}
 .app-enquiry-details-listview--cards {
   margin: 1rem;
 }
 .app-enquiry-details-listview--kendo-card {
   border-radius: 20px;
-  background: var(--colors-brand-white, #fff);
+  background: white;
   box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.05);
   width: 100% !important;
 }
@@ -190,7 +278,7 @@ body {
 }
 .app-enquiry-details-listview--kendo-card-number {
   color: var(--primary-color);
-  font-family: Arial;
+  font-family: var(--font-family-text);
   font-size: var(--text-size-2);
   font-style: normal;
   font-weight: var(--font-weight-bolder);
@@ -206,8 +294,8 @@ body {
 }
 .app-enquiry-details-listview--kendo-card-sub-title {
   color: var(--body-grey, #69727b);
-  font-family: Arial;
-  font-size: 12px;
+  font-family: var(--font-family-text);
+  font-size: var(--text-size-02);
   font-style: normal;
   font-weight: var(--font-weight-normal);
   line-height: normal;
@@ -215,8 +303,8 @@ body {
 }
 .app-enquiry-details-listview--kendo-card-sold {
   color: #383838;
-  font-family: Arial;
-  font-size: 12px;
+  font-family: var(--font-family-text);
+  font-size: var(--text-size-02);
   font-style: normal;
   font-weight: var(--font-weight-bolder);
   line-height: normal;
@@ -236,12 +324,69 @@ body {
 .app-enquiry-details-listview--information {
   border-radius: 6px;
   padding: 0.15rem 0 0 0;
-  font-family: Arial;
-  font-size: 12px;
+  font-family: var(--font-family-text);
+  font-size: var(--text-size-02);
   font-style: normal;
   font-weight: var(--font-weight-bolder);
   margin-left: 4px;
 }
+.app-enquiry-details-listview--kendo-card-comments {
+  display: flex;
+  color: #383838;
+  font-family: var(--font-family-text);
+  font-size: var(--text-size-02);
+  font-style: normal;
+  font-weight: var(--font-weight-bolder);
+  line-height: normal;
+  flex-basis: 70%;
+  justify-content: space-between;
+}
+.app-enquiry-details-listview--kendo-card-comments-left {
+  color: #383838;
+  font-family: var(--font-family-text);
+  font-size: var(--text-size-02);
+  font-style: normal;
+  font-weight: var(--font-weight-bolder);
+  line-height: normal;
+  align-items: flex-start;
+}
+.app-enquiry-details-listview--kendo-card-comments-right {
+  color: #383838;
+  font-family: var(--font-family-text);
+  font-size: var(--text-size-02);
+  font-style: normal;
+  font-weight: var(--font-weight-bolder);
+  line-height: normal;
+  align-items: flex-end;
+}  
+
+//App Locked Scrollable Container Styles
+.app-container {
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  height: 100vh;
+}
+.app-locked--container {
+  position: sticky;
+  top: 0rem;
+  width: 100%;
+  z-index: 2;
+  background-color: white;
+}
+.app-scrollable--container {
+  overflow-y: auto;
+}
+.app-screen--locked-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--primary-white);
+}
+
 
 //Kendo Form Field Styles
 .app-kendo-form--container {
@@ -263,11 +408,18 @@ body {
   width: 100%;
   gap: 0.5rem;
 }
+.app-kendo-forms--subcontent-left{
+  flex: 1;
+  padding-right: 1rem;
+}
+.app-kendo-forms--subcontent-right{
+  flex: 1;
+}
 .app-kendo--label {
   display: flex;
   margin: -0.1rem;
-  color: var(--colors-brand-black, #1c1b1b);
-  font-family: Arial;
+  color: var(--primary-black);
+  font-family: var(--font-family-text);
   font-size: var(--text-size-01);
   font-style: normal;
   font-weight: 400;
@@ -279,8 +431,8 @@ body {
   min-height: 39px;
   margin-top: 0.5rem;
   border-radius: var(--Corners, 0.5rem);
-  border: 1px solid #5cb5c1;
-  background: var(--colors-brand-white, #fff);
+  border: 1px solid var(--primary-color);
+  background: white;
 }
 .app-kendo--textarea{
   width: 100%;
@@ -291,8 +443,8 @@ body {
 }
 .app-kendo--dropdownlist {
   border-radius: var(--Corners, 0.5rem);
-  border: 1px solid #5cb5c1;
-  background: var(--colors-brand-white, #fff);
+  border: 1px solid var(--primary-color);
+  background: white;
   min-height: 39px;
 }
 .app-kendo--fileupload{
@@ -308,7 +460,7 @@ body {
 .app-kendo--error-msg {
   font-size: var(--text-size-02);
   font-style: normal;
-  font-family: Arial;
+  font-family: var(--font-family-text);
 }
 
 
@@ -332,9 +484,9 @@ body {
 .app-comments--label {
   display: flex;
   margin: -0.1rem;
-  color: var(--colors-brand-black, #1C1B1B);
+  color: var(--primary-black);
   font-size: var(--text-size-01);
-  font-family: Arial;
+  font-family: var(--font-family-text);
   font-style: normal;
   font-weight: var(--font-weight-bolder);
   line-height: normal;
@@ -343,8 +495,8 @@ body {
   display: flex;
   margin: -0.1rem;
   margin-bottom: 0;
-  color: white;
-  background-color: #5cb5c1;
+  color: var(--primary-white);
+  background-color: var(--primary-color);
   font-size: var(--text-size-01);
   padding: 0.5rem;
   font-style: normal;
@@ -357,44 +509,52 @@ body {
   height: 7.20094rem;
   flex-shrink: 0;
   border-radius: 0.75rem;
-  border: 1px solid #5cb5c1;
+  border: 1px solid var(--primary-color);
 }
 .app-comments--error-msg {
   font-size: var(--text-size-02);
   font-style: normal;
-  font-family: Arial;
+  font-family: var(--font-family-text);
 }
+
 
 //Custom Stepper Styling
 .app-screen--stepper {
   display: flex;
   align-items: center;
-  justify-content: left;
-  gap: 0.5rem;
-  margin: 0rem;
-  margin-top: 0;
-  margin-bottom: 0;
-  background-color: rgb(16, 47, 63);
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0.25rem 0.5rem 0.25rem;
+  background-color: var(--secondary-color);
+  overflow-x: auto;
+  white-space: nowrap;
 }
 .app-screen--stepper-container {
-  display: flex;
+  flex: 1;
+  display: inline-flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 0.25rem;
-  margin-left: 0.5rem;
+  margin: 0 0.5rem;
   transition: all 0.2s ease-out;
-  color: white;
-  border-bottom: 3px solid transparent;
+  color: #FFFFFF;
+  background-color: var(--secondary-color);
+  border: 2px solid transparent;
+  border-radius: 0.5rem;
+  white-space: nowrap;
 }
 .app-screen--stepper-container-content {
   font-size: 1rem;
   font-style: normal;
-  font-weight: var(--font-weight-bold);
+  font-weight: bold;
   line-height: 1.75rem;
 }
 .app-screen--stepper-container.selected {
-  border-bottom: 3px solid white;
+  background-color: var(--quaternary-color);
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  font-weight: bold;
 }
 
 
@@ -409,8 +569,8 @@ body {
   width: 100%;
   min-height: 3rem;
   border-radius: 0.5rem;
-  border: 1px solid #6eafd3;
-  color: #6eafd3;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
   background-color: #fff;
   text-align: center;
   font-size: 0.875rem;
@@ -423,10 +583,10 @@ body {
   width: 100%;
   min-height: 3rem;
   border-radius: 0.5rem;
-  background: #6eafd3;
+  background: var(--primary-color);
   border: 1px solid #fff;
   box-shadow: 0px 4px 20px 0px rgba(191, 191, 191, 0.25);
-  color: var(--colors-brand-white, #fff);
+  color: var(--primary-white);
   text-align: center;
   font-size: 0.875rem;
   font-style: normal;
@@ -441,7 +601,7 @@ body {
   background: rgb(92, 184, 92);
   border: 1px solid #fff;
   box-shadow: 0px 4px 20px 0px rgba(191, 191, 191, 0.25);
-  color: var(--colors-brand-white, #fff);
+  color: var(--primary-white);
   text-align: center;
   font-size: 0.875rem;
   font-style: normal;
@@ -454,4 +614,99 @@ body {
 }
 .app-approval-button{
   background-color: rgb(92, 184, 92);
+}
+
+
+//Margin Styles
+.margin-bottom-1{
+  margin-bottom: 1rem;
+}
+.margin-bottom-0-25{
+  margin-bottom: 0.25rem;
+}
+.margin-bottom-0-5{
+  margin-bottom: 0.5rem;
+}
+.margin-top-1{
+  margin-top: 1rem;
+}
+.margin-top-0-25{
+  margin-top: 0.25rem;
+}
+.margin-top-0-5{
+  margin-top: 0.5rem;
+}
+.no-margin{
+  margin: 0rem;
+}
+
+
+//Padding Styles
+.padding-bottom-1{
+  padding-bottom: 1rem;
+}
+.padding-bottom-0-25{
+  padding-bottom: 0.25rem;
+}
+.padding-bottom-0-5{
+  padding-bottom: 0.5rem;
+}
+.padding-top-1{
+  padding-top: 1rem;
+}
+.padding-top-0-25{
+  padding-top: 0.25rem;
+}
+.padding-top-0-5{
+  padding-top: 0.5rem;
+}
+.no-padding{
+  padding: 0rem;
+}
+
+
+//Screen Size Based Styling
+@media only screen and (min-width: 600px) {
+  .short-title {
+    display: none;
+  }
+}
+@media only screen and (max-width: 599px) {
+  .long-title {
+    display: none;
+  }
+}
+
+
+//Kendo Popover Styles
+.kendo-popover-overflow {
+  white-space: nowrap;
+  overflow: auto;
+  text-overflow: ellipsis;
+}
+.kendo-popover-title-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+.kendo-popover-title {
+  color: var(--secondary-selected);
+}
+.kendo-popover-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 5%;
+}
+.kendo-popover-container {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+.kendo-popover ul {
+  padding-inline-start: 20px;
+}
+
+
+//Grid Styles
+.app-kendo-grid{
+  margin: 1rem 1rem; 
 }

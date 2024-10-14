@@ -44,7 +44,6 @@ export class ForgotPasswordComponent implements AfterViewInit{
   
 
   onSubmit() {
-  console.log(this.loginForm);
   }
 
 }

@@ -2,9 +2,7 @@
     Price Details
     <div class="app-screen--header-tag"></div>
 </div> -->
-<div
-    class="price-details--container"
-    *ngIf="!showWorksheetAPILoader">
+<div class="app-screen--content" *ngIf="!showWorksheetAPILoader">
     <div class="price-details--card">
         <div class="price-details--header price-details-system--header">
            <p> System </p>
@@ -20,7 +18,7 @@
                 </div>      
               </div>      
               <div class="price-details-listview--kendo-card-info ">
-                {{a.soTotRateWOPLCBC | number:'1.2-2'}}
+                {{ commonService.displayDecimalFormat(a.soTotRateWOPLCBC) }}
               </div>
             </div>
             <div class="price-details-listview--kendo-card-details">
@@ -31,7 +29,7 @@
                 </div>
               </div>
               <div class="price-details-listview--kendo-card-info ">
-                {{a.totalTransOverheadBC | number:'1.2-2'}}
+                {{ commonService.displayDecimalFormat(a.totalTransOverheadBC) }}
               </div>
             </div>
             <div class="price-details-listview--kendo-card-details">
@@ -42,7 +40,7 @@
                 </div>
               </div>
               <div class="price-details-listview--kendo-card-info ">
-                {{a.grossSPBC | number:'1.2-2'}}
+                {{ commonService.displayDecimalFormat(a.grossSPBC) }}
               </div>
             </div>
           </div>
@@ -63,7 +61,7 @@
                 </div>   
               </div>         
               <div class="price-details-listview--kendo-card-info ">
-                {{a.quoteValueBC | number:'1.2-2'}}
+                {{ commonService.displayDecimalFormat(a.quoteValueBC) }}
               </div>
             </div>
             <div class="price-details-listview--kendo-card-details">
@@ -72,11 +70,11 @@
                   Discount
                 </div>
                 <div class="price-details-percentage-info">
-                  {{formatNumber(a.specialDiscountPC) | number:'1.2-2'}}&nbsp;%
+                  {{ commonService.displayDecimalFormat(formatNumber(a.specialDiscountPC)) }}&nbsp;%
                 </div> 
               </div>
               <div class="price-details-listview--kendo-card-info ">
-                {{a.discountValueBC | number:'1.2-2'}}
+                {{ commonService.displayDecimalFormat(a.discountValueBC) }}
               </div>
             </div>
             <div class="price-details-listview--kendo-card-details">
@@ -87,7 +85,7 @@
                 </div>
               </div>
               <div class="price-details-listview--kendo-card-info ">
-                {{a.quoteValueBC - a.discountValueBC | number:'1.2-2'}}
+                {{ commonService.displayDecimalFormat(a.quoteValueBC - a.discountValueBC) }}
               </div>
             </div>
             <div class="price-details-listview--kendo-card-details">
@@ -97,7 +95,7 @@
                 </div>
               </div>
               <div class="price-details-listview--kendo-card-info ">
-                {{a.taxValueBC | number:'1.2-2'}}
+                {{ commonService.displayDecimalFormat(a.taxValueBC) }}
               </div>
             </div>
           </div>
@@ -119,17 +117,15 @@
                 <div class="price-details-percentage-info" 
                   [style.background-color]="sysDiscBackgroundColor"
                   [style.border-left]="'5px solid' + sysDiscleftBorderColor">
-                  {{formatNumber((a.sowspDifferenceQC / a.grossSPQC) * 100) | number:'1.2-2'}}&nbsp;%
+                  {{ commonService.displayDecimalFormat(formatNumber((a.sowspDifferenceQC / a.grossSPQC) * 100)) }}&nbsp;%
                 </div>  
                 <div class="price-details-attachment-info">
-                  <img *ngIf="myFiles.length == 0" src="assets/app-paper-clip.svg" alt="CE" 
-                  width="30" height="30" (click)="onClickShowSysDiscAttachment()"/> 
-                  <img *ngIf="myFiles.length > 0" src="assets/app-paper-clip-green.svg" alt="CE" 
-                  width="30" height="30" (click)="onClickShowSysDiscAttachment()"/> 
+                  <img src="assets/content/images/app-paper-clip.svg" alt="CE" 
+                   width="30" height="30" (click)="onClickSuppAttachment($event)"/>  
                 </div>
               </div>    
               <div class="price-details-listview--kendo-card-info ">
-                {{a.sowspDifferenceBC | number:'1.2-2'}}
+                {{ commonService.displayDecimalFormat(a.sowspDifferenceBC) }}
               </div>
             </div>
             <div *ngIf="WorksheetPrerequisites[0].marginExcelDownloadPrivilege" class="price-details-listview--kendo-card-details">
@@ -139,11 +135,11 @@
                   <span class="long-title">Gross Margin</span>  
                 </div>
                 <div class="price-details-percentage-info">
-                  {{formatNumber(a.marginPC) | number:'1.2-2'}}&nbsp;%
+                  {{ commonService.displayDecimalFormat(formatNumber(a.marginPC)) }}&nbsp;%
                 </div> 
               </div>
               <div class="price-details-listview--kendo-card-info ">
-                {{a.marginQC * WorksheetPrerequisites[0].conversionRate | number:'1.2-2'}}
+                {{ commonService.displayDecimalFormat(a.marginQC * WorksheetPrerequisites[0].conversionRate) }}
               </div>
             </div>
             <div class="price-details-listview--kendo-card-details">
@@ -153,11 +149,11 @@
                   <span class="long-title">DRQ Discount</span>  
                 </div>
                 <div class="price-details-percentage-info">
-                  {{formatNumber(a.drqqC_PC) | number:'1.2-2'}}&nbsp;%
+                  {{ commonService.displayDecimalFormat(formatNumber(a.drqqC_PC)) }}&nbsp;%
                 </div> 
               </div>
               <div class="price-details-listview--kendo-card-info ">
-                {{a.additnSuppDiscBC | number:'1.2-2'}}
+                {{ commonService.displayDecimalFormat(a.additnSuppDiscBC) }}
               </div>
             </div>
           </div>
@@ -165,7 +161,7 @@
     </div>
 
     <form [formGroup]="priceDetails">
-      <kendo-window
+      <!-- <kendo-window
         *ngIf="showSysDiscAttachment"
         (close)="onClickShowSysDiscAttachment()"
         [minWidth]="200"
@@ -175,23 +171,24 @@
           <span class="k-window-title">System Discount Attachments</span>
           <button kendoWindowCloseAction></button>
         </kendo-window-titlebar>
-        <div class="app-comments--container worksheet-comments--container ">
-          <!-- <kendo-formfield> -->
-            <!-- <div>
-              <kendo-fileselect
-                formControlName="wsattachment"
-                #wsattachment></kendo-fileselect>
-            </div> -->
+        <div class="app-comments--container price-details-comments--container ">
             <kendo-label class="app-comments--grid">Uploaded Files</kendo-label>
             <div *ngFor="let file of myFiles; let i = index"
               class="app-kendo-attachment-files">
               <div (click)="downloadAttachment(i)">{{ file.name }}</div>
             </div>
-          <!-- </kendo-formfield> -->
         </div>
-      </kendo-window>
+      </kendo-window> -->
+
+      <app-attachment-pop-up 
+        [showAttachmentPopup]="showSysDiscAttachment"
+        (attachmentPopupClose)="onCloseAttachmentPopup()"
+        title = "System Discount Attachments"
+        [attachmentPopupDetails]="attachmentPopupDetails">
+      </app-attachment-pop-up>
+
       <div *ngIf="['Auto', '1', '2', '3', '4'].includes(worksheetDetailsCard[0].currentApprovalLevel) || [0,1].includes(worksheetDetailsCard[0].nextApprovalLevel)" 
-        class="app-comments--container worksheet-comments--container ">
+        class="app-comments--container price-details-comments--container ">
         <kendo-formfield>
           <div class="app-comments--content">
             <kendo-label class="app-comments--label"
@@ -214,7 +211,7 @@
         </kendo-formfield>
       </div>
       <div *ngIf="['2', '3', '4'].includes(worksheetDetailsCard[0].currentApprovalLevel) || worksheetDetailsCard[0].nextApprovalLevel == 2"
-        class="app-comments--container worksheet-comments--container ">
+        class="app-comments--container price-details-comments--container ">
         <kendo-formfield>
           <div class="app-comments--content">
             <kendo-label class="app-comments--label"
@@ -237,7 +234,7 @@
         </kendo-formfield>
       </div>
       <div *ngIf="worksheetDetailsCard[0].currentApprovalLevel === '3' || worksheetDetailsCard[0].nextApprovalLevel === 3 || (worksheetDetailsCard[0].currentApprovalLevel === '4' && worksheetDetailsCard[0].level3Comments != '')"
-        class="app-comments--container worksheet-comments--container ">
+        class="app-comments--container price-details-comments--container ">
         <kendo-formfield>
           <div class="app-comments--content">
             <kendo-label class="app-comments--label"
@@ -260,7 +257,7 @@
         </kendo-formfield>
       </div>
       <div *ngIf="['4'].includes(worksheetDetailsCard[0].currentApprovalLevel) || worksheetDetailsCard[0].nextApprovalLevel == 4"
-        class="app-comments--container worksheet-comments--container ">
+        class="app-comments--container price-details-comments--container ">
         <kendo-formfield>
           <div class="app-comments--content">
             <kendo-label class="app-comments--label"
@@ -283,8 +280,8 @@
         </kendo-formfield>
       </div>
     </form>
-
 </div>
+
 <div class="app-screen--loader" *ngIf="showWorksheetAPILoader">
     <kendo-loader
       type="converging-spinner"

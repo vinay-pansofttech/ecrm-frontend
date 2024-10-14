@@ -1,19 +1,15 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
-import { StepperComponent, SelectEvent  } from '@progress/kendo-angular-layout';
+import { Router,ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AppRoutePaths } from 'src/app/core/Constants';
 import { LoaderService } from 'src/app/core/services/loader.service';
-import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from 'src/app/core/services/notification.service';
-import { fileDataIcon, downloadIcon} from '@progress/kendo-svg-icons';
-import { MatIconRegistry } from '@angular/material/icon';
-import { DomSanitizer } from '@angular/platform-browser';
-import { WorksheetService, EnquiryDetails, WorkSheetSO, EnquiryProductsSO, ConfigItems, WorksheetPrerequisites } from '../../worksheet.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
-import { EnquiryDetailsService } from 'src/app/features/enquiry-details/enquiry-details.service';
-
-const logoURL = 
-"https://raw.githubusercontent.com/fireflysemantics/logo/master/l1.svg";
+import { CommonService } from 'src/app/features/common/common.service';
+import { WorksheetService, EnquiryDetails, WorkSheetSO, EnquiryProductsSO, 
+         ConfigItems, WorksheetPrerequisites, WorksheetDLCList, WorksheetMarginList,
+         WorksheetDRQList, WorksheetDRQItemsList } from '../../worksheet.service';
 
 @Component({
   selector: 'app-worksheet-approval',
@@ -21,46 +17,28 @@ const logoURL =
   styleUrls: ['./worksheet-approval.component.scss']
 })
 
-export class WorksheetApprovalComponent{
+export class WorksheetApprovalComponent implements OnInit, OnDestroy{
+  private popstateSubscription?: Subscription;
   currentStep!: number;
   showAPILoader = false;
   loaderMessage!: string;
-  invalid = false;
   isCreditExposureSelected: boolean = false;
+  isDLCSelected: boolean = false;
   isPriceDetailsSelected: boolean = false;
+  isMarginSelected: boolean = false;
+  isDRQSelected: boolean = false;
   public worksheetDetailsCard: WorkSheetSO[] = [];
-  @ViewChild('stepper', { static: true })
-  public stepper!: StepperComponent;
-  test: any;
   enqId!: number;
-  docSrcTypeWSAttachment: number = 658;
   drqStatusBackgroundColor: string = "";
   enquiryDetailsCard: EnquiryDetails[] = [];
   gridData: any[] = [];
   productItems: EnquiryProductsSO[] = [];
   configItems: ConfigItems[] = [];
   WorksheetPrerequisites: WorksheetPrerequisites[] = [];
-
-  public steps = [
-    {
-      label: 'Worksheet Details',
-      svgIcon: fileDataIcon,
-    },
-    {
-      label: 'Credit Exposure',
-      svgIcon: fileDataIcon,
-    },
-    {
-      label: 'Downloads',
-      svgIcon: downloadIcon,
-    },
-    {
-      label: 'Price Details',
-      svgIcon: fileDataIcon,
-    },
-  ];
-  current: any;
-
+  WorksheetDLCDetailsCard: WorksheetDLCList[] = [];
+  WorksheetMarginDetailsCard: WorksheetMarginList[] = [];
+  WorksheetDRQDetailsCard: WorksheetDRQList[] = [];
+  WorksheetDRQItemsDetailsCard: WorksheetDRQItemsList[] = [];
   WorksheetApprovalForm!: FormGroup;
 
   constructor(
@@ -69,37 +47,33 @@ export class WorksheetApprovalComponent{
     private router: Router,
     private route: ActivatedRoute,
     private notificationService: NotificationService,
-    private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer,
     private worksheetService: WorksheetService,
     private loginService: LoginService,
-    private enquiryDetailsService: EnquiryDetailsService
-  ) {
-    this.matIconRegistry.addSvgIcon(
-      'worksheet_invoice',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('worksheet-invoice-icon.svg')
-    );
-    this.matIconRegistry.addSvgIconLiteral('thumbs-up', this.domSanitizer.bypassSecurityTrustHtml(logoURL));
+    private commonService : CommonService
+  ){
+    const navigation = this.router.getCurrentNavigation();
+    if(navigation?.extras.state){
+      this.enqId = navigation.extras.state['id'];
+    }
   }
 
   ngOnInit(): void {
+    this.popstateSubscription = this.commonService.handleNavigationEvents(this.router.events, () => {
+      this.onBackClickHandle();
+    });
     this.loaderMessage = "";
     this.loaderService.loaderState.subscribe(res => {
       this.showAPILoader = res;
     });
     this.loaderService.hideLoader();
-    this.loaderService.loaderState.subscribe(res => {
-      this.showAPILoader = res;
-    });
-    const enqIdString = this.route.snapshot.paramMap.get('id');
-    if (enqIdString !== null) {
-      const idNumber: number = parseInt(enqIdString, 10);
-      this.enqId = idNumber;   
-    }
     this.getEnquiryDetails(this.enqId);
     this.getWorksheetDetails(this.enqId);
     this.WorksheetApprovalForm = this.formBuilder.group({
       creditExposure: new FormGroup({
+      }),
+      DLC: new FormGroup({
+      }),
+      DRQ: new FormGroup({
       }),
       priceDetails: new FormGroup({
         amComments: new FormControl('', Validators.required),
@@ -107,30 +81,19 @@ export class WorksheetApprovalComponent{
         mgmtComments: new FormControl('', Validators.required),
         finComments: new FormControl('', Validators.required),
         wsattachment: new FormControl('', [Validators.nullValidator]),
+      }),
+      WSMargin: new FormGroup({
       })
     });
-    this.onCreditExposureClick();
+    this.onStepperClick(0);
+  }
+
+  ngOnDestroy(): void {
+    this.popstateSubscription?.unsubscribe();
   }
 
   public get currentGroup(): FormGroup {
     return this.getGroupAt(this.currentStep);
-  }
-
-  onStepSelect(event: any): void{
-    this.ngOnInit();
-  }
-  
-  public next(): void {
-    if (this.currentGroup.valid && this.currentStep !== this.steps.length) {
-      this.currentStep += 1;
-      return;
-    }
-    this.currentGroup.markAllAsTouched();
-    this.stepper.validateSteps();
-  }
-
-  public prev(): void {
-    this.currentStep -= 1;
   }
 
   private getGroupAt(index: number): FormGroup {
@@ -173,10 +136,13 @@ export class WorksheetApprovalComponent{
       this.worksheetService.worksheetDetailsCard = data;
       this.worksheetDetailsCard = data;
       this.getWorksheetPrerequisites(this.worksheetService.worksheetDetailsCard[0].enqId);
+      this.getWorksheetDLCDetails(enqId);
+      this.getWorksheetMarginDetails(enqId);
+      this.getWorksheetDRQDetails(enqId);
+      this.getWorksheetDRQItemsDetails(enqId);
       this.getPaymentTerms(this.worksheetService.worksheetDetailsCard[0].enqId,this.worksheetService.worksheetDetailsCard[0].workSheetId);
       this.getProductItems(this.worksheetService.worksheetDetailsCard[0].enqId);
       this.getConfigItems(this.worksheetService.worksheetDetailsCard[0].enqId);
-      this.getAttachmentDetails(this.worksheetService.worksheetDetailsCard[0].workSheetId.toString());
       this.loaderService.hideLoader();
       this.loaderMessage = "";
     });
@@ -188,6 +154,37 @@ export class WorksheetApprovalComponent{
       this.WorksheetPrerequisites = data;
     });
   }
+
+  getWorksheetDLCDetails(enqId: number){
+    this.worksheetService.getWorksheetDLCDetails(enqId).subscribe((data: any) => {
+      this.WorksheetDLCDetailsCard = data.map((item: WorksheetDLCList) => ({
+        ...item,
+        isDescriptionOpen: false
+      }));
+      this.worksheetService.WorksheetDLCDetailsCard = this.WorksheetDLCDetailsCard;
+    });
+  }
+
+  getWorksheetMarginDetails(enqId: number){
+    this.worksheetService.getWorksheetMarginDetails(enqId).subscribe((data: any) => {
+      this.worksheetService.WorksheetMarginDetailsCard = data;
+      this.WorksheetMarginDetailsCard = data;
+    });
+  }
+
+  getWorksheetDRQDetails(enqId: number){
+    this.worksheetService.getWorksheetDRQDetails(enqId).subscribe((data: any) => {
+      this.worksheetService.WorksheetDRQDetailsCard = data;
+      this.WorksheetDRQDetailsCard = data;
+    });
+  }
+
+  getWorksheetDRQItemsDetails(enqId: number){
+    this.worksheetService.getWorksheetDRQItemsDetails(enqId).subscribe((data: any) => {
+      this.worksheetService.WorksheetDRQItemsDetailsCard = data;
+      this.WorksheetDRQItemsDetailsCard = data;
+    });
+  }  
 
   getPaymentTerms(enqId: number, worksheetId: number){
     this.worksheetService.getPaymentTerms(enqId,worksheetId).subscribe((data: any) => {
@@ -210,45 +207,42 @@ export class WorksheetApprovalComponent{
     });
   }
 
-  getAttachmentDetails(wsID: string){
-    this.enquiryDetailsService.getAttachmentDetails(wsID, this.docSrcTypeWSAttachment,"").subscribe((data: any) => {
-      if(data!=null){
-        this.worksheetService.wsattachments = data;
-        console.log('this.worksheetService.attachments',data);
-      }
-      else{
-        this.worksheetService.wsattachments = null;
-        console.log('this.worksheetService.attachments',data);
-      }
-    });
-  }
-
-  onCreditExposureClick(){
-    this.currentStep = 0;
-    this.isCreditExposureSelected = true;
-    this.isPriceDetailsSelected = false;
-  }
-
-  onPriceDetailsClick(){
-    this.currentStep = 1;
+  onStepperClick(currentStep: number){
     this.isCreditExposureSelected = false;
-    this.isPriceDetailsSelected = true;
-    console.log('worksheet Details', this.worksheetDetailsCard);
-    console.log('worksheet Prereq', this.WorksheetPrerequisites);
+    this.isDLCSelected = false;
+    this.isPriceDetailsSelected = false;
+    this.isMarginSelected = false;
+    this.isDRQSelected = false;
+    this.currentStep = currentStep;
+
+    if(currentStep == 0){
+      this.isCreditExposureSelected = true;
+    }
+    else if(currentStep == 1){
+      this.isDLCSelected = true;
+    }
+    else if(currentStep == 2){
+      this.isDRQSelected = true;
+    }
+    else if(currentStep == 3){
+      this.isPriceDetailsSelected = true;
+    }
+    else if(currentStep == 4){
+      this.isMarginSelected = true;
+    }
+
   }
-  
+
   approveWorksheet(){
     if (!this.validateComments()) {
       this.WorksheetApprovalForm.markAllAsTouched();
     }
     else if (this.validateComments()) {
-      console.log("Worksheet Form", this.WorksheetApprovalForm.value);
       this.loaderMessage = "Approving Worksheet..."
       this.loaderService.showLoader();
       this.worksheetService
-      .postApproveEnquiry(this.WorksheetApprovalForm.value, this.enqId)
+      .postSave_App_Rej_Enquiry(this.WorksheetApprovalForm.value, this.enqId, "Approve")
       .subscribe((data: any) => {
-        console.log('on save', data);
         this.loaderService.hideLoader();
         this.loaderMessage = "";
         if (data) {
@@ -261,7 +255,7 @@ export class WorksheetApprovalComponent{
             'bottom'
           );
         }
-        this.router.navigate(['/worksheet-details']);
+        this.router.navigate([AppRoutePaths.WorksheetDetails]);
       },
       error => {
         this.loaderService.hideLoader();
@@ -279,13 +273,11 @@ export class WorksheetApprovalComponent{
   }
 
   saveWorksheet(): void{
-      console.log("Worksheet Form", this.WorksheetApprovalForm.value);
       this.loaderMessage = "Saving Worksheet..."
       this.loaderService.showLoader();
       this.worksheetService
-        .postSaveEnquiry(this.WorksheetApprovalForm.value, this.enqId)
+        .postSave_App_Rej_Enquiry(this.WorksheetApprovalForm.value, this.enqId, "Save")
         .subscribe((data: any) => {
-          console.log('on save', data);
           this.loaderService.hideLoader();
           this.loaderMessage = "";
           if (data) {
@@ -298,7 +290,7 @@ export class WorksheetApprovalComponent{
               'bottom'
             );
           }
-          this.router.navigate(['/worksheet-details']);
+          this.router.navigate([AppRoutePaths.WorksheetDetails]);
         },
         error => {
           this.loaderService.hideLoader();
@@ -317,13 +309,11 @@ export class WorksheetApprovalComponent{
     //   this.WorksheetApprovalForm.markAllAsTouched();
     // }
     // if (this.WorksheetApprovalForm.valid) {
-      console.log("Worksheet Form", this.WorksheetApprovalForm.value);
       this.loaderMessage = "";
       this.loaderService.showLoader();
       this.worksheetService
-        .postRejectEnquiry(this.WorksheetApprovalForm.value, this.enqId)
+        .postSave_App_Rej_Enquiry(this.WorksheetApprovalForm.value, this.enqId, "Reject")
         .subscribe((data: any) => {
-          console.log('on save', data);
           this.loaderService.hideLoader();
           this.loaderMessage = "";
           if (data) {
@@ -336,8 +326,7 @@ export class WorksheetApprovalComponent{
               'bottom'
             );
           }
-          this.ngOnInit();
-          this.onPriceDetailsClick();
+          this.router.navigate([AppRoutePaths.WorksheetDetails]);
         },
         error => {
           this.loaderService.hideLoader();
@@ -394,21 +383,12 @@ export class WorksheetApprovalComponent{
   }
 
   onBackClickHandle() {
-    this.router.navigate(['worksheet-details']);
+    this.router.navigate([AppRoutePaths.WorksheetDetails]);
     this.worksheetService.resetValues();
   }
 
   onReset() {
     this.ngOnInit();
-  }
-
-  onTabSelect(e: SelectEvent): void {
-    if(e.index == 0){
-      this.onCreditExposureClick();
-    }
-    else if(e.index == 1){
-      this.onPriceDetailsClick();
-    }
   }
 
 }

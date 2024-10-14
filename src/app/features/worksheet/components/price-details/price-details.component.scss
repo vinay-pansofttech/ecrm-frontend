@@ -4,12 +4,12 @@
   flex-shrink: 0;
 }
 .price-details--header{
-  background-color: #5cb5c1;
+  background-color: var(--primary-color);
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   color: #ffffff;
   font-size: var(--text-size-01);
-  font-family: Arial;
+  font-family: var(--font-family-text);
   font-style: normal;
   font-weight: var(--font-weight-bolder);
   padding-left: 1.25rem;
@@ -30,8 +30,8 @@
 }
 .price-details-listview--kendo-card-sub-title {
   color: #69727b;
-  font-size: 12px;
-  font-family: Arial;
+  font-size: var(--text-size-02);
+  font-family: var(--font-family-text);
   font-weight: var(--font-weight-bolder);
   line-height: normal;
   flex-basis: 50%;
@@ -43,43 +43,10 @@
   justify-content: left;
   margin:0.25rem;
 }
-
-.price-details-listview--kendo-card-sub-title {
-  display: none;
-}
-
-@media only screen and (min-width: 600px) {
-  .price-details-listview--kendo-card-sub-title .short-title {
-    display: none;
-  }
-  .price-details-listview--kendo-card-sub-title {
-    display: block;
-  }
-}
-
-@media only screen and (max-width: 599px) {
-  .price-details-listview--kendo-card-sub-title .long-title {
-    display: none;
-  }
-  .price-details-listview--kendo-card-sub-title {
-    display: block;
-  }
-}
-
-.price-details-listview--kendo-card-percentage{
-  color: #69727b;
-  font-size: 12px;
-  font-family: Arial;
-  font-weight: var(--font-weight-bolder);
-  display: flex;
-  flex-basis: 25%;
-  align-items: center;
-  justify-content: center;
-}
 .price-details-percentage-info{
   color: #69727b;
-  font-size: 12px;
-  font-family: Arial;
+  font-size: var(--text-size-02);
+  font-family: var(--font-family-text);
   font-weight: var(--font-weight-bolder);
   line-height: normal;
   background-color: #d6ebff;
@@ -105,16 +72,10 @@
   justify-content: left;
   align-items: center;
 }
-.price-details--kendo-card-details--header{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-}
 .price-details-listview--kendo-card-info {
   color: #69727b;
-  font-size: 12px;
-  font-family: Arial;
+  font-size: var(--text-size-02);
+  font-family: var(--font-family-text);
   font-weight: var(--font-weight-bolder);
   line-height: normal;
   flex-basis: 35%;
@@ -137,56 +98,15 @@
   box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.05);
   width: 100% !important;
 }
-.k-textbox{
-  border-color: rgba(0, 0, 0, 0.459);
-}  
-.worksheet-comments--container {
+.price-details-comments--container {
   margin: 1.5rem;
   margin-top: 0rem;
   margin-bottom: 0.25rem;
 }
-.worksheet-comments--content {
-  display: flex;
-  min-width: 100%;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.5rem;
-}
-.worksheet-comments--label {
-  display: flex;
-  margin: -0.1rem;
-  color: var(--colors-brand-black, #1C1B1B);
-  font-size: var(--text-size-01);
-  font-family: Arial;
-  font-style: normal;
-  font-weight: var(--font-weight-bolder);
-  line-height: normal;
-}
-.worksheet-comments--grid {
-  display: flex;
-  margin: -0.1rem;
-  margin-bottom: 0;
-  color: white;
-  background-color: #5cb5c1;
-  font-size: var(--text-size-01);
-  padding: 0.5rem;
-  font-style: normal;
-  font-weight: var(--font-weight-bolder);
-  line-height: 150%;
-  letter-spacing: 0.00438rem;
-}
-.worksheet-comments--textarea {
-  width: 100%;
-  height: 7.20094rem;
-  flex-shrink: 0;
-  border-radius: 0.75rem;
-  border: 1px solid #5cb5c1;
-}
-.worksheet-comments--error-msg {
-  font-size: var(--text-size-02);
-  font-style: normal;
-  font-family: Arial;
-}
+
+.k-textbox{
+  border-color: rgba(0, 0, 0, 0.459);
+}  
 .k-window-title{
-  color: black;
+  color: var(--primary-black);
 }

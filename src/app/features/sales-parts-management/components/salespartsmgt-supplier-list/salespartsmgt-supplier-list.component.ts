@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { FileInfo } from "@progress/kendo-angular-upload";
-import { SalesPartsManagementService, SPMSupplierListItem, RemarksMessage} from '../../sales-parts-management.service';
+import { Subscription } from 'rxjs';
+import { AppRoutePaths } from 'src/app/core/Constants';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
-import { EnquiryDetailsService } from 'src/app/features/enquiry-details/enquiry-details.service';
+import { SalesPartsManagementService, SPMSupplierListItem } from '../../sales-parts-management.service';
+import { CommonService, AttachmentPopupDetails } from 'src/app/features/common/common.service';
+
 
 @Component({
   selector: 'app-salespartsmgt-supplier-list',
@@ -13,35 +15,43 @@ import { EnquiryDetailsService } from 'src/app/features/enquiry-details/enquiry-
   styleUrls: ['./salespartsmgt-supplier-list.component.scss']
 })
 
-export class SalespartsmgtSupplierListComponent {
+export class SalespartsmgtSupplierListComponent implements OnInit, OnDestroy {
+  private popstateSubscription?: Subscription;
   public showSPMAPILoader = false;
-  myFiles: Array<FileInfo> = [];
-
   supplierCards: SPMSupplierListItem[] = [];
-  showSuppAttachment: boolean = false;
   enqId!: number;
-  docSrcTypeSuppAttachment: number = 58;
 
+  //Attachment Pop up related variables
+  showSuppAttachment: boolean = false;
+  attachmentPopupDetails: AttachmentPopupDetails [] = [];
+  
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private loaderService: LoaderService,
     private loginService: LoginService,
     private spmService: SalesPartsManagementService,
-    private enquiryDetailsService: EnquiryDetailsService
-  ){}
+    public commonService : CommonService
+  ){
+    const navigation = this.router.getCurrentNavigation();
+    if(navigation?.extras.state){
+      this.enqId = navigation.extras.state['id'];
+    }
+  }
 
   ngOnInit() {
+    this.popstateSubscription = this.commonService.handleNavigationEvents(this.router.events, () => {
+      this.onBackClickHandle();
+    });
     this.loaderService.loaderState.subscribe(res => {
       this.showSPMAPILoader = res;
     });
     this.loaderService.hideLoader();
-    const enqIdString = this.route.snapshot.paramMap.get('id');
-    if (enqIdString !== null) {
-      const idNumber: number = parseInt(enqIdString, 10);
-      this.enqId = idNumber;   
-    }
     this.getSPMSupplierlist();
+  }
+
+  ngOnDestroy(): void {
+    this.popstateSubscription?.unsubscribe();
   }
 
   getSPMSupplierlist() {
@@ -65,23 +75,23 @@ export class SalespartsmgtSupplierListComponent {
     });
   }
 
-  getAttachmentDetails(suppDocId: string, attachmentGUID: string){
-    this.enquiryDetailsService.getAttachmentDetails(suppDocId, this.docSrcTypeSuppAttachment, attachmentGUID).subscribe((data: any) => {
-      if(data!=null)
-        this.myFiles = data;
-      else
-        this.myFiles = [];
+  onClickSuppAttachment(docSrcVal: number, docSrcType: number, docSrcGUID: string, event: MouseEvent | TouchEvent | null){
+    this.attachmentPopupDetails = [];
+    this.attachmentPopupDetails.push({
+      docSrcVal: docSrcVal as unknown as string,
+      docSrcType: docSrcType,
+      docSrcGUID: docSrcGUID,
+      touchEvent: event
     });
+    this.showSuppAttachment = !this.showSuppAttachment;
   }
 
-  onClickSuppAttachment(suppDocId: number, attachmentGUID: string){
-    if(suppDocId != 0)
-      this.getAttachmentDetails(suppDocId as unknown as string,attachmentGUID);
+  onCloseAttachmentPopup(){
     this.showSuppAttachment = !this.showSuppAttachment;
   }
 
   navigateById(supplierID: number) {
-    this.router.navigate(['/sales-parts-management-approval',this.enqId,supplierID]);
+    this.router.navigate([AppRoutePaths.SalesPartsManagementApproval], {state: {id: this.enqId, suppId: supplierID}});
   }
 
   onReset(){
@@ -89,21 +99,7 @@ export class SalespartsmgtSupplierListComponent {
   }
 
   onBackClickHandle(){
-    this.router.navigate(['/sales-parts-management']);
-  }
-
-  downloadAttachment(suppDocId: number, attachmentGUID: string, index: number) {
-    this.enquiryDetailsService.getAttachment(suppDocId.toString(), this.docSrcTypeSuppAttachment, attachmentGUID, index).subscribe((response) => {
-      const contentType = response.headers.get('content-type')!;
-      const filename = this.myFiles[index].name;
-      const blob = new Blob([response.body!], { type: contentType });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = filename || 'attachment';
-      link.click();
-      window.URL.revokeObjectURL(url);
-    });
+    this.router.navigate([AppRoutePaths.SalesPartsManagementList]);
   }
 
 }

@@ -1,14 +1,14 @@
 .login-page--main-container {
   background:
-    url('../../../../../assets/login-images/login-page-flow.svg') bottom 0 left
+    url('../../../../../assets/content/images/login-images/login-page-flow.svg') bottom 0 left
       0 no-repeat,
-    url('../../../../../assets/login-images/login-page-flow-bottom.svg') bottom
+    url('../../../../../assets/content/images/login-images/login-page-flow-bottom.svg') bottom
       0 right 4rem no-repeat,
-    url('../../../../../assets/login-images/login-page-flow-left-middle.svg')
+    url('../../../../../assets/content/images/login-images/login-page-flow-left-middle.svg')
       top 25rem left 0 no-repeat,
-    url('../../../../../assets/login-images/login-page-flow-right-top.svg') top
+    url('../../../../../assets/content/images/login-images/login-page-flow-right-top.svg') top
       5rem right 0 no-repeat,
-    url('../../../../../assets/login-images/login-page-flow-right-bottom.svg')
+    url('../../../../../assets/content/images/login-images/login-page-flow-right-bottom.svg')
       bottom 8rem right 0 no-repeat;
 }
 
@@ -21,7 +21,7 @@
 .login-page--title {
   color: #262626;
   text-align: center;
-  font-family: Arial;
+  font-family: var(--font-family-text);
   font-size: var(--text-size-7);
   font-style: normal;
   font-weight: var(--font-weight-bolder);
@@ -91,7 +91,7 @@
   color: #0f0f0f;
   border-radius: 6px;
   min-height: 55px;
-  background: #6eafd3;
+  background: var(--primary-color);
   text-align: center;
   width: 100%;
   font-family: var(--font-family-lato);

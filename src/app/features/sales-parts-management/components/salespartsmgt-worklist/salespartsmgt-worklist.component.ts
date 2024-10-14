@@ -1,37 +1,47 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SalesPartsManagementService, SPMWorklistItem} from '../../sales-parts-management.service';
+import { Subscription } from 'rxjs';
+import { process, State } from '@progress/kendo-data-query';
+import { AppRoutePaths } from 'src/app/core/Constants';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
-import { process, State } from '@progress/kendo-data-query';
+import { CommonService } from 'src/app/features/common/common.service';
+import { SalesPartsManagementService, SPMWorklistItem} from '../../sales-parts-management.service';
 
 @Component({
   selector: 'app-salespartsmgt-worklist',
   templateUrl: './salespartsmgt-worklist.component.html',
   styleUrls: ['./salespartsmgt-worklist.component.scss']
 })
-export class SalespartsmgtWorklistComponent {
+export class SalespartsmgtWorklistComponent implements OnInit, OnDestroy {
+  private popstateSubscription?: Subscription;
   public showSPMAPILoader = false;
   contactCards: SPMWorklistItem[] = [];
   pageSize = 3;
   filteredCards: SPMWorklistItem[] = [];
-  skip = 0;
-  total = 0;
   searchTerm = '';
 
   constructor(
     private router: Router,
     private loaderService: LoaderService,
     private loginService: LoginService,
-    private spmService: SalesPartsManagementService
+    private commonService: CommonService,
+    public spmService: SalesPartsManagementService
   ){}
 
   ngOnInit() {
+    this.popstateSubscription = this.commonService.handleNavigationEvents(this.router.events, () => {
+      this.onBackClickHandle();
+    });
     this.loaderService.loaderState.subscribe(res => {
       this.showSPMAPILoader = res;
     });
     this.loaderService.hideLoader();
     this.getSPMWorklist();
+  }
+
+  ngOnDestroy(): void {
+    this.popstateSubscription?.unsubscribe();
   }
 
   getSPMWorklist() {
@@ -60,31 +70,31 @@ export class SalespartsmgtWorklistComponent {
             a.customer.toLowerCase().includes(this.searchTerm.toLowerCase())) 
       );
     }
-    this.total = this.filteredCards.length;
+    this.spmService.total = this.filteredCards.length;
     this.applyPagination();
   }
 
   applyPagination(): void {
     const state: State = {
-      skip: this.skip,
+      skip: this.spmService.skip,
       take: this.pageSize,
     };
     const processed = process(this.filteredCards, state);
     this.filteredCards = processed.data;
-    this.total = processed.total;
+    this.spmService.total = processed.total;
   }
 
   onPageChange(state: State): void {
-    this.skip = state.skip as number;
+    this.spmService.skip = state.skip as number;
     this.filterData();
   }
 
   navigateById(enqId: number) {
     this.spmService.getSPMSupplierList(this.loginService.employeeId as number,enqId).subscribe((data: any) => {
       if(data.length > 0)
-        this.router.navigate(['sales-parts-management-supplist',enqId]);
+        this.router.navigate([AppRoutePaths.SalesPartsManagementSupplierList], {state: {id: enqId}});
       else
-        this.router.navigate(['sales-parts-management-approval',enqId,0]);
+        this.router.navigate([AppRoutePaths.SalesPartsManagementApproval], {state: {id: enqId, suppId: 0}});
     });
   }
 
@@ -93,6 +103,7 @@ export class SalespartsmgtWorklistComponent {
   }
 
   onBackClickHandle(){
-    this.router.navigate(['dashboard']);
+    this.spmService.resetPaginationValues();
+    this.router.navigate([AppRoutePaths.Dashboard]);
   }
 }

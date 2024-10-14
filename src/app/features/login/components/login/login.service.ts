@@ -1,23 +1,39 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AppSettingsConfigKey } from 'src/app/core/Constants';
+import { ConfigService } from 'src/app/core/services/config.service';
+
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-  private loginUrl = `${AppSettingsConfigKey.APIURL}/api/Login/CheckLoginDetails`;
+  private loginUrl = `${this.configService.apiUrl}/api/Login/CheckLoginDetails`;
+  private logoutUrl = `${this.configService.apiUrl}/api/Login/UserLogout`;
+
   public employeeId: string | number = '';
   private employeeName = '';
+  public tokenId: string = '';
   public privileges: string[] = [];
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService,
+  ) {}
+
   loginUser(body: unknown) {
-    const url = `${this.loginUrl}`;
-    return this.http.post(url, body);
+    return this.http.post(this.loginUrl, body);
   }
+
   getEmployeeName(): string {
     return this.employeeName;
   }
+
   setEmployeeName(name: string): void {
     this.employeeName = name;
+  }
+  
+  logoutUser(){
+    const body = {
+      UserID: this.employeeId as number,
+    }
+    return this.http.post(this.logoutUrl, body);
   }
 }

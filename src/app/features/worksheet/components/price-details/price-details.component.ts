@@ -1,9 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { FileInfo } from "@progress/kendo-angular-upload";
 import { WorksheetService, WorkSheetSO, WorksheetPrerequisites } from '../../worksheet.service';
-import { EnquiryDetailsService } from 'src/app/features/enquiry-details/enquiry-details.service';
-
+import { CommonService, AttachmentPopupDetails } from 'src/app/features/common/common.service';
 
 @Component({
   selector: 'app-price-details',
@@ -11,7 +9,6 @@ import { EnquiryDetailsService } from 'src/app/features/enquiry-details/enquiry-
   styleUrls: ['./price-details.component.scss'],
 })
 export class PriceDetailsComponent implements OnInit,OnChanges{
-  myFiles: Array<FileInfo> = [];
   @Input() public priceDetails!: FormGroup;
   public showWorksheetAPILoader = false;
   @Input() public worksheetDetailsCard!: WorkSheetSO[];
@@ -19,22 +16,21 @@ export class PriceDetailsComponent implements OnInit,OnChanges{
   sysDiscBackgroundColor: string = '';
   sysDiscleftBorderColor: string = '';
   sysDisc!: number;
-  docSrcTypeWSAttachment: number = 658;
+
+  //Attachment Pop up related variables 
   showSysDiscAttachment: boolean = false;
+  attachmentPopupDetails: AttachmentPopupDetails [] = [];
 
   constructor(
     private worksheetService: WorksheetService,
     private formBuilder: FormBuilder,
-    private enquiryDetailsService: EnquiryDetailsService
+    public  commonService: CommonService
   ){}
 
   ngOnInit(){
     this.worksheetDetailsCard = this.worksheetService.worksheetDetailsCard;
     this.patchComments();
     this.SystemDiscount();
-    if(this.worksheetService.wsattachments != null){
-      this.myFiles = this.worksheetService.wsattachments;
-    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -78,23 +74,19 @@ export class PriceDetailsComponent implements OnInit,OnChanges{
     }
   }
 
-  onClickShowSysDiscAttachment(){
+  onClickSuppAttachment(event: MouseEvent | TouchEvent | null){
+    this.attachmentPopupDetails = [];
+    this.attachmentPopupDetails.push({
+      docSrcVal: this.worksheetDetailsCard[0].workSheetId.toString(),
+      docSrcType: this.commonService.docSrcTypeWSAttachment,
+      docSrcGUID: "",
+      touchEvent: event
+    });
     this.showSysDiscAttachment = !this.showSysDiscAttachment;
-    console.log('files',this.myFiles);
   }
 
-  downloadAttachment(index: number) {
-    this.enquiryDetailsService.getAttachment(this.worksheetDetailsCard[0].workSheetId.toString(), this.docSrcTypeWSAttachment, "", index).subscribe((response) => {
-      const contentType = response.headers.get('content-type')!;
-      const filename = this.myFiles[index].name;
-      const blob = new Blob([response.body!], { type: contentType });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = filename || 'attachment';
-      link.click();
-      window.URL.revokeObjectURL(url);
-    });
+  onCloseAttachmentPopup(){
+    this.showSysDiscAttachment = !this.showSysDiscAttachment;
   }
 
 }

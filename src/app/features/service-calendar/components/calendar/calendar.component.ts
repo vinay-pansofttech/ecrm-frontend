@@ -1,50 +1,42 @@
-import { Component, OnInit} from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ServiceCalendarService } from '../../service-calendar.service';
+import { Component, OnInit, OnDestroy} from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AppRoutePaths } from 'src/app/core/Constants';
+import { ServiceCalendarService, callsList } from '../../service-calendar.service';
+import { CommonService } from 'src/app/features/common/common.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { DatePipe } from '@angular/common';
-
-
-interface CallsList {
-  srid: number;
-  ueu: string;
-  siteName: string;
-  contactName: string;
-  phoneNumber: string;
-  primaryAddress: string;
-  email: string;
-  gpsCoordinate: string;
-  productName: string;
-  manufacturer: string;
-  serialNumber: string;
-  callCategory: string;
-  callType: string;
-  callDescription: string;
-}
 
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })
-export class CalendarComponent implements OnInit{
+export class CalendarComponent implements OnInit, OnDestroy{
   currentDate: Date = new Date();
   selectedDate: Date = new Date();
   isCalendarOpen: boolean = false;
-  schCallCards: CallsList[] = [];
+  schCallCards: callsList[] = [];
   SRID: number = 0;
   showAPILoader = false;
+  private popstateSubscription?: Subscription;
+
 
   constructor(
     private router: Router,
     private serviceCalendarService: ServiceCalendarService,
     private loginService: LoginService,
     private loaderService: LoaderService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    public commonService: CommonService,
   ) {}
 
   ngOnInit() {
+    this.popstateSubscription = this.commonService.handleNavigationEvents(this.router.events, () => {
+      this.onBackClickHandle();
+    });
+
     if( this.serviceCalendarService.selectedDate != undefined){
       this.currentDate = this.serviceCalendarService.selectedDate;
     }
@@ -52,16 +44,19 @@ export class CalendarComponent implements OnInit{
       this.showAPILoader = res;
     });
     this.loaderService.hideLoader();
-    this.enquiryList();
+    this.scheduledCallsList();
   }
 
-  enquiryList() {
+  ngOnDestroy(): void {
+    this.popstateSubscription?.unsubscribe();
+  }
+
+  scheduledCallsList() {
     this.loaderService.showLoader();
     this.serviceCalendarService.getScheduledCalls(this.loginService.employeeId as number, this.currentDate).subscribe((data: any) => {
       this.schCallCards = data;
       this.serviceCalendarService.selectedDate = this.currentDate;
       this.loaderService.hideLoader();
-      console.log('calls',this.schCallCards);
     },
     error => {
       this.loaderService.hideLoader();;
@@ -70,35 +65,39 @@ export class CalendarComponent implements OnInit{
 
   onBackClickHandle() {
     this.serviceCalendarService.selectedDate = new Date();
-    this.router.navigate(['/dashboard']);
+    this.serviceCalendarService.resetValues();
+    this.router.navigate([AppRoutePaths.Dashboard]);
   }
 
   onPrevDateClickHandle() {
     const newDate = new Date(this.currentDate);
     newDate.setDate(newDate.getDate() - 1);
     this.currentDate = newDate;  
-    this.enquiryList();
+    this.scheduledCallsList();
   }
 
   onNextDateClickHandle() {
     const newDate = new Date(this.currentDate);
     newDate.setDate(newDate.getDate() + 1);
     this.currentDate = newDate;  
-    this.enquiryList();
+    this.scheduledCallsList();
   }
 
   updateServiceCalendarDate(newDate: Date) {
     this.currentDate = newDate;
     this.isCalendarOpen = false;
-    this.enquiryList();
+    this.scheduledCallsList();
   }
 
   openCloseCalendar() {
     this.isCalendarOpen = !this.isCalendarOpen;
   }
 
-  onScheduledCallClick(SRID: number) {
-    this.router.navigate(['/service-efforts-listview',SRID,this.convertDateFormat(this.currentDate)]);
+  onScheduledCallClick(SRID: number, index: number) {
+    this.serviceCalendarService.selectedSRID = SRID;
+    this.serviceCalendarService.selectedCallCompletion = this.schCallCards[index].isCallCompleted;
+    this.serviceCalendarService.selectedCallCat = this.schCallCards[index].callCategory;
+    this.router.navigate([AppRoutePaths.SRLC],{state: {id: SRID, date: this.commonService.displayDateFormat(this.currentDate)}});
   }
 
   convertDateFormat(currentDate: Date){
@@ -121,7 +120,8 @@ export class CalendarComponent implements OnInit{
   }
 
   onRefresh(){
-    this.enquiryList();
+    this.scheduledCallsList();
+    this.serviceCalendarService.resetValues();
   }
 
 }

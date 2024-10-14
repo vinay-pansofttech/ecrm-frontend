@@ -4,6 +4,7 @@ import { KendoModule } from 'src/app/kendo.module';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { LoginModule } from '../login/login.module';
 import { FormsModule } from '@angular/forms';
+import { CommonFeaturesModule } from '../common/common.module';
 
 import { SalespartsmgtWorklistComponent } from './components/salespartsmgt-worklist/salespartsmgt-worklist.component';
 import { SalespartsmgtSupplierListComponent } from './components/salespartsmgt-supplier-list/salespartsmgt-supplier-list.component';
@@ -22,6 +23,7 @@ import { SalesPartsManagementRoutingModule } from './sales-parts-management-rout
     LayoutModule,
     LoginModule,
     FormsModule,
+    CommonFeaturesModule,
     SalesPartsManagementRoutingModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

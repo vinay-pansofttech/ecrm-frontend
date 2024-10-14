@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   FormGroup,
   FormControl,
@@ -6,22 +6,25 @@ import {
   FormBuilder,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { StepperComponent } from '@progress/kendo-angular-layout';
+import { AppRoutePaths } from 'src/app/core/Constants';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { EnquiryDetailsService } from '../../enquiry-details.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { FormStateService } from '../../form-state.service';
+import { CommonService } from 'src/app/features/common/common.service';
 
 @Component({
   selector: 'app-enquiry-details',
   templateUrl: './enquiry-details.component.html',
   styleUrls: ['./enquiry-details.component.scss'],
 })
-export class EnquiryDetailsComponent implements OnInit {
+export class EnquiryDetailsComponent implements OnInit, OnDestroy {
+  private popstateSubscription?: Subscription;
   public currentStep = 0;
   showAPILoader = false;
   invalid = false;
-  public getAddEnquiry: unknown = [];
   @ViewChild('stepper', { static: true })
   public stepper!: StepperComponent;
 
@@ -67,16 +70,21 @@ export class EnquiryDetailsComponent implements OnInit {
     public enquiryDetailsService: EnquiryDetailsService,
     private router: Router,
     private notificationService: NotificationService,
-    private formStateService: FormStateService
+    private formStateService: FormStateService,
+    private commonService: CommonService
   ) {}
+
   ngOnInit(): void {
+    this.popstateSubscription = this.commonService.handleNavigationEvents(this.router.events, () => {
+      this.onBackClickHandle();
+    });
     this.loaderService.loaderState.subscribe(res => {
       this.showAPILoader = res;
     });
     this.loaderService.hideLoader();
     this.formStateService.resetValues();
     this.enquiryCaptureForm = this.formBuilder.group({
-      contactDteails: new FormGroup({
+      contactDetails: new FormGroup({
         soldToContact: new FormControl('', Validators.required),
         soldToSite: new FormControl('', Validators.required),
         soldToLE: new FormControl(
@@ -105,6 +113,10 @@ export class EnquiryDetailsComponent implements OnInit {
     this.loaderService.loaderState.subscribe(res => {
       this.showAPILoader = res;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.popstateSubscription?.unsubscribe();
   }
 
   onStepSelect(event: any): void{
@@ -136,17 +148,17 @@ export class EnquiryDetailsComponent implements OnInit {
     if (this.enquiryCaptureForm.valid) {
       this.loaderService.showLoader();
       this.enquiryDetailsService
-        .getAddEnquiry(this.enquiryCaptureForm.value)
+        .AddEnquiry(this.enquiryCaptureForm.value)
         .subscribe((data: any) => {
           this.loaderService.hideLoader();
           
           const notificationMessage = data.outPut.startsWith('Success') || data.outPut == "" ? 'Enquiry Created Successfully' : data.outPut;
-
+          const notificationType = data.outPut.indexOf('Success') !== -1 ? 'success' : 'error';
           this.notificationService.showNotification(
               notificationMessage,
-              'success', 'center', 'bottom'
+              notificationType, 'center', 'bottom'
           );
-          this.router.navigate(['/enquiry-listview']);
+          this.router.navigate([AppRoutePaths.EnquiryDetailsListView]);
         },
         error => {
           this.loaderService.hideLoader();;
@@ -170,8 +182,8 @@ export class EnquiryDetailsComponent implements OnInit {
   }
 
   onBackClickHandle() {
-    this.router.navigate(['/dashboard']);
     this.formStateService.resetValues();
+    this.router.navigate([AppRoutePaths.Dashboard]);
   }
 
   onReset() {

@@ -41,7 +41,6 @@ export class ResetPasswordComponent implements AfterViewInit {
     }
   }
   onSubmit() {
-  console.log(this.loginForm);
   }
 
 

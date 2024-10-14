@@ -1,27 +1,31 @@
-<div *ngIf="!showAPILoader">
+<div class="app-container">
+  <div class="app-locked--container" *ngIf="!showAPILoader">
     <div class="app-navigation-main--container">
-    <div (click)="onBackClickHandle()">
-        <img src="assets/back.svg" kendobutton alt="back" />
+      <div (click)="onBackClickHandle()">
+          <img src="assets/content/images/back.svg" kendobutton alt="back" />
+      </div>
+      <div class="app-navigation--header">Enquiry Details</div>
+      <div (click)="onReset()">
+          <img
+            src="assets/content/images/reset.svg"
+            kendobuttons
+            alt="reset"
+            class="app-navigation-reset--image" />
+      </div>
     </div>
-    <div class="app-navigation--header">Enquiry Details</div>
-    <div (click)="onReset()">
-        <img
-          src="assets/reset.svg"
-          kendobuttons
-          alt="reset"
-          class="app-navigation-reset--image" />
-    </div>
+
+    <kendo-stepper
+      [steps]="steps"
+      stepType="full"
+      [linear]="false"
+      [(currentStep)]="currentStep"
+      cssClass="enquiry-details-content--stepper"
+      (stepSelect)="onStepSelect($event)">
+    </kendo-stepper>
   </div>
-  <div>
-    <div class="enquiry-details--content">
-      <kendo-stepper
-          [steps]="steps"
-          stepType="full"
-          [linear]="false"
-          [(currentStep)]="currentStep"
-          cssClass="enquiry-details-content--stepper"
-          (stepSelect)="onStepSelect($event)">
-      </kendo-stepper>
+
+  <div class="app-scrollable--container" *ngIf="!showAPILoader">
+    <div class="app-screen--content">
       <form class="k-form k-form-md" [formGroup]="enquiryCaptureForm">
           <app-contact-details
             *ngIf="currentStep === 0"
@@ -37,7 +41,7 @@
             [enqId]="enqId"
             [enquiryUpdateForm]="currentGroup"></app-enquiry-update>
       </form>
-      <div class="enquiry-details--footer">
+      <div class="app-screen--footer">
         <button
             kendobutton
             class="app-general--button"
@@ -69,12 +73,12 @@
       </div>
     </div>
   </div>
+
+  <div class="app-screen--loader" *ngIf="showAPILoader">
+      <kendo-loader
+        type="converging-spinner"
+        themeColor="info"
+        size="medium"></kendo-loader>
+      <div>Updating enquiry....</div>
+  </div>
 </div>
-<div class="enquiry-details--loader" *ngIf="showAPILoader">
-    <kendo-loader
-      type="converging-spinner"
-      themeColor="info"
-      size="medium"></kendo-loader>
-    <div>Updating enquiry....</div>
-</div>
-  

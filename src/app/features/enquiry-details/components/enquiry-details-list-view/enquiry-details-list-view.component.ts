@@ -1,51 +1,47 @@
-import { Component, OnInit, Type, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { process, State } from '@progress/kendo-data-query';
-import { EnquiryDetailsService } from '../../enquiry-details.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AppRoutePaths } from 'src/app/core/Constants';
 import { LoaderService } from 'src/app/core/services/loader.service';
-
-interface EnquiryList {
-  id: string | number;
-  dealNo: string;
-  enqID: number;
-  soldToLEID: number;
-  soldToLE: string;
-  salesChannel: string;
-  enqStatusId: number;
-  enqStatus: string;
-  salesExecutiveID: number;
-  salesExecutive: string;
-  soldToContact: string;
-  wsApprovalPendingWith: string;
-  soldToContPhoneNo: number;
-}
+import { CommonService } from 'src/app/features/common/common.service';
+import { FormStateService } from '../../form-state.service';
+import { EnquiryDetailsService, EnquiryList } from '../../enquiry-details.service';
 
 @Component({
   selector: 'app-enquiry-details-list-view',
   templateUrl: './enquiry-details-list-view.component.html',
   styleUrls: ['./enquiry-details-list-view.component.scss'],
 })
-export class EnquiryDetailsListViewComponent implements OnInit {
+export class EnquiryDetailsListViewComponent implements OnInit, OnDestroy {
+  private popstateSubscription?: Subscription;
   contactCards: EnquiryList[] = [];
   pageSize = 3;
   filteredCards: any[] = [];
-  skip = 0;
-  total = 0;
   searchTerm = '';
   showAPILoader = false;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private loaderService: LoaderService,
+    public formStateService: FormStateService,
+    private commonService: CommonService,
     private enquiryDetailService: EnquiryDetailsService
   ) {}
 
   ngOnInit() {
+    this.popstateSubscription = this.commonService.handleNavigationEvents(this.router.events, () => {
+      this.onBackClickHandle();
+    });
     this.loaderService.loaderState.subscribe(res => {
       this.showAPILoader = res;
     });
     this.loaderService.hideLoader();
     this.enquiryList();
+  }
+
+  ngOnDestroy(): void {
+    this.popstateSubscription?.unsubscribe();
   }
 
   enquiryList() {
@@ -76,31 +72,36 @@ export class EnquiryDetailsListViewComponent implements OnInit {
             a.soldToLE.toLowerCase().includes(this.searchTerm.toLowerCase()))
       );
     }
-    this.total = this.filteredCards.length;
+    this.formStateService.total = this.filteredCards.length;
     this.applyPagination();
   }
 
   applyPagination(): void {
     const state: State = {
-      skip: this.skip,
+      skip: this.formStateService.skip,
       take: this.pageSize,
     };
     const processed = process(this.filteredCards, state);
     this.filteredCards = processed.data;
-    this.total = processed.total;
+    this.formStateService.total = processed.total;
   }
 
   onPageChange(state: State): void {
-    this.skip = state.skip as number;
+    this.formStateService.skip = state.skip as number;
     this.filterData();
   }
 
   navigateById(id: string | number) {
-    this.router.navigate(['/enquiry-details-update',id]);
+    this.router.navigate([AppRoutePaths.EnquiryDetailsUpdate],{state: {id: id}});
   }
 
   callPhoneNumber(phoneNumber: string): void {
     window.location.href = 'tel:' + phoneNumber;
+  }
+
+  onBackClickHandle(){
+    this.formStateService.resetPaginationValues();
+    this.router.navigate([AppRoutePaths.Dashboard]);
   }
 
   onReset(){

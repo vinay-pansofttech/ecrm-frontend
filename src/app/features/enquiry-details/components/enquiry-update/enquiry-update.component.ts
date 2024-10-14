@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AppRoutePaths } from 'src/app/core/Constants';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { EnquiryDetailsService } from '../../enquiry-details.service';
 
@@ -73,7 +74,7 @@ export class EnquiryUpdateComponent implements OnInit {
   } | null = null;
 
   handleHistoryButton() {
-    this.router.navigate([`/enquiry-details-history/${this.enqId}`]);
+    this.router.navigate([AppRoutePaths.EnquiryDetailsHistory],{state: {id: this.enqId}});
   }
   
 }

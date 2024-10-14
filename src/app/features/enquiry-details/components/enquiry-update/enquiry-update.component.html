@@ -1,6 +1,8 @@
+<div class="app-locked--container">
   <div class="app-screen--header">
     Enquiry - {{ enqId }}
   </div>
+</div>  
 
 <div class="app-kendo-form--container" [formGroup]="enquiryUpdateForm">
   <kendo-formfield>
@@ -60,10 +62,13 @@
   <div class="enquiry-update-forms--content">
     <kendo-label class="app-kendo--label" [for]="dealvalue" [for]="currency" >Deal Value / Currency</kendo-label>
     <div class="app-kendo-forms--subcontent">
-      <kendo-textbox class="app-kendo--dropdownlist"
+      <kendo-numerictextbox class="app-kendo--dropdownlist"
        formControlName="dealValue"
+       [format]="'#,##0'"
+       [decimals]="0"
+       [spinners]="false"
        #dealvalue>
-      </kendo-textbox>
+      </kendo-numerictextbox>
       <kendo-textbox class="app-kendo--dropdownlist"
        formControlName="currency"
        #currency
@@ -72,12 +77,12 @@
   </div>
 </div>
 
-<div class="enquiry-details-history--header">
-    <div class="enquiry-update--header">
+<div class="app-screen--info-header">
+    <div class="app-screen--info-header-left">
       Interactions
     </div>
     <kendo-button
-      class="enquiry-details-interations--button"
+      class="app-screen--info-header-right"
       (click)="handleHistoryButton()"
       >Previous Interactions</kendo-button
     >

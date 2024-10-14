@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppRoutePaths } from './core/Constants';
 import { LoginService } from './features/login/components/login/login.service';
 
 @Injectable({
@@ -15,7 +16,7 @@ export class AuthGuard {
     const loginID = this.loginService.employeeId;
 
     if (loginID === '') {
-      this.router.navigate(['/login']);
+      this.router.navigate([AppRoutePaths.Login]);
       return false;
     }
     return true;

@@ -22,7 +22,7 @@
 
 .dashboard-landingPage--viewall {
   color: #a4a9ae;
-  font-family: Arial;
+  font-family: var(--font-family-text);
   font-size: 0.87rem;
   font-style: normal;
   font-weight: var(--font-weight-semibold);
@@ -43,8 +43,8 @@
 }
 
 .dashboard-landingPage-text--year {
-  color: #5cb5c1;
-  font-family: Arial;
+  color: var(--primary-color);
+  font-family: var(--font-family-text);
   font-size: var(--size-3);
   font-style: normal;
   font-weight: var(--font-weight-normal);
@@ -54,8 +54,8 @@
 }
 
 .dashboard-landingPage-text--price {
-  color: #5cb5c1;
-  font-family: Arial;
+  color: var(--primary-color);
+  font-family: var(--font-family-text);
   font-size: var(--size-4);
   font-style: normal;
   font-weight: var(--font-weight-normal);
@@ -68,7 +68,7 @@
 
 .dashboard-landingPage--blur-effect {
   background-color: rgb(175, 198, 228, 0.5);
-  color: black;
+  color: var(--primary-black);
   font-weight: bold;
   border: 3px solid #fff;
   border-radius: 0.5rem;
@@ -83,8 +83,8 @@
 .sales-card {
   background: rgba(235, 243, 244, 0.4);
   background:
-  url('../../../../../assets/login-images/login-page-flow.svg') bottom 0 left 0 no-repeat,
-  url('../../../../../assets/dashboard-page-flow-right-bottom.svg') bottom 0 left 50% no-repeat;
+  url('../../../../../assets/content/images/login-images/login-page-flow.svg') bottom 0 left 0 no-repeat,
+  url('../../../../../assets/content/images/dashboard-images/dashboard-page-flow-right-bottom.svg') bottom 0 left 50% no-repeat;
   border: none;
   border-color: transparent;
   border-style: none;
@@ -117,6 +117,6 @@
   background-color:#FFFFFF33;
   text-align: center;
   padding: 3px;
-  font-size: 12px;
+  font-size: var(--text-size-02);
   cursor: pointer;
 }

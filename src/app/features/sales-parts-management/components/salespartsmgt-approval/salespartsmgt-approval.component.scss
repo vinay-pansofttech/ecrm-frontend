@@ -1,35 +1,9 @@
-.spm-selectall-button{
-    display: flex;
-    align-content: center;
-    align-items: center;
-    justify-content: end;
-    margin-right: 1rem;
-    gap:0.25rem;
-}
-.selectall-label{
-  display: flex;
-  color: var(--colors-brand-black, #1C1B1B);
-  font-size: var(--text-size-01);
-  font-family: Arial;
-  font-style: normal;
-  font-weight: var(--font-weight-bolder);
-  line-height: normal;
-}
 //Enquiry Kendo Card Styles
-.app-enquiry-details-listview--cards {
-  margin: 1rem;
-}
-.app-enquiry-details-listview--kendo-card {
-  border-radius: 20px;
-  background: var(--colors-brand-white, #fff);
-  box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.05);
-  width: 100% !important;
-}
 .app-enquiry-details-listview--kendo-card-header {
   display: flex;
 }
 .selected-card {
-    border: 2px solid #F27777;
+    border: 2px solid var(--secondary-selected);
 }
 .header{
   display: flex;
@@ -46,16 +20,16 @@
 }
 .sub-title{
   color: var(--body-grey, #69727b);
-  font-family: Arial;
-  font-size: 12px;
+  font-family: var(--font-family-text);
+  font-size: var(--text-size-02);
   font-style: normal;
   font-weight: var(--font-weight-normal);
   line-height: normal;
 }
 .sold{
   color: #383838;
-  font-family: Arial;
-  font-size: 12px;
+  font-family: var(--font-family-text);
+  font-size: var(--text-size-02);
   font-style: normal;
   font-weight: var(--font-weight-bolder);
   line-height: normal;
@@ -72,7 +46,6 @@
   justify-content: right;
   gap:0.1rem;
 }
-
 .sub-title-content-left{
     flex-basis: 45%;
 }
@@ -91,12 +64,5 @@
 .sub-title-total{
   flex-basis: 31.5%;
 }
-.app-enquiry-details-listview--kendo-card-content {
-  display: flex;
-  margin: 1rem;
-  flex-direction: column;
-  gap: 0.313rem;
-}
-.app-enquiry-details-listview--kendo-splitter {
-  margin: 0 1rem;
-}
+
+
