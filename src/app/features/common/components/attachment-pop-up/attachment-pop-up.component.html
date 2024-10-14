@@ -18,12 +18,12 @@
                 <div (click)="downloadAttachment(i)">{{ file.name }}</div>
             </div>
         </div>
-        <div *ngIf="myFiles.length == 0 && !showAPILoader" class="app-disclaimer--card">
+        <div class="app-disclaimer--card" *ngIf="myFiles.length == 0 && !showAPILoader">
             <div class="app-disclaimer--content">
               <h5> No Attachments Found </h5>
             </div>
         </div>
-        <div *ngIf="showAPILoader">
+        <div class="app-screen--loader" *ngIf="showAPILoader">
             <kendo-loader
               type="converging-spinner"
               themeColor="info"

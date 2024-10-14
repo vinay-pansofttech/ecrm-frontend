@@ -1,5 +1,5 @@
 import { Component, HostListener, Input, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { GridModule, Skip, PageChangeEvent, RowClassArgs } from '@progress/kendo-angular-grid';
+import { PageChangeEvent } from '@progress/kendo-angular-grid';
 import { WorksheetService,WorksheetPrerequisites, WorksheetMarginList, EnquiryDetails,
   MarginProductGridList, MarginSupplierGridList, MarginPartsGridList
  } from '../../worksheet.service';
@@ -7,8 +7,7 @@ import { LoginService } from 'src/app/features/login/components/login/login.serv
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { CommonService } from 'src/app/features/common/common.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
-import { process, State } from '@progress/kendo-data-query';
-import { PopoverContainerDirective, PopoverAnchorDirective } from "@progress/kendo-angular-tooltip";
+import { PopoverAnchorDirective } from "@progress/kendo-angular-tooltip";
 
 @Component({
   selector: 'app-margin-details',
@@ -664,11 +663,10 @@ export class MarginDetailsComponent {
   marginExcelDownload(){
     this.isDownloadloaderVisible = true;
     this.worksheetService.getWorksheetMarginExcelFile
-    (this.enquiryDetailsCard[0].enqID,this.WorksheetPrerequisites[0].marginVersionID,
-     this.WorksheetPrerequisites[0].marginVersionName)
+    (this.enquiryDetailsCard[0].enqID)
     .subscribe((response) => {
       const contentType = response.headers.get('content-type')!;
-      const filename = this.WorksheetPrerequisites[0].marginVersionName + '.xlsx';
+      const filename = this.enquiryDetailsCard[0].enqID + '.xlsx';
       const blob = new Blob([response.body!], { type: contentType });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -685,7 +683,7 @@ export class MarginDetailsComponent {
     error => {
       this.isDownloadloaderVisible = false;
       this.notificationService.showNotification(
-        'Error downloading margin excel' + error,
+        'Unable to download margin file',
         'error', 'center', 'bottom'
       );
     });

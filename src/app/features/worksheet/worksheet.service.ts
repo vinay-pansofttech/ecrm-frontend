@@ -114,8 +114,6 @@ export interface WorksheetPrerequisites{
   conversionRate: number;
   marginExcelDownloadPrivilege?: number;
   isSalesManager?: boolean;
-  marginVersionID: number;
-  marginVersionName: string;
 }
 
 export interface WorksheetPaymentTerms {
@@ -488,7 +486,7 @@ export class WorksheetService {
   private getQuoteCompareFileUrl = `${this.configService.apiUrl}/api/UploadDownload/GetConfigPriceCompareDtls`;
   private postSaveWorksheetUrl = `${this.configService.apiUrl}/api/Worksheet/SaveWorksheet`;
   private postDRQRequestUrl = `${this.configService.apiUrl}/api/Worksheet/SaveDRQRequest`;
-  private getWorksheetMarginExcelUrl = `${this.configService.apiUrl}/api/UploadDownload/GetQuoteCompareExcel`;
+  private getWorksheetMarginExcelUrl = `${this.configService.apiUrl}/api/UploadDownload/GetMarginExcelFile`;
 
   public worksheetDetailsCard: any[] = [];
   public paymentTerms: WorksheetPaymentTerms[] = [];
@@ -608,11 +606,10 @@ export class WorksheetService {
   }
 
   //API call to download worksheet's latest margin excel file
-  getWorksheetMarginExcelFile(enqId: number, marginVersionId: number, marginVersionName: string) {
+  getWorksheetMarginExcelFile(enqId: number) {
     const body = {
       EnqId: enqId,
-      MarginVersionId: marginVersionId,
-      MarginVersionName: marginVersionName,
+      TokenId: this.loginService.tokenId,
       LoginId: this.loginService.employeeId as number
     };
     return this.http.post(this.getWorksheetMarginExcelUrl, body, {responseType: 'blob', observe: 'response'});

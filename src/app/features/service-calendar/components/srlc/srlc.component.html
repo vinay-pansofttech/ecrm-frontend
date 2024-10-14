@@ -77,7 +77,8 @@
   <div class="app-scrollable--container">
     <app-efforts-list-view
         *ngIf="currentStep === 0" [srid]="selectedSRID" [currentDate]="currentDate"
-        [engeffortListCards]="engeffortListCards"></app-efforts-list-view>
+        [engeffortListCards]="engeffortListCards" 
+        [filteredEngeffortListCards]="filteredEngeffortListCards"></app-efforts-list-view>
     <app-parts-request
         *ngIf="currentStep === 1" [srid]="selectedSRID" 
         [servicePrerequisites]="servicePrerequisites"></app-parts-request>

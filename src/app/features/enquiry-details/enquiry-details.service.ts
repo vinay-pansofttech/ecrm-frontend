@@ -61,7 +61,7 @@ export class EnquiryDetailsService {
   private getLESiteByContactUrl = `${this.configService.apiUrl}/api/Enquiry/GetLESiteByContact`;
   private getLERegionBySiteUrl = `${this.configService.apiUrl}/api/Enquiry/GetLegalEntityRegionBySite`;
   private putAddEnquiryUrl = `${this.configService.apiUrl}/api/Enquiry/AddEnquiry`;
-  private putUpdateEnquiryUrl = `${this.configService.apiUrl}/api/Enquiry/UpdateEnquiryAllStepper`;
+  private putUpdateEnquiryUrl = `${this.configService.apiUrl}/api/Enquiry/UpdateEnquiry`;
   private getGeneratedFromUrl = `${this.configService.apiUrl}/api/Enquiry/GetGeneratedFrom`;
   private getGeneratedByUrl = `${this.configService.apiUrl}/api/Enquiry/GetGeneratedBy`;
   private getQuoteEntityCompanyUrl = `${this.configService.apiUrl}/api/Enquiry/GetQuoteCompany`;

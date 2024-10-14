@@ -16,6 +16,7 @@ import { ServiceCalendarService, engEffortsList } from '../../service-calendar.s
 export class EffortsListViewComponent {
   csrGenerateForm!: FormGroup;
   @Input() engeffortListCards: engEffortsList[] = [];
+  @Input() filteredEngeffortListCards: engEffortsList[] = [];
   @Input() srid: number = 0;
   @Input() currentDate: string = '';
   showAPILoader = false;
@@ -43,22 +44,41 @@ export class EffortsListViewComponent {
       this.showAPILoader = res;
     });
     this.loaderService.hideLoader();
+    this.csrGenerateForm.patchValue({
+      csrComments: this.serviceCalendarService.csrComments? this.serviceCalendarService.csrComments: null
+    });
   }
 
-  iseditable(cardIndex: number): boolean{
-    const cardemployeeId = this.engeffortListCards[cardIndex].empId;
-    const scheduledDate = this.engeffortListCards[cardIndex].ondate;
-    const today = this.datePipe.transform(new Date(),"yyyy-MM-dd")!;
-    if (scheduledDate <= today && this.loginService.employeeId == cardemployeeId) {
-       return true;
-    } else {
-      return false;
+  iseditable(cardIndex: number): boolean {
+    const selectedCard = this.filteredEngeffortListCards[cardIndex];
+    const today = this.datePipe.transform(new Date(), "yyyy-MM-dd")!;
+    const srTask = this.engeffortListCards.find(card => card.taskType === "Site Readiness");
+
+    // If there is an SR task, it must be completed before allowing other tasks
+    if (srTask) {
+        if (selectedCard.taskType === 'Site Readiness') {
+            if (selectedCard.remarks === null && selectedCard.ondate <= today && this.loginService.employeeId === selectedCard.empId) {
+                return true;
+            }
+            return false;
+        }
+        
+        if (selectedCard.remarks === null || selectedCard.remarks === undefined) {
+            return false;
+        }
     }
+
+    // Allow editing of other tasks only if there are no PIR or SR tasks, and conditions are met
+    if (selectedCard.ondate <= today && this.loginService.employeeId === selectedCard.empId) {
+        return true;
+    }
+
+    return false;
   }
 
   addEffort(cardIndex: number){
     this.otherEngEffortsList = this.engeffortListCards.filter(
-      (item: any) => this.commonService.displayDateFormat(item.ondate) != this.currentDate
+      (item: any) => item.remarks != null && this.commonService.displayDateFormat(item.ondate) != this.currentDate
     );
     this.effortCardDetails = this.engeffortListCards[cardIndex];
     this.isEditEffortOpen = true;

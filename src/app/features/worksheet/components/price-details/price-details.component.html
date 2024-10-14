@@ -2,9 +2,7 @@
     Price Details
     <div class="app-screen--header-tag"></div>
 </div> -->
-<div
-    class="app-screen--content"
-    *ngIf="!showWorksheetAPILoader">
+<div class="app-screen--content" *ngIf="!showWorksheetAPILoader">
     <div class="price-details--card">
         <div class="price-details--header price-details-system--header">
            <p> System </p>
@@ -282,8 +280,8 @@
         </kendo-formfield>
       </div>
     </form>
-
 </div>
+
 <div class="app-screen--loader" *ngIf="showWorksheetAPILoader">
     <kendo-loader
       type="converging-spinner"

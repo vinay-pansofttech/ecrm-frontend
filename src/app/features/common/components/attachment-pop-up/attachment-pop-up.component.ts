@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { CommonService, AttachmentFileInfo, AttachmentPopupDetails } from '../../common.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   selector: 'app-attachment-pop-up',
@@ -20,7 +21,8 @@ export class AttachmentPopUpComponent {
 
   constructor(
     private commonService: CommonService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private notificationService: NotificationService
   ){}
 
   ngOnInit(){
@@ -75,21 +77,31 @@ export class AttachmentPopUpComponent {
   }
 
   downloadAttachment(index: number) {
+    this.loaderService.showLoader();
     this.commonService.getAttachment(
       this.myFiles[index].docSrcVal, 
       this.myFiles[index].docSrcType, 
       this.attachmentPopupDetails[0].docSrcGUID, 
-      index).subscribe((response) => {
-      const contentType = response.headers.get('content-type')!;
-      const filename = this.myFiles[index].name;
-      const blob = new Blob([response.body!], { type: contentType });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = filename || 'attachment';
-      link.click();
-      window.URL.revokeObjectURL(url);
-    });
+      index)
+      .subscribe((response) => {
+        const contentType = response.headers.get('content-type')!;
+        const filename = this.myFiles[index].name;
+        const blob = new Blob([response.body!], { type: contentType });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename || 'attachment';
+        link.click();
+        window.URL.revokeObjectURL(url);
+        this.loaderService.hideLoader();
+      },
+      error =>{
+        this.loaderService.hideLoader();
+        this.notificationService.showNotification(
+          'Failed to download file',
+          'error', 'center', 'bottom'
+        );
+      });
   }
   
 }

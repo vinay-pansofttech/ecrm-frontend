@@ -25,6 +25,7 @@ export class SrlcComponent implements OnInit, OnDestroy{
   currentDate: string = '';
 
   engeffortListCards: engEffortsList[] = [];
+  filteredEngeffortListCards: engEffortsList[] = [];
   servicePrerequisites: svcPrerequisites[] = [];
   schCallCards: callsList[] = [];
 
@@ -64,7 +65,8 @@ export class SrlcComponent implements OnInit, OnDestroy{
     engEffortsList() {
       this.loaderService.showLoader();
       this.serviceCalendarService.getEngEfforts(this.loginService.employeeId as number, this.selectedSRID).subscribe((data: any) => {
-        this.engeffortListCards = data.filter(
+        this.engeffortListCards = data;
+        this.filteredEngeffortListCards = data.filter(
           (item: any) => item.empId === this.loginService.employeeId
         );
         this.loaderService.hideLoader();
@@ -104,6 +106,7 @@ export class SrlcComponent implements OnInit, OnDestroy{
       this.serviceCalendarService.getServicePrerequisites(this.selectedSRID,this.loginService.employeeId as number).
       subscribe((data: any) => {
         this.servicePrerequisites = data;
+        this.serviceCalendarService.csrComments = data[0].serviceComments;
       });
     }
 

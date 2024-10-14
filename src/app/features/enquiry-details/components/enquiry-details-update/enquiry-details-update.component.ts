@@ -94,7 +94,6 @@ export class EnquiryDetailsUpdateComponent implements OnInit, OnDestroy {
     });
     this.loaderService.hideLoader();
 
-    this.getEnqdetails();
     this.enquiryCaptureForm = this.formBuilder.group({
       contactDetails: new FormGroup({
         soldToContact: new FormControl('', Validators.required),
@@ -133,9 +132,6 @@ export class EnquiryDetailsUpdateComponent implements OnInit, OnDestroy {
         interaction_attachment: new FormControl([null], Validators.nullValidator),
       })
     });
-    this.loaderService.loaderState.subscribe(res => {
-      this.showAPILoader = res;
-    });
     this.modeOfCommunicationControl = this.enquiryCaptureForm.get('enquiryUpdateForm.modeOfCommunication') as FormControl;
 
     if (this.modeOfCommunicationControl) {
@@ -145,6 +141,7 @@ export class EnquiryDetailsUpdateComponent implements OnInit, OnDestroy {
         this.updateValidatorsBasedOnMode(this.modeOfCommunicationValue);
       });
     }
+    this.getEnqdetails();
   }
 
   ngOnDestroy(): void {
@@ -213,7 +210,7 @@ export class EnquiryDetailsUpdateComponent implements OnInit, OnDestroy {
         });
         this.formStateService.resetValues();
     }
-    this.loaderService.showLoader();
+    this.loaderService.hideLoader();
     this.enquiryCaptureForm.markAllAsTouched();
   }
 

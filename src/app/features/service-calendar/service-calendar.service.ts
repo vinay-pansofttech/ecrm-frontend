@@ -49,6 +49,7 @@ export interface engEffortsList {
   travelHours: string;
   taskType: string;
   remarks: string;
+  isPrimary: boolean;
 }
 
 export interface svcPartsDetails {
@@ -110,6 +111,7 @@ export interface svcPrerequisites {
   partReqId?: number;
   callIOID?: number;
   isInProgress: boolean | null;
+  serviceComments: string | null;
   isPartsRequestShow: boolean | null;
 }
 
