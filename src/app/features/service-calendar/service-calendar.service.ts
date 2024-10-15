@@ -22,22 +22,6 @@ export interface callsList {
   isCallCompleted: boolean;
 }
 
-export interface engEffortsDetails {
-  empId: number;
-  sRSchId: number;
-  subTaskId: number;
-  calendarId: number;
-  onDate: string;
-  startTime: string;
-  endTime: string;
-  effortHours: string;
-  travelHours: string;
-  isNoEffortSpent: boolean;
-  remarks: string;
-  subTaskScheduleDtlId: number;
-  srid: number;
-}
-
 export interface engEffortsList {
   empId: number;
   srid: number;
@@ -50,6 +34,7 @@ export interface engEffortsList {
   taskType: string;
   remarks: string;
   isPrimary: boolean;
+  isEffortEdit: boolean;
 }
 
 export interface svcPartsDetails {
@@ -113,6 +98,7 @@ export interface svcPrerequisites {
   isInProgress: boolean | null;
   serviceComments: string | null;
   isPartsRequestShow: boolean | null;
+  isGenerateCSR: boolean | null;
 }
 
 export interface svcPartsRequest {
