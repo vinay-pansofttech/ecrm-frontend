@@ -88,6 +88,7 @@
                   class="app-kendo--textarea"
                   placeholder="Type your message here.."
                   formControlName="csrComments"
+                  [readonly]="!(servicePrerequisites[0]? servicePrerequisites[0].isGenerateCSR: false)"
                   #csrComments
                   [rows]="5"
                   resizable="vertical"></kendo-textarea>
@@ -100,6 +101,7 @@
           <button
             kendoButton
             class="app-save--button"
+            [disabled]="!(servicePrerequisites[0]? servicePrerequisites[0].isGenerateCSR: false)"
             (click)="generateCSR()">
             Generate CSR
           </button>

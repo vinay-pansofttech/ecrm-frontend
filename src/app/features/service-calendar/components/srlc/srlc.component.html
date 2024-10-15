@@ -78,7 +78,8 @@
     <app-efforts-list-view
         *ngIf="currentStep === 0" [srid]="selectedSRID" [currentDate]="currentDate"
         [engeffortListCards]="engeffortListCards" 
-        [filteredEngeffortListCards]="filteredEngeffortListCards"></app-efforts-list-view>
+        [filteredEngeffortListCards]="filteredEngeffortListCards"
+        [servicePrerequisites]="servicePrerequisites"></app-efforts-list-view>
     <app-parts-request
         *ngIf="currentStep === 1" [srid]="selectedSRID" 
         [servicePrerequisites]="servicePrerequisites"></app-parts-request>

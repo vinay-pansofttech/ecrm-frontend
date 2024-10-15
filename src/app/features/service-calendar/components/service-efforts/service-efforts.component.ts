@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { ServiceCalendarService, engEffortsDetails, engEffortsList } from '../../service-calendar.service';
+import { ServiceCalendarService, engEffortsList } from '../../service-calendar.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -54,7 +54,6 @@ export class ServiceEffortsComponent {
 
     this.patchFormValues();
   }
-
 
   timeStringToDate (timeString: string): Date | null {
     if (!timeString) return null;
