@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, firstValueFrom } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TextBoxComponent } from '@progress/kendo-angular-inputs';
+import { InputType, TextBoxComponent } from '@progress/kendo-angular-inputs';
 import { eyeIcon, SVGIcon } from '@progress/kendo-svg-icons';
 import { AppRoutePaths } from 'src/app/core/Constants';
 import { LoginService } from './login.service';
@@ -61,14 +61,11 @@ export class LoginComponent implements AfterViewInit, OnInit, OnDestroy {
     this.textbox.input.nativeElement.type = 'password';
   }
 
+  public inputType: InputType = 'password';
   public togglePasswordVisibility(): void {
-    const inputEl = this.textbox.input.nativeElement;
-
-    if (inputEl.type === 'password') {
-      inputEl.type = 'text';
-    } else {
-      inputEl.type = 'password';
-    }
+    this.inputType === 'password'
+      ? (this.inputType = 'text')
+      : (this.inputType = 'password');
   }
 
   onHandleAfterSignin(apiResponse: any) {
@@ -78,7 +75,7 @@ export class LoginComponent implements AfterViewInit, OnInit, OnDestroy {
       const result = extractPrivilegeAndMenuName(apiResponse);
       this.loginService.privileges = result.privileges;
       this.loginService.tokenId = apiResponse[0]?.tokenID;
-      this.commonService.navigationMap.set('/login', '/dashboard');
+      this.commonService.navigationMap.set('/', '/dashboard');
       this.commonService.currentUrl = '/dashboard';
       this.router.navigate([AppRoutePaths.Dashboard]);
     } else {
@@ -88,14 +85,22 @@ export class LoginComponent implements AfterViewInit, OnInit, OnDestroy {
       );
     }
   }
-  onSubmit() {
+  async onSubmit() {
     this.showLoader = true;
+    let userIPAddress: string = "192.168.10.83";
+    try {
+      const res: any = await firstValueFrom(this.commonService.getIPAddress());
+      userIPAddress = res.ip;
+    } catch (error) {
+      userIPAddress = "192.168.10.83";
+    }
 
     this.loginService
-      .loginUser({
-        username: this.loginForm.value.username,
-        password: this.loginForm.value.password,
-      })
+      .loginUser(
+        this.loginForm.value.username,
+        this.loginForm.value.password,
+        userIPAddress
+      )
       .subscribe(
         data => {
           this.showLoader = false;

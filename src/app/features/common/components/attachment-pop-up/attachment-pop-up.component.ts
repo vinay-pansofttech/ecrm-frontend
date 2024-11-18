@@ -85,7 +85,14 @@ export class AttachmentPopUpComponent {
       index)
       .subscribe((response) => {
         const contentType = response.headers.get('content-type')!;
-        const filename = this.myFiles[index].name;
+        const contentDisposition = response.headers.get('content-disposition');
+        let filename = this.myFiles[index].name;
+        if (contentDisposition) {
+          const matches = /filename="(.+)"/.exec(contentDisposition);
+          if (matches != null && matches[1]) {
+            filename = matches[1];
+          }
+        }
         const blob = new Blob([response.body!], { type: contentType });
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -102,6 +109,7 @@ export class AttachmentPopUpComponent {
           'error', 'center', 'bottom'
         );
       });
+      this.loaderService.hideLoader();
   }
   
 }

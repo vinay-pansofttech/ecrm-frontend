@@ -1,4 +1,4 @@
-import { Component,Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
@@ -34,20 +34,20 @@ export class EffortsListViewComponent {
     private loaderService: LoaderService,
     public commonService: CommonService,
     private serviceCalendarService: ServiceCalendarService,
-    private datePipe : DatePipe,
-  ) {}
+    private datePipe: DatePipe,
+  ) { }
 
   ngOnInit(): void {
     this.isEditEffortOpen = false;
     this.csrGenerateForm = this.formBuilder.group({
-      csrComments: new FormControl(null ,this.servicePrerequisites[0]?.isGenerateCSR? Validators.required: Validators.nullValidator),
+      csrComments: new FormControl(null, this.servicePrerequisites[0]?.isGenerateCSR ? Validators.required : Validators.nullValidator),
     });
     this.loaderService.loaderState.subscribe(res => {
       this.showAPILoader = res;
     });
     this.loaderService.hideLoader();
     this.csrGenerateForm.patchValue({
-      csrComments: this.serviceCalendarService.csrComments? this.serviceCalendarService.csrComments: null
+      csrComments: this.serviceCalendarService.csrComments ? this.serviceCalendarService.csrComments : null
     });
   }
 
@@ -56,27 +56,27 @@ export class EffortsListViewComponent {
     const today = this.datePipe.transform(new Date(), "yyyy-MM-dd")!;
     const srTask = this.engeffortListCards.find(card => card.taskType === "Site Readiness");
 
-    if(selectedCard.isEffortEdit){
+    if (selectedCard.isEffortEdit) {
       // If there is an SR task, it must be completed before allowing other tasks
       if (srTask) {
         if (selectedCard.taskType === 'Site Readiness') {
-            if (selectedCard.remarks === null && selectedCard.ondate <= today && this.loginService.employeeId === selectedCard.empId) {
-                return true;
-            }
-            return false;
+          if (selectedCard.remarks === null && selectedCard.ondate <= today && this.loginService.employeeId === selectedCard.empId) {
+            return true;
+          }
+          return false;
         }
-          
+
         if (srTask.remarks === null || srTask.remarks === undefined) {
-            return false;
+          return false;
         }
       }
 
       // Allow editing of other tasks only if there are no PIR or SR tasks, and conditions are met
       if (selectedCard.ondate <= today && this.loginService.employeeId === selectedCard.empId) {
-          return true;
+        return true;
       }
       return false;
-    } 
+    }
     return false;
   }
 
@@ -98,17 +98,17 @@ export class EffortsListViewComponent {
     this.router.navigate([AppRoutePaths.ServiceCalendar]);
   }
 
-  EditEffortClose(){
+  EditEffortClose() {
     this.ngOnInit();
   }
 
-  onRefresh(){
+  onRefresh() {
     this.ngOnInit();
   }
 
-  generateCSR(){
+  generateCSR() {
     const formValue = this.csrGenerateForm.value;
-    this.serviceCalendarService.csrComments = formValue.csrComments? formValue.csrComments: "";
+    this.serviceCalendarService.csrComments = formValue.csrComments ? formValue.csrComments : "";
     this.router.navigate([AppRoutePaths.ServiceCSRGenerator]);
   }
 

@@ -164,9 +164,9 @@
                 </div>
             </div>
             <div *ngIf="addedPartsDetailsCard.length === 0 && !showAPILoader" class="app-disclaimer--card">
-            <div class="app-disclaimer--content">
-                <h5>No parts added to request</h5>
-            </div>
+                <div class="app-disclaimer--content">
+                    <h5>No parts added to request</h5>
+                </div>
             </div>
             <div class="app-control--container" *ngIf="addedPartsDetailsCard.length > 0">
                 <div class="app-screen--info-tab">
@@ -429,10 +429,25 @@
             </div>
         </div>
 
-        <div class="parts-request-add-button" *ngIf="isPartsRequisitionOpen">
-            <img src="assets/content/images/add-circular-button.svg" alt="new" width="60" height="60"
-            (click)="onAddPartsClick()"/>
-        </div>  
+        <div class="app-screen--locked-footer" *ngIf="isPartsRequisitionOpen && !showAPILoader">
+            <div class="parts-request-add-button" *ngIf="isPartsRequisitionOpen">
+                <img src="assets/content/images/add-circular-button.svg" alt="new" width="60" height="60"
+                (click)="onAddPartsClick()"/>
+            </div>  
+            <button 
+                [disabled]="!(addedPartsDetailsCard.length > 0)"
+                kendoButton
+                class="app-save--button"
+                (click)="onPartsRequestSubmit()">
+                Submit
+            </button>
+            <button
+                kendobutton
+                class="app-cancel--button"
+                (click)="onBackClickHandle()">
+                Cancel
+            </button>
+        </div>
     </div>
     
     <div class="app-screen--loader" *ngIf="showAPILoader">
@@ -441,21 +456,5 @@
           themeColor="info"
           size="medium"></kendo-loader>
         <div>{{ loaderMessage }}</div>
-    </div>
-
-    <div class="app-screen--locked-footer" *ngIf="isPartsRequisitionOpen && !showAPILoader">
-        <button 
-            [disabled]="!(addedPartsDetailsCard.length > 0)"
-            kendoButton
-            class="app-save--button"
-            (click)="onPartsRequestSubmit()">
-            Submit
-        </button>
-        <button
-            kendobutton
-            class="app-cancel--button"
-            (click)="onBackClickHandle()">
-            Cancel
-        </button>
     </div>
 </div>
