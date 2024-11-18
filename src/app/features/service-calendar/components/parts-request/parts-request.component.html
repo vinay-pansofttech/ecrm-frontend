@@ -168,13 +168,13 @@
                     <h5>No parts added to request</h5>
                 </div>
             </div>
-            <div class="app-control--container" *ngIf="addedPartsDetailsCard.length > 0">
-                <div class="app-screen--info-tab">
+            <div class="app-control--container">
+                <div class="app-screen--info-tab" *ngIf="addedPartsDetailsCard.length > 0">
                     <div class="app-screen--info-tab-right">
                         How do you want to handle this call ?
                     </div>
                 </div>
-                <div class="app-control-button-container">
+                <div class="app-control-button-container" *ngIf="addedPartsDetailsCard.length > 0">
                     <button
                     [ngClass]="{'app-control--button-selected': isContinueCall}"
                     kendobutton
@@ -188,6 +188,25 @@
                     class="app-control--button"
                     (click)="callHandleClick('waiting')">
                         Move to waiting
+                    </button>
+                </div>
+                <div class="app-screen--footer" *ngIf="!showAPILoader">
+                    <div class="parts-request-add-button" *ngIf="isPartsRequisitionOpen">
+                        <img src="assets/content/images/add-circular-button.svg" alt="new" width="60" height="60"
+                        (click)="onAddPartsClick()"/>
+                    </div>  
+                    <button 
+                        [disabled]="!(addedPartsDetailsCard.length > 0)"
+                        kendoButton
+                        class="app-save--button"
+                        (click)="onPartsRequestSubmit()">
+                        Submit
+                    </button>
+                    <button
+                        kendobutton
+                        class="app-cancel--button"
+                        (click)="onBackClickHandle()">
+                        Cancel
                     </button>
                 </div>
             </div>
@@ -285,7 +304,7 @@
             </div>
         </div>
 
-        <div class="parts-request-search-container" *ngIf="!isPartsRequisitionOpen">
+        <div *ngIf="!isPartsRequisitionOpen" class="parts-request-search-container">
             <div class="draggable-tab">
                 <div class="draggable-image">
                     <img *ngIf="isSearchTabOpen" (click)="onSearchClick()" src="assets/content/images/down.svg"/>
@@ -427,26 +446,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="app-screen--footer" *ngIf="isPartsRequisitionOpen && !showAPILoader">
-            <div class="parts-request-add-button" *ngIf="isPartsRequisitionOpen">
-                <img src="assets/content/images/add-circular-button.svg" alt="new" width="60" height="60"
-                (click)="onAddPartsClick()"/>
-            </div>  
-            <button 
-                [disabled]="!(addedPartsDetailsCard.length > 0)"
-                kendoButton
-                class="app-save--button"
-                (click)="onPartsRequestSubmit()">
-                Submit
-            </button>
-            <button
-                kendobutton
-                class="app-cancel--button"
-                (click)="onBackClickHandle()">
-                Cancel
-            </button>
         </div>
     </div>
     
