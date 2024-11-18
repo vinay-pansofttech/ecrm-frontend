@@ -5,7 +5,7 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LayoutModule } from '@progress/kendo-angular-layout';
-import { InputsModule, TextBoxModule } from '@progress/kendo-angular-inputs';
+import { InputsModule } from '@progress/kendo-angular-inputs';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { IndicatorsModule } from '@progress/kendo-angular-indicators';
@@ -24,11 +24,9 @@ import { PagerModule } from '@progress/kendo-angular-pager';
     ReactiveFormsModule,
     LayoutModule,
     InputsModule,
-    TextBoxModule,
     DialogsModule,
     DropDownsModule,
     PagerModule,
-    InputsModule,
     LabelModule,
     IndicatorsModule,
     NotificationModule,
@@ -39,8 +37,6 @@ import { PagerModule } from '@progress/kendo-angular-pager';
     LabelModule,
     FormsModule,
     LayoutModule,
-    InputsModule,
-    TextBoxModule,
     IconsModule,
     DateInputsModule,
 
@@ -53,9 +49,7 @@ import { PagerModule } from '@progress/kendo-angular-pager';
     LayoutModule,
     InputsModule,
     PagerModule,
-    TextBoxModule,
     DropDownsModule,
-    InputsModule,
     LabelModule,
     IndicatorsModule,
     NotificationModule,

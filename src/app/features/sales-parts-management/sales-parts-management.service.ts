@@ -100,6 +100,9 @@ export class SalesPartsManagementService {
   private getSPMPartslistUrl = `${this.configService.apiUrl}/api/SalesPartsManagement/GetSPMPartslist`;
   private postSPMPriceValidationUrl = `${this.configService.apiUrl}/api/SalesPartsManagement/UpdatePriceValidation`;
 
+  isPreValidator = false;
+  hasPreVaidateRights = false;
+
   skip = 0;
   total = 0;
 
@@ -147,6 +150,12 @@ export class SalesPartsManagementService {
       priceValidateComments: validateComments
     };
     return this.http.post(this.postSPMPriceValidationUrl, body);
+  }
+
+  //Function to reset common values stored in sales-parts-service
+  resetValues() {
+    this.isPreValidator = false;
+    this.hasPreVaidateRights = false;
   }
   
   //Function to reset pagination related values stored in sales-parts-service

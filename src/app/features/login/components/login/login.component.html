@@ -27,7 +27,6 @@
                     alt="new"
                     class="login-page--user-img" /> </ng-template
               ></kendo-textbox>
-
               <kendo-formerror class="login-page-kendo-form-error"
                 >Username is required</kendo-formerror
               >
@@ -40,11 +39,13 @@
               placeholder="Password"
               [clearButton]="true"
               class="login-page--textbox"
+              [type]="inputType"
               formControlName="password">
               <ng-template kendoTextBoxSuffixTemplate>
-                <button
-                  kendoButton
-                  look="clear"
+                <button 
+                  kendoButton 
+                  type="button" 
+                  look="clear" 
                   [svgIcon]="eyeIcon"
                   (click)="togglePasswordVisibility()"></button>
               </ng-template>

@@ -33,15 +33,15 @@ export class ServiceEffortsComponent {
     private notificationService: NotificationService,
     private datePipe: DatePipe,
     public commonService: CommonService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.serviceEffortsForm = this.formBuilder.group({
-        startTime: new FormControl(null ,Validators.nullValidator),
-        endTime: new FormControl(null ,Validators.nullValidator),
-        efforthours: new FormControl(null ,Validators.required),
-        travelhours: new FormControl(null, Validators.nullValidator),
-        effortremarks: new FormControl('', Validators.required),
+      startTime: new FormControl(null, Validators.nullValidator),
+      endTime: new FormControl(null, Validators.nullValidator),
+      efforthours: new FormControl(null, Validators.required),
+      travelhours: new FormControl(null, Validators.nullValidator),
+      effortremarks: new FormControl('', Validators.required),
     });
 
     this.serviceEffortsForm.get('startTime')?.valueChanges.subscribe(() => {
@@ -55,24 +55,25 @@ export class ServiceEffortsComponent {
     this.patchFormValues();
   }
 
-  timeStringToDate (timeString: string): Date | null {
+
+  timeStringToDate(timeString: string): Date | null {
     if (!timeString) return null;
-    
+
     const [hours, minutes, seconds] = timeString.split(':');
-    
+
     const date = new Date();
     date.setHours(+hours);
     date.setMinutes(+minutes);
     date.setSeconds(+seconds.split('.')[0]);
-    
+
     return date;
   }
 
-  patchFormValues(){
+  patchFormValues() {
     this.serviceEffortsForm.patchValue({
-      startTime:this.effortCardDetails.startTime? this.timeStringToDate(this.effortCardDetails.startTime): "",
-      endTime:this.effortCardDetails.endTime? this.timeStringToDate(this.effortCardDetails.endTime): "",
-      efforthours:this.effortCardDetails.effortHours,
+      startTime: this.effortCardDetails.startTime ? this.timeStringToDate(this.effortCardDetails.startTime) : "",
+      endTime: this.effortCardDetails.endTime ? this.timeStringToDate(this.effortCardDetails.endTime) : "",
+      efforthours: this.effortCardDetails.effortHours,
       travelhours: this.effortCardDetails.travelHours,
       effortremarks: this.effortCardDetails.remarks
     });
@@ -90,10 +91,10 @@ export class ServiceEffortsComponent {
         subTaskId: this.effortCardDetails.subTaskId,
         calendarId: this.effortCardDetails.calendarId,
         onDate: this.effortCardDetails.ondate,
-        startTime: formValue.startTime? formValue.startTime: '',
-        endTime: formValue.endTime? formValue.endTime: '',
+        startTime: formValue.startTime ? formValue.startTime : '',
+        endTime: formValue.endTime ? formValue.endTime : '',
         effortHours: parseFloat(formValue.efforthours),
-        travelHours: formValue.travelHours !=0 ? parseFloat(formValue.travelhours) : 0,
+        travelHours: formValue.travelHours != 0 ? parseFloat(formValue.travelhours) : 0,
         isNoEffortSpent: this.effortCardDetails.isNoEffortSpent,
         remarks: formValue.effortremarks,
         subTaskScheduleDtlId: this.effortCardDetails.subTaskScheduleDtlId,
@@ -119,18 +120,18 @@ export class ServiceEffortsComponent {
               'center',
               'bottom'
             );
-            if(notificationType == 'success'){
+            if (notificationType == 'success') {
               window.history.back();
             }
           },
-          error => {
-            this.loaderService.hideLoader();
-            this.notificationService.showNotification(
-              'Efforts update unsuccessful' + error,
-              'error', 'center', 'bottom'
-            );
-          });
-      } 
+            error => {
+              this.loaderService.hideLoader();
+              this.notificationService.showNotification(
+                'Efforts update unsuccessful' + error,
+                'error', 'center', 'bottom'
+              );
+            });
+      }
     } else {
       this.serviceEffortsForm.markAllAsTouched();
     }
@@ -159,5 +160,5 @@ export class ServiceEffortsComponent {
       }
     }
   }
-  
+
 }

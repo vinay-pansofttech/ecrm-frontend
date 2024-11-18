@@ -156,7 +156,7 @@ export interface svcPartsRequest {
 
 export class ServiceCalendarService {
   selectedDate!: Date;
-  selectedSRID! : number;
+  selectedSRID!: number;
   selectedCallCat!: string;
   selectedCallCompletion!: boolean;
   csrComments!: string;
@@ -180,10 +180,10 @@ export class ServiceCalendarService {
     private loginService: LoginService,
     private configService: ConfigService,
     private datePipe: DatePipe
-  ) {}
+  ) { }
 
   //API call to get dependent combo data
-  getDependentCombo(FieldName: string, Id: number, EmpId: number){
+  getDependentCombo(FieldName: string, Id: number, EmpId: number) {
     const body = {
       fieldName: FieldName,
       id: Id,
@@ -192,7 +192,7 @@ export class ServiceCalendarService {
     return this.http.post(this.getDependentComboUrl, body);
   }
 
-  getServicePrerequisites(SRID: number, EmpId: number){
+  getServicePrerequisites(SRID: number, EmpId: number) {
     const body = {
       srid: SRID,
       empId: EmpId,
@@ -203,8 +203,8 @@ export class ServiceCalendarService {
   //API call to fetch calls scheduled for that day
   getScheduledCalls(EmpId: number, ScheduledDate: Date) {
     const formattedDate = ScheduledDate
-    ? this.datePipe.transform(ScheduledDate, 'yyyy-MM-dd')
-    : null;
+      ? this.datePipe.transform(ScheduledDate, 'yyyy-MM-dd')
+      : null;
     const body = {
       empId: EmpId,
       scheduledDate: formattedDate
@@ -222,7 +222,7 @@ export class ServiceCalendarService {
   }
 
   //API call to update service efforts entered by engineer
-  putServiceEfforts(formData: any){
+  putServiceEfforts(formData: any) {
     const formattedStartDate = formData.startTime
       ? this.datePipe.transform(formData.startTime, "yyyy-MM-dd'T'HH:mm:ss")
       : null;
@@ -240,12 +240,12 @@ export class ServiceCalendarService {
           subTaskId: formData.subTaskId,
           calendarId: formData.calendarId,
           onDate: formData.onDate,
-          startTime: formData.startTime? formattedStartDate : '',
-          endTime: formData.endTime? formattedEndDate : '',
+          startTime: formData.startTime ? formattedStartDate : '',
+          endTime: formData.endTime ? formattedEndDate : '',
           effortHours: formData.effortHours,
           travelHours: formData.travelHours,
           isNoEffortSpent: formData.isNoEffortSpent,
-          remarks: formData.remarks? formData.remarks : '',
+          remarks: formData.remarks ? formData.remarks : '',
           subTaskScheduleDtlId: formData.subTaskScheduleDtlId
         }
       ],
@@ -255,25 +255,25 @@ export class ServiceCalendarService {
   }
 
   //API call to generate new CSR file after signature
-  getCSRfile(SRID: number, CSRSummary: string, CallCategory: string, IsCallCompleted: boolean, CustomerSign: string, EngineerSign: string){
+  getCSRfile(SRID: number, CSRSummary: string, CallCategory: string, IsCallCompleted: boolean, CustomerSign: string, EngineerSign: string) {
     const body = {
       "SRID": SRID,
       "LoginID": this.loginService.employeeId,
       "CSRSummary": CSRSummary,
       "CallCategory": CallCategory,
       "IsCallCompleted": IsCallCompleted,
-      "CustomerSign": CustomerSign? CustomerSign: null,
-      "EngineerSign": EngineerSign? EngineerSign: null
+      "CustomerSign": CustomerSign ? CustomerSign : null,
+      "EngineerSign": EngineerSign ? EngineerSign : null
     };
     return this.http.post(this.postGenerateCSRUrl, body);
   }
 
   //API call to get generated CSR file
-  getCSRPdf(FilePath: string){
+  getCSRPdf(FilePath: string) {
     const body = {
       "FilePath": FilePath
     };
-    return this.http.post(this.getCSRDownloadFileUrl, body, {responseType: 'arraybuffer', observe: 'response'});
+    return this.http.post(this.getCSRDownloadFileUrl, body, { responseType: 'arraybuffer', observe: 'response' });
   }
 
   //API call to upload CSR file
@@ -283,16 +283,16 @@ export class ServiceCalendarService {
     body.append('docSrcVal', docSrcVal);
     body.append('docSrcType', this.CSRUploadSrcType as any);
     body.append('LoginID', this.loginService.employeeId as string);
-    body.append('attachment', attachment? attachment: null);
-  
+    body.append('attachment', attachment ? attachment : null);
+
     return this.http.put(this.postUploadCSRUrl, body);
   }
-  
+
   //API call to get searched parts details
-  getSearchPartsDetails(ManufacturerId: number, SupplierId: number, PartNo: string, Description: string, ProductLine: string, PartsReqId: number, SRID: number){
+  getSearchPartsDetails(ManufacturerId: number, SupplierId: number, PartNo: string, Description: string, ProductLine: string, PartsReqId: number, SRID: number) {
     const body = {
       manufactureId: ManufacturerId,
-      supplierId: SupplierId? SupplierId: 0,
+      supplierId: SupplierId ? SupplierId : 0,
       partNo: PartNo,
       description: Description,
       productLine: ProductLine,
@@ -303,10 +303,9 @@ export class ServiceCalendarService {
   }
 
   //API call to request for added parts
-  postPartsRequest(SRID: number, PartReqId: number, CustomerId: number, IOID: number, 
+  postPartsRequest(SRID: number, PartReqId: number, CustomerId: number, IOID: number,
     VendorQuoteDocument: string, VendorQuoteSouceTypeID: number,
-    lstPartReq: svcPartsRequest[], Source: string, IsInProgress: boolean)
-  {
+    lstPartReq: svcPartsRequest[], Source: string, IsInProgress: boolean) {
     const body = {
       srid: SRID,
       partReqId: PartReqId,
@@ -314,7 +313,7 @@ export class ServiceCalendarService {
       ioid: IOID,
       CreatedBy: this.loginService.employeeId,
       ModifiedBy: this.loginService.employeeId,
-      vendorQuoteDocument:VendorQuoteDocument,
+      vendorQuoteDocument: VendorQuoteDocument,
       vendorQuoteSouceTypeID: VendorQuoteSouceTypeID,
       lstPartReq: lstPartReq,
       source: Source,
@@ -322,9 +321,9 @@ export class ServiceCalendarService {
     };
     return this.http.post(this.postPartsRequestUrl, body);
   }
-    
+
   //Function to reset all the common values stored in calendar service
-  resetValues(){
+  resetValues() {
     this.selectedSRID = 0;
     this.selectedCallCat = "";
     this.selectedCallCompletion = false;

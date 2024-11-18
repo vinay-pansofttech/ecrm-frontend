@@ -146,7 +146,7 @@
             </div>
           </div>
 
-          <div *ngIf="a.isDescriptionOpen && a.isUnManagedSupplier" class="total-header">
+          <div *ngIf="a.isDescriptionOpen" class="total-header">
             <div class="sub-title-left">
               <div class="sub-title sub-title-total">
                 Local Supplier:
@@ -156,7 +156,9 @@
                 type="radio"
                 kendoRadioButton
                 value="LocalSupp"
-                (change)="onSelectLocalSupplier(i)"
+                [checked]="a.isUnManagedSupplier"
+                [disabled]="a.suppCategory == 'Managed'"
+                (click)="onSelectLocalSupplier(i)"
                 #LocalSupp
                 />
               </div>
@@ -207,14 +209,14 @@
     </form>
 
     <button
-      *ngIf=true
+      *ngIf=isApprovalAccess
       kendobutton
       class="app-save--button app-approval-button"
       (click)="updatePriceValidation('Approved')">
       Approve
     </button>
     <button
-      *ngIf=true
+      *ngIf=isRejectAccess
       kendobutton
       class="app-save--button app-reject-button"
       (click)="updatePriceValidation('Rejected')">

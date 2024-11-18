@@ -47,10 +47,16 @@ export class SalespartsmgtWorklistComponent implements OnInit, OnDestroy {
   getSPMWorklist() {
     this.loaderService.showLoader();
     this.spmService.getSPMWorkList(this.loginService.employeeId as number).subscribe((data: any) => {
-      this.contactCards = data;
-      this.contactCards = this.contactCards.filter(
-        a => (a.validatePriceCnt >= 1)
-      );
+      if (data.length > 0 && data[0].isPreValidator === 1) {
+        this.contactCards = data.filter(
+          (a: any) => (a.hasPreVaidateRights === 1 && a.validatePriceCnt >= 1)
+        );
+      }
+      else {
+        this.contactCards = data.filter(
+          (a: any) => (a.validatePriceCnt >= 1)
+        );
+      }
       this.filterData();
       this.loaderService.hideLoader();
     },
@@ -90,6 +96,12 @@ export class SalespartsmgtWorklistComponent implements OnInit, OnDestroy {
   }
 
   navigateById(enqId: number) {
+    const selectedEnq = this.contactCards.filter(
+      a => (a.enqId === enqId)
+    );
+    this.spmService.isPreValidator = selectedEnq[0].isPreValidator == 1 ? true: false;
+    this.spmService.hasPreVaidateRights = selectedEnq[0].hasPreVaidateRights == 1 ? true : false;
+
     this.spmService.getSPMSupplierList(this.loginService.employeeId as number,enqId).subscribe((data: any) => {
       if(data.length > 0)
         this.router.navigate([AppRoutePaths.SalesPartsManagementSupplierList], {state: {id: enqId}});
@@ -104,6 +116,7 @@ export class SalespartsmgtWorklistComponent implements OnInit, OnDestroy {
 
   onBackClickHandle(){
     this.spmService.resetPaginationValues();
+    this.spmService.resetValues();
     this.router.navigate([AppRoutePaths.Dashboard]);
   }
 }

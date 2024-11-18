@@ -34,6 +34,7 @@ export interface AttachmentPopupDetails
 export class CommonService {
   private attachmentDetailsUrl = `${this.configService.apiUrl}/api/UploadDownload/GetAttachmentDetails`;
   private downloadAttachmentUrl = `${this.configService.apiUrl}/api/UploadDownload/DownloadAttachment`;
+  private updateMenuUsageUrl = `${this.configService.apiUrl}/api/Common/UpdateMenuUsage`;
 
   docSrcTypeSuppAttachment: number = 58;
   docSrcTypeAttachment: number = 22;
@@ -87,7 +88,7 @@ export class CommonService {
 
   handleNavigationEvents(routerEvents: any, backNavigationCallback?: () => void): Subscription | undefined{
     if (!this.loginService.employeeId) {
-      this.router.navigate([AppRoutePaths.Login]);
+      this.router.navigate([AppRoutePaths.Default]);
       return;
     }
     return routerEvents
@@ -105,7 +106,8 @@ export class CommonService {
           const isBackNavigation = this.navigationMap.has(event.url) && 
           this.navigationMap.get(event.url) === this.currentUrl &&  event.navigationTrigger === 'popstate';
 
-          this.currentUrl = event.url;          
+          this.currentUrl = event.url;       
+          
           if (isBackNavigation && backNavigationCallback) {
             backNavigationCallback();
           }
@@ -134,6 +136,18 @@ export class CommonService {
     this.loginService.employeeId = '';
     this.navigationMap.clear();
     this.router.navigate([AppRoutePaths.Login]);
+  }
+
+  getIPAddress(){  
+    return this.http.get("http://api.ipify.org/?format=json");  
+  }
+
+  updateMenuUsage(MenuName: string){
+    const body = {
+      'empId': this.loginService.employeeId as number,
+      'screenName': MenuName
+    }
+    return this.http.post(this.updateMenuUsageUrl, body);
   }
 
 }

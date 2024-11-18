@@ -19,23 +19,23 @@
     <div class="app-screen--header">Deal List</div>
   </div>
 
-  <div class="app-scrollable--container" *ngIf="!showAPILoader">
-    <div *ngIf="filteredCards.length > 0">
-      <div class="app-enquiry-details-listview--searchbox">
-        <kendo-textbox
-          [(ngModel)]="searchTerm"
-          (ngModelChange)="filterData()"
-          placeholder="Search"
-          class="app-enquiry-details-listview--kendo-textbox">
-          <ng-template kendoTextBoxPrefixTemplate>
-            <img
-              src="assets/content/images/search.svg"
+  <div class="app-scrollable--container">
+    <div *ngIf="!showAPILoader" class="app-enquiry-details-listview--searchbox">
+      <kendo-textbox
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="filterData()"
+        placeholder="Search"
+        class="app-enquiry-details-listview--kendo-textbox">
+        <ng-template kendoTextBoxPrefixTemplate>
+          <img
+            src="assets/content/images/search.svg"
               alt="new"
               class="app-enquiry-details-listview--search-icon" />
-          </ng-template>
-        </kendo-textbox>
-      </div>
+        </ng-template>
+      </kendo-textbox>
+    </div>
 
+    <div *ngIf="filteredCards.length > 0 && !showAPILoader">
       <div *ngFor="let a of filteredCards" class="app-enquiry-details-listview--cards">
         <kendo-card class="app-enquiry-details-listview--kendo-card">
           <div class="app-enquiry-details-listview--kendo-card-header">
@@ -103,7 +103,7 @@
       </div>
     </div>
     
-    <div *ngIf="filteredCards.length === 0" class="app-disclaimer--card">
+    <div *ngIf="filteredCards.length === 0 && !showAPILoader" class="app-disclaimer--card">
       <div class="app-disclaimer--content">
         <h5> No deals in your que </h5>
       </div>

@@ -18,7 +18,12 @@ export class LoginService {
     private configService: ConfigService,
   ) {}
 
-  loginUser(body: unknown) {
+  loginUser(username: string,password: string,userIP: string) {
+    const body = {
+      username: username,
+      password: password,
+      userIP: userIP
+    }
     return this.http.post(this.loginUrl, body);
   }
 
