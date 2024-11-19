@@ -373,6 +373,12 @@ body {
   z-index: 2;
   background-color: white;
 }
+.app-locked--sub-container{
+  position: sticky;
+  top: 0rem;
+  width: 100%;
+  z-index: 1;
+}
 .app-scrollable--container {
   overflow-y: auto;
 }
