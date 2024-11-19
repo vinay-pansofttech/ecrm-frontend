@@ -244,12 +244,12 @@ export class PartsRequestComponent {
       searchFormValue.manufacturer == null? 0: searchFormValue.manufacturer.comboId,
       searchFormValue.supplier == null? 0: searchFormValue.supplier.comboId,
       searchFormValue.partNo,
-      searchFormValue.description,
+      searchFormValue.description == null? '': searchFormValue.description,
       searchFormValue.productLine,
       0,
       this.srid
     ).subscribe((data: any) => {
-        this.searchPartsDetailsCard = data.filter((item:any) => item.price !== 0 && item.price != null);
+        this.searchPartsDetailsCard = data.filter((item:any) => item.price !== 0 && item.price != null && item.isActive === true);
     });
     this.isSearchTabOpen = false;
     }
