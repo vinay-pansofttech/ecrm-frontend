@@ -249,7 +249,7 @@ export class PartsRequestComponent {
       0,
       this.srid
     ).subscribe((data: any) => {
-        this.searchPartsDetailsCard = data.filter((item:any) => item.price !== 0 && item.price != null && item.isActive === true);
+      this.searchPartsDetailsCard = data.filter((item:any) => item.price !== 0 && item.price != null && item.isActive === true);
     });
     this.isSearchTabOpen = false;
     }
