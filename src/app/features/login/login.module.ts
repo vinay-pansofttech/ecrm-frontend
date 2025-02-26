@@ -2,6 +2,8 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TooltipsModule, PopoverModule } from "@progress/kendo-angular-tooltip";
+import { IconsModule } from "@progress/kendo-angular-icons";
 import { KendoModule } from 'src/app/kendo.module';
 import { LoginRoutingModule } from './login-routing.module';
 import { EmailLoginComponent } from './components/email-login/email-login.component';
@@ -23,8 +25,11 @@ import { LogoutComponent } from './components/logout-component/logout-component.
   imports: [
     CommonModule,
     FormsModule,
+    IconsModule,
     ReactiveFormsModule,
     KendoModule,
+    TooltipsModule,
+    PopoverModule,
     LoginRoutingModule,
   ],
   exports: [

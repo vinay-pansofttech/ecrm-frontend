@@ -82,19 +82,8 @@ export class DashboardCardsComponent implements OnInit, OnDestroy {
   }
 
   handleCardNavigate(cardData: any) {
-    if (cardData.path === AppRoutePaths.EnquiryDetails) {
-      this.router.navigate([cardData.path]);
-    }
-    if (cardData.path === AppRoutePaths.EnquiryDetailsListView) {
-      this.router.navigate([cardData.path]);
-    }
-    if (cardData.path === AppRoutePaths.ServiceCalendar) {
-      this.router.navigate([cardData.path]);
-    }
-    if (cardData.path === AppRoutePaths.WorksheetDetails) {
-      this.router.navigate([cardData.path]);
-    }
-    if (cardData.path === AppRoutePaths.SalesPartsManagementList) {
+    if (Object.values(AppRoutePaths).includes(cardData.path)) {
+      this.commonService.updateMenuUsage(cardData.text).subscribe();
       this.router.navigate([cardData.path]);
     }
   }

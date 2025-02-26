@@ -1,133 +1,124 @@
 <div class="app-container">
-  <div class="app-locked--container" *ngIf="!showAPILoader">  
+  <div class="app-locked--sub-container" *ngIf="!showAPILoader">
     <div class="app-screen--info-header">
       <div class="app-screen--info-header-left">
         Effort Details
       </div>
       <div class="app-screen--info-header-right">
         {{ currentDate }}
-        <!-- <img *ngIf="isEditEffortOpen" 
-          (click)="isEditEffortOpen = false" 
+        <!-- <img *ngIf="isEditEffortOpen"
+          (click)="isEditEffortOpen = false"
           src="assets/content/images/backward.svg"/> -->
       </div>
     </div>
   </div>
 
   <div class="app-scrollable--container">
-      <div *ngIf="!isEditEffortOpen">
-        <div *ngFor="let a of filteredEngeffortListCards; let i = index" class="app-enquiry-details-listview--cards">
-          <kendo-card class="app-enquiry-details-listview--kendo-card">
-            <div class="app-enquiry-details-listview--kendo-card-header">
-              <div class="app-enquiry-details-listview--kendo-card-number">
-                {{ a.name }}
-              </div>
-              <div *ngIf="iseditable(i)">
-                <img
-                  src="assets/content/images/edit.svg"
-                  alt="new"
-                  (click)="addEffort(i)" />
-              </div>
+    <div *ngIf="!isEditEffortOpen">
+      <div *ngFor="let a of filteredEngeffortListCards; let i = index" class="app-enquiry-details-listview--cards">
+        <kendo-card class="app-enquiry-details-listview--kendo-card">
+          <div class="app-enquiry-details-listview--kendo-card-header">
+            <div class="app-enquiry-details-listview--kendo-card-number">
+              {{ a.name }}
             </div>
-            <div class="app-enquiry-details-listview--kendo-splitter">
-              <kendo-splitter orientation="horizontal"></kendo-splitter>
+            <div *ngIf="iseditable(i)">
+              <img src="assets/content/images/edit.svg"
+                   alt="new"
+                   (click)="addEffort(i)" />
             </div>
-            <div class="app-enquiry-details-listview--kendo-card-content">
-              <div class="app-enquiry-details-listview--kendo-card-sold-details">
-                <div class="app-enquiry-details-listview--kendo-card-sub-title">
-                  Task
-                </div>
-                <div class="app-enquiry-details-listview--kendo-card-sold">
-                  {{a.taskType}}
-                </div>
-              </div>
-              <div class="app-enquiry-details-listview--kendo-card-sold-details">
-                <div class="app-enquiry-details-listview--kendo-card-sub-title">
-                  Schedule Date
-                </div>
-                <div class="app-enquiry-details-listview--kendo-card-sold">
-                  {{ commonService.displayDateFormat(a.ondate) }}
-                </div>
-              </div>
-              <div class="app-enquiry-details-listview--kendo-card-sold-details">
-                <div class="app-enquiry-details-listview--kendo-card-sub-title">
-                  Effort Hours
-                </div>
-                <div class="app-enquiry-details-listview--kendo-card-sold">
-                  {{a.effortHours}}
-                </div>
-              </div>
-              <div class="app-enquiry-details-listview--kendo-card-sold-details">
-                <div class="app-enquiry-details-listview--kendo-card-sub-title">
-                  Travel Hours
-                </div>
-                <div class="app-enquiry-details-listview--kendo-card-sold">
-                  {{a.travelHours}}
-                </div>
-              </div>
-              <div class="app-enquiry-details-listview--kendo-card-sold-details">
-                <div class="app-enquiry-details-listview--kendo-card-sub-title">
-                  Remarks
-                </div>
-                <div class="app-enquiry-details-listview--kendo-card-sold">
-                  {{a.remarks}}
-                </div>
-              </div>
-            </div>
-          </kendo-card>
-        </div>
-
-        <div class="app-screen--footer">
-          <div class="app-comments--container" [formGroup]="csrGenerateForm">
-            <kendo-formfield>
-              <div class="app-comments--content">
-                <kendo-label class="app-comments--label"
-                [for]="csrComments"
-                >CSR Comments:</kendo-label
-                >
-                <kendo-textarea
-                  class="app-kendo--textarea"
-                  placeholder="Type your message here.."
-                  formControlName="csrComments"
-                  [readonly]="!(servicePrerequisites[0]? servicePrerequisites[0].isGenerateCSR: false)"
-                  #csrComments
-                  [rows]="5"
-                  resizable="vertical"></kendo-textarea>
-              </div>
-              <kendo-formerror class="app-kendo--error-msg"
-                >CSR comments is required</kendo-formerror
-              >
-            </kendo-formfield>
           </div>
-          <button
-            kendoButton
-            class="app-save--button"
-            [disabled]="!(servicePrerequisites[0]? servicePrerequisites[0].isGenerateCSR: false)"
-            (click)="generateCSR()">
-            Generate CSR
-          </button>
-        </div>
+          <div class="app-enquiry-details-listview--kendo-splitter">
+            <kendo-splitter orientation="horizontal"></kendo-splitter>
+          </div>
+          <div class="app-enquiry-details-listview--kendo-card-content">
+            <div class="app-enquiry-details-listview--kendo-card-sold-details">
+              <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                Task
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold">
+                {{a.taskType}}
+              </div>
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold-details">
+              <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                Schedule Date
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold">
+                {{ commonService.displayDateFormat(a.ondate) }}
+              </div>
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold-details">
+              <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                Effort Hours
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold">
+                {{a.effortHours}}
+              </div>
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold-details">
+              <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                Travel Hours
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold">
+                {{a.travelHours}}
+              </div>
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold-details">
+              <div class="app-enquiry-details-listview--kendo-card-sub-title">
+                Remarks
+              </div>
+              <div class="app-enquiry-details-listview--kendo-card-sold">
+                {{a.remarks}}
+              </div>
+            </div>
+          </div>
+        </kendo-card>
       </div>
 
-      <div *ngIf="isEditEffortOpen">
-        <app-service-efforts
-        [srid]="srid" [engeffortListCards]="otherEngEffortsList" 
-        [effortCardDetails]="effortCardDetails"
-        (onBackClickHandle) = "EditEffortClose()">
-        </app-service-efforts>
-      </div>
-
-      <div *ngIf="filteredEngeffortListCards.length === 0 && !showAPILoader" class="app-disclaimer--card">
-        <div class="app-disclaimer--content">
-          <h5>No Effort Details Found</h5>
+      <div class="app-screen--footer">
+        <div class="app-comments--container" [formGroup]="csrGenerateForm">
+          <kendo-formfield>
+            <div class="app-comments--content">
+              <kendo-label class="app-comments--label"
+                           [for]="csrComments">CSR Comments:</kendo-label>
+              <kendo-textarea class="app-kendo--textarea"
+                              placeholder="Type your message here.."
+                              formControlName="csrComments"
+                              [readonly]="!(servicePrerequisites[0]? servicePrerequisites[0].isGenerateCSR: false)"
+                              #csrComments
+                              [rows]="5"
+                              [ngModel]="servicePrerequisites[0]? servicePrerequisites[0].serviceComments: ''"
+                              resizable="vertical"></kendo-textarea>
+            </div>
+            <kendo-formerror class="app-kendo--error-msg">CSR comments is required</kendo-formerror>
+          </kendo-formfield>
         </div>
+        <button kendoButton class="app-save--button"
+                [disabled]="!(servicePrerequisites[0]? servicePrerequisites[0].isGenerateCSR: false)"
+                (click)="generateCSR()">
+          Generate CSR
+        </button>
       </div>
+    </div>
+
+    <div *ngIf="isEditEffortOpen">
+      <app-service-efforts [srid]="srid" [engeffortListCards]="otherEngEffortsList"
+                           [effortCardDetails]="effortCardDetails"
+                           (onBackClickHandle)="EditEffortClose()">
+      </app-service-efforts>
+    </div>
+
+    <div *ngIf="filteredEngeffortListCards.length === 0 && !showAPILoader" class="app-disclaimer--card">
+      <div class="app-disclaimer--content">
+        <h5>No Effort Details Found</h5>
+      </div>
+    </div>
   </div>
 
   <div class="app-screen--loader" *ngIf="showAPILoader">
-    <kendo-loader
-      type="converging-spinner"
-      themeColor="info"
-      size="medium"></kendo-loader>
+    <kendo-loader type="converging-spinner"
+                  themeColor="info"
+                  size="medium"></kendo-loader>
     <div>Loading details....</div>
   </div>
 </div>

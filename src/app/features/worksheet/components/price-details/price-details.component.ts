@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { WorksheetService, WorkSheetSO, WorksheetPrerequisites } from '../../worksheet.service';
 import { CommonService, AttachmentPopupDetails } from 'src/app/features/common/common.service';
 
@@ -40,6 +40,7 @@ export class PriceDetailsComponent implements OnInit,OnChanges{
   }
 
   patchComments(){
+    this.setValidators();
     this.priceDetails.patchValue({
       amComments: this.worksheetDetailsCard[0]?.level1Comments,
       smComments: this.worksheetDetailsCard[0]?.level2Comments,
@@ -47,6 +48,25 @@ export class PriceDetailsComponent implements OnInit,OnChanges{
       finComments: this.worksheetDetailsCard[0]?.level4Comments
     });
   }
+
+  setValidators() {
+    const controlNames = ['amComments', 'smComments', 'finComments', 'mgmtComments'];
+    const loginLevels = ['AM', 'SM', 'Finance', 'Management'];
+  
+    controlNames.forEach((controlName, index) => {
+      const control = this.priceDetails.get(controlName);
+      const loginLevel = loginLevels[index];
+  
+      if (this.worksheetDetailsCard[0].loginLevel === loginLevel && this.worksheetDetailsCard[0].isAccessWSApproval) {
+        control?.setValidators([Validators.required]);
+      } else {
+        control?.setValidators([Validators.nullValidator]);
+      }
+
+      control?.updateValueAndValidity();
+    });
+  }
+  
 
   formatNumber(value: any): number {
     const parsedValue = parseFloat(value);

@@ -199,7 +199,7 @@
               class="app-kendo--textarea"
               placeholder="Type your message here.."
               formControlName="amComments"
-              [readonly]="!(worksheetDetailsCard[0].isAccessWSApproval? true: false && worksheetDetailsCard[0].nextApprovalLevel == 1)"
+              [readonly]="!(worksheetDetailsCard[0].isAccessWSApproval && worksheetDetailsCard[0].loginLevel =='AM' && worksheetDetailsCard[0].nextApprovalLevel === 1)"
               [value]="worksheetDetailsCard[0].level1Comments"
               #amComments
               [rows]="5"
@@ -222,7 +222,7 @@
               class="app-kendo--textarea"
               placeholder="Type your message here.."
               formControlName="smComments"
-              [readonly]="!(worksheetDetailsCard[0].isAccessWSApproval? true: false && worksheetDetailsCard[0].nextApprovalLevel == 2)"
+              [readonly]="!(worksheetDetailsCard[0].isAccessWSApproval && worksheetDetailsCard[0].loginLevel =='SM' && worksheetDetailsCard[0].nextApprovalLevel === 2)"
               [value]="worksheetDetailsCard[0].level2Comments"
               #smComments
               [rows]="5"
@@ -245,7 +245,7 @@
               class="app-kendo--textarea"
               placeholder="Type your message here.."
               formControlName="finComments"
-              [readonly]="!(worksheetDetailsCard[0].isAccessWSApproval? true: false && worksheetDetailsCard[0].nextApprovalLevel == 3)"
+              [readonly]="!(worksheetDetailsCard[0].isAccessWSApproval && worksheetDetailsCard[0].loginLevel =='Finance' && worksheetDetailsCard[0].nextApprovalLevel === 3)"
               [value]="worksheetDetailsCard[0].level3Comments"
               #finComments
               [rows]="5"
@@ -268,7 +268,7 @@
               class="app-kendo--textarea"
               placeholder="Type your message here.."
               formControlName="mgmtComments"
-              [readonly]="!(worksheetDetailsCard[0].isAccessWSApproval? true: false && worksheetDetailsCard[0].nextApprovalLevel == 4)"
+              [readonly]="!(worksheetDetailsCard[0].isAccessWSApproval && worksheetDetailsCard[0].loginLevel =='Management' && worksheetDetailsCard[0].nextApprovalLevel === 4)"
               [value]="worksheetDetailsCard[0].level4Comments"
               #mgmtComments
               [rows]="5"

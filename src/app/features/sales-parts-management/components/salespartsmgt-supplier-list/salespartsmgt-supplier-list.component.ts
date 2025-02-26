@@ -98,7 +98,8 @@ export class SalespartsmgtSupplierListComponent implements OnInit, OnDestroy {
     this.ngOnInit()  
   }
 
-  onBackClickHandle(){
+  onBackClickHandle() {
+    this.spmService.resetValues();
     this.router.navigate([AppRoutePaths.SalesPartsManagementList]);
   }
 

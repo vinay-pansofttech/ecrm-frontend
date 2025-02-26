@@ -30,6 +30,8 @@ export class SalespartsmgtApprovalComponent implements OnInit, OnDestroy {
   salespartsmgtApprovalForm!: FormGroup;
   lstProductConfig: ProductConfigItemsBO[] = [];
   loaderMessage!: string;
+  isApprovalAccess: boolean = true;
+  isRejectAccess: boolean = true;
 
   //Attachment Pop up related variables
   showSuppAttachment: boolean = false;
@@ -59,6 +61,7 @@ export class SalespartsmgtApprovalComponent implements OnInit, OnDestroy {
       this.showSPMAPILoader = res;
     });
     this.loaderService.hideLoader();
+    this.approvalRejectAccess();
     this.getSPMPartslist();
     this.getSPMSupplierlist();
 
@@ -160,6 +163,17 @@ export class SalespartsmgtApprovalComponent implements OnInit, OnDestroy {
     }
   }
 
+  approvalRejectAccess(): void {
+    if (this.spmService.isPreValidator) {
+      this.isApprovalAccess = false;
+      this.isRejectAccess = false;
+    }
+    if (this.spmService.hasPreVaidateRights) {
+      this.isRejectAccess = true;
+      this.isApprovalAccess = false;
+    }
+  }
+
   onReset(){
     this.ngOnInit();
   }
@@ -223,7 +237,8 @@ export class SalespartsmgtApprovalComponent implements OnInit, OnDestroy {
     this.showSuppAttachment = !this.showSuppAttachment;
   }
 
-  onBackClickHandle(){
+  onBackClickHandle() {
+    this.spmService.resetValues();
     this.spmService.getSPMSupplierList(this.loginService.employeeId as number,this.enqId).subscribe((data: any) => {
       if(data.length > 0)
         this.router.navigate([AppRoutePaths.SalesPartsManagementSupplierList], {state: {id: this.enqId}});

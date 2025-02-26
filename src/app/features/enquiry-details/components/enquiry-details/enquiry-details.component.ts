@@ -110,9 +110,6 @@ export class EnquiryDetailsComponent implements OnInit, OnDestroy {
         attachment: new FormControl('', [Validators.required]),
       }),
     });
-    this.loaderService.loaderState.subscribe(res => {
-      this.showAPILoader = res;
-    });
   }
 
   ngOnDestroy(): void {

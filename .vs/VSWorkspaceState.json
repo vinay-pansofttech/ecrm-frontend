@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\.angular",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\core",
+    "\\src\\app\\features",
+    "\\src\\app\\features\\worksheet",
+    "\\src\\app\\features\\worksheet\\components",
+    "\\src\\app\\features\\worksheet\\components\\price-details"
+  ],
+  "PreviewInSolutionExplorer": false
+}

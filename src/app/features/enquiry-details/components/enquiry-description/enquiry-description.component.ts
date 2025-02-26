@@ -46,6 +46,7 @@ export class EnquiryDescriptionComponent {
       link.download = filename || 'attachment';
       link.click();
       window.URL.revokeObjectURL(url);
+      this.loaderService.hideLoader();
     },
     error => {
       this.loaderService.hideLoader();
@@ -54,5 +55,6 @@ export class EnquiryDescriptionComponent {
         'error', 'center', 'bottom'
       );
     });
+    this.loaderService.hideLoader();
   }
 }

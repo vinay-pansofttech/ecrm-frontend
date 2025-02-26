@@ -5,7 +5,7 @@ import { AppRoutePaths } from 'src/app/core/Constants';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { CommonService } from 'src/app/features/common/common.service';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
-import { ServiceCalendarService, engEffortsList, callsList, svcPrerequisites } from '../../service-calendar.service';
+import { ServiceCalendarService, engEffortsList, callsList, svcPrerequisites, svcGetSRLCDetails, svcIBModuleDetails, svcGetOtherTasksDetails } from '../../service-calendar.service';
 
 @Component({
   selector: 'app-srlc',
@@ -21,12 +21,17 @@ export class SrlcComponent implements OnInit, OnDestroy{
 
   isEffortsSelected: boolean = false;
   isPRSelected: boolean = false;
+  isCallActionSelected: boolean = false;
+  isPrimaryEngineerForTask: boolean = false;
   selectedSRID: number = 0;
   currentDate: string = '';
 
   engeffortListCards: engEffortsList[] = [];
   filteredEngeffortListCards: engEffortsList[] = [];
   servicePrerequisites: svcPrerequisites[] = [];
+  srlcDetails: svcGetSRLCDetails[] = [];
+  moduleDetails: svcIBModuleDetails[] = [];
+  otherTasksDetails: svcGetOtherTasksDetails[] = [];
   schCallCards: callsList[] = [];
 
   constructor(
@@ -54,6 +59,8 @@ export class SrlcComponent implements OnInit, OnDestroy{
       this.loaderService.hideLoader();
       this.engEffortsList();
       this.getServicePrereq();
+      this.getSRLCDetails();
+      this.getOtherTasksDetails();
       this.scheduledCallsDetails();
       this.onStepperClick(0);
     }
@@ -69,6 +76,15 @@ export class SrlcComponent implements OnInit, OnDestroy{
         this.filteredEngeffortListCards = data.filter(
           (item: any) => item.empId === this.loginService.employeeId
         );
+
+      if(data.filter((item: any) =>{
+        return  item.isPrimary == true &&
+                item.empId == this.loginService.employeeId as number
+      }).length > 0)
+      {
+        this.isPrimaryEngineerForTask = true;
+      }
+
         this.loaderService.hideLoader();
       },
       error => {
@@ -92,6 +108,7 @@ export class SrlcComponent implements OnInit, OnDestroy{
     onStepperClick(currentStep: number){
       this.isEffortsSelected = false;
       this.isPRSelected = false;
+      this.isCallActionSelected = false;
       this.currentStep = currentStep;
   
       if(currentStep == 0){
@@ -99,6 +116,9 @@ export class SrlcComponent implements OnInit, OnDestroy{
       }
       else if(currentStep == 1){
         this.isPRSelected = true;
+      }
+      else if(currentStep == 2){
+        this.isCallActionSelected = true;
       }
     }
 
@@ -110,9 +130,31 @@ export class SrlcComponent implements OnInit, OnDestroy{
       });
     }
 
+    getSRLCDetails(){
+      this.serviceCalendarService.getSRLCDetails(this.selectedSRID,this.loginService.employeeId as number).
+      subscribe((data: any) => {
+        this.srlcDetails = data;
+        this.serviceCalendarService.getModuleDetails(
+          this.srlcDetails[0].installBaseID? data[0].installBaseID : 0,
+          this.loginService.employeeId as number)
+          .subscribe((data: any) => {
+            this.moduleDetails = data;
+            this.serviceCalendarService.moduleDetailsCard = data;
+        });
+      });
+    }
+
+    getOtherTasksDetails(){
+      this.serviceCalendarService.getOtherTasksDetails(this.selectedSRID,this.loginService.employeeId as number).
+      subscribe((data: any) => {
+        this.otherTasksDetails = data;
+        this.serviceCalendarService.otherTasksDetailsCard = data;
+      });
+    }
+
     onBackClickHandle() {
-        this.serviceCalendarService.resetValues();
-        this.router.navigate([AppRoutePaths.ServiceCalendar]);
+      this.serviceCalendarService.resetValues();
+      this.router.navigate([AppRoutePaths.ServiceCalendar]);
     }
   
     onRefresh(){

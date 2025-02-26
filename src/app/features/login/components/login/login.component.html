@@ -27,7 +27,6 @@
                     alt="new"
                     class="login-page--user-img" /> </ng-template
               ></kendo-textbox>
-
               <kendo-formerror class="login-page-kendo-form-error"
                 >Username is required</kendo-formerror
               >
@@ -40,11 +39,13 @@
               placeholder="Password"
               [clearButton]="true"
               class="login-page--textbox"
+              [type]="inputType"
               formControlName="password">
               <ng-template kendoTextBoxSuffixTemplate>
-                <button
-                  kendoButton
-                  look="clear"
+                <button 
+                  kendoButton 
+                  type="button" 
+                  look="clear" 
                   [svgIcon]="eyeIcon"
                   (click)="togglePasswordVisibility()"></button>
               </ng-template>
@@ -62,9 +63,9 @@
           </kendo-formfield>
 
           <div class="login-page--forgot-div">
-            <!-- <a routerLink="/forgot-password" class="login-page--forgot-link"
+            <a class="login-page--forgot-link" (click)="onForgotPasswordClick()"
               >Forgot your password?</a
-            > -->
+            >
           </div>
         </div>
 
@@ -85,6 +86,6 @@
       type="converging-spinner"
       themeColor="info"
       size="medium"></kendo-loader>
-    <div>Signing in....</div>
+    <div>{{ loaderMessage }}</div>
   </div>
 </div>

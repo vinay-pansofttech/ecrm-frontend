@@ -76,10 +76,10 @@ export class WorksheetApprovalComponent implements OnInit, OnDestroy{
       DRQ: new FormGroup({
       }),
       priceDetails: new FormGroup({
-        amComments: new FormControl('', Validators.required),
-        smComments: new FormControl('', Validators.required),
-        mgmtComments: new FormControl('', Validators.required),
-        finComments: new FormControl('', Validators.required),
+        amComments: new FormControl('', [Validators.nullValidator]),
+        smComments: new FormControl('', [Validators.nullValidator]),
+        mgmtComments: new FormControl('', [Validators.nullValidator]),
+        finComments: new FormControl('', [Validators.nullValidator]),
         wsattachment: new FormControl('', [Validators.nullValidator]),
       }),
       WSMargin: new FormGroup({
