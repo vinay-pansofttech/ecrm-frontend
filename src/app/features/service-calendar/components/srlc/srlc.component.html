@@ -23,6 +23,10 @@
              (click)="onStepperClick(1)" [ngClass]="{'selected': isPRSelected}">
           <div class="app-screen--stepper-container-content"> Parts Request </div>
         </div>
+        <div *ngIf="isPrimaryEngineerForTask" class="app-screen--stepper-container"
+            (click)="onStepperClick(2)" [ngClass]="{'selected': isCallActionSelected}">
+          <div class="app-screen--stepper-container-content"> Call Action </div>
+        </div>
       </div>
     </div>
     <div *ngFor="let a of schCallCards;" class="app-enquiry-details-listview--cards">
@@ -77,8 +81,14 @@
     <app-efforts-list-view *ngIf="currentStep === 0" [srid]="selectedSRID" [currentDate]="currentDate"
                            [engeffortListCards]="engeffortListCards"
                            [filteredEngeffortListCards]="filteredEngeffortListCards"
-                           [servicePrerequisites]="servicePrerequisites"></app-efforts-list-view>
+                           [servicePrerequisites]="servicePrerequisites"
+                           (srlcRefresh)="onRefresh()"></app-efforts-list-view>
     <app-parts-request *ngIf="currentStep === 1" [srid]="selectedSRID"
                        [servicePrerequisites]="servicePrerequisites"></app-parts-request>
+    <app-call-action *ngIf="currentStep === 2" [srid]="selectedSRID"
+                       [servicePrerequisites]="servicePrerequisites"
+                       [srlcDetails]="srlcDetails"
+                       [moduleDetails]="moduleDetails"
+                       [otherTasksDetails]="otherTasksDetails"></app-call-action>
   </div>
 </div>

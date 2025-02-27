@@ -34,6 +34,7 @@ export class LoginComponent implements AfterViewInit, OnInit, OnDestroy {
   public textbox!: TextBoxComponent;
   public eyeIcon: SVGIcon = eyeIcon;
   public showLoader = false;
+  public loaderMessage = '';
   private popstateSubscription?: Subscription;
 
   constructor(
@@ -51,6 +52,10 @@ export class LoginComponent implements AfterViewInit, OnInit, OnDestroy {
 
   ngOnInit() {
     this.popstateSubscription = this.commonService.handleNavigationEvents(this.router.events);
+    this.loaderService.loaderState.subscribe(res => {
+      this.showLoader = res;
+    });
+    this.loaderService.hideLoader();
   }
 
   ngOnDestroy(): void {
@@ -86,7 +91,8 @@ export class LoginComponent implements AfterViewInit, OnInit, OnDestroy {
     }
   }
   async onSubmit() {
-    this.showLoader = true;
+    this.loaderMessage = "Signing in....";
+    this.loaderService.showLoader();
     let userIPAddress: string = "192.168.10.83";
     try {
       const res: any = await firstValueFrom(this.commonService.getIPAddress());
@@ -94,20 +100,49 @@ export class LoginComponent implements AfterViewInit, OnInit, OnDestroy {
     } catch (error) {
       userIPAddress = "192.168.10.83";
     }
-
     this.loginService
       .loginUser(
         this.loginForm.value.username,
         this.loginForm.value.password,
         userIPAddress
-      )
-      .subscribe(
+      ).subscribe(
         data => {
-          this.showLoader = false;
+          this.loaderService.hideLoader();
           this.onHandleAfterSignin(data);
         },
         error => {
-          this.showLoader = false;
+          if(error.error.text == 'Your password has been Expired'){
+            this.router.navigate([AppRoutePaths.ForgotPassword], { queryParams: { UN: this.loginForm.value.username, AuthCode: '', CT: 'Changepwd' } });
+          }
+          this.loaderService.hideLoader();
+          this.notificationService.showNotification(
+            error.error.text,
+            'error', 'center', 'bottom'
+          );
+        }
+      );
+  }
+
+  public onForgotPasswordClick() {
+    this.loaderMessage = "Sending password reset link"
+    this.loaderService.showLoader();
+    this.loginService.forgotPassword(
+        this.loginForm.value.username
+      )
+      .subscribe(
+        (data:any) => {
+          this.loaderService.hideLoader();
+          const notificationMessage = data.outPut;
+          const notificationType = data.outPut.startsWith('Change') ? 'success' : 'error';
+          this.notificationService.showNotification(
+            notificationMessage,
+            notificationType,
+            'center',
+            'bottom'
+          );        
+        },
+        error => {
+          this.loaderService.hideLoader();
           this.notificationService.showNotification(
             error.error.text,
             'error', 'center', 'bottom'

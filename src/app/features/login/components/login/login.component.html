@@ -63,7 +63,7 @@
           </kendo-formfield>
 
           <div class="login-page--forgot-div">
-            <a routerLink="/forgot-password" class="login-page--forgot-link"
+            <a class="login-page--forgot-link" (click)="onForgotPasswordClick()"
               >Forgot your password?</a
             >
           </div>
@@ -86,6 +86,6 @@
       type="converging-spinner"
       themeColor="info"
       size="medium"></kendo-loader>
-    <div>Signing in....</div>
+    <div>{{ loaderMessage }}</div>
   </div>
 </div>

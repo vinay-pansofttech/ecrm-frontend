@@ -7,6 +7,7 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { DatePipe } from '@angular/common';
 import { CommonService } from 'src/app/features/common/common.service';
+import { AppRoutePaths } from 'src/app/core/Constants';
 
 @Component({
   selector: 'app-service-efforts',
@@ -33,7 +34,7 @@ export class ServiceEffortsComponent {
     private notificationService: NotificationService,
     private datePipe: DatePipe,
     public commonService: CommonService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.serviceEffortsForm = this.formBuilder.group({
@@ -121,7 +122,7 @@ export class ServiceEffortsComponent {
               'bottom'
             );
             if (notificationType == 'success') {
-              window.history.back();
+              this.onCancel();
             }
           },
             error => {

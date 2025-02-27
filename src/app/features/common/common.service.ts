@@ -39,6 +39,7 @@ export class CommonService {
   docSrcTypeSuppAttachment: number = 58;
   docSrcTypeAttachment: number = 22;
   docSrcTypeWSAttachment: number = 658;
+  docSrcTypeCSRAttachment: number = 11;
 
   public currentUrl: string | null = null;
   public navigationMap: Map<string, string> = new Map();
@@ -63,6 +64,15 @@ export class CommonService {
 
   displayDateFormat(value: Date | string | null) {
     return value ? this.datePipe.transform(value, 'dd-MMM-yyyy') : '';
+  }
+
+  convertDateStringToDate(dateString: string | null): Date | null {
+    if(dateString){
+    return new Date(dateString);
+    }
+    else{
+      return null;
+    }
   }
 
   //API Call to fetch the attachment details

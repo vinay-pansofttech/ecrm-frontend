@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
@@ -20,6 +20,8 @@ export class EffortsListViewComponent {
   @Input() filteredEngeffortListCards: engEffortsList[] = [];
   @Input() srid: number = 0;
   @Input() currentDate: string = '';
+  @Output() srlcRefresh: EventEmitter<void> = new EventEmitter<void>();
+
   showAPILoader = false;
 
   otherEngEffortsList: engEffortsList[] = [];
@@ -35,7 +37,7 @@ export class EffortsListViewComponent {
     public commonService: CommonService,
     private serviceCalendarService: ServiceCalendarService,
     private datePipe: DatePipe,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.isEditEffortOpen = false;
@@ -100,10 +102,7 @@ export class EffortsListViewComponent {
 
   EditEffortClose() {
     this.ngOnInit();
-  }
-
-  onRefresh() {
-    this.ngOnInit();
+    this.srlcRefresh.emit();
   }
 
   generateCSR() {
