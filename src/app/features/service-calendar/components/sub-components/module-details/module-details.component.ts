@@ -23,6 +23,7 @@ export class ModuleDetailsComponent implements OnInit{
   @Input() servicePrerequisites: svcPrerequisites[] = [];
   @Input() moduleDetailsCard: svcIBModuleDetails[] = [];
   @Output() validateModuleDetails: EventEmitter<void> = new EventEmitter<void>();
+  @Output() moduleDetailsCardChange: EventEmitter<svcIBModuleDetails[]> = new EventEmitter<svcIBModuleDetails[]>();
 
   modulePartsCard: svcPartsDetails[] = [];
   isModuleDetailsOpen = true;
@@ -55,13 +56,14 @@ export class ModuleDetailsComponent implements OnInit{
   isCardSelected(index: number){
     this.moduleDetailsCard[index].isCardSelected = !this.moduleDetailsCard[index].isCardSelected;
   }
-
+  
   onDescriptionClick(index: number){
     this.moduleDetailsCard[index].isDescOpen = !this.moduleDetailsCard[index].isDescOpen;  
   }
 
   onDeleteAddedCards() {
-    this.moduleDetailsCard = this.moduleDetailsCard.filter((item) => !item.isCardSelected);
+    this.moduleDetailsCard = this.moduleDetailsCard.filter((item:any) => item.isCardSelected === undefined  || item.isCardSelected == false);
+    this.moduleDetailsCardChange.emit(this.moduleDetailsCard);
   }
 
   onModuleEdit(index: number){

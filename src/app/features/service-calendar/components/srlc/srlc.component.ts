@@ -23,11 +23,13 @@ export class SrlcComponent implements OnInit, OnDestroy{
   isPRSelected: boolean = false;
   isCallActionSelected: boolean = false;
   isPrimaryEngineerForTask: boolean = false;
+  isSRIDInfoSelected: boolean = false;
   selectedSRID: number = 0;
   currentDate: string = '';
 
   engeffortListCards: engEffortsList[] = [];
   filteredEngeffortListCards: engEffortsList[] = [];
+  filteredOtherDaysEngeffortListCards: engEffortsList[] = [];
   servicePrerequisites: svcPrerequisites[] = [];
   srlcDetails: svcGetSRLCDetails[] = [];
   moduleDetails: svcIBModuleDetails[] = [];
@@ -74,7 +76,12 @@ export class SrlcComponent implements OnInit, OnDestroy{
       this.serviceCalendarService.getEngEfforts(this.loginService.employeeId as number, this.selectedSRID).subscribe((data: any) => {
         this.engeffortListCards = data;
         this.filteredEngeffortListCards = data.filter(
-          (item: any) => item.empId === this.loginService.employeeId
+          (item: any) => item.empId === this.loginService.employeeId &&
+                         this.commonService.displayDateFormat(item.ondate) === this.currentDate
+        );
+        this.filteredOtherDaysEngeffortListCards = data.filter(
+          (item: any) => item.empId === this.loginService.employeeId &&
+                         this.commonService.displayDateFormat(item.ondate) !== this.currentDate
         );
 
       if(data.filter((item: any) =>{
@@ -150,6 +157,10 @@ export class SrlcComponent implements OnInit, OnDestroy{
         this.otherTasksDetails = data;
         this.serviceCalendarService.otherTasksDetailsCard = data;
       });
+    }
+
+    onSRIDInfoClick(){
+      this.isSRIDInfoSelected = !this.isSRIDInfoSelected;
     }
 
     onBackClickHandle() {

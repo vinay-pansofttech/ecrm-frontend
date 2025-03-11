@@ -14,30 +14,45 @@
       </div>
     </div>
     <div class="app-screen--content">
-      <div class="app-screen--stepper">
-        <div class="app-screen--stepper-container"
+      <div class="app-screen--stepper-new">
+        <div class="app-screen--stepper-container-new"
              (click)="onStepperClick(0)" [ngClass]="{'selected': isEffortsSelected}">
-          <div class="app-screen--stepper-container-content"> Effort Log</div>
+          <div> Effort Log</div>
         </div>
-        <div *ngIf="servicePrerequisites[0]? servicePrerequisites[0].isPartsRequestShow: false" class="app-screen--stepper-container"
+        <div *ngIf="servicePrerequisites[0]? servicePrerequisites[0].isPartsRequestShow: false" class="app-screen--stepper-container-new"
              (click)="onStepperClick(1)" [ngClass]="{'selected': isPRSelected}">
-          <div class="app-screen--stepper-container-content"> Parts Request </div>
+          <div> Parts Request </div>
         </div>
-        <div *ngIf="isPrimaryEngineerForTask" class="app-screen--stepper-container"
+        <div *ngIf="isPrimaryEngineerForTask" class="app-screen--stepper-container-new"
             (click)="onStepperClick(2)" [ngClass]="{'selected': isCallActionSelected}">
-          <div class="app-screen--stepper-container-content"> Call Action </div>
+          <div> Call Action </div>
         </div>
       </div>
     </div>
     <div *ngFor="let a of schCallCards;" class="app-enquiry-details-listview--cards">
-      <kendo-card class="app-enquiry-details-listview--kendo-card">
+      <kendo-card *ngIf="!isSRIDInfoSelected" class="app-enquiry-details-listview--kendo-info-card">
+        <div class="app-enquiry-details-listview--kendo-card-content">
+            <div class="app-info-card--content">
+              Call details of SRID {{ selectedSRID }}
+            </div>
+            <div class="card-selection-addition-icon">
+              <img (click)="onSRIDInfoClick()" src="assets/content/images/info.svg" />
+            </div>
+        </div>
+      </kendo-card>
+      <kendo-card *ngIf="isSRIDInfoSelected" class="app-enquiry-details-listview--kendo-card">
         <div class="app-enquiry-details-listview--kendo-card-content">
           <div class="app-enquiry-details-listview--kendo-card-sold-details">
             <div class="app-enquiry-details-listview--kendo-card-sub-title">
               SRID
             </div>
-            <div class="app-enquiry-details-listview--kendo-card-sold ">
-              {{ selectedSRID }}
+            <div class="app-enquiry-details-listview--kendo-card-comments">
+              <div class="app-enquiry-details-listview--kendo-card-comments-left">
+                {{ selectedSRID }}
+              </div>
+              <div class="card-selection-addition-icon">
+                <img (click)="onSRIDInfoClick()" src="assets/content/images/info.svg" />
+              </div>
             </div>
           </div>
           <div class="app-enquiry-details-listview--kendo-card-sold-details">
@@ -81,6 +96,7 @@
     <app-efforts-list-view *ngIf="currentStep === 0" [srid]="selectedSRID" [currentDate]="currentDate"
                            [engeffortListCards]="engeffortListCards"
                            [filteredEngeffortListCards]="filteredEngeffortListCards"
+                           [filteredOtherDaysEngeffortListCards]="filteredOtherDaysEngeffortListCards"
                            [servicePrerequisites]="servicePrerequisites"
                            (srlcRefresh)="onRefresh()"></app-efforts-list-view>
     <app-parts-request *ngIf="currentStep === 1" [srid]="selectedSRID"

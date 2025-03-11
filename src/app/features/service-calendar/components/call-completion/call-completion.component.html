@@ -45,7 +45,8 @@
             [isEditable]="isEditable"
             [moduleDetails]="currentGroup"
             [moduleDetailsCard]="moduleDetails"
-            (validateModuleDetails)="validateModules(this.moduleDetails)"></app-module-details>
+            (validateModuleDetails)="validateModules(this.moduleDetails)"
+            (moduleDetailsCardChange)="updateModuleDetailsCard($event)"></app-module-details>
           <app-other-tasks
             *ngIf="currentStep === 4"
             [srid]="srid"

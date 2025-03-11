@@ -73,6 +73,10 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
     return isValid;
   }
 
+  updateModuleDetailsCard(updatedList: svcIBModuleDetails[]) {
+    this.moduleDetails = updatedList;
+  }
+
   validateOtherTasks(otherTasksDetails: svcGetOtherTasksDetails[]): boolean {
     const dummyControl = this.callCompletionForm.get('otherDetails.dummyOtherTaskControl');
   
@@ -155,29 +159,27 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
     });
     this.loaderService.hideLoader();
     this.callCompletionValidator();
-    this.surveyValidator();
     this.isEditable = this.srlcDetails[0].srStatus?.toLowerCase() == "in_progress" && this.srlcDetails[0].callCategory?.toLowerCase() == "install";
-
     this.callCompletionForm = this.formBuilder.group({
       completionDetails: new FormGroup({
-        completedCheckBox: new FormControl({value: false, disabled: (this.srlcDetails[0].srStatus?.toLowerCase() == "completed")}, [this.checkboxRequiredValidator()]),
+        completedCheckBox: new FormControl({value: false, disabled: (this.srlcDetails[0].srStatus?.toLowerCase() == "completed")}, Validators.nullValidator),
         completedDate: new FormControl({value:'', disabled: true}, Validators.nullValidator),
         calibrationCheckBox: new FormControl({value:false, disabled: this.isInstallationCall}, Validators.nullValidator),
         oqpvCheckBox: new FormControl({value: false, disabled: this.isInstallationCall}, Validators.nullValidator),
         bdServiceCheckBox: new FormControl({value: false, disabled: this.isInstallationCall}, Validators.nullValidator),
         pmCheckBox: new FormControl({value: false, disabled: this.isInstallationCall}, Validators.nullValidator),
         otherCalls: new FormControl({value: '', disabled: !this.isContractSVCCall}, Validators.nullValidator),
-        resolutionType: new FormControl({value:'', disabled: this.isInstallationCall}, [Validators.required]),
+        resolutionType: new FormControl({value:'', disabled: this.isInstallationCall}, this.isInstallationCall? Validators.nullValidator: [Validators.required]),
         awaitingCSR: new FormControl(false, Validators.nullValidator),
         CSR: new FormControl('', Validators.nullValidator),
         csrRemarks: new FormControl('', Validators.nullValidator),
       }),
       installationDetails: new FormGroup({
-        productSerialNo: new FormControl({value: '', disabled: !this.isEditable}, [Validators.required]),
+        productSerialNo: new FormControl({value: '', disabled: !this.isEditable},  Validators.required),
         sapNo: new FormControl({value: '', disabled: !this.isEditable}, Validators.nullValidator),
         productCategory: new FormControl({value: '', disabled: true}, Validators.nullValidator),
         leTag: new FormControl({value: '', disabled: !this.isEditable}, Validators.nullValidator),
-        location: new FormControl({value: '', disabled: !this.isEditable}, [Validators.required]),
+        location: new FormControl({value: '', disabled: !this.isEditable},  Validators.required),
         principalWarrantyStart: new FormControl({value: '', disabled: !this.isEditable}, Validators.nullValidator),
         principalWarrantyEnd: new FormControl({value: '', disabled: !this.isEditable}, Validators.nullValidator),
         clientWarrantyStart: new FormControl({value: '', disabled: !this.isEditable}, Validators.nullValidator),
@@ -198,11 +200,12 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
         dummyOtherTaskControl: new FormControl('', Validators.nullValidator)
       }),
       surveyDetails: new FormGroup({
-        contactConfirmCheckbox: new FormControl(false, [this.checkboxRequiredValidator()]),
+        contactConfirmCheckbox: new FormControl(false, Validators.nullValidator),
         contactName: new FormControl({value: '', disabled: this.isCustContactConfirmed}, Validators.nullValidator),
         contactEmail: new FormControl({value: '', disabled: true}, Validators.nullValidator),
       })
     });
+    this.surveyValidator();
     this.patchFormValues();
   }
 
@@ -224,15 +227,45 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
     return this.getGroupAt(this.currentStep);
   }
 
+  // public next(): void {
+  //   if (this.currentGroup.valid && this.currentStep !== this.steps.length) {
+  //     this.currentStep += 1;
+  //     return;
+  //   }
+  //   this.currentGroup.markAllAsTouched();
+  //   this.stepper.validateSteps();
+  // }
+
   public next(): void {
-    if (this.currentGroup.valid && this.currentStep !== this.steps.length) {
+    const group = this.currentGroup;
+    const originalDisabledState = new Map<string, boolean>();
+    if (group.disabled) {
+      group.enable();
+    }
+
+    Object.keys(group.controls).forEach((key) => {
+      const control = group.get(key);
+      if (control?.disabled) {
+        originalDisabledState.set(key, true);
+        control.enable();
+      }
+    });
+    console.log('Controls',group)
+
+    if (group.valid && this.currentStep !== this.steps.length) {
       this.currentStep += 1;
       return;
     }
-    this.currentGroup.markAllAsTouched();
+
+    originalDisabledState.forEach((wasDisabled, key) => {
+      if (wasDisabled) {
+        group.get(key)?.disable();
+      }
+    });
+    group.markAllAsTouched();
     this.stepper.validateSteps();
   }
-
+  
   public prev(): void {
     this.currentStep -= 1;
   }
@@ -292,8 +325,39 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
     this.serviceCalendarService.isCallCompleted = (this.srlcDetails[0].completedDate != null && this.srlcDetails[0].completedDate != "");
   }
 
+  serviceCallFormValidation(): string{
+    const formValue = this.callCompletionForm.getRawValue();
+    if(formValue.completionDetails.completedCheckBox && !this.isInstallationCall){
+        if(formValue.completionDetails.oqpvCheckBox || formValue.completionDetails.bdServiceCheckBox ||
+          formValue.completionDetails.calibrationCheckBox || formValue.completionDetails.pmCheckBox)
+          {
+            return 'Success'
+          }
+        else{
+          return 'Please select either OQPV, BD, PM or Calibration'
+        }
+    }
+    else if(formValue.completionDetails.completedCheckBox && this.isInstallationCall){
+      if(this.moduleDetails.length <= 0){
+        return 'Please select atleast one module in module details stepper'
+      }
+      else if(!((formValue.installationDetails.principalWarrantyStart && formValue.installationDetails.principalWarrantyEnd) ||
+                (formValue.installationDetails.clientWarrantyStart && formValue.installationDetails.clientWarrantyEnd)))
+      {
+        return 'Please enter warranty date or client warranty date'
+      }
+      else{
+        return 'Success'
+      }
+    }
+    else{
+      return 'Success'
+    } 
+  }
+
   surveyValidator(){
     this.serviceCalendarService.isSurveyRequired = (this.srlcDetails[0].isSurveyReq? this.srlcDetails[0].isSurveyReq: false)  && this.serviceCalendarService.isCallCompleted && this.srlcDetails[0].srStatus?.toLowerCase() == "in_progress";
+    const surveyControl = this.callCompletionForm.get('surveyDetails.contactConfirmCheckbox');
     if(this.serviceCalendarService.isSurveyRequired){
       this.steps = [
         {
@@ -333,6 +397,7 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
           icon: '',
         }
       ]; 
+      surveyControl?.setValidators([Validators.required]);
     }
     else{
       this.steps = [
@@ -367,7 +432,9 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
           icon: '',
         },
       ];
+      surveyControl?.clearValidators();
     }
+    surveyControl?.updateValueAndValidity();
   }
 
   async submit(): Promise<void> {
@@ -375,137 +442,148 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
     this.loaderMessage = 'Submitting call completion details...';
     this.serviceCalendarService.assignCallActionParams(this.srlcDetails[0]);
     const formValue = this.callCompletionForm.getRawValue();
-    if(this.callCompletionForm.valid){
-      this.serviceCalendarService.getValidateCSR(
-        this.srid,
-        formValue.completionDetails.awaitingCSR? formValue.completionDetails.awaitingCSR: false,
-        formValue.completionDetails.resolutionType? formValue.completionDetails.resolutionType: 0,
-        formValue.completionDetails.completedDate? formValue.completionDetails.completedDate: null,
-        this.srlcDetails[0].isPartsRequired? this.srlcDetails[0].isPartsRequired: false,
-        this.srlcDetails[0].isCustomerDelay? this.srlcDetails[0].isCustomerDelay: false,
-        this.srlcDetails[0].isPORequired? this.srlcDetails[0].isPORequired: false,
-        this.srlcDetails[0].isOtherReason? this.srlcDetails[0].isOtherReason: false,
-        this.srlcDetails[0].isExpertiseRequirement? this.srlcDetails[0].isExpertiseRequirement: false,
-        this.servicePrerequisites[0].isQuoteClosePrv? this.servicePrerequisites[0].isQuoteClosePrv: false
-      ).subscribe((data: any)=>{
-        if(data[0].csrManadatory == 'Success'){
-          this.ValidateEfforts().then((isValid) => {
-            if(isValid){
-              if (!formValue.completionDetails.awaitingCSR && formValue.completionDetails.completedCheckBox != "" && formValue.completionDetails.completedCheckBox != null
-                  && this.srlcDetails[0].isPartsRequired == false && this.srlcDetails[0].isCustomerDelay == false && this.srlcDetails[0].isOtherReason == false && this.srlcDetails[0].isPORequired == false)
-              {
-                this.serviceCalendarService.callActionDetails.SubTaskStatusId = this.serviceCalendarService.isSurveyRequired ? 3 : 1;
-              }
-              else if (this.srlcDetails[0].isPartsRequired == true || this.srlcDetails[0].isCustomerDelay == true || this.srlcDetails[0].isOtherReason == true || this.srlcDetails[0].isPORequired == true) {
-                this.serviceCalendarService.callActionDetails.SubTaskStatusId = 1;
-              }
-              else {
-                this.serviceCalendarService.callActionDetails.SubTaskStatusId = 1;
-              }
-        
-              //Completion params
-              if (this.srlcDetails[0].isPartsRequired == true || this.srlcDetails[0].isCustomerDelay == true || this.srlcDetails[0].isOtherReason == true || this.srlcDetails[0].isPORequired == true)
-                this.serviceCalendarService.callActionDetails.CompletedOn = null;
-              else
-                this.serviceCalendarService.callActionDetails.CompletedOn =  formValue.completionDetails.completedDate? formValue.completionDetails.completedDate: null;
-        
-                this.serviceCalendarService.callActionDetails.IsCalibration =  formValue.completionDetails.calibrationCheckBox;
-                this.serviceCalendarService.callActionDetails.IsOQPV =  formValue.completionDetails.oqpvCheckBox;
-                this.serviceCalendarService.callActionDetails.IsBDService =  formValue.completionDetails.bdServiceCheckBox;
-                this.serviceCalendarService.callActionDetails.IsPreventiveMaintenance =  formValue.completionDetails.pmCheckBox;
-                this.serviceCalendarService.callActionDetails.OtherCallsId =  formValue.completionDetails.otherCalls? formValue.completionDetails.otherCalls: 0;
-                this.serviceCalendarService.callActionDetails.ResolutionTypeId =  formValue.completionDetails.resolutionType? formValue.completionDetails.resolutionType: 0;
-                this.serviceCalendarService.callActionDetails.AwaitingCSR =  formValue.completionDetails.awaitingCSR;
-                this.serviceCalendarService.callActionDetails.CSRRemarks =  formValue.completionDetails.csrRemarks;
-              //Installation params
-                this.serviceCalendarService.callActionDetails.SerialNo =  formValue.installationDetails.productSerialNo;
-                this.serviceCalendarService.callActionDetails.SapNo =  formValue.installationDetails.sapNo;
-                this.serviceCalendarService.callActionDetails.CustomerTagNo =  formValue.installationDetails.leTag;
-                this.serviceCalendarService.callActionDetails.Location =  formValue.installationDetails.location;
-                this.serviceCalendarService.callActionDetails.WarrantyStartDate =  formValue.installationDetails.principalWarrantyStart;
-                this.serviceCalendarService.callActionDetails.WarrantyFinishDate =  formValue.installationDetails.principalWarrantyEnd;
-                this.serviceCalendarService.callActionDetails.ExtendedWarStartDate =  formValue.installationDetails.clientWarrantyStart;
-                this.serviceCalendarService.callActionDetails.ExtendedWarEndDate =  formValue.installationDetails.clientWarrantyEnd;
-              //Systematization params
-                this.serviceCalendarService.callActionDetails.ProdClassificationId =  formValue.systematizationDetails.classification;
-                this.serviceCalendarService.callActionDetails.ModProductId =  formValue.systematizationDetails.installbaseProduct;
-                this.serviceCalendarService.callActionDetails.ApplicationId =  formValue.systematizationDetails.applicationCode;
-                this.serviceCalendarService.callActionDetails.ComplexityId =  formValue.systematizationDetails.complexity;
-              //Survey params
-                if(this.serviceCalendarService.isSurveyRequired){
-                  // if(formValue.surveyDetails.contactConfirmCheckbox){
-                  //   this.serviceCalendarService.callActionDetails.IsFromSurvey = true;
-                  //   this.serviceCalendarService.callActionDetails.IsStatusChangeRequired = true;
-                  // }
-                  this.serviceCalendarService.callActionDetails.IsFromSurvey = formValue.surveyDetails.contactConfirmCheckbox;
-                  this.serviceCalendarService.callActionDetails.IsStatusChangeRequired = formValue.surveyDetails.contactConfirmCheckbox;
+    const serviceCallValidation = this.serviceCallFormValidation();
+    if(serviceCallValidation == 'Success'){
+      if(this.callCompletionForm.valid){
+        this.serviceCalendarService.getValidateCSR(
+          this.srid,
+          formValue.completionDetails.awaitingCSR? formValue.completionDetails.awaitingCSR: false,
+          formValue.completionDetails.resolutionType? formValue.completionDetails.resolutionType: 0,
+          formValue.completionDetails.completedDate? formValue.completionDetails.completedDate: null,
+          this.srlcDetails[0].isPartsRequired? this.srlcDetails[0].isPartsRequired: false,
+          this.srlcDetails[0].isCustomerDelay? this.srlcDetails[0].isCustomerDelay: false,
+          this.srlcDetails[0].isPORequired? this.srlcDetails[0].isPORequired: false,
+          this.srlcDetails[0].isOtherReason? this.srlcDetails[0].isOtherReason: false,
+          this.srlcDetails[0].isExpertiseRequirement? this.srlcDetails[0].isExpertiseRequirement: false,
+          this.servicePrerequisites[0].isQuoteClosePrv? this.servicePrerequisites[0].isQuoteClosePrv: false
+        ).subscribe((data: any)=>{
+          if(data[0].csrMandatory == 'Success'){
+            this.ValidateEfforts().then((isValid) => {
+              if(isValid){
+                if (!formValue.completionDetails.awaitingCSR && formValue.completionDetails.completedCheckBox != "" && formValue.completionDetails.completedCheckBox != null
+                    && this.srlcDetails[0].isPartsRequired == false && this.srlcDetails[0].isCustomerDelay == false && this.srlcDetails[0].isOtherReason == false && this.srlcDetails[0].isPORequired == false)
+                {
+                  this.serviceCalendarService.callActionDetails.SubTaskStatusId = this.serviceCalendarService.isSurveyRequired ? 3 : 1;
                 }
-                if(!this.serviceCalendarService.isSurveyRequired && this.serviceCalendarService.isCallCompleted){
-                  this.serviceCalendarService.callActionDetails.IsStatusChangeRequired = true;
+                else if (this.srlcDetails[0].isPartsRequired == true || this.srlcDetails[0].isCustomerDelay == true || this.srlcDetails[0].isOtherReason == true || this.srlcDetails[0].isPORequired == true) {
+                  this.serviceCalendarService.callActionDetails.SubTaskStatusId = 1;
                 }
-        
-              //Submit API
-                this.serviceCalendarService.postCallAction(this.serviceCalendarService.callActionDetails).subscribe((data: any) =>{
-                  this.loaderService.hideLoader();
-                  this.loaderMessage = 'Loading Call Completion...';
-                  if (data) {
-                    const notificationMessage = data.outPut;
-                    const notificationType = data.outPut.indexOf('Success') !== -1 ? 'success' : 'error';
+                else {
+                  this.serviceCalendarService.callActionDetails.SubTaskStatusId = 1;
+                }
+          
+                //Completion params
+                if (this.srlcDetails[0].isPartsRequired == true || this.srlcDetails[0].isCustomerDelay == true || this.srlcDetails[0].isOtherReason == true || this.srlcDetails[0].isPORequired == true)
+                  this.serviceCalendarService.callActionDetails.CompletedOn = null;
+                else
+                  this.serviceCalendarService.callActionDetails.CompletedOn =  formValue.completionDetails.completedDate? formValue.completionDetails.completedDate: null;
+          
+                  this.serviceCalendarService.callActionDetails.IsCalibration =  formValue.completionDetails.calibrationCheckBox;
+                  this.serviceCalendarService.callActionDetails.IsOQPV =  formValue.completionDetails.oqpvCheckBox;
+                  this.serviceCalendarService.callActionDetails.IsBDService =  formValue.completionDetails.bdServiceCheckBox;
+                  this.serviceCalendarService.callActionDetails.IsPreventiveMaintenance =  formValue.completionDetails.pmCheckBox;
+                  this.serviceCalendarService.callActionDetails.OtherCallsId =  formValue.completionDetails.otherCalls? formValue.completionDetails.otherCalls: 0;
+                  this.serviceCalendarService.callActionDetails.ResolutionTypeId =  formValue.completionDetails.resolutionType? formValue.completionDetails.resolutionType: 0;
+                  this.serviceCalendarService.callActionDetails.AwaitingCSR =  formValue.completionDetails.awaitingCSR;
+                  this.serviceCalendarService.callActionDetails.CSRRemarks =  formValue.completionDetails.csrRemarks;
+                //Installation params
+                  this.serviceCalendarService.callActionDetails.SerialNo =  formValue.installationDetails.productSerialNo;
+                  this.serviceCalendarService.callActionDetails.SapNo =  formValue.installationDetails.sapNo;
+                  this.serviceCalendarService.callActionDetails.CustomerTagNo =  formValue.installationDetails.leTag;
+                  this.serviceCalendarService.callActionDetails.Location =  formValue.installationDetails.location;
+                  this.serviceCalendarService.callActionDetails.WarrantyStartDate =  formValue.installationDetails.principalWarrantyStart;
+                  this.serviceCalendarService.callActionDetails.WarrantyFinishDate =  formValue.installationDetails.principalWarrantyEnd;
+                  this.serviceCalendarService.callActionDetails.ExtendedWarStartDate =  formValue.installationDetails.clientWarrantyStart;
+                  this.serviceCalendarService.callActionDetails.ExtendedWarEndDate =  formValue.installationDetails.clientWarrantyEnd;
+                //Systematization params
+                  this.serviceCalendarService.callActionDetails.ProdClassificationId =  formValue.systematizationDetails.classification;
+                  this.serviceCalendarService.callActionDetails.ModProductId =  formValue.systematizationDetails.installbaseProduct;
+                  this.serviceCalendarService.callActionDetails.ApplicationId =  formValue.systematizationDetails.applicationCode;
+                  this.serviceCalendarService.callActionDetails.ComplexityId =  formValue.systematizationDetails.complexity;
+                //Survey params
+                  if(this.serviceCalendarService.isSurveyRequired){
+                    // if(formValue.surveyDetails.contactConfirmCheckbox){
+                    //   this.serviceCalendarService.callActionDetails.IsFromSurvey = true;
+                    //   this.serviceCalendarService.callActionDetails.IsStatusChangeRequired = true;
+                    // }
+                    this.serviceCalendarService.callActionDetails.IsFromSurvey = formValue.surveyDetails.contactConfirmCheckbox;
+                    this.serviceCalendarService.callActionDetails.IsStatusChangeRequired = formValue.surveyDetails.contactConfirmCheckbox;
+                  }
+                  if(!this.serviceCalendarService.isSurveyRequired && this.serviceCalendarService.isCallCompleted){
+                    this.serviceCalendarService.callActionDetails.IsStatusChangeRequired = true;
+                  }
+          
+                //Submit API
+                  this.serviceCalendarService.postCallAction(this.serviceCalendarService.callActionDetails).subscribe((data: any) =>{
+                    this.loaderService.hideLoader();
+                    this.loaderMessage = 'Loading Call Completion...';
+                    if (data) {
+                      const notificationMessage = data.outPut;
+                      const notificationType = data.outPut.indexOf('Success') !== -1 ? 'success' : 'error';
+                      this.notificationService.showNotification(
+                        notificationMessage,
+                        notificationType,
+                        'center',
+                        'bottom'
+                      );
+                      if(notificationType == 'success'){
+                        this.resetValues();
+                        this.router.navigate([AppRoutePaths.ServiceCalendar]);
+                      }
+                    }
+                  },
+                  error => {
+                    this.loaderService.hideLoader();
+                    this.loaderMessage = 'Loading Call Completion Details...';
                     this.notificationService.showNotification(
-                      notificationMessage,
-                      notificationType,
-                      'center',
+                      'Call completion unsuccessful' + error,
+                      'error', 
+                      'center', 
                       'bottom'
                     );
-                    if(notificationType == 'success'){
-                      this.resetValues();
-                      this.router.navigate([AppRoutePaths.ServiceCalendar]);
-                    }
-                  }
-                },
-                error => {
-                  this.loaderService.hideLoader();
-                  this.loaderMessage = 'Loading Call Completion Details...';
-                  this.notificationService.showNotification(
-                    'Call completion unsuccessful' + error,
-                    'error', 
-                    'center', 
-                    'bottom'
-                  );
-                });
-            }
-            else{
-              this.notificationService.showNotification(
-                'Please fill engineer effort log',
-                'error',
-                'center',
-                'bottom'
-              );
-            }
-          });         
-        }
-        else{
+                  });
+              }
+              else{
+                this.notificationService.showNotification(
+                  'Please fill engineer effort log',
+                  'error',
+                  'center',
+                  'bottom'
+                );
+              }
+            });         
+          }
+          else{
+            this.notificationService.showNotification(
+              data[0].csrMandatory,
+              'error',
+              'center',
+              'bottom'
+            );
+          }
+        },
+        error =>{
+          this.loaderService.hideLoader();
+          this.loaderMessage = 'Loading Call Completion Details...';
           this.notificationService.showNotification(
-            data.outPut,
-            'error',
-            'center',
+            'CSR Copy is mandatory',
+            'error', 
+            'center', 
             'bottom'
           );
-        }
-      },
-      error =>{
-        this.loaderService.hideLoader();
-        this.loaderMessage = 'Loading Call Completion Details...';
-        this.notificationService.showNotification(
-          'CSR Copy is mandatory',
-          'error', 
-          'center', 
-          'bottom'
-        );
-      });     
+        });     
+      }
+      else{
+        this.callCompletionForm.markAllAsTouched();
+      }
     }
     else{
-      this.callCompletionForm.markAllAsTouched();
+      this.notificationService.showNotification(
+        serviceCallValidation,
+        'error',
+        'center',
+        'bottom'
+      );
     }
     this.loaderService.hideLoader();
     this.loaderMessage = 'Loading Call Completion Details...';
