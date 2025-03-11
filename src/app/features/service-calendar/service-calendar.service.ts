@@ -383,12 +383,12 @@ export interface svcGetSRLCDetails {
 
 export interface svcIBModuleDetails {
   ibModuleId?: number;
-  installBaseId?: number;
+  installBaseId?: number | null;
   supplierId?: number | null;
   supplier?: string;
   partNo?: string;
   description?: string;
-  option?: string;
+  option?: string | null;
   serialNo?: string;
   moduleName?: string;
   modelNo?: string;
