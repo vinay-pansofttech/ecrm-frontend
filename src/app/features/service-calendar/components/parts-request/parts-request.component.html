@@ -1,5 +1,4 @@
-<div class="app-container">
-  <div class="app-locked--sub-container">
+<div class="app-locked--sub-container">
     <div *ngIf="isPartsRequisitionOpen" class="app-screen--info-header">
       <div class="app-screen--info-header-left">
         Parts Requisition
@@ -9,9 +8,9 @@
              (click)="onDeleteAddedCards()" />
       </div>
     </div>
-  </div>
+</div>
 
-  <div class="app-scrollable--container" *ngIf="!showAPILoader">
+<div class="app-scrollable--container" *ngIf="!showAPILoader">
     <div *ngIf="isPartsRequisitionOpen">
       <div *ngIf="addedPartsDetailsCard.length > 0 && !showAPILoader">
         <div *ngFor="let a of addedPartsDetailsCard;let i=index;" class="app-enquiry-details-listview--cards">
@@ -199,12 +198,11 @@
     [srid]="srid"
     [addedPartsDetailsCard]="addedPartsDetailsCard"
     (onBackClickHandle)="onBackClickHandle()"></app-parts-search>
-  </div>
+</div>
 
-  <div class="app-screen--loader" *ngIf="showAPILoader">
+<div class="app-screen--loader" *ngIf="showAPILoader">
     <kendo-loader type="converging-spinner"
                   themeColor="info"
                   size="medium"></kendo-loader>
     <div>{{ loaderMessage }}</div>
-  </div>
 </div>

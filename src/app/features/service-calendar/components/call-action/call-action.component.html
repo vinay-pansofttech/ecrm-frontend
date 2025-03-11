@@ -1,92 +1,90 @@
-<div class="app-container">
-    <div class="app-locked--sub-container">
-        <div *ngIf="!(callCompletionSelected || callHoldSelected ||  callFieldVisitSelected ||  callContinueSelected)" class="app-screen--info-header">
-            <div class="app-screen--info-header-left">
-              Call Action
+<div class="app-locked--sub-container">
+    <div *ngIf="!(callCompletionSelected || callHoldSelected ||  callFieldVisitSelected ||  callContinueSelected)" class="app-screen--info-header">
+        <div class="app-screen--info-header-left">
+          Call Action
+        </div>
+    </div>       
+</div>
+
+<div class="app-scrollable--container" *ngIf="!showAPILoader">
+    <div class="app-widget-grid"
+      *ngIf="!(callCompletionSelected || callHoldSelected || callFieldVisitSelected || callContinueSelected)">
+        <div class="app-widget-option" 
+            (click)="callCompletionEnabled && widgetSelected('callCompletion')">
+            <div class="app-widget-icon">
+                <img [src]="callCompletionEnabled ? 'assets/content/images/call-complete-test.svg' : 'assets/content/images/call-complete-disabled.svg'"
+                 width="55" height="55"/>
             </div>
-        </div>       
-    </div>
-  
-    <div class="app-scrollable--container" *ngIf="!showAPILoader">
-        <div class="app-widget-grid"
-          *ngIf="!(callCompletionSelected || callHoldSelected || callFieldVisitSelected || callContinueSelected)">
-            <div class="app-widget-option" 
-                (click)="callCompletionEnabled && widgetSelected('callCompletion')">
-                <div class="app-widget-icon">
-                    <img [src]="callCompletionEnabled ? 'assets/content/images/call-complete-test.svg' : 'assets/content/images/call-complete-disabled.svg'"
-                     width="55" height="55"/>
-                </div>
-                <div class="app-widget-label" [style.color]="callCompletionEnabled ? '#1c1b1b' : '#c4c2c2'"> 
-                    Completion
-                </div>
-            </div>
-            <div class="app-widget-option" (click)="callHoldEnabled && widgetSelected('callHold')">
-                <div class="app-widget-icon">
-                    <img [src]="callHoldEnabled ? 'assets/content/images/call-hold-test.svg' : 'assets/content/images/call-hold-disabled.svg'"
-                     width="55" height="55"/>
-                </div>
-                <div class="app-widget-label" [style.color]="callHoldEnabled ? '#1c1b1b' : '#c4c2c2'"> 
-                    Hold
-                </div>
-            </div>
-            <div class="app-widget-option" (click)="callFieldVisitEnabled && widgetSelected('callFieldVisit')">
-                <div class="app-widget-icon">
-                    <img [src]="callFieldVisitEnabled ? 'assets/content/images/call-field-visit-test.svg' : 'assets/content/images/call-field-visit-disabled.svg'" 
-                     width="55" height="55"/>
-                </div>
-                <div class="app-widget-label" [style.color]="callFieldVisitEnabled ? '#1c1b1b' : '#c4c2c2'"> 
-                    Field Visit <br> Required
-                </div>
-            </div>
-            <div class="app-widget-option" (click)="callContinueEnabled && widgetSelected('callContinue')">
-                <div class="app-widget-icon">
-                    <img [src]="callContinueEnabled ? 'assets/content/images/call-continue-test.svg' : 'assets/content/images/call-continue-disabled.svg'" 
-                     width="55" height="55"/>
-                </div>
-                <div class="app-widget-label" [style.color]="callContinueEnabled ? '#1c1b1b' : '#c4c2c2'"> 
-                    Continue to <br> work
-                </div>
+            <div class="app-widget-label" [style.color]="callCompletionEnabled ? '#1c1b1b' : '#c4c2c2'"> 
+                Completion
             </div>
         </div>
-
-        <app-call-completion
-            *ngIf="callCompletionSelected"
-            [srid]="srid"
-            [servicePrerequisites]="servicePrerequisites"
-            [srlcDetails]="srlcDetails"
-            [moduleDetails]="moduleDetails"
-            [otherTasksDetails]="otherTasksDetails"
-            (widgetSelected)="widgetSelected('back')">
-        </app-call-completion>
-
-        <app-call-hold
-            *ngIf="callHoldSelected"
-            [srid]="srid"
-            [srlcDetails]="srlcDetails"
-            (widgetSelected)="widgetSelected('back')">
-        </app-call-hold>
-
-        <app-call-field-visit
-            *ngIf="callFieldVisitSelected"
-            [srid]="srid"
-            [srlcDetails]="srlcDetails"
-            (widgetSelected)="widgetSelected('back')">
-        </app-call-field-visit>
-
-        <app-call-continue
-            *ngIf="callContinueSelected"
-            [srlcDetails]="srlcDetails"
-            (widgetSelected)="widgetSelected('back')"
-            [srid]="srid">
-        </app-call-continue>
-
+        <div class="app-widget-option" (click)="callHoldEnabled && widgetSelected('callHold')">
+            <div class="app-widget-icon">
+                <img [src]="callHoldEnabled ? 'assets/content/images/call-hold-test.svg' : 'assets/content/images/call-hold-disabled.svg'"
+                 width="55" height="55"/>
+            </div>
+            <div class="app-widget-label" [style.color]="callHoldEnabled ? '#1c1b1b' : '#c4c2c2'"> 
+                Hold
+            </div>
+        </div>
+        <div class="app-widget-option" (click)="callFieldVisitEnabled && widgetSelected('callFieldVisit')">
+            <div class="app-widget-icon">
+                <img [src]="callFieldVisitEnabled ? 'assets/content/images/call-field-visit-test.svg' : 'assets/content/images/call-field-visit-disabled.svg'" 
+                 width="55" height="55"/>
+            </div>
+            <div class="app-widget-label" [style.color]="callFieldVisitEnabled ? '#1c1b1b' : '#c4c2c2'"> 
+                Field Visit <br> Required
+            </div>
+        </div>
+        <div class="app-widget-option" (click)="callContinueEnabled && widgetSelected('callContinue')">
+            <div class="app-widget-icon">
+                <img [src]="callContinueEnabled ? 'assets/content/images/call-continue-test.svg' : 'assets/content/images/call-continue-disabled.svg'" 
+                 width="55" height="55"/>
+            </div>
+            <div class="app-widget-label" [style.color]="callContinueEnabled ? '#1c1b1b' : '#c4c2c2'"> 
+                Continue to <br> work
+            </div>
+        </div>
     </div>
-  
-    <div class="app-screen--loader" *ngIf="showAPILoader">
-      <kendo-loader type="converging-spinner"
-                    themeColor="info"
-                    size="medium"></kendo-loader>
-      <div>{{ loaderMessage }}</div>
-    </div>
+
+    <app-call-completion
+        *ngIf="callCompletionSelected"
+        [srid]="srid"
+        [servicePrerequisites]="servicePrerequisites"
+        [srlcDetails]="srlcDetails"
+        [moduleDetails]="moduleDetails"
+        [otherTasksDetails]="otherTasksDetails"
+        (widgetSelected)="widgetSelected('back')">
+    </app-call-completion>
+
+    <app-call-hold
+        *ngIf="callHoldSelected"
+        [srid]="srid"
+        [srlcDetails]="srlcDetails"
+        (widgetSelected)="widgetSelected('back')">
+    </app-call-hold>
+
+    <app-call-field-visit
+        *ngIf="callFieldVisitSelected"
+        [srid]="srid"
+        [srlcDetails]="srlcDetails"
+        (widgetSelected)="widgetSelected('back')">
+    </app-call-field-visit>
+
+    <app-call-continue
+        *ngIf="callContinueSelected"
+        [srlcDetails]="srlcDetails"
+        (widgetSelected)="widgetSelected('back')"
+        [srid]="srid">
+    </app-call-continue>
+
 </div>
+
+<div class="app-screen--loader" *ngIf="showAPILoader">
+  <kendo-loader type="converging-spinner"
+                themeColor="info"
+                size="medium"></kendo-loader>
+  <div>{{ loaderMessage }}</div>
+</div>    
   
