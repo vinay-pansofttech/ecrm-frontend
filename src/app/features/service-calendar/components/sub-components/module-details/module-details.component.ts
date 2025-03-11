@@ -89,20 +89,18 @@ export class ModuleDetailsComponent implements OnInit{
       const quantity = part.quantity ?? 1;
       for (let i = 0; i < quantity; i++) {
         const newModuleDetail: svcIBModuleDetails = {
+          ibModuleId: 0,
+          installBaseId: null,
           partNo: part.partNo,
           partsMasterId: part.partsMasterID,
-          option: part.option,
+          option: part.option? part.option : null,
           description: part.description,
           supplierId: part.supplierID,
           supplier: part.supplierName,
           serialNo: "",
           isChecked: false,
-          oldSerialNo: "",
           moduleName: part.description,
           modelNo: "",
-          oldModuleName: "",
-          oldModelNo: "",
-          productLine: part.productLine,
           versionNo: "",
           notes: "",
         };

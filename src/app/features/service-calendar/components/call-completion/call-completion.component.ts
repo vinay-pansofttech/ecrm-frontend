@@ -172,7 +172,7 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
         resolutionType: new FormControl({value:'', disabled: this.isInstallationCall}, this.isInstallationCall? Validators.nullValidator: [Validators.required]),
         awaitingCSR: new FormControl(false, Validators.nullValidator),
         CSR: new FormControl('', Validators.nullValidator),
-        csrRemarks: new FormControl('', Validators.nullValidator),
+        csrRemarks: new FormControl('', this.servicePrerequisites[0].isQuoteClosePrv? Validators.required: Validators.nullValidator),
       }),
       installationDetails: new FormGroup({
         productSerialNo: new FormControl({value: '', disabled: !this.isEditable},  Validators.required),
@@ -396,7 +396,7 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
           icon: '',
         }
       ]; 
-      surveyControl?.setValidators([Validators.required]);
+      surveyControl?.setValidators([this.checkboxRequiredValidator()]);
     }
     else{
       this.steps = [
