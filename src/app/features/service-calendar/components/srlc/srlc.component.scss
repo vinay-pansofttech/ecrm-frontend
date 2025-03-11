@@ -31,7 +31,8 @@
 
 /* Selected Stepper */
 .app-screen--stepper-container-new.selected {
-  background-color: var(--primary-white);
+  background: white;
+  box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.05);
   border-radius: 1.5rem;
   padding: 0.5rem 1rem;
   color: #636363;
@@ -74,7 +75,7 @@
 }
 .app-info-card--content{
   font-family: var(--font-family-text);
-  font-size: var(--text-size-02);
+  font-size: var(--text-size-1);
   font-weight: var(--font-weight-bold);
   line-height: normal;
   color: #8d8d8d;
