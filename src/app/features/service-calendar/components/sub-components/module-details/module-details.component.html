@@ -151,7 +151,7 @@
       </div>
     </div>
     
-    <div class="app-control--container">
+    <div *ngIf="isEditable" class="app-control--container">
       <div class="app-screen--footer" *ngIf="!showAPILoader && !isModuleDetailsEditOpen">
         <div class="parts-request-add-button" *ngIf="isModuleDetailsOpen">
           <img src="assets/content/images/add-circular-button.svg" alt="new" width="60" height="60"

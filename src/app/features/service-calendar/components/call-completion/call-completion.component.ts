@@ -250,7 +250,6 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
         control.enable();
       }
     });
-    console.log('Controls',group)
 
     if (group.valid && this.currentStep !== this.steps.length) {
       this.currentStep += 1;
@@ -500,6 +499,10 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
                   this.serviceCalendarService.callActionDetails.ModProductId =  formValue.systematizationDetails.installbaseProduct;
                   this.serviceCalendarService.callActionDetails.ApplicationId =  formValue.systematizationDetails.applicationCode;
                   this.serviceCalendarService.callActionDetails.ComplexityId =  formValue.systematizationDetails.complexity;
+                //Module Details
+                  this.serviceCalendarService.callActionDetails.InstallbasemoduleDetails = this.moduleDetails 
+                //Other Details
+                  this.serviceCalendarService.callActionDetails.LstOtherSubTask = this.otherTasksDetails  
                 //Survey params
                   if(this.serviceCalendarService.isSurveyRequired){
                     // if(formValue.surveyDetails.contactConfirmCheckbox){

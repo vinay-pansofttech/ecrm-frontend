@@ -1,5 +1,4 @@
-<div class="app-container">
-  <div class="app-locked--sub-container">
+<div class="app-locked--sub-container">
     <div class="app-screen--info-header">
       <div class="app-screen--info-header-left">
         Add Parts
@@ -9,9 +8,9 @@
         <span>Back</span>
       </div>
     </div>
-  </div>
+</div>
 
-  <div class="app-scrollable--container" *ngIf="!showAPILoader">
+<div class="app-scrollable--container" *ngIf="!showAPILoader">
       <div class="part-details-cards--container" *ngIf="searchPartsDetailsCard.length > 0 && !showAPILoader">
         <div *ngFor="let a of searchPartsDetailsCard;let i=index;" class="part-details-listview--cards"
              (click)="onCardClick($event)">
@@ -236,12 +235,11 @@
         </div>
       </div>
     </div>
-  </div>
+</div>
 
-  <div class="app-screen--loader" *ngIf="showAPILoader">
+<div class="app-screen--loader" *ngIf="showAPILoader">
     <kendo-loader type="converging-spinner"
                   themeColor="info"
                   size="medium"></kendo-loader>
     <div>{{ loaderMessage }}</div>
-  </div>
 </div>
