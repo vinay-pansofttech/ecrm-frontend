@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AppRoutePaths } from 'src/app/core/Constants';
@@ -166,6 +166,10 @@ export class SrlcComponent implements OnInit, OnDestroy{
     onBackClickHandle() {
       this.serviceCalendarService.resetValues();
       this.router.navigate([AppRoutePaths.ServiceCalendar]);
+    }
+
+    onScroll() {
+      this.isSRIDInfoSelected = false;
     }
   
     onRefresh(){

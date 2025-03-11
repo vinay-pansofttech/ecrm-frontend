@@ -100,3 +100,14 @@
   height: 100vh;
   background-color: #F8F9FE
 }
+
+
+.app-scrollable--container {
+  overflow-y: auto;  
+  height: calc(100vh - 20vh);
+}
+
+.app-locked--container, 
+.app-locked--sub-container {
+  overflow: hidden;
+}
