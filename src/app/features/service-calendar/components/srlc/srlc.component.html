@@ -92,7 +92,7 @@
     </div>
   </div>
 
-  <div class="app-scrollable--container">
+  <div class="app-scrollable--container" (scroll)="onScroll()">
     <app-efforts-list-view *ngIf="currentStep === 0" [srid]="selectedSRID" [currentDate]="currentDate"
                            [engeffortListCards]="engeffortListCards"
                            [filteredEngeffortListCards]="filteredEngeffortListCards"
