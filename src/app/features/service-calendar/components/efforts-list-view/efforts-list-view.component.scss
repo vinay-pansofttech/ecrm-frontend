@@ -1,0 +1,23 @@
+.load-more {
+  display: flex;
+  justify-content: center;
+  padding: 0.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--body-grey, #69727b);
+  font-family: var(--font-family-text);
+  font-size: var(--text-size-1);
+  font-style: normal;
+  font-weight: var(--font-weight-bold);
+}
+
+.app-screen--info-header {
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+}
+
+.app-locked--sub-container{
+  position: sticky;
+  top: 0rem;
+  width: 100%;
+  z-index: 1;
+}

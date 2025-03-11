@@ -18,6 +18,7 @@ export class EffortsListViewComponent {
   @Input() servicePrerequisites: svcPrerequisites[] = [];
   @Input() engeffortListCards: engEffortsList[] = [];
   @Input() filteredEngeffortListCards: engEffortsList[] = [];
+  @Input() filteredOtherDaysEngeffortListCards: engEffortsList[] = [];
   @Input() srid: number = 0;
   @Input() currentDate: string = '';
   @Output() srlcRefresh: EventEmitter<void> = new EventEmitter<void>();
@@ -27,6 +28,7 @@ export class EffortsListViewComponent {
   otherEngEffortsList: engEffortsList[] = [];
   effortCardDetails!: engEffortsList;
   isEditEffortOpen: boolean = false;
+  isOtherEffortsOpen: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -53,8 +55,8 @@ export class EffortsListViewComponent {
     });
   }
 
-  iseditable(cardIndex: number): boolean {
-    const selectedCard = this.filteredEngeffortListCards[cardIndex];
+  iseditable(cardIndex: number, filteredCard: engEffortsList[]): boolean {
+    const selectedCard = filteredCard[cardIndex];
     const today = this.datePipe.transform(new Date(), "yyyy-MM-dd")!;
     const srTask = this.engeffortListCards.find(card => card.taskType === "Site Readiness");
 
@@ -82,8 +84,8 @@ export class EffortsListViewComponent {
     return false;
   }
 
-  addEffort(cardIndex: number) {
-    const selectedCard = this.filteredEngeffortListCards[cardIndex];
+  addEffort(cardIndex: number, filteredCard: engEffortsList[]) {
+    const selectedCard = filteredCard[cardIndex];
     this.otherEngEffortsList = this.engeffortListCards.filter(
       (item: any) => {
         const isSelectedCard = item === selectedCard;
@@ -103,6 +105,10 @@ export class EffortsListViewComponent {
   EditEffortClose() {
     this.ngOnInit();
     this.srlcRefresh.emit();
+  }
+
+  onOtherEffortsClick(){
+    this.isOtherEffortsOpen = !this.isOtherEffortsOpen;
   }
 
   generateCSR() {
