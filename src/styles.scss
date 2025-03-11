@@ -81,8 +81,8 @@ body {
 }
 .app-screen--header {
   color: var(--primary-white);
+  font-family: var(--font-family-text);
   font-size: var(--text-size-1);
-  font-style: normal;
   font-weight: var(--font-weight-bold);
   line-height: 1.75rem;
   flex: 1 0 0;
