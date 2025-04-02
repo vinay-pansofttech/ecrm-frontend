@@ -32,6 +32,7 @@ import { PartsRequiredComponent } from './components/sub-components/parts-requir
 import { PoRequiredComponent } from './components/sub-components/po-required/po-required.component';
 import { ServiceSurveyComponent } from './components/sub-components/service-survey/service-survey.component';
 import { ConfirmInstallbaseComponent } from './components/sub-components/confirm-installbase/confirm-installbase.component';
+import { InstallbaseModulesSalesconfigComponent } from './components/sub-components/installbase-modules-salesconfig/installbase-modules-salesconfig.component';
 import { PartsSearchComponent } from '../common/components/parts-search/parts-search.component';
 
 @NgModule({
@@ -60,6 +61,7 @@ import { PartsSearchComponent } from '../common/components/parts-search/parts-se
     PoRequiredComponent,
     ServiceSurveyComponent,
     ConfirmInstallbaseComponent,
+    InstallbaseModulesSalesconfigComponent,
     PartsSearchComponent
   ],
   imports: [

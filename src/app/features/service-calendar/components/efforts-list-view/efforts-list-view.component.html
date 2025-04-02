@@ -82,12 +82,12 @@
 
     <div *ngIf="!isOtherEffortsOpen && filteredOtherDaysEngeffortListCards.length > 0" class="load-more" (click)="onOtherEffortsClick()">
       Load all efforts &nbsp;
-      <img src="assets/content/images/down.svg" />
+      <img src="assets/content/images/down-grey.svg" />
     </div>
 
     <div *ngIf="isOtherEffortsOpen && filteredOtherDaysEngeffortListCards.length > 0" class="load-more" (click)="onOtherEffortsClick()">
       Close other efforts &nbsp;
-      <img src="assets/content/images/up.svg" />
+      <img src="assets/content/images/up-grey.svg" />
     </div>
 
     <div *ngFor="let a of filteredOtherDaysEngeffortListCards; let i = index" class="app-enquiry-details-listview--cards">

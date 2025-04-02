@@ -17,6 +17,7 @@ export class OtherTasksComponent implements OnInit{
   @Input() public callCompletionForm!: FormGroup;
   @Input() public isEditable: boolean = false;
   @Output() validateOtherDetails: EventEmitter<void> = new EventEmitter<void>();
+  @Output() hideShowFooter: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   isOtherTasksDetailsOpen = true;
   isOtherTasksDetailsEditOpen: boolean = false;
@@ -38,6 +39,7 @@ export class OtherTasksComponent implements OnInit{
 
   onBackClickHandle() {
     this.isOtherTasksDetailsEditOpen = false;
+    this.hideShowFooter.emit(false);
     this.isOtherTasksDetailsOpen = true;
     this.validateOtherDetails.emit();
   }
@@ -49,5 +51,6 @@ export class OtherTasksComponent implements OnInit{
   onOtherTasksEdit(index: number){
     this.selectedIndex = index;
     this.isOtherTasksDetailsEditOpen = true;
+    this.hideShowFooter.emit(true);
   }
 }

@@ -1,7 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FileInfo } from "@progress/kendo-angular-upload";
+import { LoginService } from 'src/app/features/login/components/login/login.service';
+import { LoaderService } from 'src/app/core/services/loader.service';
+import { NotificationService } from 'src/app/core/services/notification.service';
 import { CommonService } from 'src/app/features/common/common.service';
-import { ServiceCalendarService, svcGetSRLCDetails } from '../../../service-calendar.service';
+import { ServiceCalendarService, svcGetSRLCDetails, svcDependentComboData } from '../../../service-calendar.service';
 
 @Component({
   selector: 'app-installation-details',
@@ -9,18 +13,37 @@ import { ServiceCalendarService, svcGetSRLCDetails } from '../../../service-cale
   styleUrl: './installation-details.component.scss'
 })
 export class InstallationDetailsComponent implements OnInit{
+  @Input() IBStickerAttachment: Array<FileInfo> = [];
+  @Input() srid: number = 0;
   @Input() public installationDetails!: FormGroup;
   @Input() srlcDetails: svcGetSRLCDetails[] = [];
   showAPILoader: boolean = false;
+  dependantComboDataForIBStickerStatus: svcDependentComboData[] = [];
 
   constructor(
+    public loginService: LoginService,
+    public loaderService: LoaderService,
     public commonService : CommonService,
+    public notificationService: NotificationService,
     public serviceCalendarService: ServiceCalendarService
   ){}
 
   ngOnInit(): void {
+    this.loaderService.loaderState.subscribe(res => {
+      this.showAPILoader = res;
+    });
+    this.loaderService.hideLoader();
     // this.patchFormValues('installationDetails');
     this.subscribe();
+    this.getPrerequisiteCombo();
+  }
+
+  getPrerequisiteCombo(){
+    this.serviceCalendarService.getPrerequisiteCombo("SRLC", this.loginService.employeeId as number).subscribe((data: any) => {
+      this.dependantComboDataForIBStickerStatus = data.filter(
+        (item: any) => item.comboType === 'STICKERSTATUS'
+      );
+    });
   }
 
   // patchFormValues(formGroupName: string){
@@ -53,6 +76,18 @@ export class InstallationDetailsComponent implements OnInit{
     this.installationDetails.get('clientWarrantyEnd')?.valueChanges.subscribe(() => {
       this.validateDates();
     });
+
+    this.installationDetails.get('ibStickerStatus')?.valueChanges.subscribe((value: number) => {
+      const ibStickerAttachmentControl = this.installationDetails.get('ibStickerAttachment');
+      if (value == this.serviceCalendarService.ibStickerImageUploadedStatus) {
+        ibStickerAttachmentControl?.setValidators([Validators.required]);
+        ibStickerAttachmentControl?.enable();
+      } else {
+        ibStickerAttachmentControl?.clearValidators();
+        ibStickerAttachmentControl?.disable();
+      }
+      ibStickerAttachmentControl?.updateValueAndValidity();
+    });
   }
 
   validateDates() {
@@ -79,6 +114,31 @@ export class InstallationDetailsComponent implements OnInit{
   
     principalWarrantyEnd.setErrors(principalEndErrors);
     clientWarrantyEnd.setErrors(clientEndErrors);
+  }
+
+  downloadAttachment(index: number) {
+    this.loaderService.showLoader();
+    this.commonService.getAttachment(this.srid as unknown as string, this.commonService.docIBStickerAttachment,"", index)
+    .subscribe((response) => {
+      const contentType = response.headers.get('content-type')!;
+      const filename = this.IBStickerAttachment[index].name;
+      const blob = new Blob([response.body!], { type: contentType });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename || 'attachment';
+      link.click();
+      window.URL.revokeObjectURL(url);
+      this.loaderService.hideLoader();
+    },
+    error => {
+      this.loaderService.hideLoader();
+      this.notificationService.showNotification(
+        'Failed to download file',
+        'error', 'center', 'bottom'
+      );
+    });
+    this.loaderService.hideLoader();
   }
   
 }

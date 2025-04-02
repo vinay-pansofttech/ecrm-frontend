@@ -1,15 +1,19 @@
-/* New Stepper Styling */
+/* New Stepper Styling*/
 .app-screen--stepper-new {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  padding: 0.5rem;
-  padding-bottom: 0rem;
+  padding: 0.25rem;
+  margin: 0.5rem;
+  margin-bottom: 0rem;
   overflow-x: auto;
   white-space: nowrap;
   border-radius: 1.5rem;
+  background-color: #F1F2F6;
+  box-shadow: inset 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 .app-screen--stepper-container-new {
   flex: 1;
   display: flex;
@@ -19,51 +23,61 @@
   padding: 0.5rem 1rem;
   margin: 0;
   transition: all 0.2s ease-out;
-  background-color: #F8F9FE;
+  background-color: none;
   white-space: nowrap;
   font-family: var(--font-family-text);
-  font-size: var(--text-size-1);
+  font-size: var(--text-size-01);
   font-weight: var(--font-weight-bold);
   line-height: 1.75rem;
   color: #8d8d8d;
   position: relative;
+  border-radius: 1.5rem;
 }
 
-/* Selected Stepper */
+/* Selected Stepper*/
 .app-screen--stepper-container-new.selected {
-  background: white;
-  box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.05);
+  background: var(--primary-color);
+  // background-color: white;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
   border-radius: 1.5rem;
   padding: 0.5rem 1rem;
-  color: #636363;
+  color: var(--primary-white);
+  // color: #747373;
   border: none;
 }
 
-/* Adding border between steppers with uniform margin */
-.app-screen--stepper-container-new:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  right: -5px;
-  left: auto;
-  top: 20%;
-  height: 60%;
-  width: 2px;
-  background-color: #8d8d8d;
-}
-.app-screen--stepper-container-new:not(:first-child)::before {
-  content: "";
-  position: absolute;
-  left: -5px;
-  top: 20%;
-  height: 60%;
-  width: 2px;
-  background-color: #8d8d8d;
-}
+
+// /* Adding border between steppers with uniform margin */
+// .app-screen--stepper-container-new:not(:last-child)::after {
+//   content: "";
+//   position: absolute;
+//   right: -5px;
+//   left: auto;
+//   top: 20%;
+//   height: 60%;
+//   width: 2px;
+//   background-color: #8d8d8d;
+// }
+// .app-screen--stepper-container-new:not(:first-child)::before {
+//   content: "";
+//   position: absolute;
+//   left: -5px;
+//   top: 20%;
+//   height: 60%;
+//   width: 2px;
+//   background-color: #8d8d8d;
+// }
 
 /*Info Icon Styling*/
 .card-selection-addition-icon{
   position: absolute;
   top: 0.75rem;
+  right: 1rem;
+}
+/*Info Icon Styling*/
+.card-selection-info-expand-icon{
+  position: absolute;
+  top: 1rem;
   right: 1rem;
 }
 
@@ -75,7 +89,7 @@
 }
 .app-info-card--content{
   font-family: var(--font-family-text);
-  font-size: var(--text-size-1);
+  font-size: var(--text-size-01);
   font-weight: var(--font-weight-bold);
   line-height: normal;
   color: #8d8d8d;

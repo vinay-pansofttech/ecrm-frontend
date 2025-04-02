@@ -155,6 +155,44 @@
           Client warranty end date should be greater than start date
       </kendo-formerror>
     </kendo-formfield>
+
+    <kendo-formfield>
+      <div class="app-kendo--content">
+        <kendo-label class="app-kendo--label app-kendo--label-horizontal" [for]="ibStickerStatus">
+          IB Sticker Status
+        </kendo-label>
+        <kendo-dropdownlist
+          class="app-kendo--dropdownlist"
+          formControlName="ibStickerStatus"
+          #ibStickerStatus
+          [data]="dependantComboDataForIBStickerStatus"
+          textField="comboName"
+          valueField="comboId"
+          [valuePrimitive]="true">
+        </kendo-dropdownlist>
+      </div>
+      <kendo-formerror class="app-kendo--error-msg">
+          IB Sticker Status is required
+      </kendo-formerror>
+    </kendo-formfield>
+
+    <kendo-formfield>
+      <div class="app-kendo--content">
+        <kendo-label class="app-kendo--label" [for]="ibStickerAttachment">Attachment</kendo-label>
+        <kendo-fileselect
+          class="app-kendo--fileupload"
+          formControlName="ibStickerAttachment"
+          #ibStickerAttachment>
+        </kendo-fileselect>
+      </div>
+      <kendo-formerror class="app-kendo--error-msg">
+        IB Sticker Attachment is required
+      </kendo-formerror>
+      <div *ngFor="let file of IBStickerAttachment; let i = index"
+        class="app-kendo-attachment-files">
+        <div (click)="downloadAttachment(i)">{{ file.name }}</div>
+      </div>
+    </kendo-formfield>
 </div>
 
 <div class="app-screen--loader" *ngIf="showAPILoader">

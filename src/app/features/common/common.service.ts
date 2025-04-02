@@ -40,7 +40,8 @@ export class CommonService {
   docSrcTypeAttachment: number = 22;
   docSrcTypeWSAttachment: number = 658;
   docSrcTypeCSRAttachment: number = 11;
-
+  docIBStickerAttachment: number = 708;
+  
   public currentUrl: string | null = null;
   public navigationMap: Map<string, string> = new Map();
 

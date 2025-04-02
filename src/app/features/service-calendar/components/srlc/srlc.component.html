@@ -35,8 +35,8 @@
             <div class="app-info-card--content">
               Call details of SRID {{ selectedSRID }}
             </div>
-            <div class="card-selection-addition-icon">
-              <img (click)="onSRIDInfoClick()" src="assets/content/images/info.svg" />
+            <div class="card-selection-info-expand-icon">
+              <img (click)="onSRIDInfoClick()" src="assets/content/images/down-grey.svg" width="15" height="15" style="align-items: center;"/>
             </div>
         </div>
       </kendo-card>
@@ -51,7 +51,7 @@
                 {{ selectedSRID }}
               </div>
               <div class="card-selection-addition-icon">
-                <img (click)="onSRIDInfoClick()" src="assets/content/images/info.svg" />
+                <img (click)="onSRIDInfoClick()" src="assets/content/images/up-grey.svg" />
               </div>
             </div>
           </div>
@@ -105,6 +105,7 @@
                        [servicePrerequisites]="servicePrerequisites"
                        [srlcDetails]="srlcDetails"
                        [moduleDetails]="moduleDetails"
-                       [otherTasksDetails]="otherTasksDetails"></app-call-action>
+                       [otherTasksDetails]="otherTasksDetails"
+                       (moduleDetailsCardChange)="updateModuleDetailsCard($event)"></app-call-action>
   </div>
 </div>

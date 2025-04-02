@@ -20,12 +20,12 @@
     </div>
 
     <div class="service-calendar-container">
-      <div class="service-kendo-calendar-pop-up-icon">
+      <!-- <div class="service-kendo-calendar-pop-up-icon">
         <img
           src="assets/content/images/calendar.svg"
           alt="new"
           (click)="openCloseCalendar()" />
-      </div>
+      </div> -->
       <div class="service-calendar-date-container">
         <div class="service-calendar--back-img">
             <img
@@ -33,7 +33,7 @@
               alt="new"
               (click)="onPrevDateClickHandle()" />
         </div>
-        <div class="service-calendar-date">
+        <div class="service-calendar-date" (click)="openCloseCalendar()">
             {{ commonService.displayDateFormat(currentDate) }}
         </div>
         <div class="service-calendar--front-img">

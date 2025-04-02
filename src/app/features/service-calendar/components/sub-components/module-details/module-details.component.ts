@@ -21,13 +21,17 @@ export class ModuleDetailsComponent implements OnInit{
   @Input() srid: number = 0;
   @Input() public isEditable: boolean = false;
   @Input() servicePrerequisites: svcPrerequisites[] = [];
+  @Input() installBaseId: number = 0;
   @Input() moduleDetailsCard: svcIBModuleDetails[] = [];
   @Output() validateModuleDetails: EventEmitter<void> = new EventEmitter<void>();
   @Output() moduleDetailsCardChange: EventEmitter<svcIBModuleDetails[]> = new EventEmitter<svcIBModuleDetails[]>();
+  @Output() hideShowFooter: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   modulePartsCard: svcPartsDetails[] = [];
   isModuleDetailsOpen = true;
   isModuleDetailsEditOpen: boolean = false;
+  isModulePartsAddOpen: boolean = false;
+  isAddModulesFromSalesConfigOpen: boolean = false;
   selectedIndex: number = 0;
 
   constructor(    
@@ -51,6 +55,14 @@ export class ModuleDetailsComponent implements OnInit{
 
   onAddPartsClick() {
     this.isModuleDetailsOpen = false;
+    this.isModulePartsAddOpen = true;
+    this.hideShowFooter.emit(true);
+  }
+
+  onAddModulesFromSalesConfigClick() {
+    this.isModuleDetailsOpen = false;
+    this.isAddModulesFromSalesConfigOpen = true;
+    this.hideShowFooter.emit(true);
   }
 
   isCardSelected(index: number){
@@ -69,10 +81,14 @@ export class ModuleDetailsComponent implements OnInit{
   onModuleEdit(index: number){
     this.selectedIndex = index;
     this.isModuleDetailsEditOpen = true;
+    this.hideShowFooter.emit(true);
   }
 
   onBackClickHandle(type: string) {
     this.isModuleDetailsEditOpen = false;
+    this.isModulePartsAddOpen = false;
+    this.isAddModulesFromSalesConfigOpen = false;
+    this.hideShowFooter.emit(false);
     this.isModuleDetailsOpen = true;
     if(type == 'add')
       this.onPartsAdd();
@@ -92,7 +108,7 @@ export class ModuleDetailsComponent implements OnInit{
           ibModuleId: 0,
           installBaseId: null,
           partNo: part.partNo,
-          partsMasterId: part.partsMasterID,
+          partsMasterId: part.partsMasterID? part.partsMasterID: null,
           option: part.option? part.option : null,
           description: part.description,
           supplierId: part.supplierID,
@@ -108,6 +124,8 @@ export class ModuleDetailsComponent implements OnInit{
         this.moduleDetailsCard.push(newModuleDetail);
       }
     });
+    this.modulePartsCard = [];
+    this.serviceCalendarService.addedPartsDetailsCard = [];
   }  
 
   onRefresh(){

@@ -1,6 +1,7 @@
 import { Component, Input, Output, OnDestroy, OnInit, ViewChild, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, 
          ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FileInfo } from "@progress/kendo-angular-upload";
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { StepperComponent } from '@progress/kendo-angular-layout';
@@ -29,7 +30,9 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
   isInstallationCall: boolean = false;
   isContractSVCCall: boolean = false;
   isCustContactConfirmed: boolean = true;
+  isInnerScreen: boolean = false;
   engeffortListCards: engEffortsList[] = [];
+  IBStickerAttachment: Array<FileInfo> = [];
 
   @Input() srid: number = 0;
   @Input() servicePrerequisites: svcPrerequisites[] = [];
@@ -37,6 +40,7 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
   @Input() moduleDetails: svcIBModuleDetails[] = [];
   @Input() otherTasksDetails: svcGetOtherTasksDetails[] = [];
   @Output() widgetSelected: EventEmitter<void> = new EventEmitter<void>();
+  @Output() moduleDetailsCardChange: EventEmitter<svcIBModuleDetails[]> = new EventEmitter<svcIBModuleDetails[]>();
 
   private isStepValid = (index: number): boolean => {
     return this.getGroupAt(index).valid || this.currentGroup.untouched;
@@ -74,7 +78,7 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
   }
 
   updateModuleDetailsCard(updatedList: svcIBModuleDetails[]) {
-    this.moduleDetails = updatedList;
+    this.moduleDetailsCardChange.emit(updatedList);
   }
 
   validateOtherTasks(otherTasksDetails: svcGetOtherTasksDetails[]): boolean {
@@ -184,6 +188,8 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
         principalWarrantyEnd: new FormControl({value: '', disabled: !this.isEditable}, Validators.nullValidator),
         clientWarrantyStart: new FormControl({value: '', disabled: !this.isEditable}, Validators.nullValidator),
         clientWarrantyEnd: new FormControl({value: '', disabled: !this.isEditable}, Validators.nullValidator),
+        ibStickerStatus: new FormControl({value: '', disabled: false}, Validators.nullValidator),
+        ibStickerAttachment: new FormControl({value: '', disabled: true}, [Validators.nullValidator]),
       }),
       systematizationDetails: new FormGroup({
         systemHandle: new FormControl({value: '', disabled: true}, Validators.nullValidator),
@@ -207,6 +213,7 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
     });
     this.surveyValidator();
     this.patchFormValues();
+    this.getIBStickerAttachmentDetails(this.srlcDetails[0].installBaseID as unknown as string);
   }
 
   checkboxRequiredValidator(): ValidatorFn {
@@ -238,8 +245,9 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
 
   public next(): void {
     const group = this.currentGroup;
+    const groupdisabled = group.disabled;
     const originalDisabledState = new Map<string, boolean>();
-    if (group.disabled) {
+    if (groupdisabled) {
       group.enable();
     }
 
@@ -253,6 +261,14 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
 
     if (group.valid && this.currentStep !== this.steps.length) {
       this.currentStep += 1;
+      originalDisabledState.forEach((wasDisabled, key) => {
+        if (wasDisabled) {
+          group.get(key)?.disable();
+        }
+      });
+      if (groupdisabled) {
+        group.disable();
+      }
       return;
     }
 
@@ -261,6 +277,9 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
         group.get(key)?.disable();
       }
     });
+    if (groupdisabled) {
+      group.disable();
+    }
     group.markAllAsTouched();
     this.stepper.validateSteps();
   }
@@ -275,6 +294,14 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
     ) as FormGroup[];
 
     return groups[index];
+  }
+
+  getIBStickerAttachmentDetails(srcId: string){
+    this.commonService.getAttachmentDetails(srcId, this.commonService.docIBStickerAttachment, "").subscribe((data: any) => {
+      if(data!=null){
+        this.IBStickerAttachment = data;
+      }
+    });
   }
 
   patchFormValues(){
@@ -300,7 +327,8 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
         principalWarrantyStart: this.srlcDetails[0].warrantyStartDate? this.commonService.convertDateStringToDate(this.srlcDetails[0].warrantyStartDate): null,
         principalWarrantyEnd: this.srlcDetails[0].warrantyFinishDate? this.commonService.convertDateStringToDate(this.srlcDetails[0].warrantyFinishDate): null,
         clientWarrantyStart: this.srlcDetails[0].extendedWarStartDate? this.commonService.convertDateStringToDate(this.srlcDetails[0].extendedWarStartDate): null,
-        clientWarrantyEnd: this.srlcDetails[0].extendedWarEndDate? this.commonService.convertDateStringToDate(this.srlcDetails[0].extendedWarEndDate): null,  
+        clientWarrantyEnd: this.srlcDetails[0].extendedWarEndDate? this.commonService.convertDateStringToDate(this.srlcDetails[0].extendedWarEndDate): null,
+        ibStickerStatus: this.srlcDetails[0].stickerStatusID? this.srlcDetails[0].stickerStatusID: this.serviceCalendarService.ibStickerPendingStatus
       },
       systematizationDetails: {
         systemHandle: this.srlcDetails[0].systemHandle? this.srlcDetails[0].systemHandle: '',
@@ -326,14 +354,39 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
 
   serviceCallFormValidation(): string{
     const formValue = this.callCompletionForm.getRawValue();
+
     if(formValue.completionDetails.completedCheckBox && !this.isInstallationCall){
-        if(formValue.completionDetails.oqpvCheckBox || formValue.completionDetails.bdServiceCheckBox ||
-          formValue.completionDetails.calibrationCheckBox || formValue.completionDetails.pmCheckBox)
-          {
-            return 'Success'
-          }
+        if(!(formValue.completionDetails.oqpvCheckBox || formValue.completionDetails.bdServiceCheckBox ||
+             formValue.completionDetails.calibrationCheckBox || formValue.completionDetails.pmCheckBox)){
+              return 'Please select either OQPV, BD, PM or Calibration'         
+        }
+        else if(formValue.installationDetails.ibStickerStatus == this.serviceCalendarService.ibStickerPendingStatus){
+            if(this.servicePrerequisites[0].ibWorkingStatus == 'To Be Installed'){
+              return 'Cannot complete the call with pending sticker update status'
+            }
+            // else if(formValue.installationDetails.ibStickerAttachment.length == 0 && this.IBStickerAttachment.length == 0){
+            //   return 'IB sticker attachment is needed'
+            // }
+            // else if((formValue.installationDetails.ibStickerAttachment.length + this.IBStickerAttachment.length) > 1){
+            //   return 'Please change status to image uploaded'
+            // }
+            else{
+              return 'Success'
+            }
+        }
+        else if(formValue.installationDetails.ibStickerStatus == this.serviceCalendarService.ibStickerImageUploadedStatus){
+            if(formValue.installationDetails.ibStickerAttachment.length == 0 && this.IBStickerAttachment.length == 0){
+              return 'IB sticker attachment is needed'
+            }
+            else if((formValue.installationDetails.ibStickerAttachment.length + this.IBStickerAttachment.length) > 1){
+              return 'Only one sticker can be attached'
+            }
+            else{
+              return 'Success'
+            }
+        }
         else{
-          return 'Please select either OQPV, BD, PM or Calibration'
+              return 'Success'
         }
     }
     else if(formValue.completionDetails.completedCheckBox && this.isInstallationCall){
@@ -344,6 +397,31 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
                 (formValue.installationDetails.clientWarrantyStart && formValue.installationDetails.clientWarrantyEnd)))
       {
         return 'Please enter warranty date or client warranty date'
+      }
+      else if(formValue.installationDetails.ibStickerStatus == this.serviceCalendarService.ibStickerPendingStatus){
+        // if(formValue.installationDetails.ibStickerAttachment.length == 0 && this.IBStickerAttachment.length == 0){
+        //   return 'IB sticker attachment is needed'
+        // }
+        // else if((formValue.installationDetails.ibStickerAttachment.length + this.IBStickerAttachment.length) > 1){
+        //   return 'Please change status to image uploaded'
+        // }
+        if(this.servicePrerequisites[0].ibWorkingStatus == 'To Be Installed'){
+          return 'Cannot complete the call with pending sticker update status'
+        }
+        else{
+          return 'Success'
+        }
+      }
+      else if(formValue.installationDetails.ibStickerStatus == this.serviceCalendarService.ibStickerImageUploadedStatus){
+          if(formValue.installationDetails.ibStickerAttachment.length == 0 && this.IBStickerAttachment.length == 0){
+            return 'IB sticker attachment is needed'
+          }
+          else if((formValue.installationDetails.ibStickerAttachment.length + this.IBStickerAttachment.length) > 1){
+            return 'Only one sticker can be attached'
+          }
+          else{
+            return 'Success'
+          }
       }
       else{
         return 'Success'
@@ -494,6 +572,8 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
                   this.serviceCalendarService.callActionDetails.WarrantyFinishDate =  formValue.installationDetails.principalWarrantyEnd;
                   this.serviceCalendarService.callActionDetails.ExtendedWarStartDate =  formValue.installationDetails.clientWarrantyStart;
                   this.serviceCalendarService.callActionDetails.ExtendedWarEndDate =  formValue.installationDetails.clientWarrantyEnd;
+                  this.serviceCalendarService.callActionDetails.StickerStatusId = formValue.installationDetails.ibStickerStatus? formValue.installationDetails.ibStickerStatus: this.serviceCalendarService.ibStickerPendingStatus;
+                  this.serviceCalendarService.callActionDetails.IBStickerAttachment = formValue.installationDetails.ibStickerAttachment? formValue.installationDetails.ibStickerAttachment: null;
                 //Systematization params
                   this.serviceCalendarService.callActionDetails.ProdClassificationId =  formValue.systematizationDetails.classification;
                   this.serviceCalendarService.callActionDetails.ModProductId =  formValue.systematizationDetails.installbaseProduct;
@@ -619,6 +699,10 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
     });
   }
 
+  hideShowFooter(value: boolean){
+    this.isInnerScreen = value;
+  }
+
   resetValues(){
     this.serviceCalendarService.addedPartsDetailsCard = [];
   }
@@ -626,4 +710,5 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
   onBackClickHandle() {
     this.widgetSelected.emit();
   }
+  
 }
