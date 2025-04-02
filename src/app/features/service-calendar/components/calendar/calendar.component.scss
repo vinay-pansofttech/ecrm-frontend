@@ -7,12 +7,12 @@
   padding-top: 0.25rem;
 }
 .service-calendar-date{
-  padding: 0.5rem;
+  padding-bottom: 0.25rem;
   color: #FFFFFF;
 }
 .service-calendar-container{
   display: flex;
-  padding: 0.5rem;
+  padding: 0.25rem;
   align-items: center;
   justify-content: space-between;
   background: var(--secondary-color);;
@@ -21,7 +21,6 @@
 }
 .service-calendar-date-container{
   display: flex;
-  padding: 0.5rem;
   align-items: center;
 }
 .service-kendo-calendar-pop-up-icon{

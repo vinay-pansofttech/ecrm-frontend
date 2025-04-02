@@ -39,21 +39,21 @@ export class PartsSearchComponent {
   ){}
 
   ngOnInit(): void {
-      this.loaderService.loaderState.subscribe(res => {
-        this.showAPILoader = res;
-      });
-      this.loaderService.hideLoader();
-      this.loaderMessage = 'Loading Details...';
-      this.partsSearchForm = this.formBuilder.group({
-        manufacturer: new FormControl(null ,Validators.nullValidator),
-        supplier: new FormControl(null ,Validators.nullValidator),
-        partNo: new FormControl(null ,Validators.required),
-        productLine: new FormControl(null, Validators.nullValidator),
-        description: new FormControl('', Validators.nullValidator),
-      });
-      this.addedPartsDetailsCard = this.serviceCalendarService.addedPartsDetailsCard;
-      this.getDependantComboForSupplier();
-      this.getDependantComboForManufacturer();
+    this.loaderService.loaderState.subscribe(res => {
+      this.showAPILoader = res;
+    });
+    this.loaderService.hideLoader();
+    this.loaderMessage = 'Loading Details...';
+    this.partsSearchForm = this.formBuilder.group({
+      manufacturer: new FormControl(null ,Validators.nullValidator),
+      supplier: new FormControl(null ,Validators.nullValidator),
+      partNo: new FormControl(null ,Validators.required),
+      productLine: new FormControl(null, Validators.nullValidator),
+      description: new FormControl('', Validators.nullValidator),
+    });
+    this.addedPartsDetailsCard = this.serviceCalendarService.addedPartsDetailsCard;
+    this.getDependantComboForSupplier();
+    this.getDependantComboForManufacturer();
   }
 
   getDependantComboForManufacturer(){
@@ -109,7 +109,6 @@ export class PartsSearchComponent {
     
     this.serviceCalendarService.addedPartsDetailsCard = this.addedPartsDetailsCard;
   }
-
 
   onDescriptionClick(index: number){
     this.searchPartsDetailsCard[index].isDescOpen = !this.searchPartsDetailsCard[index].isDescOpen;  

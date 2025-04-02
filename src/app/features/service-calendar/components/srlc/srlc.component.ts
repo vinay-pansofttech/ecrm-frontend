@@ -158,6 +158,10 @@ export class SrlcComponent implements OnInit, OnDestroy{
         this.serviceCalendarService.otherTasksDetailsCard = data;
       });
     }
+    
+    updateModuleDetailsCard(updatedList: svcIBModuleDetails[]) {
+      this.moduleDetails = updatedList;
+    }
 
     onSRIDInfoClick(){
       this.isSRIDInfoSelected = !this.isSRIDInfoSelected;

@@ -59,8 +59,7 @@ export class EffortsListViewComponent {
     const selectedCard = filteredCard[cardIndex];
     const today = this.datePipe.transform(new Date(), "yyyy-MM-dd")!;
     const srTask = this.engeffortListCards.find(card => card.taskType === "Site Readiness");
-
-    if (selectedCard.isEffortEdit) {
+    if (selectedCard.isEffortEdit && this.servicePrerequisites[0].isInProgress) {
       // If there is an SR task, it must be completed before allowing other tasks
       if (srTask) {
         if (selectedCard.taskType === 'Site Readiness') {

@@ -32,6 +32,7 @@
         *ngIf="currentStep === 1"
         [installationDetails]="currentGroup"
         [srid]="srid"
+        [IBStickerAttachment]="IBStickerAttachment"
         [srlcDetails]="srlcDetails"></app-installation-details>
       <app-systematization-details
         *ngIf="currentStep === 2"
@@ -43,7 +44,9 @@
         [srid]="srid"
         [isEditable]="isEditable"
         [moduleDetails]="currentGroup"
+        [installBaseId]="srlcDetails[0].installBaseID? srlcDetails[0].installBaseID: 0"
         [moduleDetailsCard]="moduleDetails"
+        (hideShowFooter)="hideShowFooter($event)"
         (validateModuleDetails)="validateModules(this.moduleDetails)"
         (moduleDetailsCardChange)="updateModuleDetailsCard($event)"></app-module-details>
       <app-other-tasks
@@ -53,6 +56,7 @@
         [otherDetails]="currentGroup"
         [callCompletionForm]="callCompletionForm"
         [otherTasksDetails]="otherTasksDetails"
+        (hideShowFooter)="hideShowFooter($event)"
         (validateOtherDetails)="validateOtherTasks(this.otherTasksDetails)"></app-other-tasks>
       <app-service-survey
         *ngIf="currentStep === 5 && serviceCalendarService.isSurveyRequired"
@@ -60,7 +64,7 @@
         [surveyDetails]="currentGroup"
         [srlcDetails]="srlcDetails"></app-service-survey>
     </form>
-    <div class="app-screen--footer">
+    <div class="app-screen--footer" *ngIf="!isInnerScreen">
       <button
         kendobutton
         class="app-general--button"

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { ServiceCalendarService, engEffortsList, svcGetSRLCDetails, svcPrerequisites, svcIBModuleDetails, svcGetOtherTasksDetails} from '../../service-calendar.service';
 
@@ -28,6 +28,7 @@ export class CallActionComponent implements OnInit{
   @Input() srlcDetails: svcGetSRLCDetails[] = [];
   @Input() moduleDetails: svcIBModuleDetails[] = [];
   @Input() otherTasksDetails: svcGetOtherTasksDetails[] = [];
+  @Output() moduleDetailsCardChange: EventEmitter<svcIBModuleDetails[]> = new EventEmitter<svcIBModuleDetails[]>();
 
   constructor(
     private serviceCalendarService: ServiceCalendarService,
@@ -130,6 +131,10 @@ export class CallActionComponent implements OnInit{
         callback(false);
       }
     );
+  }
+
+  updateModuleDetailsCard(updatedList: svcIBModuleDetails[]) {
+    this.moduleDetailsCardChange.emit(updatedList);
   }
 
 }

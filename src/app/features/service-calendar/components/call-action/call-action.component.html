@@ -15,7 +15,7 @@
                 <img [src]="callCompletionEnabled ? 'assets/content/images/call-complete-test.svg' : 'assets/content/images/call-complete-disabled.svg'"
                  width="55" height="55"/>
             </div>
-            <div class="app-widget-label" [style.color]="callCompletionEnabled ? '#1c1b1b' : '#c4c2c2'"> 
+            <div class="app-widget-label" [style.color]="callCompletionEnabled ? '#163e4f' : '#c4c2c2'"> 
                 Completion
             </div>
         </div>
@@ -24,7 +24,7 @@
                 <img [src]="callHoldEnabled ? 'assets/content/images/call-hold-test.svg' : 'assets/content/images/call-hold-disabled.svg'"
                  width="55" height="55"/>
             </div>
-            <div class="app-widget-label" [style.color]="callHoldEnabled ? '#1c1b1b' : '#c4c2c2'"> 
+            <div class="app-widget-label" [style.color]="callHoldEnabled ? '#163e4f' : '#c4c2c2'"> 
                 Hold
             </div>
         </div>
@@ -33,7 +33,7 @@
                 <img [src]="callFieldVisitEnabled ? 'assets/content/images/call-field-visit-test.svg' : 'assets/content/images/call-field-visit-disabled.svg'" 
                  width="55" height="55"/>
             </div>
-            <div class="app-widget-label" [style.color]="callFieldVisitEnabled ? '#1c1b1b' : '#c4c2c2'"> 
+            <div class="app-widget-label" [style.color]="callFieldVisitEnabled ? '#163e4f' : '#c4c2c2'"> 
                 Field Visit <br> Required
             </div>
         </div>
@@ -42,7 +42,7 @@
                 <img [src]="callContinueEnabled ? 'assets/content/images/call-continue-test.svg' : 'assets/content/images/call-continue-disabled.svg'" 
                  width="55" height="55"/>
             </div>
-            <div class="app-widget-label" [style.color]="callContinueEnabled ? '#1c1b1b' : '#c4c2c2'"> 
+            <div class="app-widget-label" [style.color]="callContinueEnabled ? '#163e4f' : '#c4c2c2'"> 
                 Continue to <br> work
             </div>
         </div>
@@ -55,7 +55,8 @@
         [srlcDetails]="srlcDetails"
         [moduleDetails]="moduleDetails"
         [otherTasksDetails]="otherTasksDetails"
-        (widgetSelected)="widgetSelected('back')">
+        (widgetSelected)="widgetSelected('back')"
+        (moduleDetailsCardChange)="updateModuleDetailsCard($event)">
     </app-call-completion>
 
     <app-call-hold

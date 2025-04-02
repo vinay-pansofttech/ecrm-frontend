@@ -4,7 +4,11 @@
       Module Details
     </div>
     <div class="app-screen--info-header-right">
-      <img *ngIf="!isModuleDetailsEditOpen"
+      <div *ngIf="!isModuleDetailsEditOpen && isEditable && !isAddModulesFromSalesConfigOpen" 
+           class="app-screen--info-header-right" (click)="onAddModulesFromSalesConfigClick()">
+           <span style="font-size: 12px;">Add modules from sales config</span>
+      </div>
+      <img *ngIf="!isModuleDetailsEditOpen && isEditable"
            src="assets/content/images/delete.svg" alt="new" width="25" height="25"
            (click)="onDeleteAddedCards()" />
       <div *ngIf="isModuleDetailsEditOpen" 
@@ -25,7 +29,7 @@
         hidden>
       </kendo-textbox>
       <kendo-formerror class="app-stepper--error-msg">
-        Serial No. and Version No. is required for all modules
+        Model No. and Serial No. is required for all modules
       </kendo-formerror>
     </kendo-formfield>
   </div>
@@ -161,10 +165,20 @@
     </div>
   </div>
 
-  <app-parts-search *ngIf="!isModuleDetailsOpen && !isModuleDetailsEditOpen"
+  <app-parts-search 
+    *ngIf="!isModuleDetailsOpen && !isModuleDetailsEditOpen && !isAddModulesFromSalesConfigOpen"
     [srid]="srid"
     [addedPartsDetailsCard]="modulePartsCard"
-    (onBackClickHandle)="onBackClickHandle('add')"></app-parts-search>
+    (onBackClickHandle)="onBackClickHandle('add')">
+  </app-parts-search>
+
+  <app-installbase-modules-salesconfig 
+    *ngIf="!isModuleDetailsOpen && !isModuleDetailsEditOpen && !isModulePartsAddOpen"
+    [srid]="srid"
+    [installBaseId]="installBaseId"
+    [addedPartsDetailsCard]="modulePartsCard"
+    (onBackClickHandle)="onBackClickHandle('add')">
+  </app-installbase-modules-salesconfig>
 </div>
 
 <div class="app-screen--loader" *ngIf="showAPILoader">

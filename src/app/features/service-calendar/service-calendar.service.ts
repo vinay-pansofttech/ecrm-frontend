@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { LoginService } from '../login/components/login/login.service';
 import { ConfigService } from 'src/app/core/services/config.service';
 import { DatePipe } from '@angular/common';
+import { CommonService } from '../common/common.service';
 import { guid } from '@progress/kendo-angular-common';
 
 export interface callsList {
@@ -112,6 +113,9 @@ export interface svcPrerequisites {
   isPartsRequestShow: boolean | null;
   isGenerateCSR: boolean | null;
   isQuoteClosePrv: boolean;
+  isIBConfirmed: boolean;
+  isIBStickerUsed: boolean;
+  ibWorkingStatus: string | null;
 }
 
 export interface svcPartsRequest {
@@ -379,6 +383,7 @@ export interface svcGetSRLCDetails {
   subOrdRefNo?: string;
   mainTaskEngrResponse?: string;
   pddAttachment?: string;
+  stickerStatusID? : number;
 }
 
 export interface svcIBModuleDetails {
@@ -416,6 +421,21 @@ export interface svcGetOtherTasksDetails {
   endDate?: string | null;
   exceptional?: boolean | null;
   isExceptional?: boolean | null;
+  isCardSelected?: boolean | null;
+  isDescOpen?: boolean | null;
+}
+
+export interface svcGetIBSalesConfigDetails {
+  partsMasterID?: number;
+  supplierID?: number;
+  supplierName?: string;
+  partNo?: string;
+  option?: string;
+  productLine?: string;
+  salesProductId?: number;
+  description?: string;
+  qty?: number;
+  quantity?: number | null;
   isCardSelected?: boolean | null;
   isDescOpen?: boolean | null;
 }
@@ -473,6 +493,9 @@ export interface callActionBO {
   ApplicationId?: number;
   ComplexityId?: number;
   ProdClassificationId?: number;
+  StickerStatusId?: number;
+  IBStickerAttachment?: any;
+  IBStickerAttachmentSrcType?: number;
   Guid?: string;
   IsAwaitingUserAccptance?: boolean;
   IsATCallContinue?: boolean;
@@ -512,6 +535,13 @@ export class ServiceCalendarService {
   callActionDetails!: callActionBO;
   isSurveyRequired: boolean = false;
   isCallCompleted: boolean = false;
+
+  //IB Sticker Status
+  ibStickerPendingStatus: number= 4;
+  ibStickerGluedStatus: number= 3;
+  ibStickerNotAllowingStatus: number= 2;
+  ibStickerImageUploadedStatus: number= 1;
+
   // public hasPatchedMap: { [key: string]: boolean } = {
   //   completionDetails: false,
   //   installationDetails: false,
@@ -538,11 +568,13 @@ export class ServiceCalendarService {
   private postPartsRequestUrl = `${this.configService.apiUrl}/api/ServiceCalendar/PartsRequest`;
   private getModuleDetailsUrl = `${this.configService.apiUrl}/api/ServiceCalendar/GetModuleDetails`;
   private getOtherTasksDetailsUrl = `${this.configService.apiUrl}/api/ServiceCalendar/GetOtherTasksDetails`;
+  private getIBSalesConfigDetailsUrl = `${this.configService.apiUrl}/api/ServiceCalendar/GetIBSalesConfigDetails`;
   private postCallActionUrl = `${this.configService.apiUrl}/api/ServiceCalendar/UpdateCallAction`;
 
   constructor(
     private http: HttpClient,
     private loginService: LoginService,
+    private commonService: CommonService,
     private configService: ConfigService,
     private datePipe: DatePipe
   ) { }
@@ -638,6 +670,15 @@ export class ServiceCalendarService {
       EmpID: EmpId
     };
     return this.http.post(this.getOtherTasksDetailsUrl, body);
+  }
+
+  //API call to get IB Sales Config Details
+  getIBSalesConfigDetails(InstallBaseId: number, LoginId: number) {
+    const body = {
+      installBaseId: InstallBaseId,
+      loginId: LoginId
+    };
+    return this.http.post(this.getIBSalesConfigDetailsUrl, body);
   }
 
   //API call to fetch calls scheduled for that day
@@ -817,6 +858,7 @@ export class ServiceCalendarService {
       ApplicationId: SRLCLabel.applicationId,
       ComplexityId: SRLCLabel.complexityId,
       ProdClassificationId: SRLCLabel.prodClassificationId,
+      StickerStatusId: SRLCLabel.stickerStatusID,
       Guid: '',
       IsAwaitingUserAccptance: SRLCLabel.srStatusID == 7? true: SRLCLabel.isATUserAcceptance? SRLCLabel.isATUserAcceptance : false,
       IsATCallContinue: SRLCLabel.isATCallContinue? SRLCLabel.isATCallContinue : false,
@@ -832,13 +874,51 @@ export class ServiceCalendarService {
       IsReopen: false,
       IsPSG: false,
       CustomerSiteId: SRLCLabel.customerSiteId? SRLCLabel.customerSiteId: 0,
+      IBStickerAttachmentSrcType: this.commonService.docIBStickerAttachment,
     };
   }
 
-  postCallAction(callActionBO: callActionBO){
-    const body = {
-      callActionBO: callActionBO
-    };
+  // postCallAction(callActionBO: callActionBO){
+  //   const body = {
+  //     callActionBO: callActionBO
+  //   };
+  //   return this.http.post(this.postCallActionUrl, body);
+  // }
+
+  postCallAction(callActionBO: callActionBO) {
+    const body = new FormData();
+
+    Object.keys(callActionBO).forEach(key => {
+      let value = callActionBO[key as keyof typeof callActionBO];
+    
+      if (value !== null && value !== undefined) {
+        if (typeof value === "boolean") {
+          body.append(key, value ? "true" : "false");
+        } 
+        else if (typeof value === "number") {
+          body.append(key, value.toString());
+        } 
+        else if (value instanceof Date) {
+          body.append(key, value.toISOString());
+        }
+        else if (typeof value === "string" && value.trim() === "") {
+          body.append(key, "");
+        } 
+        else if (Array.isArray(value)) {
+          body.append(key, JSON.stringify(value));
+        } 
+        else if (typeof value === "object") {
+          body.append(key, JSON.stringify(value)); 
+        } 
+        else {
+          body.append(key, value.toString());
+        }
+      }
+    });
+    if (callActionBO.IBStickerAttachment && callActionBO.IBStickerAttachment.length > 0) {
+      body.append("ibStickerAttachment", callActionBO.IBStickerAttachment[0]);
+    }
+  
     return this.http.post(this.postCallActionUrl, body);
   }
 
