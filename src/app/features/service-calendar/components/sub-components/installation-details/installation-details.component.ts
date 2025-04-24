@@ -33,9 +33,6 @@ export class InstallationDetailsComponent implements OnInit{
       this.showAPILoader = res;
     });
     this.loaderService.hideLoader();
-    
-    window.scrollTo(0, 0);
-
     // this.patchFormValues('installationDetails');
     this.subscribe();
     this.getPrerequisiteCombo();

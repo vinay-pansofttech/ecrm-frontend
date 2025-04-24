@@ -36,9 +36,6 @@ export class InstallbaseModulesSalesconfigComponent {
       this.showAPILoader = res;
     });
     this.loaderService.hideLoader();
-    
-    window.scrollTo(0, 0);
-
     this.loaderMessage = 'Loading Details...';
     this.getIBSalesConfigDetails();
   }

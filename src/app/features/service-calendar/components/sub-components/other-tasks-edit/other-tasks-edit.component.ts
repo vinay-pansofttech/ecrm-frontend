@@ -27,8 +27,6 @@ export class OtherTasksEditComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
-    window.scrollTo(0, 0);
-
     this.otherTasksDetailsForm = new FormGroup({
       taskType: new FormControl({value:'', disabled: true}, Validators.nullValidator),
       completedDate: new FormControl('', Validators.required),

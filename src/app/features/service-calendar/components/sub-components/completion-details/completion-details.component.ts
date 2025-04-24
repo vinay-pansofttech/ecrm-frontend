@@ -35,9 +35,6 @@ export class CompletionDetailsComponent implements OnInit{
       this.showAPILoader = res;
     });
     this.loaderService.hideLoader();
-    
-    window.scrollTo(0, 0);
-
     this.completionDetails.get('completedCheckBox')?.valueChanges.subscribe((isChecked: boolean) => {
       if (isChecked) {
         this.completionDetails.get('completedDate')?.setValue(new Date());

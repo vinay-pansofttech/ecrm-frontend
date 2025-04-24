@@ -244,6 +244,11 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
   // }
 
   public next(): void {
+    const contentContainer = document.querySelector('.app-scrollable--container');
+    if (contentContainer) {
+      contentContainer.scrollTop = 0;
+    }
+    
     const group = this.currentGroup;
     const groupdisabled = group.disabled;
     const originalDisabledState = new Map<string, boolean>();
