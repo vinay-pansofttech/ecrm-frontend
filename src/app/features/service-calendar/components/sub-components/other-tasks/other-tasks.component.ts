@@ -34,6 +34,9 @@ export class OtherTasksComponent implements OnInit{
       this.showAPILoader = res;
     });
     this.loaderService.hideLoader();
+    
+    window.scrollTo(0, 0);
+
     this.validateOtherDetails.emit();
   }
 

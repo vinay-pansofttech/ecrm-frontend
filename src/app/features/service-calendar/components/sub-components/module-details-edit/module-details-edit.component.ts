@@ -27,6 +27,9 @@ export class ModuleDetailsEditComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
+
+    window.scrollTo(0, 0);
+
     this.moduleDetailsForm = new FormGroup({
       moduleName: new FormControl({value:'', disabled: true}, Validators.nullValidator),
       modelNo: new FormControl('', Validators.required),

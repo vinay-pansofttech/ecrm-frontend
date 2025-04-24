@@ -34,6 +34,9 @@ export class SystematizationDetailsComponent {
       this.showAPILoader = res;
     });
     this.loaderService.hideLoader();
+
+    window.scrollTo(0, 0);
+
     this.getPrerequisiteCombo();
     this.getPrerequisiteComboDataOnLoad();
     // this.patchFormValues('systematizationDetails');
