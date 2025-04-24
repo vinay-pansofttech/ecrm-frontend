@@ -65,7 +65,6 @@ export class SrlcComponent implements OnInit, OnDestroy{
       this.getOtherTasksDetails();
       this.scheduledCallsDetails();
       this.onStepperClick(0);
-      window.scrollTo(0, 0);
     }
 
     ngOnDestroy(): void {

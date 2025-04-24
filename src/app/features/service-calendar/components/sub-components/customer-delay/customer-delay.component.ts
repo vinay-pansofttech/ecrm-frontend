@@ -25,9 +25,6 @@ export class CustomerDelayComponent implements OnInit{
       this.showAPILoader = res;
     });
     this.loaderService.hideLoader();
-
-    window.scrollTo(0, 0);
-
     this.customerDelayDetails.get('leDelayHoldRemarks')?.valueChanges.subscribe((value: string | null) => {
       this.serviceCalendarService.delayRemarks = value? value: '';
     });

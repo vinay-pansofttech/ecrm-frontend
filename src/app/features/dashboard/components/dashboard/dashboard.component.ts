@@ -24,7 +24,10 @@ export class DashboardComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    window.scrollTo(0, 0);
+    const contentContainer = document.querySelector('.landing-page-main');
+    if (contentContainer) {
+      contentContainer.scrollTop = 0;
+    }
   }
 
   getEmployeeName(): string {
