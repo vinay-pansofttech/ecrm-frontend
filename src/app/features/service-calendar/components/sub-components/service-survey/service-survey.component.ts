@@ -30,6 +30,9 @@ export class ServiceSurveyComponent {
       this.showAPILoader = res;
     });
     this.loaderService.hideLoader();
+
+    window.scrollTo(0, 0);
+
     this.getPrerequisiteCombo();
     this.surveyDetails.get('contactName')?.valueChanges.subscribe((value: number) => {
         this.getCustContactById(value);
