@@ -98,7 +98,7 @@
                            [filteredEngeffortListCards]="filteredEngeffortListCards"
                            [filteredOtherDaysEngeffortListCards]="filteredOtherDaysEngeffortListCards"
                            [servicePrerequisites]="servicePrerequisites"
-                           (srlcRefresh)="onRefresh()"></app-efforts-list-view>
+                           (srlcRefresh)="onSave()"></app-efforts-list-view>
     <app-parts-request *ngIf="currentStep === 1" [srid]="selectedSRID"
                        [servicePrerequisites]="servicePrerequisites"></app-parts-request>
     <app-call-action *ngIf="currentStep === 2" [srid]="selectedSRID"

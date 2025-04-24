@@ -180,4 +180,8 @@ export class SrlcComponent implements OnInit, OnDestroy{
       this.serviceCalendarService.resetValues();
       this.ngOnInit();
     }
+
+    onSave(){
+      this.ngOnInit();
+    }
 }

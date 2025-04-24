@@ -55,6 +55,11 @@ body {
   color: var(--primary-color) !important;
 }
 
+.k-checkbox {
+  border-color: var(--primary-color) !important;
+  background-color: #ffffff;
+}
+
 //General Screen Styles
 .app-navigation-main--container {
   display: flex;
