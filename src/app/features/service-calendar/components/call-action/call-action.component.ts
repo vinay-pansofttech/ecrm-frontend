@@ -1,5 +1,6 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
+import { NotificationService } from 'src/app/core/services/notification.service';
 import { ServiceCalendarService, engEffortsList, svcGetSRLCDetails, svcPrerequisites, svcIBModuleDetails, svcGetOtherTasksDetails} from '../../service-calendar.service';
 
 @Component({
@@ -22,6 +23,7 @@ export class CallActionComponent implements OnInit{
 
   engScheduleListCards: engEffortsList[] = [];
   isCallActionAccess: boolean = false;
+  engeffortListCards: engEffortsList[] = [];
 
   @Input() srid: number = 0;
   @Input() servicePrerequisites: svcPrerequisites[] = [];
@@ -32,7 +34,8 @@ export class CallActionComponent implements OnInit{
 
   constructor(
     private serviceCalendarService: ServiceCalendarService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private notificationService: NotificationService
   ){}
 
   ngOnInit(): void {
@@ -41,7 +44,7 @@ export class CallActionComponent implements OnInit{
     });
   }
 
-  widgetSelected(selectedWidget: string){
+  async widgetSelected(selectedWidget: string): Promise<void>{
     this.callCompletionSelected =false;
     this.callHoldSelected = false;
     this.callFieldVisitSelected = false;
@@ -49,7 +52,27 @@ export class CallActionComponent implements OnInit{
 
     switch (selectedWidget) {
       case 'callCompletion':
-        this.callCompletionSelected = true;
+        this.ValidateEfforts().then((isValid) => {
+          if(isValid){
+            this.callCompletionSelected = true;
+          }
+          else if(this.srlcDetails[0].contactPersonId == 0){
+            this.notificationService.showNotification(
+              'Please confirm contact person in SR Tab',
+              'error',
+              'center',
+              'bottom'
+            );
+          }
+          else{
+            this.notificationService.showNotification(
+              'Please fill engineer effort log',
+              'error',
+              'center',
+              'bottom'
+            );
+          }
+        });
         break;
       case 'callHold':
         this.callHoldSelected = true;
@@ -135,6 +158,33 @@ export class CallActionComponent implements OnInit{
 
   updateModuleDetailsCard(updatedList: svcIBModuleDetails[]) {
     this.moduleDetailsCardChange.emit(updatedList);
+  }
+
+  ValidateEfforts(): Promise<boolean>{
+    return new Promise((resolve) => {
+    const mainSubTaskId = 
+    this.srlcDetails[0].callCategory == 'Install' && this.srlcDetails[0].srStatusID == this.serviceCalendarService.SRStatusId? this.serviceCalendarService.SRSubTaskId:
+    this.srlcDetails[0].callCategory == 'Install'? this.serviceCalendarService.InstallationSubTaskId:
+    this.srlcDetails[0].callCategory != 'Install'? this.serviceCalendarService.FieldServiceSubTaskId: this.serviceCalendarService.FieldServiceSubTaskId;
+
+    this.serviceCalendarService.getEngEfforts(this.loginService.employeeId as number, this.srid).subscribe((data: any) => {
+      this.engeffortListCards = data.filter((item: any) =>{
+        return  item.isPrimary == true &&
+                item.subTaskId == mainSubTaskId &&
+                item.empId == this.loginService.employeeId as number &&
+                item.remarks != '' &&
+                item.remarks != null &&
+                ((item.startTime != '' && item.startTime != null && item.endTime != '' && item.endTime != null) || 
+                (item.travelHours != '' && item.travelHours != null) ||
+                (item.effortHours != '' && item.effortHours != null) ||
+                item.isNoEffortSpent == true)
+                });
+      resolve(this.engeffortListCards.length > 0);
+    },
+    () => {
+      resolve(false);
+    });
+    });
   }
 
 }

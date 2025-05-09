@@ -19,6 +19,7 @@ export class SrlcComponent implements OnInit, OnDestroy{
   loaderMessage!: string;
   invalid = false;
 
+  isServiceRequestSelected: boolean = false;
   isEffortsSelected: boolean = false;
   isPRSelected: boolean = false;
   isCallActionSelected: boolean = false;
@@ -58,13 +59,14 @@ export class SrlcComponent implements OnInit, OnDestroy{
       this.loaderService.loaderState.subscribe(res => {
         this.showAPILoader = res;
       });
+      
       this.loaderService.hideLoader();
       this.engEffortsList();
       this.getServicePrereq();
       this.getSRLCDetails();
       this.getOtherTasksDetails();
       this.scheduledCallsDetails();
-      this.onStepperClick(0);
+      this.onStepperClick(1);
     }
 
     ngOnDestroy(): void {
@@ -113,18 +115,22 @@ export class SrlcComponent implements OnInit, OnDestroy{
     }
 
     onStepperClick(currentStep: number){
+      this.isServiceRequestSelected = false;
       this.isEffortsSelected = false;
       this.isPRSelected = false;
       this.isCallActionSelected = false;
       this.currentStep = currentStep;
   
       if(currentStep == 0){
+        this.isServiceRequestSelected = true;
+      }
+      if(currentStep == 1){
         this.isEffortsSelected = true;
       }
-      else if(currentStep == 1){
+      else if(currentStep == 2){
         this.isPRSelected = true;
       }
-      else if(currentStep == 2){
+      else if(currentStep == 3){
         this.isCallActionSelected = true;
       }
     }
@@ -154,6 +160,14 @@ export class SrlcComponent implements OnInit, OnDestroy{
     getOtherTasksDetails(){
       this.serviceCalendarService.getOtherTasksDetails(this.selectedSRID,this.loginService.employeeId as number).
       subscribe((data: any) => {
+        data = data.map((task: any) => {
+          return {
+            ...task,
+            exceptional: task.exceptional ?? false,
+            completedDate: task.completedDate ?? "",
+            expectedCompletionDate: task.expectedCompletionDate ?? ""
+          };
+        });
         this.otherTasksDetails = data;
         this.serviceCalendarService.otherTasksDetailsCard = data;
       });

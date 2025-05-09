@@ -33,6 +33,7 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
   isInnerScreen: boolean = false;
   engeffortListCards: engEffortsList[] = [];
   IBStickerAttachment: Array<FileInfo> = [];
+  CSRAttachment: Array<FileInfo> = [];
 
   @Input() srid: number = 0;
   @Input() servicePrerequisites: svcPrerequisites[] = [];
@@ -84,7 +85,7 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
   validateOtherTasks(otherTasksDetails: svcGetOtherTasksDetails[]): boolean {
     const dummyControl = this.callCompletionForm.get('otherDetails.dummyOtherTaskControl');
   
-    if (!otherTasksDetails || otherTasksDetails.length === 0) {
+    if (!otherTasksDetails || otherTasksDetails.length === 0 || this.srlcDetails[0].srStatusID == this.serviceCalendarService.SRCompletedStatus) {
       dummyControl?.setValidators(null);
       dummyControl?.updateValueAndValidity();
       return true;
@@ -176,6 +177,7 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
         resolutionType: new FormControl({value:'', disabled: this.isInstallationCall}, this.isInstallationCall? Validators.nullValidator: [Validators.required]),
         awaitingCSR: new FormControl(false, Validators.nullValidator),
         CSR: new FormControl('', Validators.nullValidator),
+        csrAttachment: new FormControl({value: '', disabled: false}, [Validators.nullValidator]),
         csrRemarks: new FormControl('', this.servicePrerequisites[0].isQuoteClosePrv? Validators.required: Validators.nullValidator),
       }),
       installationDetails: new FormGroup({
@@ -214,6 +216,7 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
     this.surveyValidator();
     this.patchFormValues();
     this.getIBStickerAttachmentDetails(this.srlcDetails[0].installBaseID as unknown as string);
+    this.getCSRAttachmentDetails(this.srid as unknown as string);
   }
 
   checkboxRequiredValidator(): ValidatorFn {
@@ -305,6 +308,14 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
     this.commonService.getAttachmentDetails(srcId, this.commonService.docIBStickerAttachment, "").subscribe((data: any) => {
       if(data!=null){
         this.IBStickerAttachment = data;
+      }
+    });
+  }
+
+  getCSRAttachmentDetails(srcId: string){
+    this.commonService.getAttachmentDetails(srcId, this.commonService.docSrcTypeCSRAttachment, "").subscribe((data: any) => {
+      if(data!=null){
+        this.CSRAttachment = data;
       }
     });
   }
@@ -539,7 +550,7 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
           this.srlcDetails[0].isExpertiseRequirement? this.srlcDetails[0].isExpertiseRequirement: false,
           this.servicePrerequisites[0].isQuoteClosePrv? this.servicePrerequisites[0].isQuoteClosePrv: false
         ).subscribe((data: any)=>{
-          if(data[0].csrMandatory == 'Success'){
+          if(data[0].csrMandatory == 'Success' || formValue.completionDetails.csrAttachment.length > 0){
             this.ValidateEfforts().then((isValid) => {
               if(isValid){
                 if (!formValue.completionDetails.awaitingCSR && formValue.completionDetails.completedCheckBox != "" && formValue.completionDetails.completedCheckBox != null
@@ -567,6 +578,7 @@ export class CallCompletionComponent implements OnInit, OnDestroy{
                   this.serviceCalendarService.callActionDetails.OtherCallsId =  formValue.completionDetails.otherCalls? formValue.completionDetails.otherCalls: 0;
                   this.serviceCalendarService.callActionDetails.ResolutionTypeId =  formValue.completionDetails.resolutionType? formValue.completionDetails.resolutionType: 0;
                   this.serviceCalendarService.callActionDetails.AwaitingCSR =  formValue.completionDetails.awaitingCSR;
+                  this.serviceCalendarService.callActionDetails.CSRAttachment = formValue.completionDetails.csrAttachment? formValue.completionDetails.csrAttachment: null;
                   this.serviceCalendarService.callActionDetails.CSRRemarks =  formValue.completionDetails.csrRemarks;
                 //Installation params
                   this.serviceCalendarService.callActionDetails.SerialNo =  formValue.installationDetails.productSerialNo;

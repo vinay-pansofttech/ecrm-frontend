@@ -45,8 +45,7 @@
             Clear
         </button>
       </div>
-    </div>
-    
+    </div>   
     <div class="content-wrapper">
       <div class="app-screen--header">
         Customer Signature
@@ -81,10 +80,9 @@
             kendoButton
             [svgIcon]="saveSvg"
             themeColor="primary"
-            [disabled]="!customerSignatureValue"
             (click)="onSave()"
             style="margin: 0.25rem;">
-            Save and Generate CSR
+            Save and Attach CSR
         </button>
         <button 
             kendoButton
@@ -92,8 +90,7 @@
             Clear
         </button>
       </div>
-    </div>
-    
+    </div>   
 </div>
 
 <div class="app-screen--loader" *ngIf="showAPILoader">

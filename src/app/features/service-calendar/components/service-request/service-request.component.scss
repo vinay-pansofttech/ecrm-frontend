@@ -1,14 +1,3 @@
-.load-more {
-  display: flex;
-  justify-content: center;
-  padding: 0.25rem;
-  margin-bottom: 0.5rem;
-  color: var(--body-grey, #69727b);
-  font-family: var(--font-family-text);
-  font-size: var(--text-size-1);
-  font-style: normal;
-  font-weight: var(--font-weight-bold);
-}
 .app-kendo-form--row-container {
   display: flex;
   flex-direction: row;
@@ -25,9 +14,27 @@
   flex-basis: 80%;
 }
 
+.flex-basis-10{
+  flex-basis: 10%;
+}
 .flex-basis-25{
   flex-basis: 25%;
 }
 .flex-basis-50{
   flex-basis: 50%;
+}
+.flex-basis-90{
+  flex-basis: 90%;
+}
+
+.app-info-card--content{
+  font-family: var(--font-family-text);
+  font-size: var(--text-size-01);
+  font-weight: var(--font-weight-bold);
+  line-height: normal;
+  color: #8d8d8d;
+}
+
+.app-enquiry-details-listview--cards {
+  margin: 1.5rem;
 }

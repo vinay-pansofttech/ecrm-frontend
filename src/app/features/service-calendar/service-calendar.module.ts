@@ -13,6 +13,7 @@ import { EffortsListViewComponent } from './components/efforts-list-view/efforts
 import { PDFViewerModule } from '@progress/kendo-angular-pdfviewer';
 import { CsrGeneratorComponent } from './components/csr-generator/csr-generator.component';
 import { PartsRequestComponent } from './components/parts-request/parts-request.component';
+import { ServiceRequestComponent } from './components/service-request/service-request.component';
 import { SrlcComponent } from './components/srlc/srlc.component';
 import { CallActionComponent } from './components/call-action/call-action.component';
 import { CallCompletionComponent } from './components/call-completion/call-completion.component';
@@ -42,6 +43,7 @@ import { PartsSearchComponent } from '../common/components/parts-search/parts-se
     EffortsListViewComponent,
     CsrGeneratorComponent,
     PartsRequestComponent,
+    ServiceRequestComponent,
     SrlcComponent,
     CallActionComponent,
     CallCompletionComponent,
