@@ -27,6 +27,7 @@
         [completionDetails]="currentGroup"
         [srid]="srid"
         [srlcDetails]="srlcDetails"
+        [CSRAttachment]="CSRAttachment"   
         (surveyValidator)="surveyValidator()"></app-completion-details>
       <app-installation-details
         *ngIf="currentStep === 1"

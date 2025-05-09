@@ -5,8 +5,9 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { AppRoutePaths } from 'src/app/core/Constants';
 import { LoginService } from 'src/app/features/login/components/login/login.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
-import { CommonService } from 'src/app/features/common/common.service';
-import { ServiceCalendarService, engEffortsList, svcPrerequisites } from '../../service-calendar.service';
+import { NotificationService } from 'src/app/core/services/notification.service';
+import { CommonService, AttachmentPopupDetails } from 'src/app/features/common/common.service';
+import { ServiceCalendarService, engEffortsList, svcPrerequisites, svcGetSRLCDetails } from '../../service-calendar.service';
 
 @Component({
   selector: 'app-efforts-list-view',
@@ -16,6 +17,7 @@ import { ServiceCalendarService, engEffortsList, svcPrerequisites } from '../../
 export class EffortsListViewComponent {
   csrGenerateForm!: FormGroup;
   @Input() servicePrerequisites: svcPrerequisites[] = [];
+  @Input() srlcDetails: svcGetSRLCDetails[] = [];
   @Input() engeffortListCards: engEffortsList[] = [];
   @Input() filteredEngeffortListCards: engEffortsList[] = [];
   @Input() filteredOtherDaysEngeffortListCards: engEffortsList[] = [];
@@ -29,6 +31,7 @@ export class EffortsListViewComponent {
   effortCardDetails!: engEffortsList;
   isEditEffortOpen: boolean = false;
   isOtherEffortsOpen: boolean = false;
+  isIBConfirmEnabled: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,6 +39,7 @@ export class EffortsListViewComponent {
     private formBuilder: FormBuilder,
     private loginService: LoginService,
     private loaderService: LoaderService,
+    private notificationService: NotificationService,
     public commonService: CommonService,
     private serviceCalendarService: ServiceCalendarService,
     private datePipe: DatePipe,
@@ -45,14 +49,38 @@ export class EffortsListViewComponent {
     this.isEditEffortOpen = false;
     this.csrGenerateForm = this.formBuilder.group({
       csrComments: new FormControl(null, this.servicePrerequisites[0]?.isGenerateCSR ? Validators.required : Validators.nullValidator),
+      completedCheckBox: new FormControl(false, Validators.nullValidator),
+      inProgressCheckBox: new FormControl(false, Validators.nullValidator),
     });
     this.loaderService.loaderState.subscribe(res => {
       this.showAPILoader = res;
     });
     this.loaderService.hideLoader();
     this.csrGenerateForm.patchValue({
-      csrComments: this.serviceCalendarService.csrComments ? this.serviceCalendarService.csrComments : null
+      csrComments: this.serviceCalendarService.csrComments ? this.serviceCalendarService.csrComments : null,
+      completedCheckBox: this.serviceCalendarService.selectedCallCompletion? true: false,
+      inProgressCheckBox: this.serviceCalendarService.selectedCallCompletion? false: true
     });
+    this.csrGenerateForm.get('completedCheckBox')?.valueChanges.subscribe((isChecked: boolean) => {
+      if (isChecked) {
+        this.csrGenerateForm.get('inProgressCheckBox')?.setValue(false, { emitEvent: false });
+      } else {
+        this.csrGenerateForm.get('inProgressCheckBox')?.setValue(true, { emitEvent: false });
+        this.csrGenerateForm.get('completedCheckBox')?.setValue(false, { emitEvent: false });
+      }
+    });
+    this.csrGenerateForm.get('inProgressCheckBox')?.valueChanges.subscribe((isChecked: boolean) => {
+      if (isChecked) {
+        this.csrGenerateForm.get('completedCheckBox')?.setValue(false, { emitEvent: false });
+      } else {
+        this.csrGenerateForm.get('completedCheckBox')?.setValue(true, { emitEvent: false });
+        this.csrGenerateForm.get('inProgressCheckBox')?.setValue(false, { emitEvent: false });
+      }
+    });
+    this.isIBConfirmEnabled = (this.srlcDetails[0].isIBConfirmed == false && this.srlcDetails[0].callType?.toLowerCase() == 'service' &&
+                               this.srlcDetails[0].srStatusID != this.serviceCalendarService.SRCompletedStatus && this.srlcDetails[0].srStatusID != this.serviceCalendarService.SRClosedStatus &&
+                              ((this.srlcDetails[0].poType == '' || this.srlcDetails[0].poType == null) 
+                              || (this.srlcDetails[0].poType != '' && this.srlcDetails[0].poType != null && this.srlcDetails[0].poType.toLowerCase() != "wait for po" && this.srlcDetails[0].poType.toLowerCase() != "po available"))) 
   }
 
   iseditable(cardIndex: number, filteredCard: engEffortsList[]): boolean {
@@ -84,16 +112,26 @@ export class EffortsListViewComponent {
   }
 
   addEffort(cardIndex: number, filteredCard: engEffortsList[]) {
-    const selectedCard = filteredCard[cardIndex];
-    this.otherEngEffortsList = this.engeffortListCards.filter(
-      (item: any) => {
-        const isSelectedCard = item === selectedCard;
-        const hasValidRemarks = item.remarks != null;
-        return !isSelectedCard && hasValidRemarks;
-      }
-    );
-    this.effortCardDetails = selectedCard;
-    this.isEditEffortOpen = true;
+    if(!this.isIBConfirmEnabled){
+      const selectedCard = filteredCard[cardIndex];
+      this.otherEngEffortsList = this.engeffortListCards.filter(
+        (item: any) => {
+          const isSelectedCard = item === selectedCard;
+          const hasValidRemarks = item.remarks != null;
+          return !isSelectedCard && hasValidRemarks;
+        }
+      );
+      this.effortCardDetails = selectedCard;
+      this.isEditEffortOpen = true;
+    }
+    else{
+      this.notificationService.showNotification(
+        'Please confirm Installbase in SR Tab',
+        'error',
+        'center',
+        'bottom'
+      );
+    }
   }
 
   onBackClickHandle() {
@@ -110,10 +148,45 @@ export class EffortsListViewComponent {
     this.isOtherEffortsOpen = !this.isOtherEffortsOpen;
   }
 
-  generateCSR() {
+  generateCSR(event: MouseEvent | TouchEvent | null) {
     const formValue = this.csrGenerateForm.value;
     this.serviceCalendarService.csrComments = formValue.csrComments ? formValue.csrComments : "";
+    this.serviceCalendarService.selectedCallCompletion = this.srlcDetails[0].srStatusID == this.serviceCalendarService.SRCompletedStatus;
+    if(!this.serviceCalendarService.selectedCallCompletion){
+      this.showCSRPopup = true;
+      let clientX = 0;
+      let clientY = 0;
+    
+      if (event instanceof TouchEvent) {
+        const touch = event.touches[0];
+        clientX = touch.clientX;
+        clientY = touch.clientY;
+      } 
+      else if (event instanceof MouseEvent) {
+        clientX = event.clientX;
+        clientY = event.clientY;
+      }
+      this.popupPosition = { x: clientX, y: clientY };
+    }
+    else
+      this.router.navigate([AppRoutePaths.ServiceCSRGenerator]);
+  }
+
+  generateCSRFromPopUp() {
+    const formValue = this.csrGenerateForm.value;
+    this.serviceCalendarService.csrComments = formValue.csrComments ? formValue.csrComments : "";
+    this.serviceCalendarService.selectedCallCompletion =  formValue.completedCheckBox? formValue.completedCheckBox: false
+    this.showCSRPopup = false;
     this.router.navigate([AppRoutePaths.ServiceCSRGenerator]);
+    // this.serviceCalendarService.selectedCallCompletion = this.srlcDetails[0].srStatusID == this.serviceCalendarService.SRCompletedStatus;
+  }
+
+  showCSRPopup: boolean = false;
+  title: string = 'Generate CSR';
+  popupPosition = { x: 0, y: 0 };
+
+  onCSRPopupClose(){
+    this.showCSRPopup = false;
   }
 
 }

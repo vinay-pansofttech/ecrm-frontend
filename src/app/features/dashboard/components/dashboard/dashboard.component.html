@@ -21,28 +21,27 @@
 
   <app-dashboard-cards></app-dashboard-cards>
   <app-dashboard-list></app-dashboard-list>
-
-  <kendo-drawer-container class="dashboard--menu-container">
-    <kendo-drawer
-      #drawer
-      [items]="items"
-      [mode]="expandMode"
-      [expanded]="false"
-    >
-    <ng-template kendoDrawerHeaderTemplate>
-      <div *ngIf="expandMode">
-        <div class="dashboard--menu-drawer-header">
-          <button class="dashboard-menu-user-initial-icon" kendoButton fillMode="outline">{{ getInitials(getEmployeeName()) }}</button>
-          <div class="dashboard--menu-drawer-username">{{ getEmployeeName() }}</div>
-        </div>
-      </div>
-    </ng-template>
-    <ng-template kendoDrawerFooterTemplate>
-      <div *ngIf="expandMode" class="dashboard--menu-drawer-footer">
-        <app-logout-component></app-logout-component>
-      </div>
-    </ng-template>
-    </kendo-drawer>
-  </kendo-drawer-container>
 </div>
 
+<kendo-drawer-container class="dashboard--menu-container">
+  <kendo-drawer
+    #drawer
+    [items]="items"
+    [mode]="expandMode"
+    [expanded]="false"
+  >
+  <ng-template kendoDrawerHeaderTemplate>
+    <div *ngIf="expandMode">
+      <div class="dashboard--menu-drawer-header">
+        <button class="dashboard-menu-user-initial-icon" kendoButton fillMode="outline">{{ getInitials(getEmployeeName()) }}</button>
+        <div class="dashboard--menu-drawer-username">{{ getEmployeeName() }}</div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template kendoDrawerFooterTemplate>
+    <div *ngIf="expandMode" class="dashboard--menu-drawer-footer">
+      <app-logout-component></app-logout-component>
+    </div>
+  </ng-template>
+  </kendo-drawer>
+</kendo-drawer-container>

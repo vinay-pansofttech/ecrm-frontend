@@ -160,6 +160,61 @@
       </kendo-card>
     </div>
 
+    <kendo-window
+      *ngIf="showCSRPopup"
+      (close)="onCSRPopupClose()"
+      [minWidth]="200"
+      [width]="350"
+      [style.left.px]="popupPosition.x"
+      [style.top.px]="popupPosition.y"
+      class="app-attachment-popup">
+
+        <kendo-window-titlebar>
+            <span class="k-window-title">{{ title }}</span>
+            <button kendoWindowCloseAction></button>
+        </kendo-window-titlebar>   
+
+        <div class="app-comments--container" [formGroup]="csrGenerateForm">
+          <kendo-label class="app-kendo--label">
+            Call Status in CSR should be? 
+          </kendo-label>
+          <div class="app-kendo-form--row-container">
+            <kendo-formfield class="flex-basis-50">
+              <div class="app-kendo--content">
+                <div class="app-kendo--content-horizontal">
+                    <kendo-checkbox class="app-kendo--checkbox"
+                        formControlName="completedCheckBox"  
+                        #completedCheckBox>
+                    </kendo-checkbox>
+                    <kendo-label class="app-kendo--label app-kendo--label-horizontal" [for]="completedCheckBox">
+                      Completed
+                    </kendo-label>
+                </div>
+              </div>
+            </kendo-formfield>
+      
+            <kendo-formfield class="flex-basis-50">
+              <div class="app-kendo--content">
+                <div class="app-kendo--content-horizontal">
+                    <kendo-checkbox class="app-kendo--checkbox"
+                        formControlName="inProgressCheckBox"  
+                        #inProgressCheckBox>
+                    </kendo-checkbox>
+                    <kendo-label class="app-kendo--label app-kendo--label-horizontal" [for]="inProgressCheckBox">
+                      In Progress
+                    </kendo-label>
+                </div>
+              </div>
+            </kendo-formfield>
+          </div>
+        </div>
+
+        <button kendoButton class="app-save--button"
+          (click)="generateCSRFromPopUp()">
+          Generate CSR
+        </button>
+    </kendo-window>
+
     <div class="app-screen--footer">
       <div class="app-comments--container" [formGroup]="csrGenerateForm">
         <kendo-formfield>
@@ -180,7 +235,7 @@
       </div>
       <button kendoButton class="app-save--button"
               [disabled]="!(servicePrerequisites[0]? servicePrerequisites[0].isGenerateCSR: false)"
-              (click)="generateCSR()">
+              (click)="generateCSR($event)">
         Generate CSR
       </button>
     </div>

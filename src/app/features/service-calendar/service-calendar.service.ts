@@ -20,6 +20,7 @@ export interface callsList {
   serialNumber: string;
   callCategory: string;
   callType: string;
+  status: string;
   callDescription: string;
   isCallCompleted: boolean;
 }
@@ -496,6 +497,8 @@ export interface callActionBO {
   StickerStatusId?: number;
   IBStickerAttachment?: any;
   IBStickerAttachmentSrcType?: number;
+  CSRAttachment?: any;
+  CSRAttachmentSrcType?: number;
   Guid?: string;
   IsAwaitingUserAccptance?: boolean;
   IsATCallContinue?: boolean;
@@ -528,6 +531,9 @@ export class ServiceCalendarService {
   SRSubTaskId: number = 9;
   InstallationSubTaskId: number = 6;
   FieldServiceSubTaskId: number = 11;
+  SRCompletedStatus: number = 8;
+  SRWaitingStatus: number = 4;
+  SRClosedStatus: number = 10;
   delayRemarks!: string;
   addedPartsDetailsCard: svcPartsDetails[] = [];
   moduleDetailsCard: svcIBModuleDetails[] = [];
@@ -559,6 +565,7 @@ export class ServiceCalendarService {
   private getCustContactByIdUrl = `${this.configService.apiUrl}/api/ServiceCalendar/GetCustContactById`;
   private getValidateCSRUrl = `${this.configService.apiUrl}/api/ServiceCalendar/SRLCValidateCSR`;
   private getScheduledCallsUrl = `${this.configService.apiUrl}/api/ServiceCalendar/GetScheduledCalls`;
+  private postServiceRequestUrl = `${this.configService.apiUrl}/api/ServiceCalendar/UpdServiceRequest`;
   private getEngEffortsUrl = `${this.configService.apiUrl}/api/ServiceCalendar/GetEngEfforts`;
   private postEngEffortsUrl = `${this.configService.apiUrl}/api/ServiceCalendar/AddEngEfforts`;
   private postGenerateCSRUrl = `${this.configService.apiUrl}/api/ServiceCalendar/GenerateCSRPath`;
@@ -700,6 +707,21 @@ export class ServiceCalendarService {
       srid: SRID
     };
     return this.http.post(this.getEngEffortsUrl, body);
+  }
+
+  //API call to update service request screen changes
+  postServiceRequest(SRID: number, ContactPersonId: number, ContactEmail: string, IsContactConfirmed: boolean,
+    CallDescription: string, IsIBConfirmed: boolean) {
+    const body = {
+      srid: SRID,
+      contactPersonId: ContactPersonId,
+      contactEmail: ContactEmail,
+      isContactConfirmed: IsContactConfirmed,
+      callDescription: CallDescription,
+      isIBConfirmed: IsIBConfirmed,
+      loginID: this.loginService.employeeId as number
+    };
+    return this.http.post(this.postServiceRequestUrl, body);
   }
 
   //API call to update service efforts entered by engineer
@@ -875,6 +897,7 @@ export class ServiceCalendarService {
       IsPSG: false,
       CustomerSiteId: SRLCLabel.customerSiteId? SRLCLabel.customerSiteId: 0,
       IBStickerAttachmentSrcType: this.commonService.docIBStickerAttachment,
+      CSRAttachmentSrcType: this.commonService.docSrcTypeCSRAttachment,
     };
   }
 
@@ -917,6 +940,9 @@ export class ServiceCalendarService {
     });
     if (callActionBO.IBStickerAttachment && callActionBO.IBStickerAttachment.length > 0) {
       body.append("ibStickerAttachment", callActionBO.IBStickerAttachment[0]);
+    }
+    if (callActionBO.CSRAttachment && callActionBO.CSRAttachment.length > 0) {
+      body.append("csrAttachment", callActionBO.CSRAttachment[0]);
     }
   
     return this.http.post(this.postCallActionUrl, body);

@@ -5,6 +5,7 @@ import { PDFViewerTool } from "@progress/kendo-angular-pdfviewer";
 import { AppRoutePaths } from 'src/app/core/Constants';
 import { ServiceCalendarService } from '../../service-calendar.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { CommonService } from 'src/app/features/common/common.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 
 import {
@@ -30,6 +31,7 @@ export class CsrGeneratorComponent {
     private loaderService: LoaderService,
     private serviceCalendarService: ServiceCalendarService,
     private notificationService: NotificationService,
+    private commonService: CommonService,
     private sanitizer: DomSanitizer
   ) {}
 
@@ -100,7 +102,10 @@ export class CsrGeneratorComponent {
                   'success', 'center', 'bottom'
               );
               this.loaderService.hideLoader();
-              this.router.navigate([AppRoutePaths.ServiceCalendar]);
+              //this.router.navigate([AppRoutePaths.SRLC],{state: {id: this.serviceCalendarService.selectedSRID, date: this.commonService.displayDateFormat(this.serviceCalendarService.selectedDate)}});
+              this.router.navigateByUrl(AppRoutePaths.ServiceCalendar, { skipLocationChange: true }).then(() => {
+                this.router.navigate([AppRoutePaths.SRLC],{state: {id: this.serviceCalendarService.selectedSRID, date: this.commonService.displayDateFormat(this.serviceCalendarService.selectedDate)}});
+              });
             },
             error => {
               this.loaderService.hideLoader();
@@ -186,8 +191,12 @@ export class CsrGeneratorComponent {
   }
 
   onBackClickHandle() {
-    this.serviceCalendarService.resetValues();
-    this.router.navigate([AppRoutePaths.ServiceCalendar]);
+    // this.serviceCalendarService.resetValues();
+    //this.router.navigate([AppRoutePaths.SRLC],{state: {id: this.serviceCalendarService.selectedSRID, date: this.commonService.displayDateFormat(this.serviceCalendarService.selectedDate)}});
+
+    this.router.navigateByUrl(AppRoutePaths.ServiceCalendar, { skipLocationChange: true }).then(() => {
+      this.router.navigate([AppRoutePaths.SRLC],{state: {id: this.serviceCalendarService.selectedSRID, date: this.commonService.displayDateFormat(this.serviceCalendarService.selectedDate)}});
+    });
   }
 
   onRefresh(){

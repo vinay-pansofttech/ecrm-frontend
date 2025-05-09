@@ -16,15 +16,19 @@
     <div class="app-screen--content">
       <div class="app-screen--stepper-new">
         <div class="app-screen--stepper-container-new"
-             (click)="onStepperClick(0)" [ngClass]="{'selected': isEffortsSelected}">
-          <div> Effort Log</div>
+            (click)="onStepperClick(0)" [ngClass]="{'selected': isServiceRequestSelected}">
+          <div> SR </div>
+        </div>
+        <div class="app-screen--stepper-container-new"
+             (click)="onStepperClick(1)" [ngClass]="{'selected': isEffortsSelected}">
+          <div> Effort Log </div>
         </div>
         <div *ngIf="servicePrerequisites[0]? servicePrerequisites[0].isPartsRequestShow: false" class="app-screen--stepper-container-new"
-             (click)="onStepperClick(1)" [ngClass]="{'selected': isPRSelected}">
-          <div> Parts Request </div>
+             (click)="onStepperClick(2)" [ngClass]="{'selected': isPRSelected}">
+          <div> PR </div>
         </div>
         <div *ngIf="isPrimaryEngineerForTask" class="app-screen--stepper-container-new"
-            (click)="onStepperClick(2)" [ngClass]="{'selected': isCallActionSelected}">
+            (click)="onStepperClick(3)" [ngClass]="{'selected': isCallActionSelected}">
           <div> Call Action </div>
         </div>
       </div>
@@ -87,21 +91,33 @@
               {{ a.callType }}
             </div>
           </div>
+          <div class="app-enquiry-details-listview--kendo-card-sold-details">
+            <div class="app-enquiry-details-listview--kendo-card-sub-title">
+              Status
+            </div>
+            <div class="app-enquiry-details-listview--kendo-card-sold ">
+              {{ a.status }}
+            </div>
+          </div>
         </div>
       </kendo-card>
     </div>
   </div>
 
   <div class="app-scrollable--container" (scroll)="onScroll()">
-    <app-efforts-list-view *ngIf="currentStep === 0" [srid]="selectedSRID" [currentDate]="currentDate"
+    <app-service-request *ngIf="currentStep === 0" [srid]="selectedSRID"
+                        [servicePrerequisites]="servicePrerequisites"
+                        [srlcDetails]="srlcDetails"></app-service-request>
+    <app-efforts-list-view *ngIf="currentStep === 1" [srid]="selectedSRID" [currentDate]="currentDate"
                            [engeffortListCards]="engeffortListCards"
                            [filteredEngeffortListCards]="filteredEngeffortListCards"
                            [filteredOtherDaysEngeffortListCards]="filteredOtherDaysEngeffortListCards"
                            [servicePrerequisites]="servicePrerequisites"
+                           [srlcDetails]="srlcDetails"
                            (srlcRefresh)="onSave()"></app-efforts-list-view>
-    <app-parts-request *ngIf="currentStep === 1" [srid]="selectedSRID"
+    <app-parts-request *ngIf="currentStep === 2" [srid]="selectedSRID"
                        [servicePrerequisites]="servicePrerequisites"></app-parts-request>
-    <app-call-action *ngIf="currentStep === 2" [srid]="selectedSRID"
+    <app-call-action *ngIf="currentStep === 3" [srid]="selectedSRID"
                        [servicePrerequisites]="servicePrerequisites"
                        [srlcDetails]="srlcDetails"
                        [moduleDetails]="moduleDetails"

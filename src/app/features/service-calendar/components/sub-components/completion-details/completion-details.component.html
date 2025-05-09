@@ -160,7 +160,7 @@
         </kendo-formerror>
       </kendo-formfield>
     
-      <div class="flex-basis-50" style="margin-top:1rem">
+      <!-- <div class="flex-basis-50" style="margin-top:1rem">
         <div class="app-kendo--content-horizontal">
           <kendo-label class="app-kendo--label app-kendo--label-horizontal">
               CSR
@@ -172,7 +172,27 @@
               (click)="onClickSuppAttachment(srid, commonService.docSrcTypeCSRAttachment, '', $event)"/> 
           </div>
         </div>
-      </div>
+      </div> -->
+    </div>
+
+    <div>
+      <kendo-formfield>
+        <div class="app-kendo--content">
+          <kendo-label class="app-kendo--label" [for]="csrAttachment">CSR Attachment</kendo-label>
+          <kendo-fileselect
+            class="app-kendo--fileupload"
+            formControlName="csrAttachment"
+            #csrAttachment>
+          </kendo-fileselect>
+        </div>
+        <kendo-formerror class="app-kendo--error-msg">
+          CSR Attachment is required
+        </kendo-formerror>
+        <div *ngFor="let file of CSRAttachment; let i = index"
+          class="app-kendo-attachment-files">
+          <div (click)="downloadAttachment(i)">{{ file.name }}</div>
+        </div>
+      </kendo-formfield>
     </div>
 
     <div>
@@ -195,13 +215,13 @@
     </div>
 </div>
 
-<app-attachment-pop-up 
+<!-- <app-attachment-pop-up 
     *ngIf="!showAPILoader"
     [showAttachmentPopup]="showCSRAttachment"
     (attachmentPopupClose)="onCloseAttachmentPopup()"
     title = "CSR Attachments"
     [attachmentPopupDetails]="attachmentPopupDetails">
-</app-attachment-pop-up>
+</app-attachment-pop-up> -->
 
 <div class="app-screen--loader" *ngIf="showAPILoader">
   <kendo-loader
